@@ -1,0 +1,60 @@
+{
+  "name": "vscode-fileutils",
+  "displayName": "Fileutils",
+  "description": "A convenient way of creating, moving, renaming, deleting files and directories.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "publisher": "sleistner",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "bugs": {
+    "url": "https://github.com/sleistner/vscode-fileutils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sleistner/vscode-fileutils.git"
+  },
+  "activationEvents": [
+    "onCommand:extension.renameFile",
+    "onCommand:extension.moveFile",
+    "onCommand:extension.duplicateFile",
+    "onCommand:extension.removeFile"
+  ],
+  "main": "./out/src/extensions",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.renameFile",
+        "title": "File: Rename"
+      }, 
+      {
+        "command": "extension.moveFile",
+        "title": "File: Move"
+      },
+      {
+        "command": "extension.duplicateFile",
+        "title": "File: Duplicate"
+      },
+      {
+        "command": "extension.removeFile",
+        "title": "File: Delete"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "typescript": "^1.6.2",
+    "vscode": "0.10.x"
+  },
+  "dependencies": {
+    "fs-extra": "^0.30.0"
+  }
+}

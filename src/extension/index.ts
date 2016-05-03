@@ -1,18 +1,24 @@
-import { ExtensionContext, commands, window } from 'vscode';
-import { rename, move, duplicate, remove } from './commands';
+import * as vscode from 'vscode';
+import * as commands from './commands';
 
-function register(context: ExtensionContext, name: string, controller) {
+function register(context: vscode.ExtensionContext, name: string) {
 
-    const disposable = commands.registerCommand(`extension.${name}File`, controller);
+    const controller = commands[name];
+    const disposable = vscode.commands.registerCommand(`extension.${name}`, controller);
+    
     context.subscriptions.push(disposable);
 }
 
 
-export function activate(context: ExtensionContext) {
+export function activate(context: vscode.ExtensionContext) {
     
-    register(context, 'move', move);
-    register(context, 'rename', rename);
-    register(context, 'duplicate', duplicate);
-    register(context, 'remove', remove);
+    register(context, 'moveFile');
+    register(context, 'renameFile');
+    register(context, 'duplicateFile');
+    register(context, 'removeFile');
+    register(context, 'newFile');
+    register(context, 'newFileAtRoot');
+    register(context, 'newFolder');
+    register(context, 'newFolderAtRoot');
 
 }

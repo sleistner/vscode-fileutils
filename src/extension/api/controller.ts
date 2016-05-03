@@ -4,9 +4,10 @@ import * as path from 'path';
 
 export class FileController {
 
-    public showFileDialog({ prompt, showFullPath = false }): Promise<FileItem> {
+    public showMoveFileDialog({ prompt, showFullPath = false }): Promise<FileItem> {
 
         return new Promise<FileItem>(resolve => {
+            
             const sourcePath: string = this.sourcePath;
 
             if (!sourcePath) {
@@ -19,6 +20,35 @@ export class FileController {
             }).then((targetPath) => {
 
                 if (targetPath) {
+                    targetPath = path.resolve(path.dirname(sourcePath), targetPath);
+                    const fileItem: FileItem = new FileItem(sourcePath, targetPath);
+                    resolve(fileItem);
+                }
+
+            });
+        });
+    }
+
+    public showNewFileDialog({ prompt, root = true }): Promise<FileItem> {
+
+        return new Promise<FileItem>(resolve => {
+
+            let sourcePath: string = workspace.rootPath;
+
+            if (!root && this.sourcePath) {
+                sourcePath = path.dirname(this.sourcePath);
+            }
+            
+            if (!sourcePath) {
+                return;
+            }
+
+            window.showInputBox({
+                prompt
+            }).then((targetPath) => {
+
+                if (targetPath) {
+                    targetPath = path.resolve(sourcePath, targetPath);
                     const fileItem: FileItem = new FileItem(sourcePath, targetPath);
                     resolve(fileItem);
                 }
@@ -37,13 +67,13 @@ export class FileController {
 
     public remove(): Promise<string> {
 
-        return new Promise((resolve, reject) => {
+        return new Promise<string>((resolve, reject) => {
             const sourcePath: string = this.sourcePath;
-            
+
             if (!sourcePath) {
                 return;
             }
-            
+
             const fileItem: FileItem = new FileItem(sourcePath);
 
             fileItem.remove()
@@ -53,7 +83,23 @@ export class FileController {
 
     }
 
+    public create(fileItem: FileItem, isDir: Boolean = false): Promise<string> {
+
+        return new Promise<string>((resolve, reject) => {
+            
+            this.ensureWritableFile(fileItem)
+                .then(() => {
+                    fileItem.create(isDir)
+                    .then(targetPath => resolve(targetPath))
+                    .catch(() => reject(`Error creating ${isDir ? 'folder' : 'file'} "${fileItem.targetPath}".`));
+                });
+                
+        });
+
+    }
+
     private get sourcePath(): string {
+        
         const activeEditor: TextEditor = window.activeTextEditor;
         const document: TextDocument = activeEditor && activeEditor.document;
 
@@ -62,7 +108,7 @@ export class FileController {
 
     private moveOrDuplicate(fileItem: FileItem, fn: Function): Promise<string> {
 
-        return new Promise(resolve => {
+        return new Promise<string>(resolve => {
 
             this.ensureWritableFile(fileItem)
                 .then(() => {
@@ -75,7 +121,7 @@ export class FileController {
 
     private ensureWritableFile(fileItem: FileItem): Promise<Boolean> {
 
-        return new Promise(resolve => {
+        return new Promise<Boolean>(resolve => {
 
             if (!fileItem.exists) {
                 return resolve(true);
@@ -88,7 +134,7 @@ export class FileController {
 
     public openFileInEditor(fileName): Promise<TextEditor> {
 
-        return new Promise((resolve, reject) => {
+        return new Promise<TextEditor>((resolve, reject) => {
 
             workspace.openTextDocument(fileName).then(textDocument => {
 

@@ -6,10 +6,16 @@
   "bundle": "typings/tsd.d.ts",
   "installed": {
     "node/node.d.ts": {
-      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+      "commit": "73f7bb99692823f1811817f9753a02b57af5305e"
     },
     "fs-extra/fs-extra.d.ts": {
       "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "fs-extra-promise/fs-extra-promise.d.ts": {
+      "commit": "73f7bb99692823f1811817f9753a02b57af5305e"
+    },
+    "bluebird/bluebird.d.ts": {
+      "commit": "73f7bb99692823f1811817f9753a02b57af5305e"
     }
   }
 }

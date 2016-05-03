@@ -8,19 +8,50 @@ A convenient way of creating, moving, renaming, deleting files and directories.
 
 ![demo](images/demo.png)
 
-## Commands
-```
-extension.duplicateFile
-extension.renameFile
-extension.moveFile
-extension.deleteFile
-```
-
 ## Using the command palette:
 
 * Bring up the command palette, and select "File: ".
-* Select one of the commands mentioned above.
+* Select one of the commands mentioned below.
 * Press [Enter] to confirm, or [Escape] to cancel.
+
+## Commands
+
+```json
+[
+    {
+        "command": "extension.renameFile",
+        "title": "File: Rename"
+    },
+    {
+        "command": "extension.moveFile",
+        "title": "File: Move"
+    },
+    {
+        "command": "extension.duplicateFile",
+        "title": "File: Duplicate"
+    },
+    {
+        "command": "extension.removeFile",
+        "title": "File: Delete"
+    },
+    {
+        "command": "extension.newFile",
+        "title": "File: New File Relative to Current View"
+    },
+    {
+        "command": "extension.newFileAtRoot",
+        "title": "File: New File Relative to Project Root"
+    },
+    {
+        "command": "extension.newFolder",
+        "title": "File: New Folder Relative to Current View"
+    },
+    {
+        "command": "extension.newFolderAtRoot",
+        "title": "File: New Folder Relative to Project Root"
+    }
+]
+```
 
 # How to contribute
 

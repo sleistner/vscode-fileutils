@@ -1,5 +1,3 @@
-/// <reference path="../../typings/tsd.d.ts" />
-
 import { commands, window } from 'vscode';
 import { FileController } from './api/controller';
 import { FileItem } from './api/item';

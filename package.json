@@ -24,13 +24,13 @@
     "onCommand:extension.duplicateFile",
     "onCommand:extension.removeFile"
   ],
-  "main": "./out/src/extensions",
+  "main": "./out/src/extension",
   "contributes": {
     "commands": [
       {
         "command": "extension.renameFile",
         "title": "File: Rename"
-      }, 
+      },
       {
         "command": "extension.moveFile",
         "title": "File: Move"

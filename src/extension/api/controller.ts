@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/tsd.d.ts" />
-
 import { window, workspace, commands, TextEditor, TextDocument } from 'vscode';
 import { FileItem } from './item';
 import * as path from 'path';

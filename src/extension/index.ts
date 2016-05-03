@@ -1,5 +1,3 @@
-/// <reference path="../../typings/tsd.d.ts" />
-
 import { ExtensionContext, commands, window } from 'vscode';
 import { rename, move, duplicate, remove } from './commands';
 

@@ -6,6 +6,8 @@ A convenient way of creating, moving, renaming, deleting files and directories.
 
 # Usage
 
+![demo](images/demo.png)
+
 ## Commands
 ```
 extension.duplicateFile

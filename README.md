@@ -4,6 +4,7 @@ A convenient way of creating, moving, renaming, deleting files and directories.
 
 > Inspired by [Sidebar Enhancements](https://github.com/titoBouzout/SideBarEnhancements) for Sublime.
 
+
 [![Build Status](https://travis-ci.org/sleistner/vscode-fileutils.svg?branch=master)](https://travis-ci.org/sleistner/vscode-fileutils)
 [![Dependency Status](https://gemnasium.com/badges/github.com/sleistner/vscode-fileutils.svg)](https://gemnasium.com/github.com/sleistner/vscode-fileutils)
 

@@ -41,7 +41,7 @@ export function removeFile() {
         .catch(handleError);
 }
 
-export function newFile({root = false}) {
+export function newFile({root = false} = {}) {
 
     controller.showNewFileDialog({ prompt: 'File Name', root })
         .then((fileItem: FileItem) => controller.create(fileItem))
@@ -54,7 +54,7 @@ export function newFileAtRoot() {
     newFile({ root: true });
 }
 
-export function newFolder({root = false}) {
+export function newFolder({root = false} = {}) {
 
     controller.showNewFileDialog({ prompt: 'Folder Name', root })
         .then((fileItem: FileItem) => controller.create(fileItem, true))

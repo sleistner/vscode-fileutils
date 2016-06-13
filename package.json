@@ -1,86 +1,86 @@
 {
-    "name": "vscode-fileutils",
-    "displayName": "Fileutils",
-    "description": "A convenient way of creating, moving, renaming, deleting files and directories.",
-    "version": "1.2.0",
-    "license": "MIT",
-    "publisher": "sleistner",
-    "engines": {
-        "vscode": "^1.0.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "icon": "images/icon.png",
-    "galleryBanner": {
-        "color": "#5c2d91",
-        "theme": "dark"
-    },
-    "bugs": {
-        "url": "https://github.com/sleistner/vscode-fileutils/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/sleistner/vscode-fileutils.git"
-    },
-    "homepage": "https://github.com/sleistner/vscode-fileutils/blob/master/README.md",
-    "activationEvents": [
-        "onCommand:extension.renameFile",
-        "onCommand:extension.moveFile",
-        "onCommand:extension.duplicateFile",
-        "onCommand:extension.removeFile",
-        "onCommand:extension.newFile",
-        "onCommand:extension.newFileAtRoot",
-        "onCommand:extension.newFolder",
-        "onCommand:extension.newFolderAtRoot"
-    ],
-    "main": "./out/src/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "extension.renameFile",
-                "title": "File: Rename"
-            },
-            {
-                "command": "extension.moveFile",
-                "title": "File: Move"
-            },
-            {
-                "command": "extension.duplicateFile",
-                "title": "File: Duplicate"
-            },
-            {
-                "command": "extension.removeFile",
-                "title": "File: Delete"
-            },
-            {
-                "command": "extension.newFile",
-                "title": "File: New File Relative to Current View"
-            },
-            {
-                "command": "extension.newFileAtRoot",
-                "title": "File: New File Relative to Project Root"
-            },
-            {
-                "command": "extension.newFolder",
-                "title": "File: New Folder Relative to Current View"
-            },
-            {
-                "command": "extension.newFolderAtRoot",
-                "title": "File: New Folder Relative to Project Root"
-            }
-        ]
-    },
-    "scripts": {
-        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
-    },
-    "devDependencies": {
-        "expect.js": "^0.3.1",
-        "typescript": "^1.6.2",
-        "vscode": "0.10.x"
-    },
-    "dependencies": {
-        "fs-extra-promise": "^0.3.1"
-    }
+  "name": "vscode-fileutils",
+  "displayName": "Fileutils",
+  "description": "A convenient way of creating, moving, renaming, deleting files and directories.",
+  "version": "1.2.1",
+  "license": "MIT",
+  "publisher": "sleistner",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#5c2d91",
+    "theme": "dark"
+  },
+  "bugs": {
+    "url": "https://github.com/sleistner/vscode-fileutils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sleistner/vscode-fileutils.git"
+  },
+  "homepage": "https://github.com/sleistner/vscode-fileutils/blob/master/README.md",
+  "activationEvents": [
+    "onCommand:extension.renameFile",
+    "onCommand:extension.moveFile",
+    "onCommand:extension.duplicateFile",
+    "onCommand:extension.removeFile",
+    "onCommand:extension.newFile",
+    "onCommand:extension.newFileAtRoot",
+    "onCommand:extension.newFolder",
+    "onCommand:extension.newFolderAtRoot"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.renameFile",
+        "title": "File: Rename"
+      },
+      {
+        "command": "extension.moveFile",
+        "title": "File: Move"
+      },
+      {
+        "command": "extension.duplicateFile",
+        "title": "File: Duplicate"
+      },
+      {
+        "command": "extension.removeFile",
+        "title": "File: Delete"
+      },
+      {
+        "command": "extension.newFile",
+        "title": "File: New File Relative to Current View"
+      },
+      {
+        "command": "extension.newFileAtRoot",
+        "title": "File: New File Relative to Project Root"
+      },
+      {
+        "command": "extension.newFolder",
+        "title": "File: New Folder Relative to Current View"
+      },
+      {
+        "command": "extension.newFolderAtRoot",
+        "title": "File: New Folder Relative to Project Root"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "typescript": "^1.6.2",
+    "vscode": "0.10.x"
+  },
+  "dependencies": {
+    "fs-extra-promise": "^0.4.0"
+  }
 }

@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/sleistner/vscode-fileutils.svg?branch=master)](https://travis-ci.org/sleistner/vscode-fileutils)
 [![Dependency Status](https://gemnasium.com/badges/github.com/sleistner/vscode-fileutils.svg)](https://gemnasium.com/github.com/sleistner/vscode-fileutils)
+
 ---
+
 [![Version](http://vsmarketplacebadge.apphb.com/version/sleistner.vscode-fileutils.svg)](https://marketplace.visualstudio.com/items?itemName=sleistner.vscode-fileutils.svg)
 [![Installs](http://vsmarketplacebadge.apphb.com/installs/sleistner.vscode-fileutils.svg)](https://marketplace.visualstudio.com/items?itemName=sleistner.vscode-fileutils.svg)
 [![Ratings](https://vsmarketplacebadge.apphb.com/rating/sleistner.vscode-fileutils.svg)](https://vsmarketplacebadge.apphb.com/rating/sleistner.vscode-fileutils.svg)

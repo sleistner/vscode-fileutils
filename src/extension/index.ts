@@ -9,7 +9,6 @@ function register(context: vscode.ExtensionContext, name: string) {
     context.subscriptions.push(disposable);
 }
 
-
 export function activate(context: vscode.ExtensionContext) {
     
     register(context, 'moveFile');

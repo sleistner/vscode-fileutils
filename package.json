@@ -25,60 +25,79 @@
   },
   "homepage": "https://github.com/sleistner/vscode-fileutils/blob/master/README.md",
   "activationEvents": [
-    "onCommand:extension.renameFile",
-    "onCommand:extension.moveFile",
-    "onCommand:extension.duplicateFile",
-    "onCommand:extension.removeFile",
-    "onCommand:extension.newFile",
-    "onCommand:extension.newFileAtRoot",
-    "onCommand:extension.newFolder",
-    "onCommand:extension.newFolderAtRoot"
+    "onCommand:fileutils.renameFile",
+    "onCommand:fileutils.moveFile",
+    "onCommand:fileutils.duplicateFile",
+    "onCommand:fileutils.removeFile",
+    "onCommand:fileutils.newFile",
+    "onCommand:fileutils.newFileAtRoot",
+    "onCommand:fileutils.newFolder",
+    "onCommand:fileutils.newFolderAtRoot"
   ],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.renameFile",
+        "command": "fileutils.renameFile",
         "title": "File: Rename"
       },
       {
-        "command": "extension.moveFile",
-        "title": "File: Move"
+        "command": "fileutils.moveFile",
+        "category": "File",
+        "title": "Move"
       },
       {
-        "command": "extension.duplicateFile",
-        "title": "File: Duplicate"
+        "command": "fileutils.duplicateFile",
+        "category": "File",
+        "title": "Duplicate"
       },
       {
-        "command": "extension.removeFile",
-        "title": "File: Delete"
+        "command": "fileutils.removeFile",
+        "category": "File",
+        "title": "Delete"
       },
       {
-        "command": "extension.newFile",
-        "title": "File: New File Relative to Current View"
+        "command": "fileutils.newFile",
+        "category": "File",
+        "title": "New File Relative to Current View"
       },
       {
-        "command": "extension.newFileAtRoot",
-        "title": "File: New File Relative to Project Root"
+        "command": "fileutils.newFileAtRoot",
+        "category": "File",
+        "title": "New File Relative to Project Root"
       },
       {
-        "command": "extension.newFolder",
-        "title": "File: New Folder Relative to Current View"
+        "command": "fileutils.newFolder",
+        "category": "File",
+        "title": "New Folder Relative to Current View"
       },
       {
-        "command": "extension.newFolderAtRoot",
-        "title": "File: New Folder Relative to Project Root"
+        "command": "fileutils.newFolderAtRoot",
+        "category": "File",
+        "title": "New Folder Relative to Project Root"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "fileutils.moveFile",
+          "group": "edit"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+    "test": "node ./node_modules/vscode/bin/test"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "expect.js": "^0.3.1",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0",
     "typescript": "^1.6.2",
-    "vscode": "0.10.x"
+    "vscode": "^0.11.0"
   },
   "dependencies": {
     "fs-extra-promise": "^0.4.0"

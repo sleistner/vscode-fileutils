@@ -119,7 +119,7 @@ describe('newFile', () => {
             });
         });
 
-        // FIXME:
+        // FIXME: controller#showNewFileDialog workspace root is undefined for some reason
         // describe('relative to project root', () => {
 
         //     it('create file at destination', () => {
@@ -236,15 +236,15 @@ describe('newFile', () => {
     describe('error handling', () => {
 
         beforeEach(() => {
-            sinon.stub(controller, 'showMoveFileDialog').returns(Promise.reject('must fail'));
+            sinon.stub(controller, 'showNewFileDialog').returns(Promise.reject('must fail'));
             sinon.stub(window, 'showErrorMessage');
             return Promise.resolve();
         });
 
         afterEach(() => {
 
-            const restoreShowMoveFileDialog = () => {
-                const stub: any = controller.showMoveFileDialog;
+            const restoreShowNewFileDialog = () => {
+                const stub: any = controller.showNewFileDialog;
                 return Promise.resolve(stub.restore());
             };
 
@@ -254,7 +254,7 @@ describe('newFile', () => {
             };
 
             return Promise.all([
-                restoreShowMoveFileDialog(),
+                restoreShowNewFileDialog(),
                 restoreShowErrorMessage()
             ]);
         });

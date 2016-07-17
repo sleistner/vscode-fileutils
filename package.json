@@ -89,17 +89,27 @@
   "scripts": {
     "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
     "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-    "test": "node ./node_modules/vscode/bin/test"
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test",
+    "lint": "tslint -e './node_modules/**/*.ts' -e './typings/**/*.ts' './**/*.ts'",
+    "validate": "nsp check"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "expect.js": "^0.3.1",
+    "nsp": "^2.6.1",
+    "precommit-hook": "^3.0.0",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
-    "typescript": "^1.6.2",
-    "vscode": "^0.11.0"
+    "typescript": "^1.8.10",
+    "vscode": "^0.11.14"
   },
   "dependencies": {
     "fs-extra-promise": "^0.4.0"
-  }
+  },
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test"
+  ]
 }

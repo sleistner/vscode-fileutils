@@ -22,43 +22,64 @@ A convenient way of creating, moving, renaming, deleting files and directories.
 ```json
 [
     {
-        "command": "extension.renameFile",
-        "title": "File: Rename"
+        "command": "fileutils.renameFile",
+        "category": "File",
+        "title": "Rename"
     },
     {
-        "command": "extension.moveFile",
-        "title": "File: Move"
+        "command": "fileutils.moveFile",
+        "category": "File",
+        "title": "Move"
     },
     {
-        "command": "extension.duplicateFile",
-        "title": "File: Duplicate"
+        "command": "fileutils.duplicateFile",
+        "category": "File",
+        "title": "Duplicate"
     },
     {
-        "command": "extension.removeFile",
-        "title": "File: Delete"
+        "command": "fileutils.removeFile",
+        "category": "File",
+        "title": "Delete"
     },
     {
-        "command": "extension.newFile",
-        "title": "File: New File Relative to Current View"
+        "command": "fileutils.newFile",
+        "category": "File",
+        "title": "New File Relative to Current View"
     },
     {
-        "command": "extension.newFileAtRoot",
-        "title": "File: New File Relative to Project Root"
+        "command": "fileutils.newFileAtRoot",
+        "category": "File",
+        "title": "New File Relative to Project Root"
     },
     {
-        "command": "extension.newFolder",
-        "title": "File: New Folder Relative to Current View"
+        "command": "fileutils.newFolder",
+        "category": "File",
+        "title": "New Folder Relative to Current View"
     },
     {
-        "command": "extension.newFolderAtRoot",
-        "title": "File: New Folder Relative to Project Root"
+        "command": "fileutils.newFolderAtRoot",
+        "category": "File",
+        "title": "New Folder Relative to Project Root"
     }
 ]
 ```
 
+## Context Menu
+
+```json
+{
+    "explorer/context": [
+        {
+            "command": "fileutils.moveFile",
+            "group": "edit"
+        }
+    ]
+}
+```
+
 # How to contribute
 
-1. Download source code and install dependencies 
+1. Download source code and install dependencies
 ```bash
 git clone git@github.com:sleistner/vscode-fileutils.git
 cd vscode-fileutils
@@ -75,7 +96,7 @@ code .
 **Important:** This extension due to the nature of it's purpose will create
 files on your hard drive and if necessary create the respective folder structure.
 While it should not override any files during this process, I'm not giving any guarantees
-or take any responsibility in case of lost data. 
+or take any responsibility in case of lost data.
 
 # Contributors
 

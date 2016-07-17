@@ -39,7 +39,8 @@
     "commands": [
       {
         "command": "fileutils.renameFile",
-        "title": "File: Rename"
+        "category": "File",
+        "title": "Rename"
       },
       {
         "command": "fileutils.moveFile",

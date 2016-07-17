@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/3df971db33bd4c05e65ea3d2eba3243195f1a6e9/bluebird/bluebird.d.ts",
+    "raw": "registry:dt/bluebird#2.0.0+20160701023356",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/3df971db33bd4c05e65ea3d2eba3243195f1a6e9/bluebird/bluebird.d.ts"
+  }
+}

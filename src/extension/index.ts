@@ -1,23 +1,23 @@
-import * as vscode from 'vscode';
-import * as commands from './commands';
+import * as api from './commands';
+import { ExtensionContext, commands } from 'vscode';
 
-function register(context: vscode.ExtensionContext, name: string) {
+function register(context: ExtensionContext, handler: any) {
 
-    const controller = commands[name];
-    const disposable = vscode.commands.registerCommand(`extension.${name}`, controller);
-    
+    const command = `fileutils.${handler.name}`;
+    const disposable = commands.registerCommand(command, handler);
+
     context.subscriptions.push(disposable);
 }
 
-export function activate(context: vscode.ExtensionContext) {
-    
-    register(context, 'moveFile');
-    register(context, 'renameFile');
-    register(context, 'duplicateFile');
-    register(context, 'removeFile');
-    register(context, 'newFile');
-    register(context, 'newFileAtRoot');
-    register(context, 'newFolder');
-    register(context, 'newFolderAtRoot');
+export function activate(context: ExtensionContext) {
+
+    register(context, api.moveFile);
+    register(context, api.renameFile);
+    register(context, api.duplicateFile);
+    register(context, api.removeFile);
+    register(context, api.newFile);
+    register(context, api.newFileAtRoot);
+    register(context, api.newFolder);
+    register(context, api.newFolderAtRoot);
 
 }

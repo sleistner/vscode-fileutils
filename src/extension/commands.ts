@@ -1,67 +1,78 @@
-import { commands, window } from 'vscode';
 import { FileController } from './api/controller';
-import { FileItem } from './api/item';
+import { Uri, window } from 'vscode';
 
 function handleError(err) {
     if (err) {
         window.showErrorMessage(err);
     }
+    return err;
 }
 
-const controller = new FileController();
+export interface INewFileOptions {
+    relativeToRoot?: boolean;
+};
 
-export function moveFile() {
+export interface INewFolderOptions {
+    relativeToRoot?: boolean;
+};
 
-    controller.showMoveFileDialog({ prompt: 'New Location', showFullPath: true })
-        .then((fileItem: FileItem) => controller.move(fileItem))
-        .then((newFile) => controller.openFileInEditor(newFile))
+export const controller = new FileController();
+
+export function moveFile(uri?: Uri) {
+
+    return controller.showMoveFileDialog({ prompt: 'New Location', showFullPath: true, uri })
+        .then(fileItem => controller.move(fileItem))
+        .then(newFile => controller.openFileInEditor(newFile))
         .catch(handleError);
 }
 
 export function renameFile() {
 
-    controller.showMoveFileDialog({ prompt: 'New Name' })
-        .then((fileItem: FileItem) => controller.move(fileItem))
-        .then((newFile) => controller.openFileInEditor(newFile))
+    return controller.showMoveFileDialog({ prompt: 'New Name' })
+        .then(fileItem => controller.move(fileItem))
+        .then(newFile => controller.openFileInEditor(newFile))
         .catch(handleError);
 }
 
 export function duplicateFile() {
 
-    controller.showMoveFileDialog({ prompt: 'Duplicate As', showFullPath: true })
-        .then((fileItem: FileItem) => controller.duplicate(fileItem))
-        .then((newFile) => controller.openFileInEditor(newFile))
+    return controller.showMoveFileDialog({ prompt: 'Duplicate As', showFullPath: true })
+        .then(fileItem => controller.duplicate(fileItem))
+        .then(newFile => controller.openFileInEditor(newFile))
         .catch(handleError);
 }
 
 export function removeFile() {
 
-    controller.remove()
+    return controller.showRemoveFileDialog()
+        .then(fileItem => controller.remove(fileItem))
         .then(() => controller.closeCurrentFileEditor())
         .catch(handleError);
 }
 
-export function newFile({root = false} = {}) {
+export function newFile(options: INewFileOptions = {}) {
 
-    controller.showNewFileDialog({ prompt: 'File Name', root })
-        .then((fileItem: FileItem) => controller.create(fileItem))
-        .then((newFile) => controller.openFileInEditor(newFile))
+    const {relativeToRoot = false} = options;
+
+    return controller.showNewFileDialog({ prompt: 'File Name', relativeToRoot })
+        .then(fileItem => controller.create({ fileItem }))
+        .then(newFile => controller.openFileInEditor(newFile))
         .catch(handleError);
 }
 
 export function newFileAtRoot() {
-
-    newFile({ root: true });
+    return newFile({ relativeToRoot: true });
 }
 
-export function newFolder({root = false} = {}) {
+export function newFolder(options: INewFolderOptions = {}) {
 
-    controller.showNewFileDialog({ prompt: 'Folder Name', root })
-        .then((fileItem: FileItem) => controller.create(fileItem, true))
+    const {relativeToRoot = false} = options;
+
+    return controller.showNewFileDialog({ prompt: 'Folder Name', relativeToRoot })
+        .then(fileItem => controller.create({ fileItem, isDir: true }))
         .catch(handleError);
 }
 
 export function newFolderAtRoot() {
-
-    newFolder({ root: true });
+    return newFolder({ relativeToRoot: true });
 }

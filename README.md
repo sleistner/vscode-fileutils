@@ -17,6 +17,11 @@ A convenient way of creating, moving, renaming, deleting files and directories.
 * Select one of the commands mentioned below.
 * Press [Enter] to confirm, or [Escape] to cancel.
 
+## Note
+
+Nonexistent folders are created automatically.
+
+
 ## Commands
 
 ```json
@@ -76,6 +81,10 @@ A convenient way of creating, moving, renaming, deleting files and directories.
     ]
 }
 ```
+
+# Changelog
+
+- [https://github.com/sleistner/vscode-fileutils/blob/master/CHANGELOG.md](https://github.com/sleistner/vscode-fileutils/blob/master/CHANGELOG.md)
 
 # How to contribute
 

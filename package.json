@@ -98,7 +98,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "nsp": "^2.6.1",
-    "precommit-hook": "^3.0.0",
+    "precommit-hook-eslint": "^3.0.0",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
     "tslint": "^3.13.0",

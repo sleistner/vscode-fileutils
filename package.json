@@ -1,116 +1,116 @@
 {
-  "name": "vscode-fileutils",
-  "displayName": "File Utils",
-  "description": "A convenient way of creating, moving, renaming and deleting files and directories.",
-  "version": "2.0.1",
-  "license": "MIT",
-  "publisher": "sleistner",
-  "engines": {
-    "vscode": "^1.0.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "icon": "images/icon.png",
-  "galleryBanner": {
-    "color": "#5c2d91",
-    "theme": "dark"
-  },
-  "bugs": {
-    "url": "https://github.com/sleistner/vscode-fileutils/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sleistner/vscode-fileutils.git"
-  },
-  "homepage": "https://github.com/sleistner/vscode-fileutils/blob/master/README.md",
-  "activationEvents": [
-    "onCommand:fileutils.renameFile",
-    "onCommand:fileutils.moveFile",
-    "onCommand:fileutils.duplicateFile",
-    "onCommand:fileutils.removeFile",
-    "onCommand:fileutils.newFile",
-    "onCommand:fileutils.newFileAtRoot",
-    "onCommand:fileutils.newFolder",
-    "onCommand:fileutils.newFolderAtRoot"
-  ],
-  "main": "./out/src/extension",
-  "contributes": {
-    "commands": [
-      {
-        "command": "fileutils.renameFile",
-        "category": "File",
-        "title": "Rename"
-      },
-      {
-        "command": "fileutils.moveFile",
-        "category": "File",
-        "title": "Move"
-      },
-      {
-        "command": "fileutils.duplicateFile",
-        "category": "File",
-        "title": "Duplicate"
-      },
-      {
-        "command": "fileutils.removeFile",
-        "category": "File",
-        "title": "Delete"
-      },
-      {
-        "command": "fileutils.newFile",
-        "category": "File",
-        "title": "New File Relative to Current View"
-      },
-      {
-        "command": "fileutils.newFileAtRoot",
-        "category": "File",
-        "title": "New File Relative to Project Root"
-      },
-      {
-        "command": "fileutils.newFolder",
-        "category": "File",
-        "title": "New Folder Relative to Current View"
-      },
-      {
-        "command": "fileutils.newFolderAtRoot",
-        "category": "File",
-        "title": "New Folder Relative to Project Root"
-      }
+    "name": "vscode-fileutils",
+    "displayName": "File Utils",
+    "description": "A convenient way of creating, moving, renaming and deleting files and directories.",
+    "version": "2.1.0",
+    "license": "MIT",
+    "publisher": "sleistner",
+    "engines": {
+        "vscode": "^1.0.0"
+    },
+    "categories": [
+        "Other"
     ],
-    "menus": {
-      "explorer/context": [
-        {
-          "command": "fileutils.moveFile",
-          "group": "edit"
+    "icon": "images/icon.png",
+    "galleryBanner": {
+        "color": "#5c2d91",
+        "theme": "dark"
+    },
+    "bugs": {
+        "url": "https://github.com/sleistner/vscode-fileutils/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sleistner/vscode-fileutils.git"
+    },
+    "homepage": "https://github.com/sleistner/vscode-fileutils/blob/master/README.md",
+    "activationEvents": [
+        "onCommand:fileutils.renameFile",
+        "onCommand:fileutils.moveFile",
+        "onCommand:fileutils.duplicateFile",
+        "onCommand:fileutils.removeFile",
+        "onCommand:fileutils.newFile",
+        "onCommand:fileutils.newFileAtRoot",
+        "onCommand:fileutils.newFolder",
+        "onCommand:fileutils.newFolderAtRoot"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "fileutils.renameFile",
+                "category": "File",
+                "title": "Rename"
+            },
+            {
+                "command": "fileutils.moveFile",
+                "category": "File",
+                "title": "Move"
+            },
+            {
+                "command": "fileutils.duplicateFile",
+                "category": "File",
+                "title": "Duplicate"
+            },
+            {
+                "command": "fileutils.removeFile",
+                "category": "File",
+                "title": "Delete"
+            },
+            {
+                "command": "fileutils.newFile",
+                "category": "File",
+                "title": "New File Relative to Current View"
+            },
+            {
+                "command": "fileutils.newFileAtRoot",
+                "category": "File",
+                "title": "New File Relative to Project Root"
+            },
+            {
+                "command": "fileutils.newFolder",
+                "category": "File",
+                "title": "New Folder Relative to Current View"
+            },
+            {
+                "command": "fileutils.newFolderAtRoot",
+                "category": "File",
+                "title": "New Folder Relative to Project Root"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "fileutils.moveFile",
+                    "group": "edit"
+                }
+            ]
         }
-      ]
-    }
-  },
-  "scripts": {
-    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test",
-    "lint": "tslint -e './node_modules/**/*.ts' -e './typings/**/*.ts' './**/*.ts'",
-    "validate": "nsp check"
-  },
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "nsp": "^2.6.1",
-    "precommit-hook-eslint": "^3.0.0",
-    "sinon": "^1.17.4",
-    "sinon-chai": "^2.8.0",
-    "tslint": "^3.13.0",
-    "typescript": "^1.8.10",
-    "vscode": "^0.11.14"
-  },
-  "dependencies": {
-    "fs-extra-promise": "^0.4.0"
-  },
-  "pre-commit": [
-    "lint",
-    "validate",
-    "test"
-  ]
+    },
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test",
+        "lint": "tslint -e './node_modules/**/*.ts' -e './typings/**/*.ts' './**/*.ts'",
+        "validate": "nsp check"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "nsp": "^2.6.1",
+        "precommit-hook-eslint": "^3.0.0",
+        "sinon": "^1.17.4",
+        "sinon-chai": "^2.8.0",
+        "tslint": "^3.13.0",
+        "typescript": "^1.8.10",
+        "vscode": "^0.11.14"
+    },
+    "dependencies": {
+        "fs-extra-promise": "^0.4.0"
+    },
+    "pre-commit": [
+        "lint",
+        "validate",
+        "test"
+    ]
 }

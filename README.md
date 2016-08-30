@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/sleistner/vscode-fileutils.svg?branch=master)](https://travis-ci.org/sleistner/vscode-fileutils)
 [![Dependency Status](https://gemnasium.com/badges/github.com/sleistner/vscode-fileutils.svg)](https://gemnasium.com/github.com/sleistner/vscode-fileutils)
+[![codecov](https://codecov.io/gh/sleistner/vscode-fileutils/branch/master/graph/badge.svg)](https://codecov.io/gh/sleistner/vscode-fileutils)
 
 # Fileutils - Visual Studio Code Extension
 

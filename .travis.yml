@@ -16,9 +16,6 @@ before_install:
       sleep 3;
     fi
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
 install:
   - npm install
   - npm run vscode:prepublish

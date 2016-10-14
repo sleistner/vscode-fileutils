@@ -3,7 +3,7 @@
 
 # File Utils - Visual Studio Code Extension
 
-A convenient way of creating, moving, renaming, deleting files and directories.
+A convenient way of creating, duplicating, moving, renaming, deleting files and directories.
 
 > Inspired by [Sidebar Enhancements](https://github.com/titoBouzout/SideBarEnhancements) for Sublime.
 

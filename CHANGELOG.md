@@ -1,3 +1,19 @@
+## 2.3.1 (2016-10-14)
+
+### Features:
+
+  - file browser context menu
+
+        Duplicate
+
+  - file editor context menu
+
+        Duplicate
+
+  - file editor context menu
+
+        Move
+
 ## 2.0.0 (2016-07-18)
 
 ### Features:

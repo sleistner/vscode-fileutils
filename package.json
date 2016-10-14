@@ -102,14 +102,19 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -p -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test",
     "lint": "tslint -e './node_modules/**/*.ts' -e './typings/**/*.ts' './**/*.ts'",
     "validate": "nsp check"
   },
   "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.45",
+    "@types/sinon": "^1.16.31",
+    "@types/sinon-chai": "^2.7.27",
     "chai": "^3.5.0",
     "nsp": "^2.6.1",
     "precommit-hook-eslint": "^3.0.0",
@@ -120,6 +125,7 @@
     "vscode": "^1.0.0"
   },
   "dependencies": {
+    "@types/fs-extra-promise": "0.0.30",
     "fs-extra-promise": "^0.4.0"
   },
   "pre-commit": [

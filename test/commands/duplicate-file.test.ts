@@ -224,6 +224,46 @@ describe('duplicateFile', () => {
 
     });
 
+    describe('as context menu', () => {
+
+        beforeEach(() => {
+            sinon.stub(window, 'showInputBox').returns(Promise.resolve(targetFile));
+            return Promise.resolve();
+        });
+
+        afterEach(() => {
+            const stub: any = window.showInputBox;
+            return Promise.resolve(stub.restore());
+        });
+
+        it('prompts for file destination', () => {
+
+            return duplicateFile(Uri.file(editorFile1)).then(() => {
+                const prompt = 'New Location';
+                const value = editorFile1;
+                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
+            });
+
+        });
+
+        it('duplicates current file to destination', () => {
+
+            return duplicateFile(Uri.file(editorFile1)).then(() => {
+                const message = `${targetFile} does not exist`;
+                expect(fs.existsSync(targetFile), message).to.be.true;
+            });
+        });
+
+        it('opens target file as active editor', () => {
+
+            return duplicateFile(Uri.file(editorFile1)).then(() => {
+                const activeEditor: TextEditor = window.activeTextEditor;
+                expect(activeEditor.document.fileName).to.equal(targetFile);
+            });
+        });
+
+    });
+
     describe('error handling', () => {
 
         beforeEach(() => {

@@ -34,9 +34,9 @@ export function renameFile() {
         .catch(handleError);
 }
 
-export function duplicateFile() {
+export function duplicateFile(uri?: Uri) {
 
-    return controller.showMoveFileDialog({ prompt: 'Duplicate As', showFullPath: true })
+    return controller.showMoveFileDialog({ prompt: 'Duplicate As', showFullPath: true, uri })
         .then(fileItem => controller.duplicate(fileItem))
         .then(newFile => controller.openFileInEditor(newFile))
         .catch(handleError);

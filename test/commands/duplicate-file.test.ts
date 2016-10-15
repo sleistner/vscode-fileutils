@@ -239,7 +239,7 @@ describe('duplicateFile', () => {
         it('prompts for file destination', () => {
 
             return duplicateFile(Uri.file(editorFile1)).then(() => {
-                const prompt = 'New Location';
+                const prompt = 'Duplicate As';
                 const value = editorFile1;
                 expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
             });

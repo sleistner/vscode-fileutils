@@ -28,7 +28,7 @@
 
 ### Breaking Changes:
 
-  - command prefix `extensions` has been renamed to `fileutile`
+  - command prefix `extensions` has been renamed to `fileutils`
 
 ## 1.1.0 (2016-05-04)
 

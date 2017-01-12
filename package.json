@@ -2,7 +2,7 @@
   "name": "vscode-fileutils",
   "displayName": "File Utils",
   "description": "A convenient way of creating, duplicating, moving, renaming and deleting files and directories.",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "license": "MIT",
   "publisher": "sleistner",
   "engines": {

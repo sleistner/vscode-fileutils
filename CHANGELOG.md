@@ -1,3 +1,9 @@
+## 2.3.3 (2017-01-12)
+
+### Fixes:
+ 
+ - File-Duplicate from the context menu doesn't work on Windows
+
 ## 2.3.1 (2016-10-14)
 
 ### Features:

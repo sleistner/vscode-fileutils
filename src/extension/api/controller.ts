@@ -27,7 +27,7 @@ export class FileController {
 
         const executor = (resolve, reject) => {
 
-            const sourcePath = uri ? uri.path : this.sourcePath;
+            const sourcePath = uri ? uri.fsPath : this.sourcePath;
 
             if (!sourcePath) {
                 return reject();

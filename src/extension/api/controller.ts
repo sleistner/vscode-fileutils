@@ -1,7 +1,14 @@
-import { FileItem } from './item';
 import * as fs from 'fs';
 import * as path from 'path';
-import { TextDocument, TextEditor, Uri, commands, window, workspace } from 'vscode';
+import {
+    commands,
+    TextDocument,
+    TextEditor,
+    Uri,
+    window,
+    workspace
+} from 'vscode';
+import { FileItem } from './item';
 
 export interface IMoveFileDialogOptions {
     prompt: string;
@@ -23,7 +30,7 @@ export class FileController {
 
     public showMoveFileDialog(options: IMoveFileDialogOptions): Promise<FileItem> {
 
-        const {prompt, showFullPath = false, uri = null} = options;
+        const { prompt, showFullPath = false, uri = null } = options;
 
         const executor = (resolve, reject) => {
 
@@ -36,7 +43,7 @@ export class FileController {
             window.showInputBox({
                 prompt,
                 value: showFullPath ? sourcePath : path.basename(sourcePath)
-            }).then(targetPath => {
+            }).then((targetPath) => {
 
                 if (targetPath) {
                     targetPath = path.resolve(path.dirname(sourcePath), targetPath);
@@ -51,7 +58,7 @@ export class FileController {
 
     public showNewFileDialog(options: INewFileDialogOptions): Promise<FileItem> {
 
-        const {prompt, relativeToRoot = false} = options;
+        const { prompt, relativeToRoot = false } = options;
 
         const executor = (resolve, reject) => {
 
@@ -67,7 +74,7 @@ export class FileController {
 
             window.showInputBox({
                 prompt
-            }).then(targetPath => {
+            }).then((targetPath) => {
 
                 if (targetPath) {
                     targetPath = path.resolve(sourcePath, targetPath);
@@ -90,7 +97,7 @@ export class FileController {
                 return reject();
             }
 
-            const onResponse = remove => {
+            const onResponse = (remove) => {
 
                 if (remove) {
                     return resolve(new FileItem(sourcePath));
@@ -99,7 +106,10 @@ export class FileController {
                 reject();
             };
 
-            window.showInformationMessage(`Delete file ${path.basename(sourcePath)}?`, 'Yes')
+            const message = `Are you sure you want to delete '${path.basename(sourcePath)}'?`;
+            const action = 'Delete';
+
+            window.showInformationMessage(message, { modal: true }, action)
                 .then(onResponse);
         };
 
@@ -128,13 +138,13 @@ export class FileController {
 
     public create(options: ICreateOptions): Promise<string> {
 
-        const {fileItem, isDir = false} = options;
+        const { fileItem, isDir = false } = options;
 
         const executor = (resolve, reject) => {
 
             const create = () => {
                 fileItem.create(isDir)
-                    .then(targetPath => resolve(targetPath))
+                    .then((targetPath) => resolve(targetPath))
                     .catch(() => reject(`Error creating ${isDir ? 'folder' : 'file'} "${fileItem.targetPath}".`));
             };
 
@@ -155,13 +165,13 @@ export class FileController {
 
         const executor = (resolve, reject) => {
 
-            workspace.openTextDocument(fileName).then(textDocument => {
+            workspace.openTextDocument(fileName).then((textDocument) => {
 
                 if (!textDocument) {
                     return reject('Could not open file!');
                 }
 
-                window.showTextDocument(textDocument).then(editor => {
+                window.showTextDocument(textDocument).then((editor) => {
 
                     if (!editor) {
                         return reject('Could not show document!');
@@ -188,7 +198,7 @@ export class FileController {
         return document && document.fileName;
     }
 
-    private moveOrDuplicate(fileItem: FileItem, fn: Function): Promise<string> {
+    private moveOrDuplicate(fileItem: FileItem, fn: () => Promise<string>): Promise<string> {
 
         const executor = (resolve, reject) => {
 
@@ -201,7 +211,7 @@ export class FileController {
         return new Promise<string>(executor);
     }
 
-    private ensureWritableFile(fileItem: FileItem): Promise<Boolean> {
+    private ensureWritableFile(fileItem: FileItem): Promise<boolean> {
 
         const executor = (resolve, reject) => {
 
@@ -209,7 +219,7 @@ export class FileController {
                 return resolve(true);
             }
 
-            const onResponse = overwrite => {
+            const onResponse = (overwrite) => {
                 if (overwrite) {
                     return resolve(true);
                 }
@@ -217,11 +227,14 @@ export class FileController {
                 reject();
             };
 
-            window.showInformationMessage(`File ${fileItem.targetPath} already exists.`, 'Overwrite')
+            const message = `File '${fileItem.targetPath}' already exists.`;
+            const action = 'Overwrite';
+
+            window.showInformationMessage(message, { modal: true }, action)
                 .then(onResponse);
         };
 
-        return new Promise<Boolean>(executor);
+        return new Promise<boolean>(executor);
     }
 
 }

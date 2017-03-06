@@ -5,14 +5,20 @@ import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import {TextEditor, Uri, commands, window, workspace} from 'vscode';
+import {
+    commands,
+    TextEditor,
+    Uri,
+    window,
+    workspace
+} from 'vscode';
 
 chai.use(sinonChai);
 
 import {controller, moveFile} from '../../src/extension/commands';
 
 const rootDir = path.resolve(__dirname, '..', '..', '..');
-const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutiles-test');
+const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test');
 
 const fixtureFile1 = path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb');
 const fixtureFile2 = path.resolve(rootDir, 'test', 'fixtures', 'file-2.rb');
@@ -41,7 +47,7 @@ describe('moveFile', () => {
                 const openDocument = () => {
                     const uri = Uri.file(editorFile1);
                     return workspace.openTextDocument(uri)
-                        .then(textDocument => window.showTextDocument(textDocument));
+                        .then((textDocument) => window.showTextDocument(textDocument));
                 };
 
                 const stubShowInputBox = () => {
@@ -77,7 +83,7 @@ describe('moveFile', () => {
                 return moveFile().then(() => {
                     const prompt = 'New Location';
                     const value = editorFile1;
-                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
+                    expect(window.showInputBox).to.have.been.calledWithExactly({prompt, value});
                 });
 
             });
@@ -147,11 +153,12 @@ describe('moveFile', () => {
 
                 it('asks to overwrite destination file', () => {
 
-                    const message = `File ${targetFile} already exists.`;
-                    const question = 'Overwrite';
+                    const message = `File '${targetFile}' already exists.`;
+                    const action = 'Overwrite';
+                    const options = { modal: true };
 
                     return moveFile().then(() => {
-                        expect(window.showInformationMessage).to.have.been.calledWith(message, question);
+                        expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
 
@@ -241,7 +248,7 @@ describe('moveFile', () => {
             return moveFile(Uri.file(editorFile1)).then(() => {
                 const prompt = 'New Location';
                 const value = editorFile1;
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
+                expect(window.showInputBox).to.have.been.calledWithExactly({prompt, value});
             });
 
         });
@@ -292,7 +299,7 @@ describe('moveFile', () => {
 
         it('shows an error message', () => {
 
-            return moveFile().catch(err => {
+            return moveFile().catch((err) => {
                 expect(window.showErrorMessage).to.have.been.calledWithExactly('must fail');
             });
         });

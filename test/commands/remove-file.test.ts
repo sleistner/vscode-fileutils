@@ -5,14 +5,20 @@ import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import {TextEditor, Uri, commands, window, workspace} from 'vscode';
+import {
+    commands,
+    TextEditor,
+    Uri,
+    window,
+    workspace
+} from 'vscode';
 
 chai.use(sinonChai);
 
 import {controller, removeFile} from '../../src/extension/commands';
 
 const rootDir = path.resolve(__dirname, '..', '..', '..');
-const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutiles-test');
+const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test');
 
 const fixtureFile = path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb');
 const editorFile = path.resolve(tmpDir, 'file-1.rb');
@@ -35,7 +41,7 @@ describe('removeFile', () => {
                 const openDocument = () => {
                     const uri = Uri.file(editorFile);
                     return workspace.openTextDocument(uri)
-                        .then(textDocument => window.showTextDocument(textDocument));
+                        .then((textDocument) => window.showTextDocument(textDocument));
                 };
 
                 const stubShowInformationMessage = () => {
@@ -68,15 +74,16 @@ describe('removeFile', () => {
 
             it('asks to delete file', () => {
 
-                const message = `Delete file ${path.basename(editorFile)}?`;
-                const question = 'Yes';
+                const message = `Are you sure you want to delete '${path.basename(editorFile)}'?`;
+                const action = 'Delete';
+                const options = { modal: true };
 
                 return removeFile().then(() => {
-                    expect(window.showInformationMessage).to.have.been.calledWith(message, question);
+                    expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                 });
             });
 
-            describe('responding with yes', () => {
+            describe('responding with delete', () => {
 
                 it('deletes the file', () => {
 
@@ -198,7 +205,7 @@ describe('removeFile', () => {
 
         it('shows an error message', () => {
 
-            return removeFile().catch(err => {
+            return removeFile().catch((err) => {
                 expect(window.showErrorMessage).to.have.been.calledWithExactly('must fail');
             });
         });

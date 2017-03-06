@@ -1,3 +1,9 @@
+## 2.3.4 (2017-03-06)
+
+### Fixes:
+ 
+ - File-New File or Folder failed to execute
+
 ## 2.3.3 (2017-01-12)
 
 ### Fixes:

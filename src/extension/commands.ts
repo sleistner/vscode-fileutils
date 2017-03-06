@@ -50,9 +50,9 @@ export function removeFile() {
         .catch(handleError);
 }
 
-export function newFile(options: INewFileOptions = {}) {
+export function newFile(options?: INewFileOptions) {
 
-    const {relativeToRoot = false} = options;
+    const {relativeToRoot = false} = options || {};
 
     return controller.showNewFileDialog({ prompt: 'File Name', relativeToRoot })
         .then(fileItem => controller.create({ fileItem }))
@@ -64,9 +64,9 @@ export function newFileAtRoot() {
     return newFile({ relativeToRoot: true });
 }
 
-export function newFolder(options: INewFolderOptions = {}) {
+export function newFolder(options?: INewFolderOptions) {
 
-    const {relativeToRoot = false} = options;
+    const {relativeToRoot = false} = options || {};
 
     return controller.showNewFileDialog({ prompt: 'Folder Name', relativeToRoot })
         .then(fileItem => controller.create({ fileItem, isDir: true }))

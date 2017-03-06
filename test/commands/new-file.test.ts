@@ -5,14 +5,20 @@ import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import {TextEditor, Uri, commands, window, workspace} from 'vscode';
+import {
+    commands,
+    TextEditor,
+    Uri,
+    window,
+    workspace
+} from 'vscode';
 
 chai.use(sinonChai);
 
 import {controller, newFile} from '../../src/extension/commands';
 
 const rootDir = path.resolve(__dirname, '..', '..', '..');
-const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutiles-test');
+const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test');
 
 const fixtureFile1 = path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb');
 const fixtureFile2 = path.resolve(rootDir, 'test', 'fixtures', 'file-2.rb');
@@ -39,7 +45,7 @@ describe('newFile', () => {
             const openDocument = () => {
                 const uri = Uri.file(editorFile1);
                 return workspace.openTextDocument(uri)
-                    .then(textDocument => window.showTextDocument(textDocument));
+                    .then((textDocument) => window.showTextDocument(textDocument));
             };
 
             const stubShowInputBox = () => {
@@ -158,11 +164,12 @@ describe('newFile', () => {
 
             it('asks to overwrite destination file', () => {
 
-                const message = `File ${targetFile} already exists.`;
-                const question = 'Overwrite';
+                const message = `File '${targetFile}' already exists.`;
+                const action = 'Overwrite';
+                const options = { modal: true };
 
                 return newFile().then(() => {
-                    expect(window.showInformationMessage).to.have.been.calledWith(message, question);
+                    expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                 });
             });
 
@@ -261,7 +268,7 @@ describe('newFile', () => {
 
         it('shows an error message', () => {
 
-            return newFile().catch(err => {
+            return newFile().catch((err) => {
                 expect(window.showErrorMessage).to.have.been.calledWithExactly('must fail');
             });
         });

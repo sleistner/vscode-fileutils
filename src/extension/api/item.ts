@@ -19,7 +19,7 @@ export class FileItem {
         return this.TargetPath;
     }
 
-    get exists(): Boolean {
+    get exists(): boolean {
         return fs.existsSync(this.targetPath);
     }
 
@@ -37,35 +37,35 @@ export class FileItem {
 
             fs.removeAsync(this.sourcePath)
                 .then(() => resolve(this.sourcePath))
-                .catch(err => reject(err.message));
+                .catch((err) => reject(err.message));
         };
 
         return new Promise<string>(executor);
     }
 
-    public create(isDir: Boolean = false): Promise<string> {
+    public create(isDir: boolean = false): Promise<string> {
 
-        const fn: Function = isDir ? fs.ensureDirAsync : fs.createFileAsync;
+        const fn = isDir ? fs.ensureDirAsync : fs.createFileAsync;
 
         const executor = (resolve, reject) => {
 
             fs.removeAsync(this.targetPath)
                 .then(() => fn(this.targetPath))
                 .then(() => resolve(this.targetPath))
-                .catch(err => reject(err.message));
+                .catch((err) => reject(err.message));
         };
 
         return new Promise<string>(executor);
     }
 
-    private moveOrDuplicate(fn: Function): Promise<string> {
+    private moveOrDuplicate(fn): Promise<string> {
 
         const executor = (resolve, reject) => {
 
             fs.ensureDirAsync(path.dirname(this.targetPath))
                 .then(() => fn(this.sourcePath, this.targetPath))
                 .then(() => resolve(this.targetPath))
-                .catch(err => reject(err.message));
+                .catch((err) => reject(err.message));
         };
 
         return new Promise<string>(executor);

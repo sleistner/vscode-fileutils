@@ -1,5 +1,8 @@
+import {
+    commands,
+    ExtensionContext
+} from 'vscode';
 import * as api from './commands';
-import { ExtensionContext, commands } from 'vscode';
 
 function register(context: ExtensionContext, handler: any) {
 

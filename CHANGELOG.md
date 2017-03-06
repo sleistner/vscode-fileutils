@@ -1,3 +1,9 @@
+## 2.4.1 (2017-03-06)
+
+### Features:
+ 
+ - Enable modal confirmation dialogs
+
 ## 2.3.4 (2017-03-06)
 
 ### Fixes:

@@ -1,5 +1,8 @@
+import {
+    Uri,
+    window
+} from 'vscode';
 import { FileController } from './api/controller';
-import { Uri, window } from 'vscode';
 
 function handleError(err) {
     if (err) {
@@ -21,31 +24,31 @@ export const controller = new FileController();
 export function moveFile(uri?: Uri) {
 
     return controller.showMoveFileDialog({ prompt: 'New Location', showFullPath: true, uri })
-        .then(fileItem => controller.move(fileItem))
-        .then(newFile => controller.openFileInEditor(newFile))
+        .then((fileItem) => controller.move(fileItem))
+        .then((newFile) => controller.openFileInEditor(newFile))
         .catch(handleError);
 }
 
 export function renameFile() {
 
     return controller.showMoveFileDialog({ prompt: 'New Name' })
-        .then(fileItem => controller.move(fileItem))
-        .then(newFile => controller.openFileInEditor(newFile))
+        .then((fileItem) => controller.move(fileItem))
+        .then((newFile) => controller.openFileInEditor(newFile))
         .catch(handleError);
 }
 
 export function duplicateFile(uri?: Uri) {
 
     return controller.showMoveFileDialog({ prompt: 'Duplicate As', showFullPath: true, uri })
-        .then(fileItem => controller.duplicate(fileItem))
-        .then(newFile => controller.openFileInEditor(newFile))
+        .then((fileItem) => controller.duplicate(fileItem))
+        .then((newFile) => controller.openFileInEditor(newFile))
         .catch(handleError);
 }
 
 export function removeFile() {
 
     return controller.showRemoveFileDialog()
-        .then(fileItem => controller.remove(fileItem))
+        .then((fileItem) => controller.remove(fileItem))
         .then(() => controller.closeCurrentFileEditor())
         .catch(handleError);
 }
@@ -55,8 +58,8 @@ export function newFile(options?: INewFileOptions) {
     const {relativeToRoot = false} = options || {};
 
     return controller.showNewFileDialog({ prompt: 'File Name', relativeToRoot })
-        .then(fileItem => controller.create({ fileItem }))
-        .then(newFile => controller.openFileInEditor(newFile))
+        .then((fileItem) => controller.create({ fileItem }))
+        .then((newFile) => controller.openFileInEditor(newFile))
         .catch(handleError);
 }
 
@@ -69,7 +72,7 @@ export function newFolder(options?: INewFolderOptions) {
     const {relativeToRoot = false} = options || {};
 
     return controller.showNewFileDialog({ prompt: 'Folder Name', relativeToRoot })
-        .then(fileItem => controller.create({ fileItem, isDir: true }))
+        .then((fileItem) => controller.create({ fileItem, isDir: true }))
         .catch(handleError);
 }
 

@@ -6,7 +6,7 @@
   "license": "MIT",
   "publisher": "sleistner",
   "engines": {
-    "vscode": "^1.0.0"
+    "vscode": "^1.10.0"
   },
   "categories": [
     "Other"
@@ -110,19 +110,19 @@
     "validate": "nsp check"
   },
   "devDependencies": {
-    "@types/chai": "^3.4.34",
-    "@types/mocha": "^2.2.32",
+    "@types/chai": "^3.4.35",
+    "@types/mocha": "^2.2.39",
     "@types/node": "^6.0.45",
-    "@types/sinon": "^1.16.31",
+    "@types/sinon": "^1.16.35",
     "@types/sinon-chai": "^2.7.27",
     "chai": "^3.5.0",
     "nsp": "^2.6.1",
     "precommit-hook-eslint": "^3.0.0",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
-    "tslint": "^3.13.0",
-    "typescript": "^2.0.3",
-    "vscode": "^1.0.0"
+    "tslint": "^4.5.1",
+    "typescript": "^2.2.1",
+    "vscode": "^1.0.5"
   },
   "dependencies": {
     "@types/fs-extra-promise": "0.0.30",

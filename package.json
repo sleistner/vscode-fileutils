@@ -110,11 +110,13 @@
     "validate": "nsp check"
   },
   "devDependencies": {
+    "@types/bluebird-retry": "0.0.31",
     "@types/chai": "^3.4.35",
     "@types/mocha": "^2.2.39",
     "@types/node": "^6.0.45",
     "@types/sinon": "^1.16.35",
     "@types/sinon-chai": "^2.7.27",
+    "bluebird-retry": "^0.10.1",
     "chai": "^3.5.0",
     "nsp": "^2.6.1",
     "precommit-hook-eslint": "^3.0.0",

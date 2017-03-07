@@ -1,10 +1,12 @@
+import * as retry from 'bluebird-retry';
 import * as chai from 'chai';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as fs from 'fs-extra-promise';
 import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
+
 import {
     commands,
     TextEditor,
@@ -13,12 +15,15 @@ import {
     workspace
 } from 'vscode';
 
+import {
+    controller,
+    moveFile
+} from '../../src/extension/commands';
+
 chai.use(sinonChai);
 
-import {controller, moveFile} from '../../src/extension/commands';
-
 const rootDir = path.resolve(__dirname, '..', '..', '..');
-const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test');
+const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test--move-file');
 
 const fixtureFile1 = path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb');
 const fixtureFile2 = path.resolve(rootDir, 'test', 'fixtures', 'file-2.rb');
@@ -56,7 +61,7 @@ describe('moveFile', () => {
                 };
 
                 return Promise.all([
-                    openDocument(),
+                    retry(() => openDocument(), { max_tries: 4, interval: 500 }),
                     stubShowInputBox()
                 ]);
             });
@@ -83,7 +88,7 @@ describe('moveFile', () => {
                 return moveFile().then(() => {
                     const prompt = 'New Location';
                     const value = editorFile1;
-                    expect(window.showInputBox).to.have.been.calledWithExactly({prompt, value});
+                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
                 });
 
             });
@@ -162,9 +167,9 @@ describe('moveFile', () => {
                     });
                 });
 
-                describe('responding with yes', () => {
+                describe('responding with Overwrite', () => {
 
-                    it('overwrites the existig file', () => {
+                    it('overwrites the existing file', () => {
 
                         return moveFile().then(() => {
                             const fileContent = fs.readFileSync(targetFile).toString();
@@ -174,7 +179,7 @@ describe('moveFile', () => {
 
                 });
 
-                describe('responding with no', () => {
+                describe('responding with Cancel', () => {
 
                     beforeEach(() => {
                         const stub: any = window.showInformationMessage;
@@ -248,7 +253,7 @@ describe('moveFile', () => {
             return moveFile(Uri.file(editorFile1)).then(() => {
                 const prompt = 'New Location';
                 const value = editorFile1;
-                expect(window.showInputBox).to.have.been.calledWithExactly({prompt, value});
+                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
             });
 
         });
@@ -299,7 +304,7 @@ describe('moveFile', () => {
 
         it('shows an error message', () => {
 
-            return moveFile().catch((err) => {
+            return moveFile().catch(() => {
                 expect(window.showErrorMessage).to.have.been.calledWithExactly('must fail');
             });
         });

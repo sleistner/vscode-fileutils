@@ -1,10 +1,12 @@
+import * as retry from 'bluebird-retry';
 import * as chai from 'chai';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as fs from 'fs-extra-promise';
 import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
+
 import {
     commands,
     TextEditor,
@@ -13,12 +15,15 @@ import {
     workspace
 } from 'vscode';
 
+import {
+    controller,
+    duplicateFile
+} from '../../src/extension/commands';
+
 chai.use(sinonChai);
 
-import {controller, duplicateFile} from '../../src/extension/commands';
-
 const rootDir = path.resolve(__dirname, '..', '..', '..');
-const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test');
+const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test--duplicate-file');
 
 const fixtureFile1 = path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb');
 const fixtureFile2 = path.resolve(rootDir, 'test', 'fixtures', 'file-2.rb');
@@ -56,7 +61,7 @@ describe('duplicateFile', () => {
                 };
 
                 return Promise.all([
-                    openDocument(),
+                    retry(() => openDocument(), { max_tries: 4, interval: 500 }),
                     stubShowInputBox()
                 ]);
             });

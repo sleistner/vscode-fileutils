@@ -1,3 +1,4 @@
+import * as Promise from 'bluebird';
 import * as fs from 'fs-extra-promise';
 import * as path from 'path';
 
@@ -6,12 +7,12 @@ export class FileItem {
     private SourcePath: string;
     private TargetPath: string;
 
-    constructor(sourcePath: string, targetPath: string = null) {
+    constructor(sourcePath: string, targetPath?: string) {
         this.SourcePath = sourcePath;
         this.TargetPath = targetPath;
     }
 
-    get sourcePath(): string {
+    get path(): string {
         return this.SourcePath;
     }
 
@@ -23,52 +24,37 @@ export class FileItem {
         return fs.existsSync(this.targetPath);
     }
 
-    public move(): Promise<string> {
-        return this.moveOrDuplicate(fs.renameAsync);
+    public move(): Promise<FileItem> {
+        return this.ensureDir()
+            .then(() => fs.renameAsync(this.path, this.targetPath))
+            .then(() => {
+                this.SourcePath = this.targetPath;
+                return this;
+            });
     }
 
-    public duplicate(): Promise<string> {
-        return this.moveOrDuplicate(fs.copyAsync);
+    public duplicate(): Promise<FileItem> {
+        return this.ensureDir()
+            .then(() => fs.copyAsync(this.path, this.targetPath))
+            .then(() => new FileItem(this.targetPath));
     }
 
-    public remove(): Promise<string> {
-
-        const executor = (resolve, reject) => {
-
-            fs.removeAsync(this.sourcePath)
-                .then(() => resolve(this.sourcePath))
-                .catch((err) => reject(err.message));
-        };
-
-        return new Promise<string>(executor);
+    public remove(): Promise<FileItem> {
+        return fs.removeAsync(this.path)
+            .then(() => this);
     }
 
-    public create(isDir: boolean = false): Promise<string> {
+    public create(isDir: boolean = false): Promise<FileItem> {
 
         const fn = isDir ? fs.ensureDirAsync : fs.createFileAsync;
 
-        const executor = (resolve, reject) => {
-
-            fs.removeAsync(this.targetPath)
-                .then(() => fn(this.targetPath))
-                .then(() => resolve(this.targetPath))
-                .catch((err) => reject(err.message));
-        };
-
-        return new Promise<string>(executor);
+        return fs.removeAsync(this.targetPath)
+            .then(() => fn(this.targetPath))
+            .then(() => new FileItem(this.targetPath));
     }
 
-    private moveOrDuplicate(fn): Promise<string> {
-
-        const executor = (resolve, reject) => {
-
-            fs.ensureDirAsync(path.dirname(this.targetPath))
-                .then(() => fn(this.sourcePath, this.targetPath))
-                .then(() => resolve(this.targetPath))
-                .catch((err) => reject(err.message));
-        };
-
-        return new Promise<string>(executor);
+    private ensureDir(): Promise<any> {
+        return fs.ensureDirAsync(path.dirname(this.targetPath));
     }
 
 }

@@ -1,3 +1,4 @@
+import * as Promise from 'bluebird';
 import * as fs from 'fs';
 import * as path from 'path';
 import {
@@ -32,158 +33,101 @@ export class FileController {
 
         const { prompt, showFullPath = false, uri = null } = options;
 
-        const executor = (resolve, reject) => {
+        const sourcePath = uri ? uri.fsPath : this.sourcePath;
 
-            const sourcePath = uri ? uri.fsPath : this.sourcePath;
+        if (!sourcePath) {
+            return Promise.reject(null);
+        }
 
-            if (!sourcePath) {
-                return reject();
-            }
+        const value = showFullPath ? sourcePath : path.basename(sourcePath);
 
-            window.showInputBox({
-                prompt,
-                value: showFullPath ? sourcePath : path.basename(sourcePath)
-            }).then((targetPath) => {
+        return Promise.resolve(window.showInputBox({ prompt, value }))
+            .then((targetPath) => {
 
                 if (targetPath) {
                     targetPath = path.resolve(path.dirname(sourcePath), targetPath);
-                    resolve(new FileItem(sourcePath, targetPath));
+                    return new FileItem(sourcePath, targetPath);
                 }
 
             });
-        };
-
-        return new Promise<FileItem>(executor);
     }
 
     public showNewFileDialog(options: INewFileDialogOptions): Promise<FileItem> {
 
         const { prompt, relativeToRoot = false } = options;
 
-        const executor = (resolve, reject) => {
+        let sourcePath = workspace.rootPath;
 
-            let sourcePath = workspace.rootPath;
+        if (!relativeToRoot && this.sourcePath) {
+            sourcePath = path.dirname(this.sourcePath);
+        }
 
-            if (!relativeToRoot && this.sourcePath) {
-                sourcePath = path.dirname(this.sourcePath);
-            }
+        if (!sourcePath) {
+            return Promise.reject(null);
+        }
 
-            if (!sourcePath) {
-                return reject();
-            }
-
-            window.showInputBox({
-                prompt
-            }).then((targetPath) => {
+        return Promise.resolve(window.showInputBox({ prompt }))
+            .then((targetPath) => {
 
                 if (targetPath) {
                     targetPath = path.resolve(sourcePath, targetPath);
-                    resolve(new FileItem(sourcePath, targetPath));
+                    return new FileItem(sourcePath, targetPath);
                 }
 
             });
-        };
-
-        return new Promise<FileItem>(executor);
     }
 
     public showRemoveFileDialog(): Promise<FileItem> {
 
-        const executor = (resolve, reject) => {
+        const sourcePath = this.sourcePath;
 
-            const sourcePath = this.sourcePath;
+        if (!sourcePath) {
+            return Promise.reject(null);
+        }
 
-            if (!sourcePath) {
-                return reject();
-            }
+        const message = `Are you sure you want to delete '${path.basename(sourcePath)}'?`;
+        const action = 'Delete';
 
-            const onResponse = (remove) => {
-
-                if (remove) {
-                    return resolve(new FileItem(sourcePath));
-                }
-
-                reject();
-            };
-
-            const message = `Are you sure you want to delete '${path.basename(sourcePath)}'?`;
-            const action = 'Delete';
-
-            window.showInformationMessage(message, { modal: true }, action)
-                .then(onResponse);
-        };
-
-        return new Promise<FileItem>(executor);
+        return Promise.resolve(window.showInformationMessage(message, { modal: true }, action))
+            .then((remove) => remove && new FileItem(sourcePath));
     }
 
-    public move(fileItem: FileItem): Promise<string> {
-        return this.moveOrDuplicate(fileItem, fileItem.move);
+    public move(fileItem: FileItem): Promise<FileItem> {
+        return this.ensureWritableFile(fileItem)
+            .then(() => fileItem.move());
     }
 
-    public duplicate(fileItem: FileItem): Promise<string> {
-        return this.moveOrDuplicate(fileItem, fileItem.duplicate);
+    public duplicate(fileItem: FileItem): Promise<FileItem> {
+        return this.ensureWritableFile(fileItem)
+            .then(() => fileItem.duplicate());
     }
 
-    public remove(fileItem: FileItem): Promise<string> {
-
-        const executor = (resolve, reject) => {
-
-            fileItem.remove()
-                .then(() => resolve(fileItem.sourcePath))
-                .catch(() => reject(`Error deleting file "${fileItem.sourcePath}".`));
-        };
-
-        return new Promise<string>(executor);
+    public remove(fileItem: FileItem): Promise<FileItem> {
+        return fileItem.remove()
+            .catch(() => Promise.reject(`Error deleting file '${fileItem.path}'.`));
     }
 
-    public create(options: ICreateOptions): Promise<string> {
+    public create(options: ICreateOptions): Promise<FileItem> {
 
         const { fileItem, isDir = false } = options;
 
-        const executor = (resolve, reject) => {
-
-            const create = () => {
-                fileItem.create(isDir)
-                    .then((targetPath) => resolve(targetPath))
-                    .catch(() => reject(`Error creating ${isDir ? 'folder' : 'file'} "${fileItem.targetPath}".`));
-            };
-
-            this.ensureWritableFile(fileItem)
-                .then(create, reject);
-        };
-
-        return new Promise<string>(executor);
+        return this.ensureWritableFile(fileItem)
+            .then(() => fileItem.create(isDir))
+            .catch(() => Promise.reject(`Error creating file '${fileItem.targetPath}'.`));
     }
 
-    public openFileInEditor(fileName): Promise<TextEditor> {
+    public openFileInEditor(fileItem: FileItem): Promise<TextEditor> {
 
-        const isDir = fs.statSync(fileName).isDirectory();
+        const isDir = fs.statSync(fileItem.path).isDirectory();
 
         if (isDir) {
             return;
         }
 
-        const executor = (resolve, reject) => {
-
-            workspace.openTextDocument(fileName).then((textDocument) => {
-
-                if (!textDocument) {
-                    return reject('Could not open file!');
-                }
-
-                window.showTextDocument(textDocument).then((editor) => {
-
-                    if (!editor) {
-                        return reject('Could not show document!');
-                    }
-
-                    resolve(editor);
-                });
-
-            }, reject);
-        };
-
-        return new Promise<TextEditor>(executor);
+        return Promise.resolve(workspace.openTextDocument(fileItem.path))
+            .then((textDocument) => textDocument || Promise.reject('Could not open file!'))
+            .then((textDocument) => window.showTextDocument(textDocument))
+            .then((editor) => editor || Promise.reject('Could not show document!'));
     }
 
     public closeCurrentFileEditor(): Thenable<any> {
@@ -198,43 +142,18 @@ export class FileController {
         return document && document.fileName;
     }
 
-    private moveOrDuplicate(fileItem: FileItem, fn: () => Promise<string>): Promise<string> {
+    private ensureWritableFile(fileItem: FileItem): Promise<FileItem> {
 
-        const executor = (resolve, reject) => {
+        if (!fileItem.exists) {
+            return Promise.resolve(fileItem);
+        }
 
-            const callFunction = () => fn.call(fileItem).then(resolve);
+        const message = `File '${fileItem.targetPath}' already exists.`;
+        const action = 'Overwrite';
 
-            this.ensureWritableFile(fileItem)
-                .then(callFunction, reject);
-        };
-
-        return new Promise<string>(executor);
-    }
-
-    private ensureWritableFile(fileItem: FileItem): Promise<boolean> {
-
-        const executor = (resolve, reject) => {
-
-            if (!fileItem.exists) {
-                return resolve(true);
-            }
-
-            const onResponse = (overwrite) => {
-                if (overwrite) {
-                    return resolve(true);
-                }
-
-                reject();
-            };
-
-            const message = `File '${fileItem.targetPath}' already exists.`;
-            const action = 'Overwrite';
-
-            window.showInformationMessage(message, { modal: true }, action)
-                .then(onResponse);
-        };
-
-        return new Promise<boolean>(executor);
+        return Promise.resolve(window.showInformationMessage(message, { modal: true }, action))
+            .then((overwrite) => overwrite || Promise.reject(null))
+            .then(() => fileItem);
     }
 
 }

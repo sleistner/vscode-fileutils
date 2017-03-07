@@ -167,7 +167,7 @@ describe('duplicateFile', () => {
                     });
                 });
 
-                describe('responding with yes', () => {
+                describe(`responding with 'Overwrite'`, () => {
 
                     it('overwrites the existig file', () => {
 
@@ -179,7 +179,7 @@ describe('duplicateFile', () => {
 
                 });
 
-                describe('responding with no', () => {
+                describe(`responding with 'Cancel'`, () => {
 
                     beforeEach(() => {
                         const stub: any = window.showInformationMessage;

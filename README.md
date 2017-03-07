@@ -7,15 +7,18 @@ A convenient way of creating, duplicating, moving, renaming, deleting files and 
 
 > Inspired by [Sidebar Enhancements](https://github.com/titoBouzout/SideBarEnhancements) for Sublime.
 
-# Usage
 
-![demo](images/demo.png)
+# How to use
+
+![demo](images/demo.gif)
 
 ## Using the command palette:
 
 * Bring up the command palette, and select "File: ".
 * Select one of the commands mentioned below.
 * Press [Enter] to confirm, or [Escape] to cancel.
+
+![howto](images/howto.png)
 
 ## Note
 

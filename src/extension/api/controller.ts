@@ -103,8 +103,7 @@ export class FileController {
     }
 
     public remove(fileItem: FileItem): Promise<FileItem> {
-        return fileItem.remove()
-            .catch(() => Promise.reject(`Error deleting file '${fileItem.path}'.`));
+        return null;
     }
 
     public create(options: ICreateOptions): Promise<FileItem> {

@@ -13,11 +13,11 @@ function handleError(err) {
 
 export interface INewFileOptions {
     relativeToRoot?: boolean;
-};
+}
 
 export interface INewFolderOptions {
     relativeToRoot?: boolean;
-};
+}
 
 export const controller = new FileController();
 

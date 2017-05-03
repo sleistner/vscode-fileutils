@@ -97,6 +97,7 @@ describe('moveFile', () => {
 
                 return moveFile().then(() => {
                     const message = `${targetFile} does not exist`;
+                    // tslint:disable-next-line:no-unused-expression
                     expect(fs.existsSync(targetFile), message).to.be.true;
                 });
             });
@@ -228,6 +229,7 @@ describe('moveFile', () => {
             it('ignores the command call', () => {
 
                 return moveFile().catch(() => {
+                    // tslint:disable-next-line:no-unused-expression
                     expect(window.showInputBox).to.have.not.been.called;
                 });
             });
@@ -262,6 +264,7 @@ describe('moveFile', () => {
 
             return moveFile(Uri.file(editorFile1)).then(() => {
                 const message = `${targetFile} does not exist`;
+                // tslint:disable-next-line:no-unused-expression
                 expect(fs.existsSync(targetFile), message).to.be.true;
             });
         });

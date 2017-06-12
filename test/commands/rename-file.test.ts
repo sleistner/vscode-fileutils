@@ -97,6 +97,7 @@ describe('renameFile', () => {
 
                 return renameFile().then(() => {
                     const message = `${targetFile} does not exist`;
+                    // tslint:disable-next-line:no-unused-expression
                     expect(fs.existsSync(targetFile), message).to.be.true;
                 });
             });
@@ -228,6 +229,7 @@ describe('renameFile', () => {
             it('ignores the command call', () => {
 
                 return renameFile().catch(() => {
+                    // tslint:disable-next-line:no-unused-expression
                     expect(window.showInputBox).to.have.not.been.called;
                 });
             });

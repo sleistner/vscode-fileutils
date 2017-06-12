@@ -95,6 +95,7 @@ describe('newFile', () => {
 
             return newFile().then(() => {
                 const message = `${targetFile} does not exist`;
+                // tslint:disable-next-line:no-unused-expression
                 expect(fs.existsSync(targetFile), message).to.be.true;
             });
         });
@@ -239,6 +240,7 @@ describe('newFile', () => {
         it('ignores the command call', () => {
 
             return newFile().catch(() => {
+                // tslint:disable-next-line:no-unused-expression
                 expect(window.showInputBox).to.have.not.been.called;
             });
         });

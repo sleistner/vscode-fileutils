@@ -94,6 +94,7 @@ describe('removeFile', () => {
 
                     return removeFile().then(() => {
                         const message = `${editorFile} does exist`;
+                        // tslint:disable-next-line:no-unused-expression
                         expect(fs.existsSync(editorFile), message).to.be.false;
                     });
                 });
@@ -112,6 +113,7 @@ describe('removeFile', () => {
 
                     return removeFile().then(() => {
                         const message = `${editorFile} does not exist`;
+                        // tslint:disable-next-line:no-unused-expression
                         expect(fs.existsSync(editorFile), message).to.be.true;
                     });
                 });
@@ -135,7 +137,7 @@ describe('removeFile', () => {
                             }
 
                             clearInterval(interval);
-                            expect(activeEditor).not.exist;
+                            expect(activeEditor).not.exist;  // tslint:disable-line:no-unused-expression
                             resolve();
 
                         }, 100);
@@ -174,6 +176,7 @@ describe('removeFile', () => {
             it('ignores the command call', () => {
 
                 return removeFile().catch(() => {
+                    // tslint:disable-next-line:no-unused-expression
                     expect(window.showInformationMessage).to.have.not.been.called;
                 });
             });

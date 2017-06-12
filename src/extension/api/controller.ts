@@ -33,7 +33,7 @@ export class FileController {
 
         const { prompt, showFullPath = false, uri = null } = options;
 
-        const sourcePath = uri ? uri.fsPath : this.sourcePath;
+        const sourcePath = uri && uri.fsPath || this.sourcePath;
 
         if (!sourcePath) {
             return Promise.reject(null);

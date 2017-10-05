@@ -88,7 +88,8 @@ describe('moveFile', () => {
                 return moveFile().then(() => {
                     const prompt = 'New Location';
                     const value = editorFile1;
-                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
+                    const valueSelection = [value.length - 9, value.length - 3];
+                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
                 });
 
             });
@@ -255,7 +256,8 @@ describe('moveFile', () => {
             return moveFile(Uri.file(editorFile1)).then(() => {
                 const prompt = 'New Location';
                 const value = editorFile1;
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
+                const valueSelection = [value.length - 9, value.length - 3];
+                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
             });
 
         });

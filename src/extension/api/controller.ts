@@ -40,8 +40,9 @@ export class FileController {
         }
 
         const value = showFullPath ? sourcePath : path.basename(sourcePath);
+        const valueSelection = this.getFilenameSelection(value);
 
-        return Promise.resolve(window.showInputBox({ prompt, value }))
+        return Promise.resolve(window.showInputBox({ prompt, value, valueSelection }))
             .then((targetPath) => {
 
                 if (targetPath) {
@@ -154,6 +155,20 @@ export class FileController {
         return Promise.resolve(window.showInformationMessage(message, { modal: true }, action))
             .then((overwrite) => overwrite || Promise.reject(null))
             .then(() => fileItem);
+    }
+
+    private getFilenameSelection(value: string): [number, number] {
+        const basename = path.basename(value);
+        const start = value.length - basename.length;
+        const dot = basename.lastIndexOf('.');
+
+        if (dot <= 0) {
+            // file with no extension or ".editorconfig" like file
+            return [start, value.length];
+        }
+
+        // select basename without extension
+        return [start, start + dot];
     }
 
 }

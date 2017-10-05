@@ -1,3 +1,9 @@
+## 2.7.0 (2017-10-05)
+
+### Features:
+
+ - [lazyc97](https://github.com/lazyc97) Select filename when inputbox shows up [PR#23](https://github.com/sleistner/vscode-fileutils/pull/23)
+
 ## 2.6.1 (2017-06-12)
 
 ### Fixes:

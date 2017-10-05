@@ -88,7 +88,8 @@ describe('renameFile', () => {
                 return renameFile().then(() => {
                     const prompt = 'New Name';
                     const value = path.basename(editorFile1);
-                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
+                    const valueSelection = [value.length - 9, value.length - 3];
+                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
                 });
 
             });

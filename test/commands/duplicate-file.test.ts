@@ -88,7 +88,8 @@ describe('duplicateFile', () => {
                 return duplicateFile().then(() => {
                     const prompt = 'Duplicate As';
                     const value = editorFile1;
-                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
+                    const valueSelection = [value.length - 9, value.length - 3];
+                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
                 });
 
             });
@@ -255,7 +256,8 @@ describe('duplicateFile', () => {
             return duplicateFile(Uri.file(editorFile1)).then(() => {
                 const prompt = 'Duplicate As';
                 const value = editorFile1;
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value });
+                const valueSelection = [value.length - 9, value.length - 3];
+                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
             });
 
         });

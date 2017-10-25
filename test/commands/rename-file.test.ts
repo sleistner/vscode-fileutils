@@ -1,6 +1,8 @@
 import * as retry from 'bluebird-retry';
-import * as chai from 'chai';
-import { expect } from 'chai';
+import {
+    expect,
+    use as chaiUse
+} from 'chai';
 import * as fs from 'fs-extra-promise';
 import * as os from 'os';
 import * as path from 'path';
@@ -20,7 +22,7 @@ import {
     renameFile
 } from '../../src/extension/commands';
 
-chai.use(sinonChai);
+chaiUse(sinonChai);
 
 const rootDir = path.resolve(__dirname, '..', '..', '..');
 const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test--rename-file');

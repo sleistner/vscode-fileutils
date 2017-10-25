@@ -6,8 +6,9 @@ import {
     TextDocument,
     TextEditor,
     Uri,
+    ViewColumn,
     window,
-    workspace
+    workspace,
 } from 'vscode';
 import { FileItem } from './item';
 
@@ -127,7 +128,7 @@ export class FileController {
 
         return Promise.resolve(workspace.openTextDocument(fileItem.path))
             .then((textDocument) => textDocument || Promise.reject('Could not open file!'))
-            .then((textDocument) => window.showTextDocument(textDocument))
+            .then((textDocument) => window.showTextDocument(textDocument, ViewColumn.Active))
             .then((editor) => editor || Promise.reject('Could not show document!'));
     }
 

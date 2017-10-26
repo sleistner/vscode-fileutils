@@ -2,11 +2,11 @@
   "name": "vscode-fileutils",
   "displayName": "File Utils",
   "description": "A convenient way of creating, duplicating, moving, renaming and deleting files and directories.",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "license": "MIT",
   "publisher": "sleistner",
   "engines": {
-    "vscode": "^1.12.0"
+    "vscode": "^1.17.2"
   },
   "categories": [
     "Other"
@@ -122,9 +122,9 @@
     "precommit-hook-eslint": "^3.0.0",
     "sinon": "^2.2.0",
     "sinon-chai": "^2.8.0",
-    "tslint": "^5.1.0",
-    "typescript": "^2.2.1",
-    "vscode": "^1.0.5"
+    "tslint": "^5.8.0",
+    "typescript": "^2.5.3",
+    "vscode": "^1.1.6"
   },
   "dependencies": {
     "@types/bluebird": "^3.5.5",

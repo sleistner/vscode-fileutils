@@ -1,3 +1,9 @@
+## 2.7.1 (2017-10-25)
+
+### Fixes:
+
+- Renaming and other actions move editor to first group
+
 ## 2.7.0 (2017-10-05)
 
 ### Features:

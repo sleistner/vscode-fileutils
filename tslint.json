@@ -1,7 +1,17 @@
 {
   "extends": "tslint:latest",
   "rules": {
-    "quotemark": [true, "single"],
-    "trailing-comma": [true, "never"]
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "trailing-comma": [
+      true,
+      "never"
+    ],
+    "no-implicit-dependencies": [
+      true,
+      "dev"
+    ]
   }
 }

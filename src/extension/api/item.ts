@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird';
 import * as fs from 'fs-extra-promise';
 import * as path from 'path';
 
@@ -40,7 +39,7 @@ export class FileItem {
     }
 
     public remove(): Promise<FileItem> {
-        return fs.removeAsync(this.path)
+        return Promise.resolve(fs.removeAsync(this.path))
             .then(() => this);
     }
 
@@ -48,13 +47,13 @@ export class FileItem {
 
         const fn = isDir ? fs.ensureDirAsync : fs.createFileAsync;
 
-        return fs.removeAsync(this.targetPath)
+        return Promise.resolve(fs.removeAsync(this.targetPath))
             .then(() => fn(this.targetPath))
             .then(() => new FileItem(this.targetPath));
     }
 
     private ensureDir(): Promise<any> {
-        return fs.ensureDirAsync(path.dirname(this.targetPath));
+        return Promise.resolve(fs.ensureDirAsync(path.dirname(this.targetPath)));
     }
 
 }

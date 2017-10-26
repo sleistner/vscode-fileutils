@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird';
 import * as fs from 'fs';
 import * as path from 'path';
 import {
@@ -127,9 +126,17 @@ export class FileController {
         }
 
         return Promise.resolve(workspace.openTextDocument(fileItem.path))
-            .then((textDocument) => textDocument || Promise.reject('Could not open file!'))
+            .then((textDocument) => {
+                return textDocument
+                    ? Promise.resolve(textDocument)
+                    : Promise.reject(new Error('Could not open file!'));
+            })
             .then((textDocument) => window.showTextDocument(textDocument, ViewColumn.Active))
-            .then((editor) => editor || Promise.reject('Could not show document!'));
+            .then((editor) => {
+                return editor
+                    ? Promise.resolve(editor)
+                    : Promise.reject(new Error('Could not show document!'));
+            });
     }
 
     public closeCurrentFileEditor(): Thenable<any> {
@@ -154,8 +161,7 @@ export class FileController {
         const action = 'Overwrite';
 
         return Promise.resolve(window.showInformationMessage(message, { modal: true }, action))
-            .then((overwrite) => overwrite || Promise.reject(null))
-            .then(() => fileItem);
+            .then((overwrite) => overwrite ? Promise.resolve(fileItem) : Promise.reject(null));
     }
 
     private getFilenameSelection(value: string): [number, number] {

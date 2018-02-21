@@ -3,7 +3,7 @@ import {
     expect,
     use as chaiUse
 } from 'chai';
-import * as fs from 'fs-extra-promise';
+import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
@@ -14,9 +14,11 @@ import {
     TextEditor,
     Uri,
     window,
-    workspace
+    workspace,
+    WorkspaceConfiguration
 } from 'vscode';
 
+import { fail } from 'assert';
 import {
     controller,
     removeFile
@@ -33,11 +35,11 @@ const editorFile = path.resolve(tmpDir, 'file-1.rb');
 describe('removeFile', () => {
 
     beforeEach(() => Promise.all([
-        fs.removeAsync(tmpDir),
-        fs.copyAsync(fixtureFile, editorFile),
+        fs.remove(tmpDir),
+        fs.copy(fixtureFile, editorFile),
     ]));
 
-    afterEach(() => fs.removeAsync(tmpDir));
+    afterEach(() => fs.remove(tmpDir));
 
     describe('as command', () => {
 
@@ -85,8 +87,35 @@ describe('removeFile', () => {
                 const action = 'Delete';
                 const options = { modal: true };
 
-                return removeFile().then(() => {
-                    expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
+                const patchConfiguration = () => {
+                    const configuration: WorkspaceConfiguration = workspace.getConfiguration('fileutils');
+                    return configuration.update('delete.useTrash', false);
+                };
+
+                patchConfiguration().then(() => {
+                    return removeFile().then(() => {
+                        expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
+                    });
+                });
+            });
+
+            describe('delete.useTrash configuration set to true', () => {
+                it('asks to move file to trash', () => {
+
+                    const message = `Are you sure you want to delete '${path.basename(editorFile)}'?`;
+                    const action = 'Move to Trash';
+                    const options = { modal: true };
+
+                    const patchConfiguration = () => {
+                        const configuration: WorkspaceConfiguration = workspace.getConfiguration('fileutils');
+                        return configuration.update('delete.useTrash', true);
+                    };
+
+                    patchConfiguration().then(() => {
+                        return removeFile().then(() => {
+                            expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
+                        });
+                    });
                 });
             });
 
@@ -120,6 +149,31 @@ describe('removeFile', () => {
                     });
                 });
 
+            });
+
+            describe('delete.confirm configuration set to false', () => {
+
+                beforeEach(() => {
+                    const stub: any = window.showInformationMessage;
+                    return Promise.resolve();
+                });
+
+                it('deletes the file without confirmation', () => {
+                    const patchConfiguration = () => {
+                        const configuration: WorkspaceConfiguration = workspace.getConfiguration('fileutils');
+                        return configuration.update('delete.confirm', false);
+                    };
+
+                    patchConfiguration().then(() => {
+                        return removeFile().then(() => {
+                            // tslint:disable-next-line:no-unused-expression
+                            expect(window.showInformationMessage).to.have.not.been.called;
+                            const message = `${editorFile} does not exist`;
+                            // tslint:disable-next-line:no-unused-expression
+                            expect(fs.existsSync(editorFile), message).to.be.true;
+                        });
+                    }, fail);
+                });
             });
 
             it('closes file editor', () => {

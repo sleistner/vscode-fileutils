@@ -8,6 +8,7 @@ import {
     ViewColumn,
     window,
     workspace,
+    WorkspaceConfiguration,
 } from 'vscode';
 import { FileItem } from './item';
 
@@ -86,8 +87,12 @@ export class FileController {
             return Promise.reject(null);
         }
 
+        if (!this.confirmDelete) {
+            return Promise.resolve(new FileItem(sourcePath));
+        }
+
         const message = `Are you sure you want to delete '${path.basename(sourcePath)}'?`;
-        const action = 'Delete';
+        const action = this.useTrash ? 'Move to Trash' : 'Delete';
 
         return Promise.resolve(window.showInformationMessage(message, { modal: true }, action))
             .then((remove) => remove && new FileItem(sourcePath));
@@ -104,7 +109,7 @@ export class FileController {
     }
 
     public remove(fileItem: FileItem): Promise<FileItem> {
-        return fileItem.remove()
+        return fileItem.remove(this.useTrash)
             .catch(() => Promise.reject(`Error deleting file '${fileItem.path}'.`));
     }
 
@@ -178,4 +183,15 @@ export class FileController {
         return [start, start + dot];
     }
 
+    private get configuration(): WorkspaceConfiguration {
+        return workspace.getConfiguration('fileutils');
+    }
+
+    private get useTrash(): boolean {
+        return this.configuration.get('delete.useTrash');
+    }
+
+    private get confirmDelete(): boolean {
+        return this.configuration.get('delete.confirm');
+    }
 }

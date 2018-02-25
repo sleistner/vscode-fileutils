@@ -3,7 +3,7 @@ import {
     expect,
     use as chaiUse
 } from 'chai';
-import * as fs from 'fs-extra-promise';
+import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
@@ -38,12 +38,12 @@ const targetFile = path.resolve(`${editorFile1}.tmp`);
 describe('renameFile', () => {
 
     beforeEach(() => Promise.all([
-        fs.removeAsync(tmpDir),
-        fs.copyAsync(fixtureFile1, editorFile1),
-        fs.copyAsync(fixtureFile2, editorFile2)
+        fs.remove(tmpDir),
+        fs.copy(fixtureFile1, editorFile1),
+        fs.copy(fixtureFile2, editorFile2)
     ]));
 
-    afterEach(() => fs.removeAsync(tmpDir));
+    afterEach(() => fs.remove(tmpDir));
 
     describe('as command', () => {
 
@@ -141,7 +141,7 @@ describe('renameFile', () => {
                 beforeEach(() => {
 
                     const createTargetFile = () => {
-                        return fs.copyAsync(editorFile2, targetFile);
+                        return fs.copy(editorFile2, targetFile);
                     };
 
                     const stubShowInformationMessage = () => {

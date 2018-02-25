@@ -100,6 +100,23 @@ Nonexistent folders are created automatically.
 }
 ```
 
+## Configuration
+
+```json
+{
+    "fileutils.delete.useTrash": {
+        "type": "boolean",
+        "default": false,
+        "description": "Move file to the recycle bin instead of deleting it permanently."
+    },
+    "fileutils.delete.confirm": {
+        "type": "boolean",
+        "default": true,
+        "description": "Controls if it should ask for confirmation when deleting a file."
+    }
+}
+```
+
 # Changelog
 
 - [https://github.com/sleistner/vscode-fileutils/blob/master/CHANGELOG.md](https://github.com/sleistner/vscode-fileutils/blob/master/CHANGELOG.md)

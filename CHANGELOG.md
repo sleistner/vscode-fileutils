@@ -1,3 +1,10 @@
+## 2.8.0 (2018-02-25)
+
+### Features
+
+- `File: Delete`, Add configuration `fileutils.delet.useTrash` in order to move files to trash.
+- `File: Delete`, Add configuration `fileutils.delet.confirm` to toggle confirmation dialog.
+
 ## 2.7.1 (2017-10-25)
 
 ### Fixes:

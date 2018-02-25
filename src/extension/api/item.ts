@@ -1,5 +1,9 @@
-import * as fs from 'fs-extra-promise';
+import * as fs from 'fs-extra';
 import * as path from 'path';
+import { workspace } from 'vscode';
+
+// tslint:disable-next-line
+const trash = require('trash');
 
 export class FileItem {
 
@@ -25,7 +29,7 @@ export class FileItem {
 
     public move(): Promise<FileItem> {
         return this.ensureDir()
-            .then(() => fs.renameAsync(this.path, this.targetPath))
+            .then(() => fs.rename(this.path, this.targetPath))
             .then(() => {
                 this.SourcePath = this.targetPath;
                 return this;
@@ -34,26 +38,27 @@ export class FileItem {
 
     public duplicate(): Promise<FileItem> {
         return this.ensureDir()
-            .then(() => fs.copyAsync(this.path, this.targetPath))
+            .then(() => fs.copy(this.path, this.targetPath))
             .then(() => new FileItem(this.targetPath));
     }
 
-    public remove(): Promise<FileItem> {
-        return Promise.resolve(fs.removeAsync(this.path))
+    public remove(useTrash = false): Promise<FileItem> {
+        const action = useTrash ? trash([this.path]) : fs.remove(this.path);
+        return Promise.resolve(action)
             .then(() => this);
     }
 
     public create(isDir: boolean = false): Promise<FileItem> {
 
-        const fn = isDir ? fs.ensureDirAsync : fs.createFileAsync;
+        const fn = isDir ? fs.ensureDir : fs.createFile;
 
-        return Promise.resolve(fs.removeAsync(this.targetPath))
+        return Promise.resolve(fs.remove(this.targetPath))
             .then(() => fn(this.targetPath))
             .then(() => new FileItem(this.targetPath));
     }
 
     private ensureDir(): Promise<any> {
-        return Promise.resolve(fs.ensureDirAsync(path.dirname(this.targetPath)));
+        return Promise.resolve(fs.ensureDir(path.dirname(this.targetPath)));
     }
 
 }

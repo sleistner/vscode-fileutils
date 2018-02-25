@@ -1,3 +1,9 @@
+## 2.8.1 (2018-02-25)
+
+### Fixes
+
+- Extension can not be loaded due to missing dependency.
+
 ## 2.8.0 (2018-02-25)
 
 ### Features

@@ -22,7 +22,6 @@ export interface INewFolderOptions {
 export const controller = new FileController();
 
 export function moveFile(uri?: Uri) {
-
     return controller.showMoveFileDialog({ prompt: 'New Location', showFullPath: true, uri })
         .then((fileItem) => controller.move(fileItem))
         .then((fileItem) => controller.openFileInEditor(fileItem))
@@ -30,7 +29,6 @@ export function moveFile(uri?: Uri) {
 }
 
 export function renameFile() {
-
     return controller.showMoveFileDialog({ prompt: 'New Name' })
         .then((fileItem) => controller.move(fileItem))
         .then((fileItem) => controller.openFileInEditor(fileItem))
@@ -38,7 +36,6 @@ export function renameFile() {
 }
 
 export function duplicateFile(uri?: Uri) {
-
     return controller.showMoveFileDialog({ prompt: 'Duplicate As', showFullPath: true, uri })
         .then((fileItem) => controller.duplicate(fileItem))
         .then((fileItem) => controller.openFileInEditor(fileItem))
@@ -46,7 +43,6 @@ export function duplicateFile(uri?: Uri) {
 }
 
 export function removeFile() {
-
     return controller.showRemoveFileDialog()
         .then((fileItem) => controller.remove(fileItem))
         .then(() => controller.closeCurrentFileEditor())
@@ -54,7 +50,6 @@ export function removeFile() {
 }
 
 export function newFile(options?: INewFileOptions) {
-
     const { relativeToRoot = false } = options || {};
 
     return controller.showNewFileDialog({ prompt: 'File Name', relativeToRoot })
@@ -68,7 +63,6 @@ export function newFileAtRoot() {
 }
 
 export function newFolder(options?: INewFolderOptions) {
-
     const { relativeToRoot = false } = options || {};
 
     return controller.showNewFileDialog({ prompt: 'Folder Name', relativeToRoot })

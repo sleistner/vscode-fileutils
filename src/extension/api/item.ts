@@ -53,7 +53,7 @@ export class FileItem {
         await fs.remove(this.targetPath);
         await fn(this.targetPath);
 
-        return this;
+        return new FileItem(this.targetPath);
     }
 
     private async ensureDir(): Promise<any> {

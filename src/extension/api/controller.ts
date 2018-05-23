@@ -79,7 +79,7 @@ export class FileController {
 
         const message = `Are you sure you want to delete '${path.basename(sourcePath)}'?`;
         const action = this.useTrash ? 'Move to Trash' : 'Delete';
-        const remove = window.showInformationMessage(message, { modal: true }, action);
+        const remove = await window.showInformationMessage(message, { modal: true }, action);
         if (remove) {
             return new FileItem(sourcePath);
         }
@@ -150,7 +150,7 @@ export class FileController {
 
         const message = `File '${fileItem.targetPath}' already exists.`;
         const action = 'Overwrite';
-        const overwrite = window.showInformationMessage(message, { modal: true }, action);
+        const overwrite = await window.showInformationMessage(message, { modal: true }, action);
         if (overwrite) {
             return fileItem;
         }

@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/sleistner/vscode-fileutils.svg?branch=master)](https://travis-ci.org/sleistner/vscode-fileutils)
-[![Dependency Status](https://gemnasium.com/badges/github.com/sleistner/vscode-fileutils.svg)](https://gemnasium.com/github.com/sleistner/vscode-fileutils)
+[![Dependency Status](https://david-dm.org/sleistner/vscode-fileutils.svg)](https://david-dm.org/sleistner/vscode-fileutils.svg)
 [![Known Vulnerabilities](https://snyk.io/test/github/sleistner/vscode-fileutils/badge.svg)](https://snyk.io/test/github/sleistner/vscode-fileutils)
 
 # File Utils - Visual Studio Code Extension

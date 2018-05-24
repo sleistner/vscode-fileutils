@@ -1,3 +1,10 @@
+## 2.9.0 (2018-05-24)
+
+### Features
+
+- `File: New File`, Adding a trailing / to the supplied target name causes the creation of a new directory. 
+[PR#25](https://github.com/sleistner/vscode-fileutils/pull/25)
+
 ## 2.8.1 (2018-02-25)
 
 ### Fixes

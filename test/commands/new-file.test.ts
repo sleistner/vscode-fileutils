@@ -102,6 +102,20 @@ describe('newFile', () => {
             });
         });
 
+        describe('file path ends with path separator', () => {
+            beforeEach(async () => {
+                (window.showInputBox as sinon.SinonStub).restore();
+                const fileName = path.basename(targetFile) + path.sep;
+                sinon.stub(window, 'showInputBox').returns(Promise.resolve(fileName));
+            });
+
+            it('create directory at destination', async () => {
+                await newFile();
+                // tslint:disable-next-line:no-unused-expression
+                expect(fs.statSync(targetFile).isDirectory(), `${targetFile} must be a directory`).to.be.true;
+            });
+        });
+
         describe('new file in non existing nested directories', () => {
 
             const targetDir = path.resolve(tmpDir, 'level-1', 'level-2', 'level-3');

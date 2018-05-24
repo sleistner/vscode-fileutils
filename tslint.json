@@ -12,6 +12,7 @@
     "no-implicit-dependencies": [
       true,
       "dev"
-    ]
+    ],
+    "no-unused-variable": true
   }
 }

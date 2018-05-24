@@ -1,28 +1,13 @@
+import { fail } from 'assert';
 import * as retry from 'bluebird-retry';
-import {
-    expect,
-    use as chaiUse
-} from 'chai';
+import { expect, use as chaiUse } from 'chai';
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-
-import {
-    commands,
-    TextEditor,
-    Uri,
-    window,
-    workspace,
-    WorkspaceConfiguration
-} from 'vscode';
-
-import { fail } from 'assert';
-import {
-    controller,
-    removeFile
-} from '../../src/extension/commands';
+import { commands, TextEditor, Uri, window, workspace, WorkspaceConfiguration } from 'vscode';
+import { controller, removeFile } from '../../src/command/RemoveFileCommand';
 
 chaiUse(sinonChai);
 
@@ -244,7 +229,7 @@ describe('removeFile', () => {
     describe('error handling', () => {
 
         beforeEach(() => {
-            sinon.stub(controller, 'showRemoveFileDialog').returns(Promise.reject('must fail'));
+            sinon.stub(controller, 'showDialog').returns(Promise.reject('must fail'));
             sinon.stub(window, 'showErrorMessage');
             return Promise.resolve();
         });
@@ -252,7 +237,7 @@ describe('removeFile', () => {
         afterEach(() => {
 
             const restoreShowRemoveFileDialog = () => {
-                const stub: any = controller.showRemoveFileDialog;
+                const stub: any = controller.showDialog;
                 return Promise.resolve(stub.restore());
             };
 

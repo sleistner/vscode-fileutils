@@ -1,26 +1,12 @@
 import * as retry from 'bluebird-retry';
-import {
-    expect,
-    use as chaiUse
-} from 'chai';
+import { expect, use as chaiUse } from 'chai';
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-
-import {
-    commands,
-    TextEditor,
-    Uri,
-    window,
-    workspace
-} from 'vscode';
-
-import {
-    controller,
-    renameFile
-} from '../../src/extension/commands';
+import { commands, TextEditor, Uri, window, workspace } from 'vscode';
+import { controller, renameFile } from '../../src/command/RenameFileCommand';
 
 chaiUse(sinonChai);
 
@@ -244,7 +230,7 @@ describe('renameFile', () => {
     describe('error handling', () => {
 
         beforeEach(() => {
-            sinon.stub(controller, 'showMoveFileDialog').returns(Promise.reject('must fail'));
+            sinon.stub(controller, 'showDialog').returns(Promise.reject('must fail'));
             sinon.stub(window, 'showErrorMessage');
             return Promise.resolve();
         });
@@ -252,7 +238,7 @@ describe('renameFile', () => {
         afterEach(() => {
 
             const restoreShowMoveFileDialog = () => {
-                const stub: any = controller.showMoveFileDialog;
+                const stub: any = controller.showDialog;
                 return Promise.resolve(stub.restore());
             };
 

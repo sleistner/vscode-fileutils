@@ -9,10 +9,12 @@ export class FileItem {
 
     private SourcePath: string;
     private TargetPath: string;
+    private IsDir: boolean;
 
-    constructor(sourcePath: string, targetPath?: string) {
+    constructor(sourcePath: string, targetPath?: string, isDir: boolean = false) {
         this.SourcePath = sourcePath;
         this.TargetPath = targetPath;
+        this.IsDir = isDir;
     }
 
     get path(): string {
@@ -25,6 +27,10 @@ export class FileItem {
 
     get exists(): boolean {
         return fs.existsSync(this.targetPath);
+    }
+
+    get isDir(): boolean {
+        return this.IsDir;
     }
 
     public async move(): Promise<FileItem> {
@@ -48,8 +54,8 @@ export class FileItem {
         return this;
     }
 
-    public async create(isDir: boolean = false): Promise<FileItem> {
-        const fn = isDir ? fs.ensureDir : fs.createFile;
+    public async create(mkDir?: boolean): Promise<FileItem> {
+        const fn = mkDir === true || this.isDir ? fs.ensureDir : fs.createFile;
         await fs.remove(this.targetPath);
         await fn(this.targetPath);
 

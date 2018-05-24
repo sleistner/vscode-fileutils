@@ -61,8 +61,9 @@ export class FileController {
 
         const targetPath = await window.showInputBox({ prompt });
         if (targetPath) {
+            const isDir = targetPath.endsWith(path.sep);
             const realPath = path.resolve(sourcePath, targetPath);
-            return new FileItem(sourcePath, realPath);
+            return new FileItem(sourcePath, realPath, isDir);
         }
     }
 

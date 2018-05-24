@@ -2,9 +2,8 @@ import { MoveFileController } from '../controller';
 
 export const controller = new MoveFileController();
 
-export function renameFile() {
-
-    return controller.showDialog({ prompt: 'New Name' })
-        .then((fileItem) => controller.move(fileItem))
-        .then((fileItem) => controller.openFileInEditor(fileItem));
+export async function renameFile() {
+    const fileItem = await controller.showDialog({ prompt: 'New Name' });
+    const movedFileItem = await controller.move(fileItem);
+    return controller.openFileInEditor(movedFileItem);
 }

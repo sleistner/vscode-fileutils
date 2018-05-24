@@ -3,9 +3,8 @@ import { DuplicateFileController } from '../controller';
 
 export const controller = new DuplicateFileController();
 
-export function duplicateFile(uri?: Uri) {
-
-    return controller.showDialog({ prompt: 'Duplicate As', showFullPath: true, uri })
-        .then((fileItem) => controller.duplicate(fileItem))
-        .then((fileItem) => controller.openFileInEditor(fileItem));
+export async function duplicateFile(uri?: Uri) {
+    const fileItem = await controller.showDialog({ prompt: 'Duplicate As', showFullPath: true, uri });
+    const copiedFileItem = await controller.duplicate(fileItem);
+    return controller.openFileInEditor(copiedFileItem);
 }

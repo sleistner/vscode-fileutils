@@ -10,23 +10,23 @@ export interface INewFolderOptions {
 
 export const controller = new NewFileController();
 
-export function newFile(options?: INewFileOptions) {
+export async function newFile(options?: INewFileOptions) {
     const { relativeToRoot = false } = options || {};
 
-    return controller.showDialog({ prompt: 'File Name', relativeToRoot })
-        .then((fileItem) => controller.create({ fileItem }))
-        .then((fileItem) => controller.openFileInEditor(fileItem));
+    const fileItem = await controller.showDialog({ prompt: 'File Name', relativeToRoot });
+    const newFileItem = await controller.create({ fileItem });
+    return controller.openFileInEditor(newFileItem);
 }
 
 export function newFileAtRoot() {
     return newFile({ relativeToRoot: true });
 }
 
-export function newFolder(options?: INewFolderOptions) {
+export async function newFolder(options?: INewFolderOptions) {
     const { relativeToRoot = false } = options || {};
 
-    return controller.showDialog({ prompt: 'Folder Name', relativeToRoot })
-        .then((fileItem) => controller.create({ fileItem, isDir: true }));
+    const fileItem = await controller.showDialog({ prompt: 'Folder Name', relativeToRoot });
+    return controller.create({ fileItem, isDir: true });
 }
 
 export function newFolderAtRoot() {

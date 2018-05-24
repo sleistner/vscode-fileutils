@@ -2,9 +2,8 @@ import { RemoveFileController } from '../controller';
 
 export const controller = new RemoveFileController();
 
-export function removeFile() {
-
-    return controller.showDialog()
-        .then((fileItem) => controller.remove(fileItem))
-        .then(() => controller.closeCurrentFileEditor());
+export async function removeFile() {
+    const fileItem = await controller.showDialog();
+    await controller.remove(fileItem);
+    return controller.closeCurrentFileEditor();
 }

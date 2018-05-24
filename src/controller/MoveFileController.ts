@@ -39,13 +39,8 @@ export class MoveFileController extends AbstractFileController {
         const basename = path.basename(value);
         const start = value.length - basename.length;
         const dot = basename.lastIndexOf('.');
+        const exclusiveEndIndex = dot <= 0 ? value.length : start + dot;
 
-        if (dot <= 0) {
-            // file with no extension or ".editorconfig" like file
-            return [start, value.length];
-        }
-
-        // select basename without extension
-        return [start, start + dot];
+        return [start, exclusiveEndIndex];
     }
 }

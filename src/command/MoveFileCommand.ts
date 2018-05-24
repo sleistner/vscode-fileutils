@@ -3,9 +3,8 @@ import { MoveFileController } from '../controller';
 
 export const controller = new MoveFileController();
 
-export function moveFile(uri?: Uri) {
-
-    return controller.showDialog({ prompt: 'New Location', showFullPath: true, uri })
-        .then((fileItem) => controller.move(fileItem))
-        .then((fileItem) => controller.openFileInEditor(fileItem));
+export async function moveFile(uri?: Uri) {
+    const fileItem = await controller.showDialog({ prompt: 'New Location', showFullPath: true, uri });
+    await controller.move(fileItem);
+    return controller.openFileInEditor(fileItem);
 }

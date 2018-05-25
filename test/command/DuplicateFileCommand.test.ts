@@ -1,3 +1,4 @@
+import { fail } from 'assert';
 import * as retry from 'bluebird-retry';
 import { expect, use as chaiUse } from 'chai';
 import * as fs from 'fs-extra';
@@ -6,12 +7,12 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, TextEditor, Uri, window, workspace } from 'vscode';
-import { controller, moveFile } from '../../src/command/MoveFileCommand';
+import { controller, duplicateFile } from '../../src/command/DuplicateFileCommand';
 
 chaiUse(sinonChai);
 
 const rootDir = path.resolve(__dirname, '..', '..', '..');
-const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test--move-file');
+const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test--duplicate-file');
 
 const fixtureFile1 = path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb');
 const fixtureFile2 = path.resolve(rootDir, 'test', 'fixtures', 'file-2.rb');
@@ -21,7 +22,7 @@ const editorFile2 = path.resolve(tmpDir, 'file-2.rb');
 
 const targetFile = path.resolve(`${editorFile1}.tmp`);
 
-describe('moveFile', () => {
+describe('duplicateFile', () => {
 
     beforeEach(() => Promise.all([
         fs.remove(tmpDir),
@@ -73,8 +74,8 @@ describe('moveFile', () => {
 
             it('prompts for file destination', () => {
 
-                return moveFile().then(() => {
-                    const prompt = 'New Location';
+                return duplicateFile().then(() => {
+                    const prompt = 'Duplicate As';
                     const value = editorFile1;
                     const valueSelection = [value.length - 9, value.length - 3];
                     expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
@@ -84,7 +85,7 @@ describe('moveFile', () => {
 
             it('moves current file to destination', () => {
 
-                return moveFile().then(() => {
+                return duplicateFile().then(() => {
                     const message = `${targetFile} does not exist`;
                     // tslint:disable-next-line:no-unused-expression
                     expect(fs.existsSync(targetFile), message).to.be.true;
@@ -102,7 +103,7 @@ describe('moveFile', () => {
 
                 it('creates nested directories', () => {
 
-                    return moveFile().then((textEditor: TextEditor) => {
+                    return duplicateFile().then((textEditor: TextEditor) => {
                         const dirname = path.dirname(textEditor.document.fileName);
                         const directories: string[] = dirname.split(path.sep);
 
@@ -116,7 +117,7 @@ describe('moveFile', () => {
 
             it('opens target file as active editor', () => {
 
-                return moveFile().then(() => {
+                return duplicateFile().then(() => {
                     const activeEditor: TextEditor = window.activeTextEditor;
                     expect(activeEditor.document.fileName).to.equal(targetFile);
                 });
@@ -152,16 +153,16 @@ describe('moveFile', () => {
                     const action = 'Overwrite';
                     const options = { modal: true };
 
-                    return moveFile().then(() => {
+                    return duplicateFile().then(() => {
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
 
-                describe('responding with Overwrite', () => {
+                describe(`responding with 'Overwrite'`, () => {
 
-                    it('overwrites the existing file', () => {
+                    it('overwrites the existig file', () => {
 
-                        return moveFile().then(() => {
+                        return duplicateFile().then(() => {
                             const fileContent = fs.readFileSync(targetFile).toString();
                             expect(fileContent).to.equal('class FileOne; end');
                         });
@@ -169,7 +170,7 @@ describe('moveFile', () => {
 
                 });
 
-                describe('responding with Cancel', () => {
+                describe(`responding with 'Cancel'`, () => {
 
                     beforeEach(() => {
                         const stub: any = window.showInformationMessage;
@@ -177,12 +178,14 @@ describe('moveFile', () => {
                         return Promise.resolve();
                     });
 
-                    it('leaves existing file untouched', () => {
-
-                        return moveFile().then(() => {
+                    it('leaves existing file untouched', async () => {
+                        try {
+                            await duplicateFile();
+                            fail('must fail');
+                        } catch (e) {
                             const fileContent = fs.readFileSync(targetFile).toString();
                             expect(fileContent).to.equal('class FileTwo; end');
-                        });
+                        }
                     });
 
                 });
@@ -217,7 +220,7 @@ describe('moveFile', () => {
 
             it('ignores the command call', () => {
 
-                return moveFile().catch(() => {
+                return duplicateFile().catch(() => {
                     // tslint:disable-next-line:no-unused-expression
                     expect(window.showInputBox).to.have.not.been.called;
                 });
@@ -241,8 +244,8 @@ describe('moveFile', () => {
 
         it('prompts for file destination', () => {
 
-            return moveFile(Uri.file(editorFile1)).then(() => {
-                const prompt = 'New Location';
+            return duplicateFile(Uri.file(editorFile1)).then(() => {
+                const prompt = 'Duplicate As';
                 const value = editorFile1;
                 const valueSelection = [value.length - 9, value.length - 3];
                 expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
@@ -250,9 +253,9 @@ describe('moveFile', () => {
 
         });
 
-        it('moves current file to destination', () => {
+        it('duplicates current file to destination', () => {
 
-            return moveFile(Uri.file(editorFile1)).then(() => {
+            return duplicateFile(Uri.file(editorFile1)).then(() => {
                 const message = `${targetFile} does not exist`;
                 // tslint:disable-next-line:no-unused-expression
                 expect(fs.existsSync(targetFile), message).to.be.true;
@@ -261,47 +264,11 @@ describe('moveFile', () => {
 
         it('opens target file as active editor', () => {
 
-            return moveFile(Uri.file(editorFile1)).then(() => {
+            return duplicateFile(Uri.file(editorFile1)).then(() => {
                 const activeEditor: TextEditor = window.activeTextEditor;
                 expect(activeEditor.document.fileName).to.equal(targetFile);
             });
         });
 
     });
-
-    describe('error handling', () => {
-
-        beforeEach(() => {
-            sinon.stub(controller, 'showDialog').returns(Promise.reject('must fail'));
-            sinon.stub(window, 'showErrorMessage');
-            return Promise.resolve();
-        });
-
-        afterEach(() => {
-
-            const restoreShowMoveFileDialog = () => {
-                const stub: any = controller.showDialog;
-                return Promise.resolve(stub.restore());
-            };
-
-            const restoreShowErrorMessage = () => {
-                const stub: any = window.showErrorMessage;
-                return Promise.resolve(stub.restore());
-            };
-
-            return Promise.all([
-                restoreShowMoveFileDialog(),
-                restoreShowErrorMessage()
-            ]);
-        });
-
-        it('shows an error message', () => {
-
-            return moveFile().catch(() => {
-                expect(window.showErrorMessage).to.have.been.calledWithExactly('must fail');
-            });
-        });
-
-    });
-
 });

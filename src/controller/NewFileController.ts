@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { window, workspace } from 'vscode';
+import { window, workspace, WorkspaceFolder } from 'vscode';
 import { FileItem } from '../Item';
 import { AbstractFileController } from './AbstractFileController';
 
@@ -17,7 +17,8 @@ export class NewFileController extends AbstractFileController {
 
     public async showDialog(options: INewFileDialogOptions): Promise<FileItem> {
         const { prompt, relativeToRoot = false } = options;
-        let sourcePath = workspace.rootPath;
+        const workspaceFolders: WorkspaceFolder[] = workspace.workspaceFolders;
+        let sourcePath = workspaceFolders && workspaceFolders[0].uri.toString();
 
         if (!relativeToRoot && this.sourcePath) {
             sourcePath = path.dirname(this.sourcePath);
@@ -37,10 +38,11 @@ export class NewFileController extends AbstractFileController {
 
     public async create(options: ICreateOptions): Promise<FileItem> {
         const { fileItem, isDir = false } = options;
-        const writeable = await this.ensureWritableFile(fileItem);
-        if (writeable) {
-            return fileItem.create(isDir)
-                .catch(() => Promise.reject(`Error creating file '${fileItem.path}'.`));
+        await this.ensureWritableFile(fileItem);
+        try {
+            return fileItem.create(isDir);
+        } catch (e) {
+            throw new Error(`Error creating file '${fileItem.path}'.`);
         }
     }
 }

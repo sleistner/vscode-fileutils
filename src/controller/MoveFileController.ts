@@ -29,10 +29,8 @@ export class MoveFileController extends AbstractFileController {
     }
 
     public async move(fileItem: FileItem): Promise<FileItem> {
-        const writeable = await this.ensureWritableFile(fileItem);
-        if (writeable) {
-            return fileItem.move();
-        }
+        await this.ensureWritableFile(fileItem);
+        return fileItem.move();
     }
 
     private getFilenameSelection(value: string): [number, number] {

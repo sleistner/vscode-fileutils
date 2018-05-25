@@ -1,3 +1,4 @@
+import { fail } from 'assert';
 import * as retry from 'bluebird-retry';
 import { expect, use as chaiUse } from 'chai';
 import * as fs from 'fs-extra';
@@ -6,7 +7,7 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, TextEditor, Uri, window, workspace } from 'vscode';
-import { controller, newFile } from '../../src/command/NewFileCommand';
+import { newFile } from '../../src/command/NewFileCommand';
 
 chaiUse(sinonChai);
 
@@ -22,7 +23,6 @@ const editorFile2 = path.resolve(tmpDir, 'file-2.rb');
 const targetFile = path.resolve(`${editorFile1}.tmp`);
 
 describe('newFile', () => {
-
     beforeEach(() => Promise.all([
         fs.remove(tmpDir),
         fs.copy(fixtureFile1, editorFile1),
@@ -32,9 +32,7 @@ describe('newFile', () => {
     afterEach(() => fs.remove(tmpDir));
 
     describe('with open text document', () => {
-
         beforeEach(() => {
-
             const openDocument = () => {
                 const uri = Uri.file(editorFile1);
                 return workspace.openTextDocument(uri)
@@ -54,7 +52,6 @@ describe('newFile', () => {
         });
 
         afterEach(() => {
-
             const closeAllEditors = () => {
                 return commands.executeCommand('workbench.action.closeAllEditors');
             };
@@ -71,16 +68,13 @@ describe('newFile', () => {
         });
 
         it('prompts for file destination', () => {
-
             return newFile().then(() => {
                 const prompt = 'File Name';
                 expect(window.showInputBox).to.have.been.calledWithExactly({ prompt });
             });
-
         });
 
         it('create file at destination', () => {
-
             return newFile().then(() => {
                 const message = `${targetFile} does not exist`;
                 // tslint:disable-next-line:no-unused-expression
@@ -103,16 +97,13 @@ describe('newFile', () => {
         });
 
         describe('new file in non existing nested directories', () => {
-
-            const targetDir = path.resolve(tmpDir, 'level-1', 'level-2', 'level-3');
-
             beforeEach(() => {
+                const targetDir = path.resolve(tmpDir, 'level-1', 'level-2', 'level-3');
                 const stub: any = window.showInputBox;
                 stub.returns(Promise.resolve(path.resolve(targetDir, 'file.rb')));
             });
 
             it('creates nested directories', () => {
-
                 return newFile().then((textEditor: TextEditor) => {
                     const dirname = path.dirname(textEditor.document.fileName);
                     const directories: string[] = dirname.split(path.sep);
@@ -122,11 +113,9 @@ describe('newFile', () => {
                     expect(directories.pop()).to.equal('level-1');
                 });
             });
-
         });
 
         it('opens new file as active editor', () => {
-
             return newFile().then(() => {
                 const activeEditor: TextEditor = window.activeTextEditor;
                 expect(activeEditor.document.fileName).to.equal(targetFile);
@@ -134,9 +123,7 @@ describe('newFile', () => {
         });
 
         describe('when target destination exists', () => {
-
             beforeEach(() => {
-
                 const createTargetFile = () => {
                     return fs.copy(editorFile2, targetFile);
                 };
@@ -158,7 +145,6 @@ describe('newFile', () => {
             });
 
             it('asks to overwrite destination file', () => {
-
                 const message = `File '${targetFile}' already exists.`;
                 const action = 'Overwrite';
                 const options = { modal: true };
@@ -169,106 +155,54 @@ describe('newFile', () => {
             });
 
             describe('responding with yes', () => {
-
-                it('overwrites the existig file', () => {
-
-                    return newFile().then(() => {
-                        const fileContent = fs.readFileSync(targetFile).toString();
-                        expect(fileContent).to.equal('');
-                    });
+                it('overwrites the existig file', async () => {
+                    await newFile();
+                    const fileContent = fs.readFileSync(targetFile).toString();
+                    expect(fileContent).to.equal('');
                 });
-
             });
 
             describe('responding with no', () => {
-
                 beforeEach(() => {
                     const stub: any = window.showInformationMessage;
                     stub.returns(Promise.resolve(false));
                     return Promise.resolve();
                 });
 
-                it('leaves existing file untouched', () => {
-
-                    return newFile().then(() => {
+                it('leaves existing file untouched', async () => {
+                    try {
+                        await newFile();
+                        fail('must fail');
+                    } catch (e) {
                         const fileContent = fs.readFileSync(targetFile).toString();
                         expect(fileContent).to.equal('class FileTwo; end');
-                    });
+                    }
                 });
-
             });
-
         });
-
     });
 
     describe('with no open text document', () => {
+        let workspaceFolderStub: sinon.SinonStub;
 
-        beforeEach(() => {
-
-            const closeAllEditors = () => {
-                return commands.executeCommand('workbench.action.closeAllEditors');
-            };
-
-            const stubShowInputBox = () => {
-                sinon.stub(window, 'showInputBox');
-                return Promise.resolve();
-            };
-
-            return Promise.all([
-                closeAllEditors(),
-                stubShowInputBox()
-            ]);
+        beforeEach(async () => {
+            workspaceFolderStub = sinon.stub(workspace, 'workspaceFolders').get(() => undefined);
+            sinon.stub(window, 'showInputBox');
         });
 
-        afterEach(() => {
-            const stub: any = window.showInputBox;
-            return Promise.resolve(stub.restore());
+        afterEach(async () => {
+            workspaceFolderStub.restore();
+            (window.showInputBox as sinon.SinonStub).restore();
         });
 
-        it('ignores the command call', () => {
-
-            return newFile().catch(() => {
+        it('ignores the command call', async () => {
+            try {
+                await newFile();
+                fail('must fail');
+            } catch (e) {
                 // tslint:disable-next-line:no-unused-expression
                 expect(window.showInputBox).to.have.not.been.called;
-            });
+            }
         });
-
     });
-
-    describe('error handling', () => {
-
-        beforeEach(() => {
-            sinon.stub(controller, 'showDialog').returns(Promise.reject('must fail'));
-            sinon.stub(window, 'showErrorMessage');
-            return Promise.resolve();
-        });
-
-        afterEach(() => {
-
-            const restoreShowDialog = () => {
-                const stub: any = controller.showDialog;
-                return Promise.resolve(stub.restore());
-            };
-
-            const restoreShowErrorMessage = () => {
-                const stub: any = window.showErrorMessage;
-                return Promise.resolve(stub.restore());
-            };
-
-            return Promise.all([
-                restoreShowDialog(),
-                restoreShowErrorMessage()
-            ]);
-        });
-
-        it('shows an error message', () => {
-
-            return newFile().catch((err) => {
-                expect(window.showErrorMessage).to.have.been.calledWithExactly('must fail');
-            });
-        });
-
-    });
-
 });

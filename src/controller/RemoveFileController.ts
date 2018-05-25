@@ -25,8 +25,12 @@ export class RemoveFileController extends AbstractFileController {
     }
 
     public async remove(fileItem: FileItem): Promise<FileItem> {
-        return fileItem.remove(this.useTrash)
-            .catch(() => Promise.reject(`Error deleting file '${fileItem.path}'.`));
+        try {
+            await fileItem.remove(this.useTrash);
+        } catch (e) {
+            throw new Error(`Error deleting file '${fileItem.path}'.`);
+        }
+        return fileItem;
     }
 
     private get useTrash(): boolean {

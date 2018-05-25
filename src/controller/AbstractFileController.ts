@@ -27,13 +27,6 @@ export abstract class AbstractFileController {
         return commands.executeCommand('workbench.action.closeActiveEditor');
     }
 
-    protected get sourcePath(): string {
-        const activeEditor: TextEditor = window.activeTextEditor;
-        const document: TextDocument = activeEditor && activeEditor.document;
-
-        return document && document.fileName;
-    }
-
     protected async ensureWritableFile(fileItem: FileItem): Promise<FileItem> {
         if (!fileItem.exists) {
             return fileItem;
@@ -45,6 +38,14 @@ export abstract class AbstractFileController {
         if (overwrite) {
             return fileItem;
         }
+        throw new Error();
+    }
+
+    protected get sourcePath(): string {
+        const activeEditor: TextEditor = window.activeTextEditor;
+        const document: TextDocument = activeEditor && activeEditor.document;
+
+        return document && document.fileName;
     }
 
     protected get configuration(): WorkspaceConfiguration {

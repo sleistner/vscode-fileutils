@@ -1,3 +1,4 @@
+import { fail } from 'assert';
 import * as retry from 'bluebird-retry';
 import { expect, use as chaiUse } from 'chai';
 import * as fs from 'fs-extra';
@@ -6,7 +7,7 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, TextEditor, Uri, window, workspace } from 'vscode';
-import { controller, renameFile } from '../../src/command/RenameFileCommand';
+import { renameFile } from '../../src/command/RenameFileCommand';
 
 chaiUse(sinonChai);
 
@@ -22,7 +23,6 @@ const editorFile2 = path.resolve(tmpDir, 'file-2.rb');
 const targetFile = path.resolve(`${editorFile1}.tmp`);
 
 describe('renameFile', () => {
-
     beforeEach(() => Promise.all([
         fs.remove(tmpDir),
         fs.copy(fixtureFile1, editorFile1),
@@ -32,11 +32,8 @@ describe('renameFile', () => {
     afterEach(() => fs.remove(tmpDir));
 
     describe('as command', () => {
-
         describe('with open text document', () => {
-
             beforeEach(() => {
-
                 const openDocument = () => {
                     const uri = Uri.file(editorFile1);
                     return workspace.openTextDocument(uri)
@@ -55,7 +52,6 @@ describe('renameFile', () => {
             });
 
             afterEach(() => {
-
                 const closeAllEditors = () => {
                     return commands.executeCommand('workbench.action.closeAllEditors');
                 };
@@ -72,18 +68,15 @@ describe('renameFile', () => {
             });
 
             it('prompts for file destination', () => {
-
                 return renameFile().then(() => {
                     const prompt = 'New Name';
                     const value = path.basename(editorFile1);
                     const valueSelection = [value.length - 9, value.length - 3];
                     expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
                 });
-
             });
 
             it('moves current file to destination', () => {
-
                 return renameFile().then(() => {
                     const message = `${targetFile} does not exist`;
                     // tslint:disable-next-line:no-unused-expression
@@ -92,7 +85,6 @@ describe('renameFile', () => {
             });
 
             describe('target file in non existing nested directories', () => {
-
                 const targetDir = path.resolve(tmpDir, 'level-1', 'level-2', 'level-3');
 
                 beforeEach(() => {
@@ -101,7 +93,6 @@ describe('renameFile', () => {
                 });
 
                 it('creates nested directories', () => {
-
                     return renameFile().then((textEditor: TextEditor) => {
                         const dirname = path.dirname(textEditor.document.fileName);
                         const directories: string[] = dirname.split(path.sep);
@@ -111,11 +102,9 @@ describe('renameFile', () => {
                         expect(directories.pop()).to.equal('level-1');
                     });
                 });
-
             });
 
             it('opens target file as active editor', () => {
-
                 return renameFile().then(() => {
                     const activeEditor: TextEditor = window.activeTextEditor;
                     expect(activeEditor.document.fileName).to.equal(targetFile);
@@ -123,9 +112,7 @@ describe('renameFile', () => {
             });
 
             describe('when target destination exists', () => {
-
                 beforeEach(() => {
-
                     const createTargetFile = () => {
                         return fs.copy(editorFile2, targetFile);
                     };
@@ -147,7 +134,6 @@ describe('renameFile', () => {
                 });
 
                 it('asks to overwrite destination file', () => {
-
                     const message = `File '${targetFile}' already exists.`;
                     const action = 'Overwrite';
                     const options = { modal: true };
@@ -158,43 +144,36 @@ describe('renameFile', () => {
                 });
 
                 describe('responding with delete', () => {
-
                     it('overwrites the existing file', () => {
-
                         return renameFile().then(() => {
                             const fileContent = fs.readFileSync(targetFile).toString();
                             expect(fileContent).to.equal('class FileOne; end');
                         });
                     });
-
                 });
 
                 describe('responding with no', () => {
-
                     beforeEach(() => {
                         const stub: any = window.showInformationMessage;
                         stub.returns(Promise.resolve(false));
                         return Promise.resolve();
                     });
 
-                    it('leaves existing file untouched', () => {
-
-                        return renameFile().then(() => {
+                    it('leaves existing file untouched', async () => {
+                        try {
+                            await renameFile();
+                            fail('must fail');
+                        } catch (e) {
                             const fileContent = fs.readFileSync(targetFile).toString();
                             expect(fileContent).to.equal('class FileTwo; end');
-                        });
+                        }
                     });
-
                 });
-
             });
-
         });
 
         describe('with no open text document', () => {
-
             beforeEach(() => {
-
                 const closeAllEditors = () => {
                     return commands.executeCommand('workbench.action.closeAllEditors');
                 };
@@ -216,50 +195,11 @@ describe('renameFile', () => {
             });
 
             it('ignores the command call', () => {
-
                 return renameFile().catch(() => {
                     // tslint:disable-next-line:no-unused-expression
                     expect(window.showInputBox).to.have.not.been.called;
                 });
             });
-
         });
-
     });
-
-    describe('error handling', () => {
-
-        beforeEach(() => {
-            sinon.stub(controller, 'showDialog').returns(Promise.reject('must fail'));
-            sinon.stub(window, 'showErrorMessage');
-            return Promise.resolve();
-        });
-
-        afterEach(() => {
-
-            const restoreShowMoveFileDialog = () => {
-                const stub: any = controller.showDialog;
-                return Promise.resolve(stub.restore());
-            };
-
-            const restoreShowErrorMessage = () => {
-                const stub: any = window.showErrorMessage;
-                return Promise.resolve(stub.restore());
-            };
-
-            return Promise.all([
-                restoreShowMoveFileDialog(),
-                restoreShowErrorMessage()
-            ]);
-        });
-
-        it('shows an error message', () => {
-
-            return renameFile().catch((err) => {
-                expect(window.showErrorMessage).to.have.been.calledWithExactly('must fail');
-            });
-        });
-
-    });
-
 });

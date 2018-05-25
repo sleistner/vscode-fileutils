@@ -34,7 +34,7 @@
     "onCommand:fileutils.newFolder",
     "onCommand:fileutils.newFolderAtRoot"
   ],
-  "main": "./out/src",
+  "main": "./out/src/extension",
   "contributes": {
     "commands": [
       {

@@ -65,5 +65,4 @@ export class FileItem {
     private async ensureDir(): Promise<any> {
         return fs.ensureDir(path.dirname(this.targetPath));
     }
-
 }

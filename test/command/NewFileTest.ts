@@ -1,26 +1,12 @@
 import * as retry from 'bluebird-retry';
-import {
-    expect,
-    use as chaiUse
-} from 'chai';
+import { expect, use as chaiUse } from 'chai';
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-
-import {
-    commands,
-    TextEditor,
-    Uri,
-    window,
-    workspace
-} from 'vscode';
-
-import {
-    controller,
-    newFile
-} from '../../src/extension/commands';
+import { commands, TextEditor, Uri, window, workspace } from 'vscode';
+import { controller, newFile } from '../../src/command/NewFileCommand';
 
 chaiUse(sinonChai);
 
@@ -147,19 +133,6 @@ describe('newFile', () => {
             });
         });
 
-        // FIXME: controller#showNewFileDialog workspace root is undefined for some reason
-        // describe('relative to project root', () => {
-
-        //     it('create file at destination', () => {
-
-        //         return newFile({ relativeToRoot: true }).then(() => {
-        //             const message = `${targetFile} does not exist`;
-        //             expect(fs.existsSync(targetFile), message).to.be.true;
-        //         });
-        //     });
-
-        // });
-
         describe('when target destination exists', () => {
 
             beforeEach(() => {
@@ -266,15 +239,15 @@ describe('newFile', () => {
     describe('error handling', () => {
 
         beforeEach(() => {
-            sinon.stub(controller, 'showNewFileDialog').returns(Promise.reject('must fail'));
+            sinon.stub(controller, 'showDialog').returns(Promise.reject('must fail'));
             sinon.stub(window, 'showErrorMessage');
             return Promise.resolve();
         });
 
         afterEach(() => {
 
-            const restoreShowNewFileDialog = () => {
-                const stub: any = controller.showNewFileDialog;
+            const restoreShowDialog = () => {
+                const stub: any = controller.showDialog;
                 return Promise.resolve(stub.restore());
             };
 
@@ -284,7 +257,7 @@ describe('newFile', () => {
             };
 
             return Promise.all([
-                restoreShowNewFileDialog(),
+                restoreShowDialog(),
                 restoreShowErrorMessage()
             ]);
         });

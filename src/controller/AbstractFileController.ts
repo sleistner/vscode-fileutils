@@ -2,7 +2,19 @@ import * as fs from 'fs';
 import { commands, TextDocument, TextEditor, ViewColumn, window, workspace, WorkspaceConfiguration } from 'vscode';
 import { FileItem } from '../Item';
 
+export interface IDialogOptions {
+    prompt: string;
+}
+
+export interface IExecuteOptions {
+    fileItem: FileItem;
+}
+
 export abstract class AbstractFileController {
+
+    public abstract async showDialog(options?: IDialogOptions): Promise<FileItem>;
+
+    public abstract async execute(options: IExecuteOptions): Promise<FileItem>;
 
     public async openFileInEditor(fileItem: FileItem): Promise<TextEditor> {
         const isDir = fs.statSync(fileItem.path).isDirectory();

@@ -5,6 +5,6 @@ export const controller = new MoveFileController();
 
 export async function moveFile(uri?: Uri) {
     const fileItem = await controller.showDialog({ prompt: 'New Location', showFullPath: true, uri });
-    await controller.move(fileItem);
+    await controller.execute({ fileItem });
     return controller.openFileInEditor(fileItem);
 }

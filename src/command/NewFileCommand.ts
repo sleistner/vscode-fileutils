@@ -14,7 +14,7 @@ export async function newFile(options?: INewFileOptions) {
     const { relativeToRoot = false } = options || {};
 
     const fileItem = await controller.showDialog({ prompt: 'File Name', relativeToRoot });
-    const newFileItem = await controller.create({ fileItem });
+    const newFileItem = await controller.execute({ fileItem });
     return controller.openFileInEditor(newFileItem);
 }
 
@@ -26,7 +26,7 @@ export async function newFolder(options?: INewFolderOptions) {
     const { relativeToRoot = false } = options || {};
 
     const fileItem = await controller.showDialog({ prompt: 'Folder Name', relativeToRoot });
-    return controller.create({ fileItem, isDir: true });
+    return controller.execute({ fileItem, isDir: true });
 }
 
 export function newFolderAtRoot() {

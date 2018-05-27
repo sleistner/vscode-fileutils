@@ -4,6 +4,6 @@ export const controller = new RemoveFileController();
 
 export async function removeFile() {
     const fileItem = await controller.showDialog();
-    await controller.remove(fileItem);
+    await controller.execute({ fileItem });
     return controller.closeCurrentFileEditor();
 }

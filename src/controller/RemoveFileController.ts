@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { window } from 'vscode';
 import { FileItem } from '../Item';
-import { AbstractFileController } from './AbstractFileController';
+import { AbstractFileController, IExecuteOptions } from './AbstractFileController';
 
 export class RemoveFileController extends AbstractFileController {
 
@@ -24,7 +24,8 @@ export class RemoveFileController extends AbstractFileController {
         }
     }
 
-    public async remove(fileItem: FileItem): Promise<FileItem> {
+    public async execute(options: IExecuteOptions): Promise<FileItem> {
+        const { fileItem } = options;
         try {
             await fileItem.remove(this.useTrash);
         } catch (e) {

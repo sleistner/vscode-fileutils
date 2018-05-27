@@ -1,15 +1,13 @@
 import * as path from 'path';
 import { window, workspace, WorkspaceFolder } from 'vscode';
 import { FileItem } from '../Item';
-import { AbstractFileController } from './AbstractFileController';
+import { AbstractFileController, IDialogOptions, IExecuteOptions } from './AbstractFileController';
 
-export interface INewFileDialogOptions {
-    prompt: string;
+export interface INewFileDialogOptions extends IDialogOptions {
     relativeToRoot?: boolean;
 }
 
-export interface ICreateOptions {
-    fileItem: FileItem;
+export interface ICreateOptions extends IExecuteOptions {
     isDir?: boolean;
 }
 
@@ -36,7 +34,7 @@ export class NewFileController extends AbstractFileController {
         }
     }
 
-    public async create(options: ICreateOptions): Promise<FileItem> {
+    public async execute(options: ICreateOptions): Promise<FileItem> {
         const { fileItem, isDir = false } = options;
         await this.ensureWritableFile(fileItem);
         try {

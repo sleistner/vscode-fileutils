@@ -123,8 +123,7 @@
     "watch": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "npm run compile && node ./node_modules/vscode/bin/test",
-    "lint": "tslint -e './node_modules/**/*.ts' -e './typings/**/*.ts' './**/*.ts'",
-    "validate": "nsp check"
+    "lint": "tslint -e './node_modules/**/*.ts' -e './typings/**/*.ts' './**/*.ts'"
   },
   "devDependencies": {
     "@types/bluebird-retry": "0.11.1",
@@ -136,7 +135,6 @@
     "bluebird-retry": "^0.11.0",
     "chai": "^4.1.2",
     "hoek": "^5.0.3",
-    "nsp": "^3.2.1",
     "precommit-hook-eslint": "^3.0.0",
     "sinon": "^5.0.4",
     "sinon-chai": "^3.0.0",
@@ -153,7 +151,6 @@
   },
   "pre-commit": [
     "lint",
-    "validate",
     "test"
   ]
 }

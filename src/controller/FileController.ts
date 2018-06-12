@@ -1,17 +1,17 @@
 import { TextEditor } from 'vscode';
 import { FileItem } from '../Item';
 
-export interface DialogOptions {
+export interface IDialogOptions {
     prompt: string;
 }
 
-export interface ExecuteOptions {
+export interface IExecuteOptions {
     fileItem: FileItem;
 }
 
-export interface FileController {
-    showDialog<T extends DialogOptions>(options?: T): Promise<FileItem>;
-    execute<T extends ExecuteOptions>(options: T): Promise<FileItem>;
+export interface IFileController {
+    showDialog(options?: IDialogOptions): Promise<FileItem>;
+    execute(options: IExecuteOptions): Promise<FileItem>;
     openFileInEditor(fileItem: FileItem): Promise<TextEditor>;
     closeCurrentFileEditor(): Promise<any>;
 }

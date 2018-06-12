@@ -2,19 +2,19 @@ import * as path from 'path';
 import { window, workspace, WorkspaceFolder } from 'vscode';
 import { FileItem } from '../Item';
 import { AbstractFileController } from './AbstractFileController';
-import { DialogOptions, ExecuteOptions } from './FileController';
+import { IDialogOptions, IExecuteOptions } from './FileController';
 
-export interface NewFileDialogOptions extends DialogOptions {
+export interface INewFileDialogOptions extends IDialogOptions {
     relativeToRoot?: boolean;
 }
 
-export interface CreateOptions extends ExecuteOptions {
+export interface INewFileExecuteOptions extends IExecuteOptions {
     isDir?: boolean;
 }
 
 export class NewFileController extends AbstractFileController {
 
-    public async showDialog(options: NewFileDialogOptions): Promise<FileItem> {
+    public async showDialog(options: INewFileDialogOptions): Promise<FileItem> {
         const { prompt, relativeToRoot = false } = options;
         const workspaceFolders: WorkspaceFolder[] = workspace.workspaceFolders;
         let sourcePath = workspaceFolders && workspaceFolders[0].uri.toString();
@@ -35,7 +35,7 @@ export class NewFileController extends AbstractFileController {
         }
     }
 
-    public async execute(options: CreateOptions): Promise<FileItem> {
+    public async execute(options: INewFileExecuteOptions): Promise<FileItem> {
         const { fileItem, isDir = false } = options;
         await this.ensureWritableFile(fileItem);
         try {

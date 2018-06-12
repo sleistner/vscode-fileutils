@@ -2,16 +2,16 @@ import * as path from 'path';
 import { Uri, window } from 'vscode';
 import { FileItem } from '../Item';
 import { AbstractFileController } from './AbstractFileController';
-import { DialogOptions, ExecuteOptions } from './FileController';
+import { IDialogOptions, IExecuteOptions } from './FileController';
 
-export interface MoveFileDialogOptions extends DialogOptions {
+export interface IMoveFileDialogOptions extends IDialogOptions {
     showFullPath?: boolean;
     uri?: Uri;
 }
 
 export class MoveFileController extends AbstractFileController {
 
-    public async showDialog(options: MoveFileDialogOptions): Promise<FileItem> {
+    public async showDialog(options: IMoveFileDialogOptions): Promise<FileItem> {
         const { prompt, showFullPath = false, uri = null } = options;
         const sourcePath = uri && uri.fsPath || this.sourcePath;
 
@@ -28,7 +28,7 @@ export class MoveFileController extends AbstractFileController {
         }
     }
 
-    public async execute(options: ExecuteOptions): Promise<FileItem> {
+    public async execute(options: IExecuteOptions): Promise<FileItem> {
         const { fileItem } = options;
         await this.ensureWritableFile(fileItem);
         return fileItem.move();

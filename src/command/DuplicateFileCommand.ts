@@ -1,10 +1,12 @@
 import { Uri } from 'vscode';
-import { DuplicateFileController, FileController } from '../controller';
+import { DuplicateFileController, IFileController } from '../controller';
+import { IMoveFileDialogOptions } from '../controller/MoveFileController';
 
-export const controller: FileController = new DuplicateFileController();
+export const controller: IFileController = new DuplicateFileController();
 
 export async function duplicateFile(uri?: Uri) {
-    const fileItem = await controller.showDialog({ prompt: 'Duplicate As', showFullPath: true, uri });
+    const dialogOptions: IMoveFileDialogOptions = { prompt: 'Duplicate As', showFullPath: true, uri };
+    const fileItem = await controller.showDialog(dialogOptions);
     const copiedFileItem = await controller.execute({ fileItem });
     return controller.openFileInEditor(copiedFileItem);
 }

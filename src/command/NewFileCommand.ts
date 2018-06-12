@@ -1,20 +1,22 @@
 import { NewFileController } from '../controller';
-import { FileController } from '../controller/';
+import { IFileController } from '../controller/';
+import { INewFileDialogOptions, INewFileExecuteOptions } from '../controller/NewFileController';
 
-export interface NewFileOptions {
+export interface INewFileOptions {
     relativeToRoot?: boolean;
 }
 
-export interface NewFolderOptions {
+export interface INewFolderOptions {
     relativeToRoot?: boolean;
 }
 
-export const controller: FileController = new NewFileController();
+export const controller: IFileController = new NewFileController();
 
-export async function newFile(options?: NewFileOptions) {
+export async function newFile(options?: INewFileOptions) {
     const { relativeToRoot = false } = options || {};
 
-    const fileItem = await controller.showDialog({ prompt: 'File Name', relativeToRoot });
+    const dialogOptions: INewFileDialogOptions = { prompt: 'File Name', relativeToRoot };
+    const fileItem = await controller.showDialog(dialogOptions);
     const newFileItem = await controller.execute({ fileItem });
     return controller.openFileInEditor(newFileItem);
 }
@@ -23,11 +25,13 @@ export function newFileAtRoot() {
     return newFile({ relativeToRoot: true });
 }
 
-export async function newFolder(options?: NewFolderOptions) {
+export async function newFolder(options?: INewFolderOptions) {
     const { relativeToRoot = false } = options || {};
 
-    const fileItem = await controller.showDialog({ prompt: 'Folder Name', relativeToRoot });
-    return controller.execute({ fileItem, isDir: true });
+    const dialogOptions: INewFileDialogOptions = { prompt: 'Folder Name', relativeToRoot };
+    const fileItem = await controller.showDialog(dialogOptions);
+    const executeOptions: INewFileExecuteOptions = { fileItem, isDir: true };
+    return controller.execute(executeOptions);
 }
 
 export function newFolderAtRoot() {

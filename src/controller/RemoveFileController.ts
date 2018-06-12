@@ -1,7 +1,8 @@
 import * as path from 'path';
 import { window } from 'vscode';
 import { FileItem } from '../Item';
-import { AbstractFileController, ExecuteOptions } from './AbstractFileController';
+import { AbstractFileController } from './AbstractFileController';
+import { ExecuteOptions } from './FileController';
 
 export class RemoveFileController extends AbstractFileController {
 

@@ -1,20 +1,14 @@
+import { DialogOptions, ExecuteOptions, FileController } from './FileController';
+
 import * as fs from 'fs';
 import { commands, TextDocument, TextEditor, ViewColumn, window, workspace, WorkspaceConfiguration } from 'vscode';
 import { FileItem } from '../Item';
 
-export interface IDialogOptions {
-    prompt: string;
-}
+export abstract class AbstractFileController implements FileController {
 
-export interface IExecuteOptions {
-    fileItem: FileItem;
-}
+    public abstract async showDialog(options?: DialogOptions): Promise<FileItem>;
 
-export abstract class AbstractFileController {
-
-    public abstract async showDialog(options?: IDialogOptions): Promise<FileItem>;
-
-    public abstract async execute(options: IExecuteOptions): Promise<FileItem>;
+    public abstract async execute(options: ExecuteOptions): Promise<FileItem>;
 
     public async openFileInEditor(fileItem: FileItem): Promise<TextEditor> {
         const isDir = fs.statSync(fileItem.path).isDirectory();

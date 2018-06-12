@@ -1,7 +1,7 @@
 import { Uri } from 'vscode';
-import { MoveFileController } from '../controller';
+import { FileController, MoveFileController } from '../controller';
 
-export const controller = new MoveFileController();
+export const controller: FileController = new MoveFileController();
 
 export async function moveFile(uri?: Uri) {
     const fileItem = await controller.showDialog({ prompt: 'New Location', showFullPath: true, uri });

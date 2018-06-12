@@ -1,6 +1,10 @@
 {
   "extends": "tslint:latest",
   "rules": {
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
     "quotemark": [
       true,
       "single"

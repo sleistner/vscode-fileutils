@@ -1,7 +1,7 @@
 import { Uri } from 'vscode';
-import { DuplicateFileController } from '../controller';
+import { DuplicateFileController, FileController } from '../controller';
 
-export const controller = new DuplicateFileController();
+export const controller: FileController = new DuplicateFileController();
 
 export async function duplicateFile(uri?: Uri) {
     const fileItem = await controller.showDialog({ prompt: 'Duplicate As', showFullPath: true, uri });

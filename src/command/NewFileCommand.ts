@@ -1,16 +1,17 @@
 import { NewFileController } from '../controller';
+import { FileController } from '../controller/';
 
-export interface INewFileOptions {
+export interface NewFileOptions {
     relativeToRoot?: boolean;
 }
 
-export interface INewFolderOptions {
+export interface NewFolderOptions {
     relativeToRoot?: boolean;
 }
 
-export const controller = new NewFileController();
+export const controller: FileController = new NewFileController();
 
-export async function newFile(options?: INewFileOptions) {
+export async function newFile(options?: NewFileOptions) {
     const { relativeToRoot = false } = options || {};
 
     const fileItem = await controller.showDialog({ prompt: 'File Name', relativeToRoot });
@@ -22,7 +23,7 @@ export function newFileAtRoot() {
     return newFile({ relativeToRoot: true });
 }
 
-export async function newFolder(options?: INewFolderOptions) {
+export async function newFolder(options?: NewFolderOptions) {
     const { relativeToRoot = false } = options || {};
 
     const fileItem = await controller.showDialog({ prompt: 'Folder Name', relativeToRoot });

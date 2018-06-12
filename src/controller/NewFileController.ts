@@ -1,29 +1,30 @@
 import * as path from 'path';
 import { window, workspace, WorkspaceFolder } from 'vscode';
 import { FileItem } from '../Item';
-import { AbstractFileController, IDialogOptions, IExecuteOptions } from './AbstractFileController';
+import { AbstractFileController } from './AbstractFileController';
+import { DialogOptions, ExecuteOptions } from './FileController';
 
-export interface INewFileDialogOptions extends IDialogOptions {
+export interface NewFileDialogOptions extends DialogOptions {
     relativeToRoot?: boolean;
 }
 
-export interface ICreateOptions extends IExecuteOptions {
+export interface CreateOptions extends ExecuteOptions {
     isDir?: boolean;
 }
 
 export class NewFileController extends AbstractFileController {
 
-    public async showDialog(options: INewFileDialogOptions): Promise<FileItem> {
+    public async showDialog(options: NewFileDialogOptions): Promise<FileItem> {
         const { prompt, relativeToRoot = false } = options;
         const workspaceFolders: WorkspaceFolder[] = workspace.workspaceFolders;
         let sourcePath = workspaceFolders && workspaceFolders[0].uri.toString();
 
-        if (!relativeToRoot && this.sourcePath) {
-            sourcePath = path.dirname(this.sourcePath);
-        }
-
         if (!sourcePath) {
             throw new Error();
+        }
+
+        if (!relativeToRoot) {
+            sourcePath = path.dirname(this.sourcePath);
         }
 
         const targetPath = await window.showInputBox({ prompt });
@@ -34,7 +35,7 @@ export class NewFileController extends AbstractFileController {
         }
     }
 
-    public async execute(options: ICreateOptions): Promise<FileItem> {
+    public async execute(options: CreateOptions): Promise<FileItem> {
         const { fileItem, isDir = false } = options;
         await this.ensureWritableFile(fileItem);
         try {

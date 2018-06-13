@@ -143,11 +143,12 @@
     "vscode": "^1.1.14"
   },
   "dependencies": {
+    "@types/bluebird": "^3.5.20",
+    "@types/fs-extra": "^5.0.1",
+    "@types/trash": "^4.3.0",
     "bluebird": "^3.5.1",
     "fs-extra": "^6.0.0",
-    "trash": "^4.3.0",
-    "@types/fs-extra": "^5.0.1",
-    "@types/bluebird": "^3.5.20"
+    "trash": "^4.3.0"
   },
   "pre-commit": [
     "lint",

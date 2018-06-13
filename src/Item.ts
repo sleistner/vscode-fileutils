@@ -1,20 +1,11 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { workspace } from 'vscode';
 
-// tslint:disable-next-line
-const trash = require('trash');
+import trash = require('trash');
 
 export class FileItem {
 
-    private SourcePath: string;
-    private TargetPath: string;
-    private IsDir: boolean;
-
-    constructor(sourcePath: string, targetPath?: string, isDir: boolean = false) {
-        this.SourcePath = sourcePath;
-        this.TargetPath = targetPath;
-        this.IsDir = isDir;
+    constructor(private SourcePath: string, private TargetPath?: string, private IsDir: boolean = false) {
     }
 
     get path(): string {

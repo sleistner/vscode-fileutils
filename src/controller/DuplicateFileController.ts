@@ -1,10 +1,10 @@
 import { FileItem } from '../Item';
-import { ExecuteOptions } from './FileController';
+import { IExecuteOptions } from './FileController';
 import { MoveFileController } from './MoveFileController';
 
 export class DuplicateFileController extends MoveFileController {
 
-    public async execute(options: ExecuteOptions): Promise<FileItem> {
+    public async execute(options: IExecuteOptions): Promise<FileItem> {
         const { fileItem } = options;
         await this.ensureWritableFile(fileItem);
         return fileItem.duplicate();

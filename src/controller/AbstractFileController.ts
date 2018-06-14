@@ -1,7 +1,7 @@
 import { IDialogOptions, IExecuteOptions, IFileController } from './FileController';
 
 import * as fs from 'fs';
-import { commands, TextDocument, TextEditor, ViewColumn, window, workspace, WorkspaceConfiguration } from 'vscode';
+import { commands, TextDocument, TextEditor, ViewColumn, window, workspace } from 'vscode';
 import { FileItem } from '../Item';
 
 export abstract class AbstractFileController implements IFileController {
@@ -54,7 +54,4 @@ export abstract class AbstractFileController implements IFileController {
         return document && document.fileName;
     }
 
-    protected get configuration(): WorkspaceConfiguration {
-        return workspace.getConfiguration('fileutils');
-    }
 }

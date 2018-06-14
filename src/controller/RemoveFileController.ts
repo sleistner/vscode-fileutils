@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { window } from 'vscode';
 import { FileItem } from '../Item';
+import { getConfiguration } from '../lib/config';
 import { AbstractFileController } from './AbstractFileController';
 import { IExecuteOptions } from './FileController';
 
@@ -36,10 +37,10 @@ export class RemoveFileController extends AbstractFileController {
     }
 
     private get useTrash(): boolean {
-        return this.configuration.get('delete.useTrash');
+        return getConfiguration('delete.useTrash');
     }
 
     private get confirmDelete(): boolean {
-        return this.configuration.get('delete.confirm');
+        return getConfiguration('delete.confirm');
     }
 }

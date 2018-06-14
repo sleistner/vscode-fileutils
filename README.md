@@ -113,6 +113,16 @@ Nonexistent folders are created automatically.
         "type": "boolean",
         "default": true,
         "description": "Controls if it should ask for confirmation when deleting a file."
+    },
+    "fileutils.typeahead.enabled": {
+        "type": "boolean",
+        "default": true,
+        "description": "Controls if directory selector should be shown."
+    },
+    "fileutils.typeahead.exclude": {
+        "type": "array",
+        "default": [],
+        "description": "Configure glob patterns for excluding files and folders."
     }
 }
 ```

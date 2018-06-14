@@ -2,7 +2,7 @@
   "name": "vscode-fileutils",
   "displayName": "File Utils",
   "description": "A convenient way of creating, duplicating, moving, renaming and deleting files and directories.",
-  "version": "2.10.0",
+  "version": "2.10.2",
   "license": "MIT",
   "publisher": "sleistner",
   "engines": {
@@ -120,8 +120,8 @@
           "description": "Controls if directory selector should be shown."
         },
         "fileutils.typeahead.exclude": {
-          "type": "array",
-          "default": [],
+          "type": "object",
+          "default": {},
           "description": "Configure glob patterns for excluding files and folders."
         }
       }
@@ -146,7 +146,6 @@
     "@types/sinon": "^4.3.0",
     "@types/sinon-chai": "^2.7.29",
     "@types/trash": "^4.3.0",
-    "bluebird-retry": "^0.11.0",
     "chai": "^4.1.2",
     "hoek": "^5.0.3",
     "precommit-hook-eslint": "^3.0.0",
@@ -154,10 +153,11 @@
     "sinon-chai": "^3.2.0",
     "tslint": "^5.9.1",
     "typescript": "^2.8.1",
-    "vscode": "^1.1.14",
-    "vscode-cache": "^0.3.0"
+    "vscode": "^1.1.14"
   },
   "dependencies": {
+    "bluebird-retry": "^0.11.0",
+    "vscode-cache": "^0.3.0",
     "glob": "^7.1.2",
     "gitignore-to-glob": "github:patbenatar/gitignore-to-glob",
     "bluebird": "^3.5.1",

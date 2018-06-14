@@ -1,8 +1,16 @@
+## 2.10.0 (2018-06-14)
+
+### Features
+
+- `File: New File`, Autocomplete paths when creating a new file.
+[PR#48](https://github.com/sleistner/vscode-fileutils/pull/48)
+Inspired and heavily borrowed from [https://github.com/patbenatar/vscode-advanced-new-file](https://github.com/patbenatar/vscode-advanced-new-file)
+
 ## 2.9.0 (2018-05-24)
 
 ### Features
 
-- `File: New File`, Adding a trailing / to the supplied target name causes the creation of a new directory. 
+- `File: New File`, Adding a trailing / to the supplied target name causes the creation of a new directory.
 [PR#25](https://github.com/sleistner/vscode-fileutils/pull/25)
 
 ## 2.8.1 (2018-02-25)
@@ -15,8 +23,8 @@
 
 ### Features
 
-- `File: Delete`, Add configuration `fileutils.delet.useTrash` in order to move files to trash.
-- `File: Delete`, Add configuration `fileutils.delet.confirm` to toggle confirmation dialog.
+- `File: Delete`, Add configuration `fileutils.delete.useTrash` in order to move files to trash.
+- `File: Delete`, Add configuration `fileutils.delete.confirm` to toggle confirmation dialog.
 
 ## 2.7.1 (2017-10-25)
 

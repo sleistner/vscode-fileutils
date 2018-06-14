@@ -120,8 +120,8 @@
           "description": "Controls if directory selector should be shown."
         },
         "fileutils.typeahead.exclude": {
-          "type": "array",
-          "default": [],
+          "type": "object",
+          "default": {},
           "description": "Configure glob patterns for excluding files and folders."
         }
       }

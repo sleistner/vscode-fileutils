@@ -1,6 +1,9 @@
+import { TypeAheadController } from './TypeAheadController';
+
 import * as path from 'path';
 import { window, workspace, WorkspaceFolder } from 'vscode';
 import { FileItem } from '../Item';
+import { getConfiguration } from '../lib/config';
 import { AbstractFileController } from './AbstractFileController';
 import { IDialogOptions, IExecuteOptions } from './FileController';
 
@@ -17,7 +20,7 @@ export class NewFileController extends AbstractFileController {
     public async showDialog(options: INewFileDialogOptions): Promise<FileItem> {
         const { prompt, relativeToRoot = false } = options;
         const workspaceFolders: WorkspaceFolder[] = workspace.workspaceFolders;
-        let sourcePath = workspaceFolders && workspaceFolders[0].uri.toString();
+        let sourcePath = workspaceFolders && workspaceFolders[0].uri.fsPath;
 
         if (!sourcePath) {
             throw new Error();
@@ -27,7 +30,14 @@ export class NewFileController extends AbstractFileController {
             sourcePath = path.dirname(this.sourcePath);
         }
 
-        const targetPath = await window.showInputBox({ prompt });
+        if (getConfiguration('typeahead.enabled') === true) {
+            const typeAheadController = new TypeAheadController();
+            sourcePath = await typeAheadController.showDialog(sourcePath);
+        }
+
+        const value: string = path.join(sourcePath, path.sep);
+        const valueSelection: [number, number] = [value.length, value.length];
+        const targetPath = await window.showInputBox({ prompt, value, valueSelection });
         if (targetPath) {
             const isDir = targetPath.endsWith(path.sep);
             const realPath = path.resolve(sourcePath, targetPath);

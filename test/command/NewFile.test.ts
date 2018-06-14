@@ -6,8 +6,9 @@ import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import { commands, TextEditor, Uri, window, workspace } from 'vscode';
+import { commands, ExtensionContext, TextEditor, Uri, window, workspace } from 'vscode';
 import { newFile } from '../../src/command/NewFileCommand';
+import { Cache } from '../../src/lib/Cache';
 
 chaiUse(sinonChai);
 
@@ -33,6 +34,18 @@ describe('newFile', () => {
 
     describe('with open text document', () => {
         beforeEach(() => {
+            const context = {
+                globalState: {
+                    get(...args) {
+                        return {};
+                    },
+                    update(...args) {
+                        return {};
+                    }
+                }
+            };
+            Cache.context = context as ExtensionContext;
+
             const openDocument = () => {
                 const uri = Uri.file(editorFile1);
                 return workspace.openTextDocument(uri)
@@ -45,9 +58,15 @@ describe('newFile', () => {
                 return Promise.resolve();
             };
 
+            const stubShowQuickPick = () => {
+                sinon.stub(window, 'showQuickPick').returns(Promise.resolve({ label: '/' }));
+                return Promise.resolve();
+            };
+
             return Promise.all([
                 retry(() => openDocument(), { max_tries: 4, interval: 500 }),
-                stubShowInputBox()
+                stubShowInputBox(),
+                stubShowQuickPick()
             ]);
         });
 
@@ -61,16 +80,24 @@ describe('newFile', () => {
                 return Promise.resolve(stub.restore());
             };
 
+            const restoreShowQuickPick = () => {
+                const stub: any = window.showQuickPick;
+                return Promise.resolve(stub.restore());
+            };
+
             return Promise.all([
                 closeAllEditors(),
-                restoreShowInputBox()
+                restoreShowInputBox(),
+                restoreShowQuickPick()
             ]);
         });
 
         it('prompts for file destination', () => {
             return newFile().then(() => {
                 const prompt = 'File Name';
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt });
+                const value = path.join(path.dirname(editorFile1), path.sep);
+                const valueSelection = [value.length, value.length];
+                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
             });
         });
 

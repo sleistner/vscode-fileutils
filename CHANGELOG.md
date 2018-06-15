@@ -1,3 +1,9 @@
+## 2.10.3 (2018-06-15)
+
+### Fixes
+
+- `File: New File`, Show quick pick view only if more than 1 choice available.
+
 ## 2.10.0 (2018-06-14)
 
 ### Features

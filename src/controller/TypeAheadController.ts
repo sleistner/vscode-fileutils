@@ -8,6 +8,11 @@ export class TypeAheadController {
     public async showDialog(sourcePath: string): Promise<string> {
         const cache = new Cache(`workspace:${sourcePath}`);
         const choices = await this.buildChoices(sourcePath, cache);
+
+        if (choices.length < 2) {
+            return sourcePath;
+        }
+
         const item: QuickPickItem = await this.showQuickPick(choices);
 
         if (!item) {

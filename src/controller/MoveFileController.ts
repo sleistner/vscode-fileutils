@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { Uri, window } from 'vscode';
 import { FileItem } from '../Item';
-import { AbstractFileController } from './AbstractFileController';
+import { BaseFileController } from './BaseFileController';
 import { IDialogOptions, IExecuteOptions } from './FileController';
 
 export interface IMoveFileDialogOptions extends IDialogOptions {
@@ -9,7 +9,7 @@ export interface IMoveFileDialogOptions extends IDialogOptions {
     uri?: Uri;
 }
 
-export class MoveFileController extends AbstractFileController {
+export class MoveFileController extends BaseFileController {
 
     public async showDialog(options: IMoveFileDialogOptions): Promise<FileItem> {
         const { prompt, showFullPath = false, uri = null } = options;

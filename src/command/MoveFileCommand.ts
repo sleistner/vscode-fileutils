@@ -1,12 +1,19 @@
 import { Uri } from 'vscode';
 import { IFileController, MoveFileController } from '../controller';
 import { IMoveFileDialogOptions } from '../controller/MoveFileController';
+import { BaseCommand } from './BaseCommand';
 
-export const controller: IFileController = new MoveFileController();
+export class MoveFileCommand extends BaseCommand {
 
-export async function moveFile(uri?: Uri) {
-    const dialogOptions: IMoveFileDialogOptions = { prompt: 'New Location', showFullPath: true, uri };
-    const fileItem = await controller.showDialog(dialogOptions);
-    await controller.execute({ fileItem });
-    return controller.openFileInEditor(fileItem);
+    constructor(controller?: IFileController) {
+        super(controller || new MoveFileController());
+    }
+
+    public async execute(uri?: Uri) {
+        const dialogOptions: IMoveFileDialogOptions = { prompt: 'New Location', showFullPath: true, uri };
+        const fileItem = await this.controller.showDialog(dialogOptions);
+        await this.controller.execute({ fileItem });
+        return this.controller.openFileInEditor(fileItem);
+    }
+
 }

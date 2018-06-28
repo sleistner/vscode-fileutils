@@ -1,39 +1,26 @@
+import { Uri } from 'vscode';
 import { NewFileController } from '../controller';
 import { IFileController } from '../controller/';
-import { INewFileDialogOptions, INewFileExecuteOptions } from '../controller/NewFileController';
+import { INewFileDialogOptions } from '../controller/NewFileController';
+import { BaseCommand } from './BaseCommand';
 
 export interface INewFileOptions {
     relativeToRoot?: boolean;
 }
 
-export interface INewFolderOptions {
-    relativeToRoot?: boolean;
-}
+export class NewFileCommand extends BaseCommand {
 
-export const controller: IFileController = new NewFileController();
+    constructor(controller?: IFileController) {
+        super(controller || new NewFileController());
+    }
 
-export async function newFile(options?: INewFileOptions) {
-    const { relativeToRoot = false } = options || {};
+    public async execute(uri?: Uri, options?: INewFileOptions): Promise<any> {
+        const { relativeToRoot = false } = options || {};
 
-    const dialogOptions: INewFileDialogOptions = { prompt: 'File Name', relativeToRoot };
-    const fileItem = await controller.showDialog(dialogOptions);
-    const newFileItem = await controller.execute({ fileItem });
-    return controller.openFileInEditor(newFileItem);
-}
+        const dialogOptions: INewFileDialogOptions = { prompt: 'File Name', relativeToRoot };
+        const fileItem = await this.controller.showDialog(dialogOptions);
+        const newFileItem = await this.controller.execute({ fileItem });
+        return this.controller.openFileInEditor(newFileItem);
+    }
 
-export function newFileAtRoot() {
-    return newFile({ relativeToRoot: true });
-}
-
-export async function newFolder(options?: INewFolderOptions) {
-    const { relativeToRoot = false } = options || {};
-
-    const dialogOptions: INewFileDialogOptions = { prompt: 'Folder Name', relativeToRoot };
-    const fileItem = await controller.showDialog(dialogOptions);
-    const executeOptions: INewFileExecuteOptions = { fileItem, isDir: true };
-    return controller.execute(executeOptions);
-}
-
-export function newFolderAtRoot() {
-    return newFolder({ relativeToRoot: true });
 }

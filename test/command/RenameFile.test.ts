@@ -7,7 +7,7 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, TextEditor, Uri, window, workspace } from 'vscode';
-import { renameFile } from '../../src/command/RenameFileCommand';
+import { ICommand, RenameFileCommand } from '../../src/command';
 
 chaiUse(sinonChai);
 
@@ -22,7 +22,10 @@ const editorFile2 = path.resolve(tmpDir, 'file-2.rb');
 
 const targetFile = path.resolve(`${editorFile1}.tmp`);
 
-describe('renameFile', () => {
+describe('RenameFileCommand', () => {
+
+    const sut: ICommand = new RenameFileCommand();
+
     beforeEach(() => Promise.all([
         fs.remove(tmpDir),
         fs.copy(fixtureFile1, editorFile1),
@@ -68,7 +71,7 @@ describe('renameFile', () => {
             });
 
             it('prompts for file destination', () => {
-                return renameFile().then(() => {
+                return sut.execute().then(() => {
                     const prompt = 'New Name';
                     const value = path.basename(editorFile1);
                     const valueSelection = [value.length - 9, value.length - 3];
@@ -77,7 +80,7 @@ describe('renameFile', () => {
             });
 
             it('moves current file to destination', () => {
-                return renameFile().then(() => {
+                return sut.execute().then(() => {
                     const message = `${targetFile} does not exist`;
                     // tslint:disable-next-line:no-unused-expression
                     expect(fs.existsSync(targetFile), message).to.be.true;
@@ -93,7 +96,7 @@ describe('renameFile', () => {
                 });
 
                 it('creates nested directories', () => {
-                    return renameFile().then((textEditor: TextEditor) => {
+                    return sut.execute().then((textEditor: TextEditor) => {
                         const dirname = path.dirname(textEditor.document.fileName);
                         const directories: string[] = dirname.split(path.sep);
 
@@ -105,7 +108,7 @@ describe('renameFile', () => {
             });
 
             it('opens target file as active editor', () => {
-                return renameFile().then(() => {
+                return sut.execute().then(() => {
                     const activeEditor: TextEditor = window.activeTextEditor;
                     expect(activeEditor.document.fileName).to.equal(targetFile);
                 });
@@ -138,14 +141,14 @@ describe('renameFile', () => {
                     const action = 'Overwrite';
                     const options = { modal: true };
 
-                    return renameFile().then(() => {
+                    return sut.execute().then(() => {
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
 
                 describe('responding with delete', () => {
                     it('overwrites the existing file', () => {
-                        return renameFile().then(() => {
+                        return sut.execute().then(() => {
                             const fileContent = fs.readFileSync(targetFile).toString();
                             expect(fileContent).to.equal('class FileOne; end');
                         });
@@ -161,7 +164,7 @@ describe('renameFile', () => {
 
                     it('leaves existing file untouched', async () => {
                         try {
-                            await renameFile();
+                            await sut.execute();
                             fail('must fail');
                         } catch (e) {
                             const fileContent = fs.readFileSync(targetFile).toString();
@@ -195,7 +198,7 @@ describe('renameFile', () => {
             });
 
             it('ignores the command call', () => {
-                return renameFile().catch(() => {
+                return sut.execute().catch(() => {
                     // tslint:disable-next-line:no-unused-expression
                     expect(window.showInputBox).to.have.not.been.called;
                 });

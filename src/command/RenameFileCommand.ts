@@ -1,9 +1,17 @@
-import { MoveFileController } from '../controller';
+import { Uri } from 'vscode';
+import { IFileController, MoveFileController } from '../controller';
+import { BaseCommand } from './BaseCommand';
 
-export const controller = new MoveFileController();
+export class RenameFileCommand extends BaseCommand {
 
-export async function renameFile() {
-    const fileItem = await controller.showDialog({ prompt: 'New Name' });
-    const movedFileItem = await controller.execute({ fileItem });
-    return controller.openFileInEditor(movedFileItem);
+    constructor(controller?: IFileController) {
+        super(controller || new MoveFileController());
+    }
+
+    public async execute(uri?: Uri) {
+        const fileItem = await this.controller.showDialog({ prompt: 'New Name' });
+        const movedFileItem = await this.controller.execute({ fileItem });
+        return this.controller.openFileInEditor(movedFileItem);
+    }
+
 }

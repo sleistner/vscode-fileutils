@@ -4,7 +4,7 @@ import * as path from 'path';
 import { window, workspace, WorkspaceFolder } from 'vscode';
 import { FileItem } from '../Item';
 import { getConfiguration } from '../lib/config';
-import { AbstractFileController } from './AbstractFileController';
+import { BaseFileController } from './BaseFileController';
 import { IDialogOptions, IExecuteOptions } from './FileController';
 
 export interface INewFileDialogOptions extends IDialogOptions {
@@ -15,7 +15,7 @@ export interface INewFileExecuteOptions extends IExecuteOptions {
     isDir?: boolean;
 }
 
-export class NewFileController extends AbstractFileController {
+export class NewFileController extends BaseFileController {
 
     public async showDialog(options: INewFileDialogOptions): Promise<FileItem> {
         const { prompt, relativeToRoot = false } = options;

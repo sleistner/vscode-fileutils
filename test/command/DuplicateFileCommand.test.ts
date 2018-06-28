@@ -7,7 +7,8 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, TextEditor, Uri, window, workspace } from 'vscode';
-import { controller, duplicateFile } from '../../src/command/DuplicateFileCommand';
+import { ICommand } from '../../src/command/Command';
+import { DuplicateFileCommand } from '../../src/command/DuplicateFileCommand';
 
 chaiUse(sinonChai);
 
@@ -22,7 +23,9 @@ const editorFile2 = path.resolve(tmpDir, 'file-2.rb');
 
 const targetFile = path.resolve(`${editorFile1}.tmp`);
 
-describe('duplicateFile', () => {
+describe('DuplicateFileCommand', () => {
+
+    const sut: ICommand = new DuplicateFileCommand();
 
     beforeEach(() => Promise.all([
         fs.remove(tmpDir),
@@ -74,7 +77,7 @@ describe('duplicateFile', () => {
 
             it('prompts for file destination', () => {
 
-                return duplicateFile().then(() => {
+                return sut.execute().then(() => {
                     const prompt = 'Duplicate As';
                     const value = editorFile1;
                     const valueSelection = [value.length - 9, value.length - 3];
@@ -85,7 +88,7 @@ describe('duplicateFile', () => {
 
             it('moves current file to destination', () => {
 
-                return duplicateFile().then(() => {
+                return sut.execute().then(() => {
                     const message = `${targetFile} does not exist`;
                     // tslint:disable-next-line:no-unused-expression
                     expect(fs.existsSync(targetFile), message).to.be.true;
@@ -103,7 +106,7 @@ describe('duplicateFile', () => {
 
                 it('creates nested directories', () => {
 
-                    return duplicateFile().then((textEditor: TextEditor) => {
+                    return sut.execute().then((textEditor: TextEditor) => {
                         const dirname = path.dirname(textEditor.document.fileName);
                         const directories: string[] = dirname.split(path.sep);
 
@@ -117,7 +120,7 @@ describe('duplicateFile', () => {
 
             it('opens target file as active editor', () => {
 
-                return duplicateFile().then(() => {
+                return sut.execute().then(() => {
                     const activeEditor: TextEditor = window.activeTextEditor;
                     expect(activeEditor.document.fileName).to.equal(targetFile);
                 });
@@ -153,7 +156,7 @@ describe('duplicateFile', () => {
                     const action = 'Overwrite';
                     const options = { modal: true };
 
-                    return duplicateFile().then(() => {
+                    return sut.execute().then(() => {
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
@@ -162,7 +165,7 @@ describe('duplicateFile', () => {
 
                     it('overwrites the existig file', () => {
 
-                        return duplicateFile().then(() => {
+                        return sut.execute().then(() => {
                             const fileContent = fs.readFileSync(targetFile).toString();
                             expect(fileContent).to.equal('class FileOne; end');
                         });
@@ -180,7 +183,7 @@ describe('duplicateFile', () => {
 
                     it('leaves existing file untouched', async () => {
                         try {
-                            await duplicateFile();
+                            await sut.execute();
                             fail('must fail');
                         } catch (e) {
                             const fileContent = fs.readFileSync(targetFile).toString();
@@ -220,7 +223,7 @@ describe('duplicateFile', () => {
 
             it('ignores the command call', () => {
 
-                return duplicateFile().catch(() => {
+                return sut.execute().catch(() => {
                     // tslint:disable-next-line:no-unused-expression
                     expect(window.showInputBox).to.have.not.been.called;
                 });
@@ -244,7 +247,7 @@ describe('duplicateFile', () => {
 
         it('prompts for file destination', () => {
 
-            return duplicateFile(Uri.file(editorFile1)).then(() => {
+            return sut.execute(Uri.file(editorFile1)).then(() => {
                 const prompt = 'Duplicate As';
                 const value = editorFile1;
                 const valueSelection = [value.length - 9, value.length - 3];
@@ -255,7 +258,7 @@ describe('duplicateFile', () => {
 
         it('duplicates current file to destination', () => {
 
-            return duplicateFile(Uri.file(editorFile1)).then(() => {
+            return sut.execute(Uri.file(editorFile1)).then(() => {
                 const message = `${targetFile} does not exist`;
                 // tslint:disable-next-line:no-unused-expression
                 expect(fs.existsSync(targetFile), message).to.be.true;
@@ -264,7 +267,7 @@ describe('duplicateFile', () => {
 
         it('opens target file as active editor', () => {
 
-            return duplicateFile(Uri.file(editorFile1)).then(() => {
+            return sut.execute(Uri.file(editorFile1)).then(() => {
                 const activeEditor: TextEditor = window.activeTextEditor;
                 expect(activeEditor.document.fileName).to.equal(targetFile);
             });

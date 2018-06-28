@@ -7,7 +7,7 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, TextEditor, Uri, window, workspace } from 'vscode';
-import { removeFile } from '../../src/command/RemoveFileCommand';
+import { ICommand, RemoveFileCommand } from '../../src/command';
 
 chaiUse(sinonChai);
 
@@ -17,7 +17,10 @@ const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test--remove-file');
 const fixtureFile = path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb');
 const editorFile = path.resolve(tmpDir, 'file-1.rb');
 
-describe('removeFile', () => {
+describe('RemoveFileCommand', () => {
+
+    const sut: ICommand = new RemoveFileCommand();
+
     beforeEach(() => Promise.all([
         fs.remove(tmpDir),
         fs.copy(fixtureFile, editorFile),
@@ -81,7 +84,7 @@ describe('removeFile', () => {
                         const action = 'Delete';
                         const options = { modal: true };
 
-                        await removeFile();
+                        await sut.execute();
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
@@ -97,7 +100,7 @@ describe('removeFile', () => {
                         const action = 'Move to Trash';
                         const options = { modal: true };
 
-                        await removeFile();
+                        await sut.execute();
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
@@ -105,7 +108,7 @@ describe('removeFile', () => {
 
             describe('responding with delete', () => {
                 it('deletes the file', () => {
-                    return removeFile().then(() => {
+                    return sut.execute().then(() => {
                         const message = `${editorFile} does exist`;
                         // tslint:disable-next-line:no-unused-expression
                         expect(fs.existsSync(editorFile), message).to.be.false;
@@ -120,7 +123,7 @@ describe('removeFile', () => {
 
                 it('leaves the file untouched', async () => {
                     try {
-                        await removeFile();
+                        await sut.execute();
                         fail('must fail');
                     } catch (e) {
                         const message = `${editorFile} does not exist`;
@@ -141,7 +144,7 @@ describe('removeFile', () => {
                 });
 
                 it('deletes the file without confirmation', async () => {
-                    await removeFile();
+                    await sut.execute();
                     // tslint:disable-next-line:no-unused-expression
                     expect(window.showInformationMessage).to.have.not.been.called;
                     // tslint:disable-next-line:no-unused-expression
@@ -153,7 +156,7 @@ describe('removeFile', () => {
                 let activeEditor: TextEditor;
 
                 const retryable = async () => {
-                    await removeFile();
+                    await sut.execute();
                     activeEditor = window.activeTextEditor;
 
                     if (activeEditor) {
@@ -189,7 +192,7 @@ describe('removeFile', () => {
             });
 
             it('ignores the command call', () => {
-                return removeFile().catch(() => {
+                return sut.execute().catch(() => {
                     // tslint:disable-next-line:no-unused-expression
                     expect(window.showInformationMessage).to.have.not.been.called;
                 });

@@ -1,5 +1,9 @@
-export { newFile, newFileAtRoot, newFolder, newFolderAtRoot } from './NewFileCommand';
-export { moveFile } from './MoveFileCommand';
-export { renameFile } from './RenameFileCommand';
-export { duplicateFile } from './DuplicateFileCommand';
-export { removeFile } from './RemoveFileCommand';
+export { NewFileCommand } from './NewFileCommand';
+export { NewFileAtRootCommand } from './NewFileAtRootCommand';
+export { NewFolderCommand } from './NewFolderCommand';
+export { NewFolderAtRootCommand } from './NewFolderAtRootCommand';
+export { RenameFileCommand } from './RenameFileCommand';
+export { RemoveFileCommand } from './RemoveFileCommand';
+export { DuplicateFileCommand } from './DuplicateFileCommand';
+export { MoveFileCommand } from './MoveFileCommand';
+export { ICommand } from './Command';

@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { commands, TextDocument, TextEditor, ViewColumn, window, workspace } from 'vscode';
 import { FileItem } from '../Item';
 
-export abstract class AbstractFileController implements IFileController {
+export abstract class BaseFileController implements IFileController {
 
     public abstract async showDialog(options?: IDialogOptions): Promise<FileItem>;
 

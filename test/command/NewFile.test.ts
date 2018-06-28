@@ -7,7 +7,7 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, ExtensionContext, TextEditor, Uri, window, workspace } from 'vscode';
-import { newFile } from '../../src/command/NewFileCommand';
+import { ICommand, NewFileCommand } from '../../src/command';
 import { Cache } from '../../src/lib/Cache';
 
 chaiUse(sinonChai);
@@ -23,7 +23,10 @@ const editorFile2 = path.resolve(tmpDir, 'file-2.rb');
 
 const targetFile = path.resolve(`${editorFile1}.tmp`);
 
-describe('newFile', () => {
+describe('NewFileCommand', () => {
+
+    const sut: ICommand = new NewFileCommand();
+
     beforeEach(() => Promise.all([
         fs.remove(tmpDir),
         fs.copy(fixtureFile1, editorFile1),
@@ -93,7 +96,7 @@ describe('newFile', () => {
         });
 
         it('prompts for file destination', () => {
-            return newFile().then(() => {
+            return sut.execute().then(() => {
                 const prompt = 'File Name';
                 const value = path.join(path.dirname(editorFile1), path.sep);
                 const valueSelection = [value.length, value.length];
@@ -102,7 +105,7 @@ describe('newFile', () => {
         });
 
         it('create file at destination', () => {
-            return newFile().then(() => {
+            return sut.execute().then(() => {
                 const message = `${targetFile} does not exist`;
                 // tslint:disable-next-line:no-unused-expression
                 expect(fs.existsSync(targetFile), message).to.be.true;
@@ -117,7 +120,7 @@ describe('newFile', () => {
             });
 
             it('create directory at destination', async () => {
-                await newFile();
+                await sut.execute();
                 // tslint:disable-next-line:no-unused-expression
                 expect(fs.statSync(targetFile).isDirectory(), `${targetFile} must be a directory`).to.be.true;
             });
@@ -131,7 +134,7 @@ describe('newFile', () => {
             });
 
             it('creates nested directories', () => {
-                return newFile().then((textEditor: TextEditor) => {
+                return sut.execute().then((textEditor: TextEditor) => {
                     const dirname = path.dirname(textEditor.document.fileName);
                     const directories: string[] = dirname.split(path.sep);
 
@@ -143,7 +146,7 @@ describe('newFile', () => {
         });
 
         it('opens new file as active editor', () => {
-            return newFile().then(() => {
+            return sut.execute().then(() => {
                 const activeEditor: TextEditor = window.activeTextEditor;
                 expect(activeEditor.document.fileName).to.equal(targetFile);
             });
@@ -176,14 +179,14 @@ describe('newFile', () => {
                 const action = 'Overwrite';
                 const options = { modal: true };
 
-                return newFile().then(() => {
+                return sut.execute().then(() => {
                     expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                 });
             });
 
             describe('responding with yes', () => {
                 it('overwrites the existig file', async () => {
-                    await newFile();
+                    await sut.execute();
                     const fileContent = fs.readFileSync(targetFile).toString();
                     expect(fileContent).to.equal('');
                 });
@@ -198,7 +201,7 @@ describe('newFile', () => {
 
                 it('leaves existing file untouched', async () => {
                     try {
-                        await newFile();
+                        await sut.execute();
                         fail('must fail');
                     } catch (e) {
                         const fileContent = fs.readFileSync(targetFile).toString();
@@ -224,7 +227,7 @@ describe('newFile', () => {
 
         it('ignores the command call', async () => {
             try {
-                await newFile();
+                await sut.execute();
                 fail('must fail');
             } catch (e) {
                 // tslint:disable-next-line:no-unused-expression

@@ -2,7 +2,7 @@
   "name": "vscode-fileutils",
   "displayName": "File Utils",
   "description": "A convenient way of creating, duplicating, moving, renaming and deleting files and directories.",
-  "version": "2.10.4",
+  "version": "2.11.0",
   "license": "MIT",
   "publisher": "sleistner",
   "engines": {
@@ -87,6 +87,14 @@
         {
           "command": "fileutils.duplicateFile",
           "group": "edit"
+        },
+        {
+          "command": "fileutils.newFileAtRoot",
+          "group": "edit"
+        },
+        {
+          "command": "fileutils.newFolderAtRoot",
+          "group": "edit"
         }
       ],
       "editor/context": [
@@ -100,23 +108,6 @@
         }
       ]
     },
-    "menus": {
-			"explorer/context": [
-				{
-					"command": "fileutils.duplicateFile",
-					"group": "edit"
-				},
-				{
-					"command": "fileutils.newFileAtRoot",
-					"group": "edit"
-				},
-				{
-					"command": "fileutils.newFolderAtRoot",
-					"group": "edit"
-				}
-			]
-
-		},
     "configuration": {
       "type": "object",
       "title": "Fileutils configuration",

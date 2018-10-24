@@ -3,6 +3,7 @@ import { IDialogOptions, IExecuteOptions, IFileController } from './FileControll
 import * as fs from 'fs';
 import { commands, TextDocument, TextEditor, ViewColumn, window, workspace } from 'vscode';
 import { FileItem } from '../Item';
+import { Util } from '../Util';
 
 export abstract class BaseFileController implements IFileController {
 
@@ -48,10 +49,7 @@ export abstract class BaseFileController implements IFileController {
     }
 
     protected get sourcePath(): string {
-        const activeEditor: TextEditor = window.activeTextEditor;
-        const document: TextDocument = activeEditor && activeEditor.document;
-
-        return document && document.fileName;
+        return Util.getSourcePath();
     }
 
 }

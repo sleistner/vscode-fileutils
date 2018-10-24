@@ -15,3 +15,7 @@ export interface IFileController {
     openFileInEditor(fileItem: FileItem): Promise<TextEditor>;
     closeCurrentFileEditor(): Promise<any>;
 }
+
+export interface ICopyController {
+    execute(): Promise<void>;
+}

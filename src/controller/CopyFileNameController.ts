@@ -14,6 +14,9 @@ export class CopyFileNameController extends BaseCopyController {
         }
 
         const fileName = path.basename(sourcePath);
-        return copyAsync(fileName);
+        return copyAsync(fileName)
+        .catch(() => {
+            // Can happen on unsupported platforms (e.g Linux machine without the xclip package installed)
+        });
     }
 }

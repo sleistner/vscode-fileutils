@@ -39,6 +39,9 @@ describe('CopyFileNameCommand', () => {
 
                         expect(pasteContent).to.equal(fixtureFile1Name);
                     });
+                })
+                .catch(() => {
+                    // Suppressing errors that can be caused by unsupported platforms.
                 });
             });
         });

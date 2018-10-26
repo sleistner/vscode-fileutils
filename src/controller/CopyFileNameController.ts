@@ -1,7 +1,6 @@
 import { copy } from 'copy-paste-win32fix';
 import * as path from 'path';
 import { promisify } from 'util';
-import { window } from 'vscode';
 import { BaseCopyController } from './BaseCopyController';
 
 const copyAsync = promisify(copy);
@@ -31,8 +30,8 @@ export class CopyFileNameController extends BaseCopyController {
         // Can happen on unsupported platforms (e.g Linux machine without the xclip package installed).
         // Attempting to provide a solution according to the error received
         const errorSolution = this.possibleErrorsMap[errorMessage];
-        const warningMessageSuffix = errorSolution || errorMessage;
+        const errorMessageSuffix = errorSolution || errorMessage;
 
-        window.showWarningMessage(`${GENERIC_ERROR_MESSAGE}: ${warningMessageSuffix}`);
+        throw new Error(`${GENERIC_ERROR_MESSAGE}: ${errorMessageSuffix}`);
     }
 }

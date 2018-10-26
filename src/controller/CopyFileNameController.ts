@@ -1,4 +1,4 @@
-import { copy } from 'copy-paste';
+import { copy } from 'copy-paste-win32fix';
 import * as path from 'path';
 import { promisify } from 'util';
 import { window } from 'vscode';

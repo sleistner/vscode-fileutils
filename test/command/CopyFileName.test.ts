@@ -1,5 +1,5 @@
 import { expect, use as chaiUse } from 'chai';
-import { paste as clipboardPaste } from 'copy-paste';
+import { paste as clipboardPaste } from 'copy-paste-win32fix';
 import * as path from 'path';
 import * as sinonChai from 'sinon-chai';
 import { commands, Uri, window, workspace } from 'vscode';

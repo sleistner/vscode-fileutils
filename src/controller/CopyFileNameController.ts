@@ -1,26 +1,26 @@
 import { copy } from 'copy-paste-win32fix';
-import * as path from 'path';
 import { promisify } from 'util';
-import { BaseCopyController } from './BaseCopyController';
+import { FileItem } from '../Item';
+import { BaseFileController } from './BaseFileController';
+import { IExecuteOptions } from './FileController';
 
 const copyAsync = promisify(copy);
 
 const GENERIC_ERROR_MESSAGE = 'Could not perform copy file name to clipboard';
 
-export class CopyFileNameController extends BaseCopyController {
+export class CopyFileNameController extends BaseFileController {
     // Possible errors and their suggested solutions
     private readonly possibleErrorsMap: { [errorMessage: string]: string} = {
         'spawn xclip ENOENT': 'Please install xclip package (`apt-get install xclip`)'
     };
 
-    public async execute(): Promise<void> {
-        const sourcePath = this.sourcePath;
-        if (!sourcePath) {
-            throw new Error();
-        }
+    // Not relevant to CopyFileNameController as it need no dialog
+    public async showDialog(): Promise<FileItem> {
+        return new FileItem(this.sourcePath);
+    }
 
-        const fileName = path.basename(sourcePath);
-        return copyAsync(fileName)
+    public async execute(options: IExecuteOptions): Promise<FileItem> {
+        return copyAsync(options.fileItem.name)
         .catch((error: Error) => {
             this.handleError(error.message);
         });

@@ -8,6 +8,10 @@ export class FileItem {
     constructor(private SourcePath: string, private TargetPath?: string, private IsDir: boolean = false) {
     }
 
+    get name(): string {
+        return path.basename(this.SourcePath);
+    }
+
     get path(): string {
         return this.SourcePath;
     }

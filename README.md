@@ -69,6 +69,11 @@ Nonexistent folders are created automatically.
         "command": "fileutils.newFolderAtRoot",
         "category": "File",
         "title": "New Folder Relative to Project Root"
+    },
+    {
+        "command": "fileutils.copyFileName",
+        "category": "File",
+        "title": "Copy file name"
     }
 ]
 ```

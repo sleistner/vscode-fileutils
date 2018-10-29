@@ -5,6 +5,12 @@ import { commands, TextDocument, TextEditor, ViewColumn, window, workspace } fro
 import { FileItem } from '../Item';
 
 export abstract class BaseFileController implements IFileController {
+    public get sourcePath(): string {
+        const activeEditor: TextEditor = window.activeTextEditor;
+        const document: TextDocument = activeEditor && activeEditor.document;
+
+        return document && document.fileName;
+    }
 
     public abstract async showDialog(options?: IDialogOptions): Promise<FileItem>;
 
@@ -46,12 +52,4 @@ export abstract class BaseFileController implements IFileController {
         }
         throw new Error();
     }
-
-    protected get sourcePath(): string {
-        const activeEditor: TextEditor = window.activeTextEditor;
-        const document: TextDocument = activeEditor && activeEditor.document;
-
-        return document && document.fileName;
-    }
-
 }

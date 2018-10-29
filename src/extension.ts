@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import {
+    CopyFileNameCommand,
     DuplicateFileCommand,
     ICommand,
     MoveFileCommand,
@@ -37,4 +38,5 @@ export function activate(context: vscode.ExtensionContext) {
     register(context, new NewFileAtRootCommand(), 'newFileAtRoot');
     register(context, new NewFolderCommand(), 'newFolder');
     register(context, new NewFolderAtRootCommand(), 'newFolderAtRoot');
+    register(context, new CopyFileNameCommand(), 'copyFileName');
 }

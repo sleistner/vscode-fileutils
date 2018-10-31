@@ -10,7 +10,7 @@ export class CopyFileNameCommand extends BaseCommand {
     }
 
     public async execute(uri?: Uri) {
-        const sourcePath: string = this.controller.sourcePath;
+        const sourcePath = await this.controller.getSourcePath();
         if (!sourcePath) {
             return;
         }

@@ -7,6 +7,7 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, TextEditor, Uri, window, workspace } from 'vscode';
+import { ClipboardUtil } from '../../src/ClipboardUtil';
 import { ICommand, RemoveFileCommand } from '../../src/command';
 
 chaiUse(sinonChai);
@@ -195,6 +196,18 @@ describe('RemoveFileCommand', () => {
                 return sut.execute().catch(() => {
                     // tslint:disable-next-line:no-unused-expression
                     expect(window.showInformationMessage).to.have.not.been.called;
+                })
+                .catch((error) => {
+                    // As explained in BaseFileController.getSourcePath(),
+                    // Whenever the window.activeTextEditor doesn't exist, we attempt to retrieve the source path
+                    // with clipboard manipulations.
+                    // This can lead to errors in unsupported platforms.
+                    // Suppressing these errors in tests.
+                    if (ClipboardUtil.isClipboardRelatedError(error)) {
+                        return;
+                    }
+
+                    throw (error);
                 });
             });
         });

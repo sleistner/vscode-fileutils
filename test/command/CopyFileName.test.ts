@@ -76,7 +76,15 @@ describe('CopyFileNameCommand', () => {
 
             after(() => {
                 // After test has finished - return original clipboard content.
-                return ClipboardUtil.setClipboardContent(originalClipboardContent);
+                return ClipboardUtil.setClipboardContent(originalClipboardContent)
+                .catch((error) => {
+                    // Suppressing errors that can be caused by unsupported platforms.
+                    if (ClipboardUtil.isClipboardRelatedError(error)) {
+                        return;
+                    }
+
+                    throw (error);
+                });
             });
 
             it('ignores the command call and verifies that clipboard text did not change', () => {

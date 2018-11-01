@@ -196,19 +196,7 @@ describe('RemoveFileCommand', () => {
                 return sut.execute().catch(() => {
                     // tslint:disable-next-line:no-unused-expression
                     expect(window.showInformationMessage).to.have.not.been.called;
-                })
-                .catch((error) => {
-                    // As explained in BaseFileController.getSourcePath(),
-                    // Whenever the window.activeTextEditor doesn't exist, we attempt to retrieve the source path
-                    // with clipboard manipulations.
-                    // This can lead to errors in unsupported platforms.
-                    // Suppressing these errors in tests.
-                    if (ClipboardUtil.isClipboardRelatedError(error)) {
-                        return;
-                    }
-
-                    throw (error);
-                });
+                }).catch(ClipboardUtil.handleClipboardError);
             });
         });
     });

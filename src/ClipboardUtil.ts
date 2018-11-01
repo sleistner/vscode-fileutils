@@ -28,8 +28,17 @@ export class ClipboardUtil {
         }
     }
 
-    public static isClipboardRelatedError(error: Error): boolean {
-        return Boolean(POSSIBLE_ERROR_MAP[error.message]);
+    public static handleClipboardError(error: Error): void {
+        // As explained in BaseFileController.getSourcePath(),
+        // Whenever the window.activeTextEditor doesn't exist, we attempt to retrieve the source path
+        // using clipboard manipulations.
+        // This can lead to errors in unsupported platforms, which are suppressed during tests.
+        if (POSSIBLE_ERROR_MAP[error.message]) {
+            return;
+        }
+
+        // If error is not a known clipboard error - re-throw it.
+        throw (error);
     }
 
     private static handleError(errorMessage: string): void {

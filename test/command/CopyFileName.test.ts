@@ -22,14 +22,26 @@ describe('CopyFileNameCommand', () => {
     describe('as command', () => {
 
         describe('with open text document', () => {
+            // Saving original clipboard content to be able to return it to the clipboard after the test
+            let originalClipboardContent = '';
+
             before(() => {
                 const uri = Uri.file(fixtureFile1);
-                return workspace.openTextDocument(uri)
-                    .then((textDocument) => window.showTextDocument(textDocument));
+
+                return ClipboardUtil.getClipboardContent()
+                .then((clipboardContent) => {
+                    originalClipboardContent = clipboardContent;
+                    return workspace.openTextDocument(uri);
+                })
+                .then((textDocument) => window.showTextDocument(textDocument))
+                .catch(ClipboardUtil.handleClipboardError);
             });
 
             after(() => {
-                return commands.executeCommand('workbench.action.closeAllEditors');
+                // After test has finished - return original clipboard content.
+                return ClipboardUtil.setClipboardContent(originalClipboardContent)
+                .then(() => commands.executeCommand('workbench.action.closeAllEditors'))
+                .catch(ClipboardUtil.handleClipboardError);
             });
 
             it('check file name was copied to clipboard', () => {
@@ -39,15 +51,7 @@ describe('CopyFileNameCommand', () => {
                     .then((pasteContent) => {
                         expect(pasteContent).to.equal(fixtureFile1Name);
                     });
-                })
-                .catch((error: Error) => {
-                    // Suppressing errors that can be caused by unsupported platforms.
-                    if (ClipboardUtil.isClipboardRelatedError(error)) {
-                        return;
-                    }
-
-                    throw (error);
-                });
+                }).catch(ClipboardUtil.handleClipboardError);
             });
         });
 
@@ -64,27 +68,13 @@ describe('CopyFileNameCommand', () => {
                 .then((clipboardContent) => {
                     originalClipboardContent = clipboardContent;
                     return ClipboardUtil.setClipboardContent(clipboardInitialTestData);
-                }).catch((error) => {
-                    // Suppressing errors that can be caused by unsupported platforms.
-                    if (ClipboardUtil.isClipboardRelatedError(error)) {
-                        return;
-                    }
-
-                    throw (error);
-                }).then(closeAllEditors);
+                }).catch(ClipboardUtil.handleClipboardError);
             });
 
             after(() => {
                 // After test has finished - return original clipboard content.
                 return ClipboardUtil.setClipboardContent(originalClipboardContent)
-                .catch((error) => {
-                    // Suppressing errors that can be caused by unsupported platforms.
-                    if (ClipboardUtil.isClipboardRelatedError(error)) {
-                        return;
-                    }
-
-                    throw (error);
-                });
+                .catch(ClipboardUtil.handleClipboardError);
             });
 
             it('ignores the command call and verifies that clipboard text did not change', () => {
@@ -97,19 +87,7 @@ describe('CopyFileNameCommand', () => {
                     .then((clipboardData) => {
                         expect(clipboardData).to.equal(clipboardInitialTestData);
                     });
-                })
-                .catch((error) => {
-                    // As explained in BaseFileController.getSourcePath(),
-                    // Whenever the window.activeTextEditor doesn't exist, we attempt to retrieve the source path
-                    // with clipboard manipulations.
-                    // This can lead to errors in unsupported platforms.
-                    // Suppressing these errors in tests.
-                    if (ClipboardUtil.isClipboardRelatedError(error)) {
-                        return;
-                    }
-
-                    throw (error);
-                });
+                }).catch(ClipboardUtil.handleClipboardError);
             });
         });
     });

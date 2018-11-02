@@ -7,6 +7,7 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, TextEditor, Uri, window, workspace } from 'vscode';
+import { ClipboardUtil } from '../../src/ClipboardUtil';
 import { ICommand, RenameFileCommand } from '../../src/command';
 
 chaiUse(sinonChai);
@@ -201,7 +202,7 @@ describe('RenameFileCommand', () => {
                 return sut.execute().catch(() => {
                     // tslint:disable-next-line:no-unused-expression
                     expect(window.showInputBox).to.have.not.been.called;
-                });
+                }).catch(ClipboardUtil.handleClipboardError);
             });
         });
     });

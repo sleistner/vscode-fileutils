@@ -13,7 +13,7 @@ export class MoveFileController extends BaseFileController {
 
     public async showDialog(options: IMoveFileDialogOptions): Promise<FileItem> {
         const { prompt, showFullPath = false, uri = null } = options;
-        const sourcePath = uri && uri.fsPath || this.sourcePath;
+        const sourcePath = uri && uri.fsPath || await this.getSourcePath();
 
         if (!sourcePath) {
             throw new Error();

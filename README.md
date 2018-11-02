@@ -73,7 +73,7 @@ Nonexistent folders are created automatically.
     {
         "command": "fileutils.copyFileName",
         "category": "File",
-        "title": "Copy file name"
+        "title": "Copy Name Of Active File"
     }
 ]
 ```

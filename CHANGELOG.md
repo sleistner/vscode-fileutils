@@ -1,3 +1,13 @@
+## 2.12.0 (2018-11-02)
+
+### Fixes
+
+- [iliashkolyar](https://github.com/iliashkolyar) Support file operations on non-textual files [PR#63](https://github.com/sleistner/vscode-fileutils/pull/63)
+
+### Features
+
+- `File: Copy Name Of Active File` [iliashkolyar](https://github.com/iliashkolyar) Support copy name of active file [PR#61](https://github.com/sleistner/vscode-fileutils/pull/61)
+
 ## 2.10.3 (2018-06-15)
 
 ### Fixes

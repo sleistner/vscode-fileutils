@@ -10,10 +10,9 @@ export interface IExecuteOptions {
 }
 
 export interface IFileController {
-    readonly sourcePath: string;
-
     showDialog(options?: IDialogOptions): Promise<FileItem>;
     execute(options: IExecuteOptions): Promise<FileItem>;
     openFileInEditor(fileItem: FileItem): Promise<TextEditor>;
     closeCurrentFileEditor(): Promise<any>;
+    getSourcePath(): Promise<string>;
 }

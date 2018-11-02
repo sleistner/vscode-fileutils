@@ -7,6 +7,7 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, TextEditor, Uri, window, workspace } from 'vscode';
+import { ClipboardUtil } from '../../src/ClipboardUtil';
 import { ICommand, RemoveFileCommand } from '../../src/command';
 
 chaiUse(sinonChai);
@@ -195,7 +196,7 @@ describe('RemoveFileCommand', () => {
                 return sut.execute().catch(() => {
                     // tslint:disable-next-line:no-unused-expression
                     expect(window.showInformationMessage).to.have.not.been.called;
-                });
+                }).catch(ClipboardUtil.handleClipboardError);
             });
         });
     });

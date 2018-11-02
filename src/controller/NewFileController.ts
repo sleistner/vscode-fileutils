@@ -27,7 +27,8 @@ export class NewFileController extends BaseFileController {
         }
 
         if (!relativeToRoot) {
-            sourcePath = path.dirname(this.sourcePath);
+            sourcePath = await this.getSourcePath();
+            sourcePath = path.dirname(sourcePath);
         }
 
         if (getConfiguration('typeahead.enabled') === true) {

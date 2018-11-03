@@ -172,7 +172,7 @@
     "sinon-chai": "^3.2.0",
     "tslint": "^5.9.1",
     "typescript": "^3.0.3",
-    "vscode": "^1.1.14"
+    "vscode": "^1.1.21"
   },
   "dependencies": {
     "bluebird-retry": "^0.11.0",

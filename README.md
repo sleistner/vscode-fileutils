@@ -160,6 +160,7 @@ or take any responsibility in case of lost data.
 # Contributors
 
 [Steffen Leistner](https://github.com/sleistner)
+[Ilia Shkolyar](https://github.com/iliashkolyar)
 
 # License
 

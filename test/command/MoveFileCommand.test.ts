@@ -193,6 +193,46 @@ describe('MoveFileCommand', () => {
 
                 });
 
+                describe('configuration', () => {
+                    beforeEach(async () => {
+                        sinon.stub(workspace, 'getConfiguration');
+                        sinon.stub(commands, 'executeCommand').withArgs('workbench.action.closeActiveEditor');
+                    });
+
+                    afterEach(async () => {
+                        (workspace.getConfiguration as sinon.SinonStub).restore();
+                        (commands.executeCommand as sinon.SinonStub).restore();
+                    });
+
+                    describe('move.closeOldTab set to true', () => {
+                        beforeEach(async () => {
+                            const keys = { 'move.closeOldTab': true };
+                            (workspace.getConfiguration as sinon.SinonStub).returns({ get: (key) => keys[key] });
+                        });
+
+                        it('moves a file and verifies that the tab of the moved file was closed', () => {
+                            return sut.execute().then(() => {
+                                // tslint:disable-next-line:no-unused-expression
+                                expect(commands.executeCommand).to.have.been.called;
+                            });
+                        });
+                    });
+
+                    describe('move.closeOldTab set to false', () => {
+                        beforeEach(async () => {
+                            const keys = { 'move.closeOldTab': false };
+                            (workspace.getConfiguration as sinon.SinonStub).returns({ get: (key) => keys[key] });
+                        });
+
+                        it('moves a file and verifies that the tab of the moved file was not closed', () => {
+                            return sut.execute().then(() => {
+                                // tslint:disable-next-line:no-unused-expression
+                                expect(commands.executeCommand).to.have.not.been.called;
+                            });
+                        });
+                    });
+                });
+
             });
 
         });

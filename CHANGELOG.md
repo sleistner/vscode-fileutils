@@ -1,3 +1,10 @@
+## 2.13.0 (2018-11-10)
+
+### Features
+- `File: Rename`
+- `File: Move`
+[iliashkolyar](https://github.com/iliashkolyar) Add configuration to support whether to close old tabs [PR#67](https://github.com/sleistner/vscode-fileutils/pull/67)
+
 ## 2.12.0 (2018-11-02)
 
 ### Fixes

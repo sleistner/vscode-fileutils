@@ -132,6 +132,16 @@
           "default": true,
           "description": "Controls if it should ask for confirmation when deleting a file."
         },
+        "fileutils.rename.closeOldTab": {
+          "type": "boolean",
+          "default": true,
+          "description": "Controls whether to close the tab of the renamed file (Will work only if 'Close On File Delete' setting is disabled)"
+        },
+        "fileutils.move.closeOldTab": {
+          "type": "boolean",
+          "default": true,
+          "description": "Controls whether to close the tab of the moved file (Will work only if 'Close On File Delete' setting is disabled)"
+        },
         "fileutils.typeahead.enabled": {
           "type": "boolean",
           "default": true,

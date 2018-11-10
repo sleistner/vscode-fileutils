@@ -173,6 +173,46 @@ describe('RenameFileCommand', () => {
                         }
                     });
                 });
+
+                describe('configuration', () => {
+                    beforeEach(async () => {
+                        sinon.stub(workspace, 'getConfiguration');
+                        sinon.stub(commands, 'executeCommand').withArgs('workbench.action.closeActiveEditor');
+                    });
+
+                    afterEach(async () => {
+                        (workspace.getConfiguration as sinon.SinonStub).restore();
+                        (commands.executeCommand as sinon.SinonStub).restore();
+                    });
+
+                    describe('rename.closeOldTab set to true', () => {
+                        beforeEach(async () => {
+                            const keys = { 'rename.closeOldTab': true };
+                            (workspace.getConfiguration as sinon.SinonStub).returns({ get: (key) => keys[key] });
+                        });
+
+                        it('renames a file and verifies that the tab of the renamed file was closed', () => {
+                            return sut.execute().then(() => {
+                                // tslint:disable-next-line:no-unused-expression
+                                expect(commands.executeCommand).to.have.been.called;
+                            });
+                        });
+                    });
+
+                    describe('rename.closeOldTab set to false', () => {
+                        beforeEach(async () => {
+                            const keys = { 'rename.closeOldTab': false };
+                            (workspace.getConfiguration as sinon.SinonStub).returns({ get: (key) => keys[key] });
+                        });
+
+                        it('renames a file and verifies that the tab of the renamed file was not closed', () => {
+                            return sut.execute().then(() => {
+                                // tslint:disable-next-line:no-unused-expression
+                                expect(commands.executeCommand).to.have.not.been.called;
+                            });
+                        });
+                    });
+                });
             });
         });
 

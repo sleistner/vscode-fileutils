@@ -3,11 +3,16 @@ sudo: false
 language: node_js
 
 node_js:
-  - "6"
+  - '8'
 
 os:
   - osx
   - linux
+
+stages:
+  - test
+  - name: release
+    if: branch = master AND type = push AND fork = false
 
 before_install:
   - if [ $TRAVIS_OS_NAME == "linux" ]; then
@@ -22,4 +27,11 @@ install:
   - npm run vscode:prepublish
 
 script:
+  - npm run lint --silent
   - npm test --silent
+
+jobs:
+  include:
+    - stage: release
+      script: npm run semantic-release
+

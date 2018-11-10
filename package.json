@@ -162,7 +162,8 @@
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "npm run compile && node ./node_modules/vscode/bin/test",
     "lint": "tslint -e './node_modules/**/*.ts' -e './typings/**/*.ts' './**/*.ts'",
-    "validate": "npm ls"
+    "validate": "npm ls",
+    "semantic-release": "semantic-release"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.20",
@@ -178,6 +179,8 @@
     "chai": "^4.1.2",
     "hoek": "^6.0.2",
     "precommit-hook-eslint": "^3.0.0",
+    "semantic-release": "^15.10.8",
+    "semantic-release-vsce": "^2.1.2",
     "sinon": "^7.1.1",
     "sinon-chai": "^3.2.0",
     "tslint": "^5.9.1",
@@ -197,5 +200,22 @@
   "pre-commit": [
     "lint",
     "test"
-  ]
+  ],
+  "release": {
+    "verifyConditions": [
+      "semantic-release-vsce",
+      "@semantic-release/github"
+    ],
+    "prepare": {
+      "path": "semantic-release-vsce",
+      "packageVsix": "sleistner.vscode-fileutils.vsix"
+    },
+    "publish": [
+      "semantic-release-vsce",
+      {
+        "path": "@semantic-release/github",
+        "assets": "sleistner.vscode-fileutils.vsix"
+      }
+    ]
+  }
 }

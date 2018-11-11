@@ -7,6 +7,9 @@
         "@semantic-release/github"
     ],
     "prepare": [
+        "@semantic-release/release-notes-generator",
+        "@semantic-release/changelog",
+        "@semantic-release/git",
         {
             "path": "semantic-release-vsce",
             "packageVsix": "sleistner.vscode-fileutils.vsix"

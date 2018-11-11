@@ -3,16 +3,15 @@
         "@semantic-release/commit-analyzer",
         "@semantic-release/release-notes-generator",
         "@semantic-release/changelog",
-        "@semantic-release/git"
-    ],
-    "verifyConditions": [
-        "semantic-release-vsce",
+        "@semantic-release/git",
         "@semantic-release/github"
     ],
-    "prepare": {
-        "path": "semantic-release-vsce",
-        "packageVsix": "sleistner.vscode-fileutils.vsix"
-    },
+    "prepare": [
+        {
+            "path": "semantic-release-vsce",
+            "packageVsix": "sleistner.vscode-fileutils.vsix"
+        }
+    ],
     "publish": [
         "semantic-release-vsce",
         {

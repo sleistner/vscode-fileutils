@@ -166,6 +166,8 @@
     "semantic-release": "semantic-release"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^3.0.1",
+    "@semantic-release/git": "^7.0.5",
     "@types/bluebird": "^3.5.20",
     "@types/bluebird-retry": "0.11.2",
     "@types/chai": "^4.1.2",
@@ -200,22 +202,5 @@
   "pre-commit": [
     "lint",
     "test"
-  ],
-  "release": {
-    "verifyConditions": [
-      "semantic-release-vsce",
-      "@semantic-release/github"
-    ],
-    "prepare": {
-      "path": "semantic-release-vsce",
-      "packageVsix": "sleistner.vscode-fileutils.vsix"
-    },
-    "publish": [
-      "semantic-release-vsce",
-      {
-        "path": "@semantic-release/github",
-        "assets": "sleistner.vscode-fileutils.vsix"
-      }
-    ]
-  }
+  ]
 }

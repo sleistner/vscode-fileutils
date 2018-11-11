@@ -1,0 +1,23 @@
+{
+    "verifyConditions": [
+        "semantic-release-vsce",
+        "@semantic-release/github"
+    ],
+    "prepare": {
+        "path": "semantic-release-vsce",
+        "packageVsix": "sleistner.vscode-fileutils.vsix"
+    },
+    "publish": [
+        "semantic-release-vsce",
+        {
+            "path": "@semantic-release/github",
+            "assets": "sleistner.vscode-fileutils.vsix"
+        }
+    ],
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        "@semantic-release/changelog",
+        "@semantic-release/git"
+    ]
+}

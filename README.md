@@ -151,11 +151,11 @@ code .
 4. Choose `Launch Tests` to run the tests.
 5. Submit a PR.
 
-Important:
+**Important:** Release and changleog update are executed as TravisCI job.
 
 Please consider Angular Commit Message Conventions.
-
-https://blog.greenkeeper.io/introduction-to-semantic-release-33f73b117c8
+* https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commits
+* https://blog.greenkeeper.io/introduction-to-semantic-release-33f73b117c8
 
 # Disclaimer
 

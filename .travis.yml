@@ -33,5 +33,6 @@ script:
 jobs:
   include:
     - stage: release
+      os: linux
       script: npm run semantic-release
 

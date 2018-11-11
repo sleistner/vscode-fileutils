@@ -1,4 +1,10 @@
 {
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        "@semantic-release/changelog",
+        "@semantic-release/git"
+    ],
     "verifyConditions": [
         "semantic-release-vsce",
         "@semantic-release/github"
@@ -13,11 +19,5 @@
             "path": "@semantic-release/github",
             "assets": "sleistner.vscode-fileutils.vsix"
         }
-    ],
-    "plugins": [
-        "@semantic-release/commit-analyzer",
-        "@semantic-release/release-notes-generator",
-        "@semantic-release/changelog",
-        "@semantic-release/git"
     ]
 }

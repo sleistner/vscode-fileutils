@@ -1,3 +1,11 @@
+## [2.13.3](https://github.com/sleistner/vscode-fileutils/compare/v2.13.2...v2.13.3) (2018-11-11)
+
+
+### Bug Fixes
+
+* **releaserc:** enable release notes plugin ([b88a7c6](https://github.com/sleistner/vscode-fileutils/commit/b88a7c6))
+* **releaserc:** enable release notes plugin ([eabac50](https://github.com/sleistner/vscode-fileutils/commit/eabac50))
+
 ## 2.13.0 (2018-11-10)
 
 ### Features

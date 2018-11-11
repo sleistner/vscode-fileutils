@@ -139,7 +139,7 @@ Nonexistent folders are created automatically.
 
 # How to contribute
 
-- [https://github.com/sleistner/vscode-fileutils/blob/master/CONTRIBUTION.md](https://github.com/sleistner/vscode-fileutils/blob/master/CONTRIBUTION.md)
+- [https://github.com/sleistner/vscode-fileutils/blob/master/CONTRIBUTING.md](https://github.com/sleistner/vscode-fileutils/blob/master/CONTRIBUTING.md)
 
 # Disclaimer
 

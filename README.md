@@ -150,6 +150,12 @@ code .
 4. Choose `Launch Tests` to run the tests.
 5. Submit a PR.
 
+Important:
+
+Please consider Angular Commit Message Conventions.
+
+https://blog.greenkeeper.io/introduction-to-semantic-release-33f73b117c8
+
 # Disclaimer
 
 **Important:** This extension due to the nature of it's purpose will create

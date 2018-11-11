@@ -139,23 +139,7 @@ Nonexistent folders are created automatically.
 
 # How to contribute
 
-1. Download source code and install dependencies
-```bash
-git clone git@github.com:sleistner/vscode-fileutils.git
-cd vscode-fileutils
-npm install
-code .
-```
-2. Make the respective code changes.
-3. Go to the debugger in VS Code, choose `Launch Extension` and click run. You can test your changes.
-4. Choose `Launch Tests` to run the tests.
-5. Submit a PR.
-
-**Important:** Release and changleog update are executed as TravisCI job.
-
-Please consider Angular Commit Message Conventions.
-* https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commits
-* https://blog.greenkeeper.io/introduction-to-semantic-release-33f73b117c8
+- [https://github.com/sleistner/vscode-fileutils/blob/master/CONTRIBUTION.md](https://github.com/sleistner/vscode-fileutils/blob/master/CONTRIBUTION.md)
 
 # Disclaimer
 

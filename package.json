@@ -81,7 +81,7 @@
       {
         "command": "fileutils.copyFileName",
         "category": "File",
-        "title": "Copy Name Of Active File"
+        "title": "Copy Name of Active File"
       }
     ],
     "menus": {

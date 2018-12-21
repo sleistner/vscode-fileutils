@@ -13,8 +13,8 @@
   ],
   "icon": "images/icon.png",
   "galleryBanner": {
-    "color": "#5c2d91",
-    "theme": "dark"
+    "color": "#ffffff",
+    "theme": "light"
   },
   "bugs": {
     "url": "https://github.com/sleistner/vscode-fileutils/issues"

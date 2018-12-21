@@ -47,7 +47,7 @@ export class TreeWalker {
     private configIgnoredGlobs(): string[] {
         const configFilesExclude = {
             ...getConfiguration('typeahead.exclude'),
-            ...workspace.getConfiguration('files.exclude')
+            ...workspace.getConfiguration('files.exclude', null)
         };
         const configIgnored = Object.keys(configFilesExclude)
             .filter((key) => configFilesExclude[key] === true);

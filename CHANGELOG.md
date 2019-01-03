@@ -1,3 +1,10 @@
+## [2.13.4](https://github.com/sleistner/vscode-fileutils/compare/v2.13.3...v2.13.4) (2019-01-03)
+
+
+### Bug Fixes
+
+* **README:** remove unsupported category ([4a13e08](https://github.com/sleistner/vscode-fileutils/commit/4a13e08))
+
 ## [2.13.3](https://github.com/sleistner/vscode-fileutils/compare/v2.13.2...v2.13.3) (2018-11-11)
 
 

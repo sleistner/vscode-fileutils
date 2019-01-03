@@ -9,7 +9,7 @@
     "vscode": "^1.20.0"
   },
   "categories": [
-    "Other", "Utils"
+    "Other"
   ],
   "icon": "images/icon.png",
   "galleryBanner": {

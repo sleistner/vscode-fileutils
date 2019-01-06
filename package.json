@@ -11,10 +11,17 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "utils",
+    "files",
+    "move",
+    "duplicate",
+    "rename"
+  ],
   "icon": "images/icon.png",
   "galleryBanner": {
-    "color": "#ffffff",
-    "theme": "light"
+    "color": "#1289B9",
+    "theme": "dark"
   },
   "bugs": {
     "url": "https://github.com/sleistner/vscode-fileutils/issues"

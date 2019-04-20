@@ -1,3 +1,10 @@
+## [2.13.6](https://github.com/sleistner/vscode-fileutils/compare/v2.13.5...v2.13.6) (2019-04-20)
+
+
+### Bug Fixes
+
+* **NewFileCommand:** prompt to select workspace ([8335975](https://github.com/sleistner/vscode-fileutils/commit/8335975))
+
 ## [2.13.4](https://github.com/sleistner/vscode-fileutils/compare/v2.13.3...v2.13.4) (2019-01-03)
 
 

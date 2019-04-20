@@ -90,7 +90,6 @@ describe('MoveFileCommand', () => {
 
                 return sut.execute().then(() => {
                     const message = `${targetFile} does not exist`;
-                    // tslint:disable-next-line:no-unused-expression
                     expect(fs.existsSync(targetFile), message).to.be.true;
                 });
             });
@@ -212,7 +211,6 @@ describe('MoveFileCommand', () => {
 
                         it('moves a file and verifies that the tab of the moved file was closed', () => {
                             return sut.execute().then(() => {
-                                // tslint:disable-next-line:no-unused-expression
                                 expect(commands.executeCommand).to.have.been.called;
                             });
                         });
@@ -226,7 +224,6 @@ describe('MoveFileCommand', () => {
 
                         it('moves a file and verifies that the tab of the moved file was not closed', () => {
                             return sut.execute().then(() => {
-                                // tslint:disable-next-line:no-unused-expression
                                 expect(commands.executeCommand).to.have.not.been.called;
                             });
                         });
@@ -264,7 +261,6 @@ describe('MoveFileCommand', () => {
             it('ignores the command call', () => {
 
                 return sut.execute().catch(() => {
-                    // tslint:disable-next-line:no-unused-expression
                     expect(window.showInputBox).to.have.not.been.called;
                 }).catch(ClipboardUtil.handleClipboardError);
             });
@@ -300,7 +296,6 @@ describe('MoveFileCommand', () => {
 
             return sut.execute(Uri.file(editorFile1)).then(() => {
                 const message = `${targetFile} does not exist`;
-                // tslint:disable-next-line:no-unused-expression
                 expect(fs.existsSync(targetFile), message).to.be.true;
             });
         });

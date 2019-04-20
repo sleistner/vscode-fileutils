@@ -111,7 +111,6 @@ describe('RemoveFileCommand', () => {
                 it('deletes the file', () => {
                     return sut.execute().then(() => {
                         const message = `${editorFile} does exist`;
-                        // tslint:disable-next-line:no-unused-expression
                         expect(fs.existsSync(editorFile), message).to.be.false;
                     });
                 });
@@ -128,7 +127,6 @@ describe('RemoveFileCommand', () => {
                         fail('must fail');
                     } catch (e) {
                         const message = `${editorFile} does not exist`;
-                        // tslint:disable-next-line:no-unused-expression
                         expect(fs.existsSync(editorFile), message).to.be.true;
                     }
                 });
@@ -146,9 +144,7 @@ describe('RemoveFileCommand', () => {
 
                 it('deletes the file without confirmation', async () => {
                     await sut.execute();
-                    // tslint:disable-next-line:no-unused-expression
                     expect(window.showInformationMessage).to.have.not.been.called;
-                    // tslint:disable-next-line:no-unused-expression
                     expect(fs.existsSync(editorFile), `${editorFile} does not exist`).to.be.false;
                 });
             });
@@ -166,7 +162,7 @@ describe('RemoveFileCommand', () => {
                 };
 
                 await retry(retryable, { max_tries: 4, interval: 500 });
-                expect(activeEditor).to.not.exist;  // tslint:disable-line:no-unused-expression
+                expect(activeEditor).to.not.exist;
             });
         });
 
@@ -194,7 +190,6 @@ describe('RemoveFileCommand', () => {
 
             it('ignores the command call', () => {
                 return sut.execute().catch(() => {
-                    // tslint:disable-next-line:no-unused-expression
                     expect(window.showInformationMessage).to.have.not.been.called;
                 }).catch(ClipboardUtil.handleClipboardError);
             });

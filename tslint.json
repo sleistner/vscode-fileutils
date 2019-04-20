@@ -1,5 +1,8 @@
 {
-  "extends": "tslint:latest",
+  "extends": [
+    "tslint:latest",
+    "tslint-no-unused-expression-chai"
+  ],
   "rules": {
     "quotemark": [
       true,

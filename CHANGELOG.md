@@ -1,3 +1,10 @@
+## [2.13.7](https://github.com/sleistner/vscode-fileutils/compare/v2.13.6...v2.13.7) (2019-04-20)
+
+
+### Bug Fixes
+
+* icon color ([21f4eb4](https://github.com/sleistner/vscode-fileutils/commit/21f4eb4))
+
 ## [2.13.6](https://github.com/sleistner/vscode-fileutils/compare/v2.13.5...v2.13.6) (2019-04-20)
 
 

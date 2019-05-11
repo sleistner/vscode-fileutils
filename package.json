@@ -203,7 +203,7 @@
     "glob": "^7.1.2",
     "gitignore-to-glob": "github:patbenatar/gitignore-to-glob",
     "bluebird": "^3.5.1",
-    "fs-extra": "^7.0.0",
+    "fs-extra": "^8.0.0",
     "trash": "^4.3.0",
     "copy-paste-win32fix": "^1.4.0"
   },

@@ -1,3 +1,10 @@
+## [2.14.3](https://github.com/sleistner/vscode-fileutils/compare/v2.14.2...v2.14.3) (2019-05-29)
+
+
+### Bug Fixes
+
+* **contribution:** reorder conext menu items ([2883402](https://github.com/sleistner/vscode-fileutils/commit/2883402))
+
 ## [2.14.2](https://github.com/sleistner/vscode-fileutils/compare/v2.14.1...v2.14.2) (2019-05-29)
 
 

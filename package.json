@@ -88,54 +88,54 @@
       {
         "command": "fileutils.copyFileName",
         "category": "File",
-        "title": "Copy Name of Active File"
+        "title": "Copy Name"
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "command": "fileutils.moveFile",
-          "group": "edit"
+          "group": "7_modification"
         },
         {
           "command": "fileutils.duplicateFile",
-          "group": "edit"
+          "group": "7_modification"
         },
         {
           "command": "fileutils.newFileAtRoot",
-          "group": "edit"
+          "group": "2_workspace"
         },
         {
           "command": "fileutils.newFolderAtRoot",
-          "group": "edit"
+          "group": "2_workspace"
         },
         {
           "command": "fileutils.copyFileName",
-          "group": "edit"
+          "group": "6_copypath"
         }
       ],
       "editor/context": [
         {
           "command": "fileutils.moveFile",
-          "group": "File@1"
+          "group": "1_modification"
         },
         {
           "command": "fileutils.duplicateFile",
-          "group": "File@2"
+          "group": "1_modification"
         }
       ],
       "editor/title/context": [
         {
           "command": "fileutils.renameFile",
-          "group": "File@1"
+          "group": "7_modification"
         },
         {
           "command": "fileutils.removeFile",
-          "group": "File@2"
+          "group": "7_modification"
         },
         {
           "command": "fileutils.copyFileName",
-          "group": "File@3"
+          "group": "1_copypath"
         }
       ]
     },

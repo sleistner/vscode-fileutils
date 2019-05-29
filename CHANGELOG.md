@@ -1,3 +1,38 @@
+## [2.14.2](https://github.com/sleistner/vscode-fileutils/compare/v2.14.1...v2.14.2) (2019-05-29)
+
+
+### Bug Fixes
+
+* **package:** update fs-extra to version 8.0.0 ([86ff0b9](https://github.com/sleistner/vscode-fileutils/commit/86ff0b9))
+
+## [2.14.1](https://github.com/sleistner/vscode-fileutils/compare/v2.14.0...v2.14.1) (2019-05-29)
+
+
+### Bug Fixes
+
+* icon position ([a273e32](https://github.com/sleistner/vscode-fileutils/commit/a273e32))
+
+# [2.14.0](https://github.com/sleistner/vscode-fileutils/compare/v2.13.7...v2.14.0) (2019-05-29)
+
+
+### Features
+
+* **editor/title/context:** add rename, remove and copy command ([bb0482e](https://github.com/sleistner/vscode-fileutils/commit/bb0482e))
+
+## [2.13.7](https://github.com/sleistner/vscode-fileutils/compare/v2.13.6...v2.13.7) (2019-04-20)
+
+
+### Bug Fixes
+
+* icon color ([21f4eb4](https://github.com/sleistner/vscode-fileutils/commit/21f4eb4))
+
+## [2.13.6](https://github.com/sleistner/vscode-fileutils/compare/v2.13.5...v2.13.6) (2019-04-20)
+
+
+### Bug Fixes
+
+* **NewFileCommand:** prompt to select workspace ([8335975](https://github.com/sleistner/vscode-fileutils/commit/8335975))
+
 ## [2.13.4](https://github.com/sleistner/vscode-fileutils/compare/v2.13.3...v2.13.4) (2019-01-03)
 
 

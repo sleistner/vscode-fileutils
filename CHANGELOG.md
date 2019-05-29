@@ -1,3 +1,11 @@
+## [2.14.4](https://github.com/sleistner/vscode-fileutils/compare/v2.14.3...v2.14.4) (2019-05-29)
+
+
+### Bug Fixes
+
+* **FileItem:** update trash import ([850dfff](https://github.com/sleistner/vscode-fileutils/commit/850dfff))
+* **package:** update trash to version 5.0.0 ([51f7017](https://github.com/sleistner/vscode-fileutils/commit/51f7017))
+
 ## [2.14.3](https://github.com/sleistner/vscode-fileutils/compare/v2.14.2...v2.14.3) (2019-05-29)
 
 

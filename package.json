@@ -117,11 +117,25 @@
       "editor/context": [
         {
           "command": "fileutils.moveFile",
-          "group": "edit"
+          "group": "File@1"
         },
         {
           "command": "fileutils.duplicateFile",
-          "group": "edit"
+          "group": "File@2"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "fileutils.renameFile",
+          "group": "File@1"
+        },
+        {
+          "command": "fileutils.removeFile",
+          "group": "File@2"
+        },
+        {
+          "command": "fileutils.copyFileName",
+          "group": "File@3"
         }
       ]
     },

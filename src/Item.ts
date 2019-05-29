@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 
-import trash = require('trash');
+import trash from 'trash';
 
 export class FileItem {
 
@@ -44,7 +44,7 @@ export class FileItem {
     }
 
     public async remove(useTrash = false): Promise<FileItem> {
-        await useTrash ? trash([this.path]) : fs.remove(this.path);
+        await useTrash ? trash(this.path) : fs.remove(this.path);
 
         return this;
     }

@@ -1,3 +1,10 @@
+## [2.14.1](https://github.com/sleistner/vscode-fileutils/compare/v2.14.0...v2.14.1) (2019-05-29)
+
+
+### Bug Fixes
+
+* icon position ([a273e32](https://github.com/sleistner/vscode-fileutils/commit/a273e32))
+
 # [2.14.0](https://github.com/sleistner/vscode-fileutils/compare/v2.13.7...v2.14.0) (2019-05-29)
 
 

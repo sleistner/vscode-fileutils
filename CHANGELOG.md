@@ -1,3 +1,10 @@
+## [2.14.2](https://github.com/sleistner/vscode-fileutils/compare/v2.14.1...v2.14.2) (2019-05-29)
+
+
+### Bug Fixes
+
+* **package:** update fs-extra to version 8.0.0 ([86ff0b9](https://github.com/sleistner/vscode-fileutils/commit/86ff0b9))
+
 ## [2.14.1](https://github.com/sleistner/vscode-fileutils/compare/v2.14.0...v2.14.1) (2019-05-29)
 
 

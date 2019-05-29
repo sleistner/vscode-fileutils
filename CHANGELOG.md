@@ -1,3 +1,10 @@
+# [2.14.0](https://github.com/sleistner/vscode-fileutils/compare/v2.13.7...v2.14.0) (2019-05-29)
+
+
+### Features
+
+* **editor/title/context:** add rename, remove and copy command ([bb0482e](https://github.com/sleistner/vscode-fileutils/commit/bb0482e))
+
 ## [2.13.7](https://github.com/sleistner/vscode-fileutils/compare/v2.13.6...v2.13.7) (2019-04-20)
 
 

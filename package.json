@@ -122,17 +122,13 @@
         {
           "command": "fileutils.duplicateFile",
           "group": "1_modification"
+        },
+        {
+          "command": "fileutils.renameFile",
+          "group": "1_modification"
         }
       ],
       "editor/title/context": [
-        {
-          "command": "fileutils.renameFile",
-          "group": "7_modification"
-        },
-        {
-          "command": "fileutils.removeFile",
-          "group": "7_modification"
-        },
         {
           "command": "fileutils.copyFileName",
           "group": "1_copypath"

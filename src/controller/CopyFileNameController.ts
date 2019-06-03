@@ -1,12 +1,21 @@
+import { Uri } from 'vscode';
 import { ClipboardUtil } from '../ClipboardUtil';
 import { FileItem } from '../Item';
 import { BaseFileController } from './BaseFileController';
-import { IExecuteOptions } from './FileController';
+import { IDialogOptions, IExecuteOptions } from './FileController';
+
+export interface ICopyFileNameDialogOptions extends IDialogOptions {
+    uri?: Uri;
+}
 
 export class CopyFileNameController extends BaseFileController {
-    // Not relevant to CopyFileNameController as it need no dialog
-    public async showDialog(): Promise<FileItem> {
-        const sourcePath = await this.getSourcePath();
+
+    public async showDialog(options: ICopyFileNameDialogOptions): Promise<FileItem> {
+        const { uri = null } = options;
+        const sourcePath = uri && uri.fsPath || await this.getSourcePath();
+        if (!sourcePath) {
+            throw new Error();
+        }
         return new FileItem(sourcePath);
     }
 

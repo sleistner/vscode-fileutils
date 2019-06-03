@@ -1,7 +1,6 @@
+import { fail } from 'assert';
 import { expect, use as chaiUse } from 'chai';
-import { paste as clipboardPaste } from 'copy-paste-win32fix';
 import * as path from 'path';
-import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { commands, Uri, window, workspace } from 'vscode';
 import { ClipboardUtil } from '../../src/ClipboardUtil';
@@ -20,74 +19,42 @@ describe('CopyFileNameCommand', () => {
     const sut: ICommand = new CopyFileNameCommand();
 
     describe('as command', () => {
+        after(async () => {
+            await ClipboardUtil.setClipboardContent(clipboardInitialTestData);
+        });
 
         describe('with open text document', () => {
-            // Saving original clipboard content to be able to return it to the clipboard after the test
-            let originalClipboardContent = '';
-
-            before(() => {
+            before(async () => {
                 const uri = Uri.file(fixtureFile1);
-
-                return ClipboardUtil.getClipboardContent()
-                .then((clipboardContent) => {
-                    originalClipboardContent = clipboardContent;
-                    return workspace.openTextDocument(uri);
-                })
-                .then((textDocument) => window.showTextDocument(textDocument))
-                .catch(ClipboardUtil.handleClipboardError);
+                const textDocument = await workspace.openTextDocument(uri);
+                await window.showTextDocument(textDocument);
             });
 
-            after(() => {
-                // After test has finished - return original clipboard content.
-                return ClipboardUtil.setClipboardContent(originalClipboardContent)
-                .then(() => commands.executeCommand('workbench.action.closeAllEditors'))
-                .catch(ClipboardUtil.handleClipboardError);
+            after(async () => {
+                await commands.executeCommand('workbench.action.closeAllEditors');
             });
 
-            it('check file name was copied to clipboard', () => {
-                return sut.execute()
-                .then(() => {
-                    return ClipboardUtil.getClipboardContent()
-                    .then((pasteContent) => {
-                        expect(pasteContent).to.equal(fixtureFile1Name);
-                    });
-                }).catch(ClipboardUtil.handleClipboardError);
+            it('puts the file name to the clipboard', async () => {
+                await sut.execute();
+                const pasteContent = await ClipboardUtil.getClipboardContent();
+                expect(pasteContent).to.equal(fixtureFile1Name);
             });
         });
 
         describe('with no open text document', () => {
-            // Saving original clipboard content to be able to return it to the clipboard after the test
-            let originalClipboardContent = '';
-
-            before(() => {
-                const closeAllEditors = () => {
-                    return commands.executeCommand('workbench.action.closeAllEditors');
-                };
-
-                return ClipboardUtil.getClipboardContent()
-                .then((clipboardContent) => {
-                    originalClipboardContent = clipboardContent;
-                    return ClipboardUtil.setClipboardContent(clipboardInitialTestData);
-                }).catch(ClipboardUtil.handleClipboardError);
+            before(async () => {
+                await commands.executeCommand('workbench.action.closeAllEditors');
+                await ClipboardUtil.setClipboardContent(clipboardInitialTestData);
             });
 
-            after(() => {
-                // After test has finished - return original clipboard content.
-                return ClipboardUtil.setClipboardContent(originalClipboardContent)
-                .catch(ClipboardUtil.handleClipboardError);
-            });
-
-            it('ignores the command call and verifies that clipboard text did not change', () => {
-
-                return sut.execute()
-                .then(() => {
-                    // Retrieving clipboard data and verifying that it is indeed the data that was in the
-                    // clipboard prior to the test.
-                    return ClipboardUtil.getClipboardContent()
-                    .then((clipboardData) => {
-                        expect(clipboardData).to.equal(clipboardInitialTestData);
-                    });
-                }).catch(ClipboardUtil.handleClipboardError);
+            it('ignores the command call and does not change the clipboard data', async () => {
+                try {
+                    await sut.execute();
+                    fail('must fail');
+                } catch (e) {
+                    const clipboardData = await ClipboardUtil.getClipboardContent();
+                    expect(clipboardData).to.equal(clipboardInitialTestData);
+                }
             });
         });
     });

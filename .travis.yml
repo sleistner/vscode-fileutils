@@ -16,6 +16,11 @@ stages:
 
 before_install:
   - if [ $TRAVIS_OS_NAME == "linux" ]; then
+      curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+      chmod 755 ./travis-tool.sh
+      ./travis-tool.sh bootstrap
+      sudo apt-get install xclip xsel --no-install-recommends --yes
+      sudo apt-get install pandoc
       export CXX="g++-4.9" CC="gcc-4.9" DISPLAY=:99.0;
       sudo apt-get --assume-yes install libsecret-1-0;
       sh -e /etc/init.d/xvfb start;

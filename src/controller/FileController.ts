@@ -2,7 +2,7 @@ import { TextEditor } from 'vscode';
 import { FileItem } from '../Item';
 
 export interface IDialogOptions {
-    prompt: string;
+    prompt?: string;
 }
 
 export interface IExecuteOptions {

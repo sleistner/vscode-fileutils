@@ -1,6 +1,6 @@
 import { Uri } from 'vscode';
 import { CopyFileNameController, IFileController } from '../controller';
-import { FileItem } from '../Item';
+import { ICopyFileNameDialogOptions } from '../controller/CopyFileNameController';
 import { BaseCommand } from './BaseCommand';
 
 export class CopyFileNameCommand extends BaseCommand {
@@ -10,12 +10,8 @@ export class CopyFileNameCommand extends BaseCommand {
     }
 
     public async execute(uri?: Uri) {
-        const sourcePath = await this.controller.getSourcePath();
-        if (!sourcePath) {
-            return;
-        }
-
-        const fileItem = new FileItem(sourcePath);
+        const dialogOptions: ICopyFileNameDialogOptions = { uri };
+        const fileItem = await this.controller.showDialog(dialogOptions);
         return this.controller.execute({ fileItem });
     }
 }

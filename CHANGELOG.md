@@ -1,3 +1,10 @@
+## [2.14.5](https://github.com/sleistner/vscode-fileutils/compare/v2.14.4...v2.14.5) (2019-06-03)
+
+
+### Bug Fixes
+
+* **CopyFileName:** forward and process tab uri ([68ae985](https://github.com/sleistner/vscode-fileutils/commit/68ae985))
+
 ## [2.14.4](https://github.com/sleistner/vscode-fileutils/compare/v2.14.3...v2.14.4) (2019-05-29)
 
 

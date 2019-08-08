@@ -2,8 +2,7 @@ import { fail } from 'assert';
 import { expect, use as chaiUse } from 'chai';
 import * as path from 'path';
 import * as sinonChai from 'sinon-chai';
-import { commands, Uri, window, workspace } from 'vscode';
-import { ClipboardUtil } from '../../src/ClipboardUtil';
+import { commands, env, Uri, window, workspace } from 'vscode';
 import { CopyFileNameCommand, ICommand } from '../../src/command';
 
 chaiUse(sinonChai);
@@ -20,7 +19,7 @@ describe('CopyFileNameCommand', () => {
 
     describe('as command', () => {
         after(async () => {
-            await ClipboardUtil.setClipboardContent(clipboardInitialTestData);
+            await env.clipboard.writeText(clipboardInitialTestData);
         });
 
         describe('with open text document', () => {
@@ -36,7 +35,7 @@ describe('CopyFileNameCommand', () => {
 
             it('puts the file name to the clipboard', async () => {
                 await sut.execute();
-                const pasteContent = await ClipboardUtil.getClipboardContent();
+                const pasteContent = await env.clipboard.readText();
                 expect(pasteContent).to.equal(fixtureFile1Name);
             });
         });
@@ -44,7 +43,7 @@ describe('CopyFileNameCommand', () => {
         describe('with no open text document', () => {
             before(async () => {
                 await commands.executeCommand('workbench.action.closeAllEditors');
-                await ClipboardUtil.setClipboardContent(clipboardInitialTestData);
+                await env.clipboard.writeText(clipboardInitialTestData);
             });
 
             it('ignores the command call and does not change the clipboard data', async () => {
@@ -52,7 +51,7 @@ describe('CopyFileNameCommand', () => {
                     await sut.execute();
                     fail('must fail');
                 } catch (e) {
-                    const clipboardData = await ClipboardUtil.getClipboardContent();
+                    const clipboardData = await env.clipboard.readText();
                     expect(clipboardData).to.equal(clipboardInitialTestData);
                 }
             });

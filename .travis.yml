@@ -3,7 +3,7 @@ sudo: false
 language: node_js
 
 node_js:
-  - '8'
+  - "8"
 
 os:
   - osx
@@ -16,10 +16,10 @@ stages:
 
 before_install:
   - if [ $TRAVIS_OS_NAME == "linux" ]; then
-      export CXX="g++-4.9" CC="gcc-4.9" DISPLAY=:99.0;
-      sudo apt-get --assume-yes install libsecret-1-0 xclip;
-      sh -e /etc/init.d/xvfb start;
-      sleep 3;
+    export CXX="g++-4.9" CC="gcc-4.9" DISPLAY=:99.0;
+    sudo apt-get --assume-yes install libsecret-1-0 xclip;
+    sh -e /etc/init.d/xvfb start;
+    sleep 3;
     fi
 
 install:
@@ -28,11 +28,10 @@ install:
 
 script:
   - npm run lint --silent
-  - npm test --silent
+  - npm test
 
 jobs:
   include:
     - stage: release
       os: linux
       script: npm run semantic-release
-

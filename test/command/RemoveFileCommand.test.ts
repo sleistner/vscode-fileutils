@@ -6,8 +6,7 @@ import * as os from 'os';
 import * as path from 'path';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import { commands, TextEditor, Uri, window, workspace } from 'vscode';
-import { ClipboardUtil } from '../../src/ClipboardUtil';
+import { commands, MessageItem, TextEditor, Uri, window, workspace, WorkspaceConfiguration } from 'vscode';
 import { ICommand, RemoveFileCommand } from '../../src/command';
 
 chaiUse(sinonChai);
@@ -22,47 +21,31 @@ describe('RemoveFileCommand', () => {
 
     const sut: ICommand = new RemoveFileCommand();
 
-    beforeEach(() => Promise.all([
-        fs.remove(tmpDir),
-        fs.copy(fixtureFile, editorFile),
-    ]));
+    beforeEach(async () => {
+        fs.removeSync(tmpDir);
+        fs.copySync(fixtureFile, editorFile);
+    });
 
-    afterEach(() => fs.remove(tmpDir));
+    afterEach(async () => fs.removeSync(tmpDir));
 
     describe('as command', () => {
         describe('with open text document', () => {
-            beforeEach(() => {
+            beforeEach(async () => {
                 const openDocument = () => {
                     const uri = Uri.file(editorFile);
                     return workspace.openTextDocument(uri)
                         .then((textDocument) => window.showTextDocument(textDocument));
                 };
 
-                const stubShowInformationMessage = () => {
-                    sinon.stub(window, 'showInformationMessage').returns(Promise.resolve(true));
-                    return Promise.resolve();
-                };
+                const item: MessageItem = { title: 'placeholder' };
+                sinon.stub(window, 'showInformationMessage').returns(Promise.resolve(item));
 
-                return Promise.all([
-                    retry(() => openDocument(), { max_tries: 4, interval: 500 }),
-                    stubShowInformationMessage()
-                ]);
+                await retry(() => openDocument(), { max_tries: 4, interval: 500 });
             });
 
-            afterEach(() => {
-                const closeAllEditors = () => {
-                    return commands.executeCommand('workbench.action.closeAllEditors');
-                };
-
-                const restoreShowInformationMessage = () => {
-                    const stub: any = window.showInformationMessage;
-                    return Promise.resolve(stub.restore());
-                };
-
-                return Promise.all([
-                    closeAllEditors(),
-                    restoreShowInformationMessage()
-                ]);
+            afterEach(async () => {
+                await commands.executeCommand('workbench.action.closeAllEditors');
+                (window.showInformationMessage as sinon.SinonStub).restore();
             });
 
             describe('configuration', () => {
@@ -81,11 +64,10 @@ describe('RemoveFileCommand', () => {
                     });
 
                     it('asks to delete file', async () => {
+                        await sut.execute();
                         const message = `Are you sure you want to delete '${path.basename(editorFile)}'?`;
                         const action = 'Delete';
                         const options = { modal: true };
-
-                        await sut.execute();
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
@@ -97,22 +79,20 @@ describe('RemoveFileCommand', () => {
                     });
 
                     it('asks to move file to trash', async () => {
+                        await sut.execute();
                         const message = `Are you sure you want to delete '${path.basename(editorFile)}'?`;
                         const action = 'Move to Trash';
                         const options = { modal: true };
-
-                        await sut.execute();
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
             });
 
             describe('responding with delete', () => {
-                it('deletes the file', () => {
-                    return sut.execute().then(() => {
-                        const message = `${editorFile} does exist`;
-                        expect(fs.existsSync(editorFile), message).to.be.false;
-                    });
+                it('deletes the file', async () => {
+                    await sut.execute();
+                    const message = `${editorFile} does exist`;
+                    expect(fs.existsSync(editorFile), message).to.be.false;
                 });
             });
 
@@ -135,7 +115,10 @@ describe('RemoveFileCommand', () => {
             describe('delete.confirm configuration set to false', () => {
                 beforeEach(async () => {
                     const keys = { 'delete.useTrash': false, 'delete.confirm': false };
-                    sinon.stub(workspace, 'getConfiguration').returns({ get: (key) => keys[key] });
+                    const config = {
+                        get: (key) => keys[key]
+                    };
+                    sinon.stub(workspace, 'getConfiguration').returns(config as WorkspaceConfiguration);
                 });
 
                 afterEach(async () => {
@@ -167,31 +150,22 @@ describe('RemoveFileCommand', () => {
         });
 
         describe('with no open text document', () => {
-            beforeEach(() => {
-                const closeAllEditors = () => {
-                    return commands.executeCommand('workbench.action.closeAllEditors');
-                };
-
-                const stubShowInformationMessage = () => {
-                    sinon.stub(window, 'showInformationMessage');
-                    return Promise.resolve();
-                };
-
-                return Promise.all([
-                    closeAllEditors(),
-                    stubShowInformationMessage()
-                ]);
+            beforeEach(async () => {
+                await commands.executeCommand('workbench.action.closeAllEditors');
+                sinon.stub(window, 'showInformationMessage');
             });
 
-            afterEach(() => {
-                const stub: any = window.showInformationMessage;
-                return Promise.resolve(stub.restore());
+            afterEach(async () => {
+                (window.showInformationMessage as sinon.SinonStub).restore();
             });
 
-            it('ignores the command call', () => {
-                return sut.execute().catch(() => {
+            it('ignores the command call', async () => {
+                try {
+                    await sut.execute();
+                    fail('Must fail');
+                } catch {
                     expect(window.showInformationMessage).to.have.not.been.called;
-                }).catch(ClipboardUtil.handleClipboardError);
+                }
             });
         });
     });

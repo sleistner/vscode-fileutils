@@ -1,9 +1,8 @@
 import { IDialogOptions, IExecuteOptions, IFileController } from './FileController';
 
 import * as fs from 'fs';
-import { commands, TextDocument, TextEditor, ViewColumn, window, workspace } from 'vscode';
-import { ClipboardUtil } from '../ClipboardUtil';
-import { FileItem } from '../Item';
+import { commands, env, TextEditor, ViewColumn, window, workspace } from 'vscode';
+import { FileItem } from '../FileItem';
 
 export abstract class BaseFileController implements IFileController {
     public abstract async showDialog(options?: IDialogOptions): Promise<FileItem>;
@@ -70,21 +69,21 @@ export abstract class BaseFileController implements IFileController {
     private async getSourcePathForNonTextFile(): Promise<string> {
         // Since there is no API to get details of non-textual files, the following workaround is performed:
         // 1. Saving the original clipboard data to a local variable.
-        const originalClipboardData = await ClipboardUtil.getClipboardContent();
+        const originalClipboardData = await env.clipboard.readText();
 
         // 2. Populating the clipboard with an empty string
-        await ClipboardUtil.setClipboardContent('');
+        await env.clipboard.writeText('');
 
         // 3. Calling the copyPathOfActiveFile that populates the clipboard with the source path of the active file.
         // If there is no active file - the clipboard will not be populated and it will stay with the empty string.
         await commands.executeCommand('workbench.action.files.copyPathOfActiveFile');
 
         // 4. Get the clipboard data after the API call
-        const postAPICallClipboardData = await ClipboardUtil.getClipboardContent();
+        const postAPICallClipboardData = await await env.clipboard.readText();
 
         // 5. Return the saved original clipboard data to the clipboard so this method
         // will not interfere with the clipboard's content.
-        await ClipboardUtil.setClipboardContent(originalClipboardData);
+        await env.clipboard.writeText(originalClipboardData);
 
         // 6. Return the clipboard data from the API call (which could be an empty string if it failed).
         return postAPICallClipboardData;

@@ -29,35 +29,43 @@ export class FileItem {
     }
 
     public async move(): Promise<FileItem> {
-        await this.ensureDir();
-        await fs.rename(this.path, this.targetPath);
+        this.ensureDir();
+        fs.renameSync(this.path, this.targetPath);
 
         this.SourcePath = this.targetPath;
         return this;
     }
 
     public async duplicate(): Promise<FileItem> {
-        await this.ensureDir();
-        await fs.copy(this.path, this.targetPath);
+        this.ensureDir();
+        fs.copySync(this.path, this.targetPath);
 
         return new FileItem(this.targetPath);
     }
 
     public async remove(useTrash = false): Promise<FileItem> {
-        await useTrash ? trash(this.path) : fs.remove(this.path);
+        if (useTrash) {
+            await trash(this.path);
+        } else {
+            fs.removeSync(this.path);
+        }
 
         return this;
     }
 
     public async create(mkDir?: boolean): Promise<FileItem> {
-        const fn = mkDir === true || this.isDir ? fs.ensureDir : fs.createFile;
-        await fs.remove(this.targetPath);
-        await fn(this.targetPath);
+        fs.removeSync(this.targetPath);
+
+        if (mkDir === true || this.isDir) {
+            fs.ensureDirSync(this.targetPath);
+        } else {
+            fs.createFileSync(this.targetPath);
+        }
 
         return new FileItem(this.targetPath);
     }
 
-    private async ensureDir(): Promise<any> {
-        return fs.ensureDir(path.dirname(this.targetPath));
+    private ensureDir() {
+        return fs.ensureDirSync(path.dirname(this.targetPath));
     }
 }

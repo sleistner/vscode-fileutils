@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { Uri, window, workspace, WorkspaceFolder } from 'vscode';
-import { FileItem } from '../Item';
+import { FileItem } from '../FileItem';
 import { getConfiguration } from '../lib/config';
 import { BaseFileController } from './BaseFileController';
 import { IDialogOptions, IExecuteOptions } from './FileController';

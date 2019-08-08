@@ -1,5 +1,5 @@
 import { TextEditor } from 'vscode';
-import { FileItem } from '../Item';
+import { FileItem } from '../FileItem';
 
 export interface IDialogOptions {
     prompt?: string;

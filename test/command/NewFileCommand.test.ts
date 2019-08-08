@@ -50,12 +50,12 @@ describe('NewFileCommand', () => {
     }
 
     beforeEach(async () => {
-        await fs.remove(tmpDir);
-        await fs.copy(fixtureFile1, editorFile1);
-        await fs.copy(fixtureFile2, editorFile2);
+        fs.removeSync(tmpDir);
+        fs.copySync(fixtureFile1, editorFile1);
+        fs.copySync(fixtureFile2, editorFile2);
     });
 
-    afterEach(() => fs.remove(tmpDir));
+    afterEach(async () => fs.removeSync(tmpDir));
 
     describe('with relativeToRoot set "false"', () => {
         beforeEach(async () => {
@@ -130,7 +130,7 @@ describe('NewFileCommand', () => {
 
         describe('when target destination exists', () => {
             beforeEach(async () => {
-                await fs.copy(editorFile2, targetFile);
+                fs.copySync(editorFile2, targetFile);
 
                 const item: MessageItem = { title: 'placeholder' };
                 sinon.stub(window, 'showInformationMessage').returns(Promise.resolve(item));

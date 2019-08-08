@@ -1,6 +1,5 @@
-import { Uri } from 'vscode';
-import { ClipboardUtil } from '../ClipboardUtil';
-import { FileItem } from '../Item';
+import { env, Uri } from 'vscode';
+import { FileItem } from '../FileItem';
 import { BaseFileController } from './BaseFileController';
 import { IDialogOptions, IExecuteOptions } from './FileController';
 
@@ -20,7 +19,7 @@ export class CopyFileNameController extends BaseFileController {
     }
 
     public async execute(options: IExecuteOptions): Promise<FileItem> {
-        await ClipboardUtil.setClipboardContent(options.fileItem.name);
+        await env.clipboard.writeText(options.fileItem.name);
         return options.fileItem;
     }
 }

@@ -1,17 +1,17 @@
+import { commands, env, ExtensionContext, TextEditor, ViewColumn, window, workspace } from 'vscode';
+import { FileItem } from '../FileItem';
+import { Cache } from '../lib/Cache';
 import { IDialogOptions, IExecuteOptions, IFileController } from './FileController';
 
-import * as fs from 'fs';
-import { commands, env, TextEditor, ViewColumn, window, workspace } from 'vscode';
-import { FileItem } from '../FileItem';
-
 export abstract class BaseFileController implements IFileController {
-    public abstract async showDialog(options?: IDialogOptions): Promise<FileItem>;
+    constructor(protected context: ExtensionContext) { }
+
+    public abstract async showDialog(options?: IDialogOptions): Promise<FileItem | undefined>;
 
     public abstract async execute(options: IExecuteOptions): Promise<FileItem>;
 
-    public async openFileInEditor(fileItem: FileItem): Promise<TextEditor> {
-        const isDir = fs.statSync(fileItem.path).isDirectory();
-        if (isDir) {
+    public async openFileInEditor(fileItem: FileItem): Promise<TextEditor | undefined> {
+        if (fileItem.isDir) {
             return;
         }
 
@@ -35,9 +35,9 @@ export abstract class BaseFileController implements IFileController {
     public async getSourcePath(): Promise<string> {
         // Attempting to get the fileName from the activeTextEditor.
         // Works for text files only.
-        const activeEditor: TextEditor = window.activeTextEditor;
+        const activeEditor = window.activeTextEditor;
         if (activeEditor && activeEditor.document && activeEditor.document.fileName) {
-            return Promise.resolve(activeEditor.document.fileName);
+            return activeEditor.document.fileName;
         }
 
         // No activeTextEditor means that we don't have an active file or
@@ -52,12 +52,20 @@ export abstract class BaseFileController implements IFileController {
         return sourcePath;
     }
 
+    protected getCache(namespace: string): Cache {
+        return new Cache(this.context.globalState, namespace);
+    }
+
     protected async ensureWritableFile(fileItem: FileItem): Promise<FileItem> {
         if (!fileItem.exists) {
             return fileItem;
         }
 
-        const message = `File '${fileItem.targetPath}' already exists.`;
+        if (fileItem.targetPath === undefined) {
+            throw new Error('Missing target path');
+        }
+
+        const message = `File '${fileItem.targetPath.path}' already exists.`;
         const action = 'Overwrite';
         const overwrite = await window.showInformationMessage(message, { modal: true }, action);
         if (overwrite) {

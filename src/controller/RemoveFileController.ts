@@ -7,7 +7,7 @@ import { IExecuteOptions } from './FileController';
 
 export class RemoveFileController extends BaseFileController {
 
-    public async showDialog(): Promise<FileItem> {
+    public async showDialog(): Promise<FileItem | undefined> {
         const sourcePath = await this.getSourcePath();
 
         if (!sourcePath) {

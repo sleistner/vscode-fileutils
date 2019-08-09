@@ -1,71 +1,46 @@
-import { fail } from 'assert';
 import * as retry from 'bluebird-retry';
-import { expect, use as chaiUse } from 'chai';
-import * as fs from 'fs-extra';
-import * as os from 'os';
+import { expect } from 'chai';
+import * as fs from 'fs';
 import * as path from 'path';
-import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
-import { commands, MessageItem, TextEditor, Uri, window, workspace, WorkspaceConfiguration } from 'vscode';
-import { ICommand, RemoveFileCommand } from '../../src/command';
-
-chaiUse(sinonChai);
-
-const rootDir = path.resolve(__dirname, '..', '..', '..');
-const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test--remove-file');
-
-const fixtureFile = path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb');
-const editorFile = path.resolve(tmpDir, 'file-1.rb');
+import { window } from 'vscode';
+import { RemoveFileCommand } from '../../src/command';
+import { RemoveFileController } from '../../src/controller';
+import * as helper from '../helper';
 
 describe('RemoveFileCommand', () => {
+    const subject = helper.createTestSubject(RemoveFileCommand, RemoveFileController);
 
-    const sut: ICommand = new RemoveFileCommand();
+    beforeEach(helper.beforeEach);
 
-    beforeEach(async () => {
-        fs.removeSync(tmpDir);
-        fs.copySync(fixtureFile, editorFile);
-    });
-
-    afterEach(async () => fs.removeSync(tmpDir));
+    afterEach(helper.afterEach);
 
     describe('as command', () => {
         describe('with open text document', () => {
             beforeEach(async () => {
-                const openDocument = () => {
-                    const uri = Uri.file(editorFile);
-                    return workspace.openTextDocument(uri)
-                        .then((textDocument) => window.showTextDocument(textDocument));
-                };
-
-                const item: MessageItem = { title: 'placeholder' };
-                sinon.stub(window, 'showInformationMessage').returns(Promise.resolve(item));
-
-                await retry(() => openDocument(), { max_tries: 4, interval: 500 });
+                await helper.openDocument(helper.editorFile1);
+                helper.stubInformationMessage().resolves(helper.targetFile.path);
             });
 
             afterEach(async () => {
-                await commands.executeCommand('workbench.action.closeAllEditors');
-                (window.showInformationMessage as sinon.SinonStub).restore();
+                await helper.closeAllEditors();
+                helper.restoreInformationMessage();
             });
 
             describe('configuration', () => {
-                beforeEach(async () => {
-                    sinon.stub(workspace, 'getConfiguration');
-                });
+                beforeEach(async () => helper.stubGetConfiguration());
 
-                afterEach(async () => {
-                    (workspace.getConfiguration as sinon.SinonStub).restore();
-                });
+                afterEach(async () => helper.restoreGetConfiguration());
 
                 describe('delete.useTrash set to false', () => {
                     beforeEach(async () => {
-                        const keys = { 'delete.useTrash': false, 'delete.confirm': true };
-                        (workspace.getConfiguration as sinon.SinonStub).returns({ get: (key) => keys[key] });
+                        const keys: { [key: string]: boolean } = { 'delete.useTrash': false, 'delete.confirm': true };
+                        const config = { get: (key: string) => keys[key] };
+                        helper.stubGetConfiguration().returns(config);
                     });
 
                     it('asks to delete file', async () => {
-                        await sut.execute();
-                        const message = `Are you sure you want to delete '${path.basename(editorFile)}'?`;
+                        await subject.execute();
+                        const message = `Are you sure you want to delete '${path.basename(helper.editorFile1.path)}'?`;
                         const action = 'Delete';
                         const options = { modal: true };
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
@@ -74,13 +49,14 @@ describe('RemoveFileCommand', () => {
 
                 describe('delete.useTrash set to true', () => {
                     beforeEach(async () => {
-                        const keys = { 'delete.useTrash': true, 'delete.confirm': true };
-                        (workspace.getConfiguration as sinon.SinonStub).returns({ get: (key) => keys[key] });
+                        const keys: { [key: string]: boolean } = { 'delete.useTrash': true, 'delete.confirm': true };
+                        const config = { get: (key: string) => keys[key] };
+                        helper.stubGetConfiguration().returns(config);
                     });
 
                     it('asks to move file to trash', async () => {
-                        await sut.execute();
-                        const message = `Are you sure you want to delete '${path.basename(editorFile)}'?`;
+                        await subject.execute();
+                        const message = `Are you sure you want to delete '${path.basename(helper.editorFile1.path)}'?`;
                         const action = 'Move to Trash';
                         const options = { modal: true };
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
@@ -90,53 +66,48 @@ describe('RemoveFileCommand', () => {
 
             describe('responding with delete', () => {
                 it('deletes the file', async () => {
-                    await sut.execute();
-                    const message = `${editorFile} does exist`;
-                    expect(fs.existsSync(editorFile), message).to.be.false;
+                    await subject.execute();
+                    const message = `${helper.editorFile1.path} does exist`;
+                    expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.false;
                 });
             });
 
             describe('responding with no', () => {
-                beforeEach(async () => {
-                    (window.showInformationMessage as sinon.SinonStub).returns(Promise.resolve(false));
-                });
+                beforeEach(async () => helper.stubInformationMessage().resolves(false));
 
                 it('leaves the file untouched', async () => {
                     try {
-                        await sut.execute();
-                        fail('must fail');
+                        await subject.execute();
+                        expect.fail('must fail');
                     } catch (e) {
-                        const message = `${editorFile} does not exist`;
-                        expect(fs.existsSync(editorFile), message).to.be.true;
+                        const message = `${helper.editorFile1.path} does not exist`;
+                        expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.true;
                     }
                 });
             });
 
             describe('delete.confirm configuration set to false', () => {
                 beforeEach(async () => {
-                    const keys = { 'delete.useTrash': false, 'delete.confirm': false };
-                    const config = {
-                        get: (key) => keys[key]
-                    };
-                    sinon.stub(workspace, 'getConfiguration').returns(config as WorkspaceConfiguration);
+                    const keys: { [key: string]: boolean } = { 'delete.useTrash': false, 'delete.confirm': false };
+                    const config = { get: (key: string) => keys[key] };
+                    helper.stubGetConfiguration().returns(config);
                 });
 
-                afterEach(async () => {
-                    (workspace.getConfiguration as sinon.SinonStub).restore();
-                });
+                afterEach(async () => helper.restoreGetConfiguration());
 
                 it('deletes the file without confirmation', async () => {
-                    await sut.execute();
+                    await subject.execute();
+                    const message = `${helper.editorFile1.path} does not exist`;
                     expect(window.showInformationMessage).to.have.not.been.called;
-                    expect(fs.existsSync(editorFile), `${editorFile} does not exist`).to.be.false;
+                    expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.false;
                 });
             });
 
             it('closes file editor', async () => {
-                let activeEditor: TextEditor;
+                let activeEditor;
 
                 const retryable = async () => {
-                    await sut.execute();
+                    await subject.execute();
                     activeEditor = window.activeTextEditor;
 
                     if (activeEditor) {
@@ -151,18 +122,16 @@ describe('RemoveFileCommand', () => {
 
         describe('with no open text document', () => {
             beforeEach(async () => {
-                await commands.executeCommand('workbench.action.closeAllEditors');
-                sinon.stub(window, 'showInformationMessage');
+                await helper.closeAllEditors();
+                helper.stubInformationMessage();
             });
 
-            afterEach(async () => {
-                (window.showInformationMessage as sinon.SinonStub).restore();
-            });
+            afterEach(async () => helper.restoreInformationMessage());
 
             it('ignores the command call', async () => {
                 try {
-                    await sut.execute();
-                    fail('Must fail');
+                    await subject.execute();
+                    expect.fail('Must fail');
                 } catch {
                     expect(window.showInformationMessage).to.have.not.been.called;
                 }

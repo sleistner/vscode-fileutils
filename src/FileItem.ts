@@ -1,27 +1,38 @@
-import * as fs from 'fs-extra';
+import * as fs from 'fs';
 import * as path from 'path';
-
-import trash from 'trash';
+import { FileSystemError, Uri, workspace } from 'vscode';
 
 export class FileItem {
 
-    constructor(private SourcePath: string, private TargetPath?: string, private IsDir: boolean = false) {
+    private SourcePath: Uri;
+    private TargetPath: Uri | undefined;
+
+    constructor(sourcePath: Uri | string, targetPath?: Uri | string, private IsDir: boolean = false) {
+        this.SourcePath = this.toUri(sourcePath);
+        if (targetPath !== undefined) {
+            this.TargetPath = this.toUri(targetPath);
+        }
     }
 
     get name(): string {
-        return path.basename(this.SourcePath);
+        return path.basename(this.path.path);
     }
 
-    get path(): string {
-        return this.SourcePath;
+    get path(): Uri {
+        return this.toUri(this.SourcePath);
     }
 
-    get targetPath(): string {
-        return this.TargetPath;
+    get targetPath(): Uri | undefined {
+        if (this.TargetPath !== undefined) {
+            return this.TargetPath;
+        }
     }
 
     get exists(): boolean {
-        return fs.existsSync(this.targetPath);
+        if (this.targetPath === undefined) {
+            return false;
+        }
+        return fs.existsSync(this.targetPath.fsPath);
     }
 
     get isDir(): boolean {
@@ -29,43 +40,53 @@ export class FileItem {
     }
 
     public async move(): Promise<FileItem> {
-        this.ensureDir();
-        fs.renameSync(this.path, this.targetPath);
+        if (this.targetPath === undefined) {
+            throw new Error('Missing target path');
+        }
+        await workspace.fs.rename(this.path, this.targetPath, { overwrite: true });
 
         this.SourcePath = this.targetPath;
         return this;
     }
 
     public async duplicate(): Promise<FileItem> {
-        this.ensureDir();
-        fs.copySync(this.path, this.targetPath);
+        if (this.targetPath === undefined) {
+            throw new Error('Missing target path');
+        }
+        await workspace.fs.copy(this.path, this.targetPath, { overwrite: true });
 
         return new FileItem(this.targetPath);
     }
 
     public async remove(useTrash = false): Promise<FileItem> {
-        if (useTrash) {
-            await trash(this.path);
-        } else {
-            fs.removeSync(this.path);
+        try {
+            await workspace.fs.delete(this.path, { recursive: true, useTrash });
+        } catch (err) {
+            if (useTrash === true && err instanceof FileSystemError) {
+                return this.remove(false);
+            }
+            throw err;
         }
-
         return this;
     }
 
     public async create(mkDir?: boolean): Promise<FileItem> {
-        fs.removeSync(this.targetPath);
+        if (this.targetPath === undefined) {
+            throw new Error('Missing target path');
+        }
+
+        await workspace.fs.delete(this.targetPath, { recursive: true });
 
         if (mkDir === true || this.isDir) {
-            fs.ensureDirSync(this.targetPath);
+            await workspace.fs.createDirectory(this.targetPath);
         } else {
-            fs.createFileSync(this.targetPath);
+            await workspace.fs.writeFile(this.targetPath, new Uint8Array());
         }
 
         return new FileItem(this.targetPath);
     }
 
-    private ensureDir() {
-        return fs.ensureDirSync(path.dirname(this.targetPath));
+    private toUri(uriOrString: Uri | string): Uri {
+        return uriOrString instanceof Uri ? uriOrString : Uri.file(uriOrString);
     }
 }

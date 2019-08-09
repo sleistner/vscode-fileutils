@@ -14,7 +14,10 @@
     ],
     "no-implicit-dependencies": [
       true,
-      "dev"
+      "dev",
+      [
+        "vscode"
+      ]
     ]
   }
 }

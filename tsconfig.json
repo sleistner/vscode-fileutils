@@ -7,10 +7,15 @@
 			"es6"
 		],
 		"sourceMap": true,
-        "rootDir": "."
+		"rootDir": ".",
+		"strict": true,
+		"typeRoots": [
+			"types",
+			"node_modules/@types"
+		],
 	},
 	"exclude": [
 		"node_modules",
-        ".vscode-test"
+		".vscode-test"
 	]
 }

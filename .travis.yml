@@ -27,7 +27,7 @@ install:
   - yarn run vscode:prepublish
 
 script:
-  - yarn run lint --silent
+  - yarn run lint
   - yarn test
 
 jobs:

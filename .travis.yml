@@ -23,15 +23,15 @@ before_install:
     fi
 
 install:
-  - npm install
-  - npm run vscode:prepublish
+  - yarn install
+  - yarn run vscode:prepublish
 
 script:
-  - npm run lint --silent
-  - npm test
+  - yarn run lint --silent
+  - yarn test
 
 jobs:
   include:
     - stage: release
       os: linux
-      script: npm run semantic-release
+      script: yarn run semantic-release

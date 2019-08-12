@@ -179,7 +179,8 @@
     "pretest": "yarn run compile",
     "test": "node ./out/test/runTest.js",
     "lint": "tslint -e './node_modules/**/*.ts' -e './typings/**/*.ts' './**/*.ts'",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "validate": "npm ls"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^3.0.4",

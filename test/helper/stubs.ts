@@ -42,8 +42,9 @@ export function restoreInformationMessage() {
 }
 
 export function stubObject(handler: any, fn: string, returns?: any): sinon.SinonStub {
-    const stub: any = (handler[fn] as any).restore
-        ? handler[fn]
+    const target = handler[fn];
+    const stub: sinon.SinonStub = target && target.restore
+        ? target
         : sinon.stub(handler, fn);
 
     if (returns) {
@@ -53,5 +54,8 @@ export function stubObject(handler: any, fn: string, returns?: any): sinon.Sinon
 }
 
 export function restoreObject(object: any) {
-    (object as sinon.SinonStub).restore();
+    const stub = object as sinon.SinonStub;
+    if (stub && stub.restore) {
+        stub.restore();
+    }
 }

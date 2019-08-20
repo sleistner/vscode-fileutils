@@ -2,7 +2,7 @@ import * as os from 'os';
 import * as path from 'path';
 import { Uri } from 'vscode';
 
-export const rootDir = path.resolve(__dirname, '..', '..');
+export const rootDir = path.resolve(__dirname, '..', '..', '..');
 export const tmpDir = Uri.file(path.resolve(os.tmpdir(), 'vscode-fileutils-test'));
 
 export const fixtureFile1 = Uri.file(path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb'));

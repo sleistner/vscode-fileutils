@@ -8,7 +8,7 @@ node_js:
 os:
   - osx
   - linux
-  - windows
+  # - windows
 
 stages:
   - test

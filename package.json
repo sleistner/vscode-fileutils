@@ -193,8 +193,9 @@
     "@types/node": "^10.12.21",
     "@types/sinon": "^7.0.3",
     "@types/sinon-chai": "^3.2.0",
-    "@types/trash": "^5.0.0",
     "@types/vscode": "^1.37.0",
+    "bluebird": "^3.5.1",
+    "bluebird-retry": "^0.11.0",
     "chai": "^4.2.0",
     "mocha": "^6.2.0",
     "precommit-hook-eslint": "^3.0.0",
@@ -205,9 +206,7 @@
     "tslint": "^5.12.1",
     "tslint-no-unused-expression-chai": "^0.1.4",
     "typescript": "^3.5.3",
-    "vscode-test": "^1.2.0",
-    "bluebird-retry": "^0.11.0",
-    "bluebird": "^3.5.1"
+    "vscode-test": "^1.2.0"
   },
   "dependencies": {
     "glob": "^7.1.2"

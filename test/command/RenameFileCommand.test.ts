@@ -16,12 +16,12 @@ describe('RenameFileCommand', () => {
         describe('with open text document', () => {
             beforeEach(async () => {
                 await helper.openDocument(helper.editorFile1);
-                helper.stubInputBox().resolves(helper.targetFile.path);
+                helper.createShowInputBoxStub().resolves(helper.targetFile.path);
             });
 
             afterEach(async () => {
                 await helper.closeAllEditors();
-                helper.restoreInputBox();
+                helper.restoreShowInputBox();
             });
 
             it('prompts for file destination', async () => {
@@ -39,8 +39,8 @@ describe('RenameFileCommand', () => {
 
                     describe('configuration', () => {
                         beforeEach(async () => {
-                            helper.stubGetConfiguration();
-                            helper.stubExecuteCommand().withArgs('workbench.action.closeActiveEditor');
+                            helper.createGetConfigurationStub();
+                            helper.createExecuteCommandStub().withArgs('workbench.action.closeActiveEditor');
                         });
 
                         afterEach(async () => {
@@ -52,7 +52,7 @@ describe('RenameFileCommand', () => {
                             beforeEach(async () => {
                                 const keys: { [key: string]: boolean } = { 'rename.closeOldTab': true };
                                 const config = { get: (key: string) => keys[key] };
-                                helper.stubGetConfiguration().returns(config);
+                                helper.createGetConfigurationStub().returns(config);
                             });
 
                             it('renames a file and verifies that the tab of the file was closed', async () => {
@@ -65,7 +65,7 @@ describe('RenameFileCommand', () => {
                             beforeEach(async () => {
                                 const keys: { [key: string]: boolean } = { 'rename.closeOldTab': false };
                                 const config = { get: (key: string) => keys[key] };
-                                helper.stubGetConfiguration().returns(config);
+                                helper.createGetConfigurationStub().returns(config);
                             });
 
                             it('renames a file and verifies that the tab of the file was not closed', async () => {
@@ -83,10 +83,10 @@ describe('RenameFileCommand', () => {
         describe('with no open text document', () => {
             beforeEach(async () => {
                 await helper.closeAllEditors();
-                helper.stubInputBox();
+                helper.createShowInputBoxStub();
             });
 
-            afterEach(() => helper.restoreInputBox());
+            afterEach(() => helper.restoreShowInputBox());
 
             it('ignores the command call', async () => {
                 try {

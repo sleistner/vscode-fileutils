@@ -4,7 +4,12 @@ import * as path from 'path';
 import { TextEditor, window, workspace } from 'vscode';
 import { editorFile2, targetFile, tmpDir } from '../environment';
 import { closeAllEditors, readFile } from '../functions';
-import { restoreInformationMessage, restoreInputBox, stubInformationMessage, stubInputBox } from '../stubs';
+import {
+    createShowInformationMessageStub,
+    createShowInputBoxStub,
+    restoreShowInformationMessage,
+    restoreShowInputBox
+} from '../stubs';
 import { FuncVoid, IStep } from './types';
 
 export const describe: IStep = {
@@ -12,7 +17,7 @@ export const describe: IStep = {
         return () => {
             const targetDir = path.resolve(tmpDir.fsPath, 'level-1', 'level-2', 'level-3');
 
-            mocha.beforeEach(async () => stubInputBox(Promise.resolve(path.resolve(targetDir, 'file.rb'))));
+            mocha.beforeEach(async () => createShowInputBoxStub(Promise.resolve(path.resolve(targetDir, 'file.rb'))));
 
             mocha.it('creates nested directories', async () => {
                 const textEditor: TextEditor = await subject.execute();
@@ -29,10 +34,10 @@ export const describe: IStep = {
         return () => {
             mocha.beforeEach(async () => {
                 await workspace.fs.copy(editorFile2, targetFile, { overwrite: true });
-                stubInformationMessage().resolves({ title: 'placeholder' });
+                createShowInformationMessageStub().resolves({ title: 'placeholder' });
             });
 
-            mocha.afterEach(async () => restoreInformationMessage());
+            mocha.afterEach(async () => restoreShowInformationMessage());
 
             mocha.it('asks to overwrite destination file', async () => {
                 await subject.execute();
@@ -54,7 +59,7 @@ export const describe: IStep = {
             });
 
             mocha.describe(`responding with 'Cancel'`, () => {
-                mocha.beforeEach(async () => stubInformationMessage().resolves(false));
+                mocha.beforeEach(async () => createShowInformationMessageStub().resolves(false));
 
                 mocha.it('leaves existing file untouched', async () => {
                     try {
@@ -76,10 +81,10 @@ export const describe: IStep = {
         return () => {
             mocha.beforeEach(async () => {
                 await closeAllEditors();
-                stubInputBox();
+                createShowInputBoxStub();
             });
 
-            mocha.afterEach(async () => restoreInputBox());
+            mocha.afterEach(async () => restoreShowInputBox());
 
             mocha.it('ignores the command call', async () => {
                 try {

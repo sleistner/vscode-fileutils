@@ -14,12 +14,12 @@ describe('DuplicateFileCommand', () => {
         describe('with open text document', () => {
             beforeEach(async () => {
                 await helper.openDocument(helper.editorFile1);
-                helper.stubInputBox(Promise.resolve(helper.targetFile.path));
+                helper.createShowInputBoxStub(Promise.resolve(helper.targetFile.path));
             });
 
             afterEach(async () => {
                 await helper.closeAllEditors();
-                helper.restoreInputBox();
+                helper.restoreShowInputBox();
             });
 
             helper.protocol.it('prompts for file destination', subject, 'Duplicate As');
@@ -33,9 +33,9 @@ describe('DuplicateFileCommand', () => {
     });
 
     describe('as context menu', () => {
-        beforeEach(async () => helper.stubInputBox(Promise.resolve(helper.targetFile.path)));
+        beforeEach(async () => helper.createShowInputBoxStub(Promise.resolve(helper.targetFile.path)));
 
-        afterEach(async () => helper.restoreInputBox());
+        afterEach(async () => helper.restoreShowInputBox());
 
         helper.protocol.it('prompts for file destination', subject, 'Duplicate As');
         helper.protocol.it('duplicates current file to destination', subject, helper.editorFile1);

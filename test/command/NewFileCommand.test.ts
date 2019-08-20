@@ -17,14 +17,14 @@ describe('NewFileCommand', () => {
     describe('with relativeToRoot set "false"', () => {
         beforeEach(async () => {
             await helper.openDocument(helper.editorFile1);
-            helper.stubInputBox(Promise.resolve(path.basename(helper.targetFile.path)));
-            helper.stubQuickPick(Promise.resolve({ label: '/', description: '' }));
+            helper.createShowInputBoxStub(Promise.resolve(path.basename(helper.targetFile.path)));
+            helper.createShowQuickPickStub(Promise.resolve({ label: '/', description: '' }));
         });
 
         afterEach(async () => {
             await helper.closeAllEditors();
-            helper.restoreInputBox();
-            helper.restoreQuickPick();
+            helper.restoreShowInputBox();
+            helper.restoreShowQuickPick();
         });
 
         it('prompts for file destination', async () => {
@@ -44,7 +44,7 @@ describe('NewFileCommand', () => {
         describe('file path ends with path separator', () => {
             beforeEach(async () => {
                 const fileName = path.basename(helper.targetFile.fsPath) + path.sep;
-                helper.stubInputBox(Promise.resolve(fileName));
+                helper.createShowInputBoxStub(Promise.resolve(fileName));
             });
 
             it('creates the directory at destination', async () => {
@@ -73,9 +73,9 @@ describe('NewFileCommand', () => {
         let workspaceFoldersStub: sinon.SinonStub;
 
         beforeEach(async () => {
-            workspaceFoldersStub = helper.stubObject(workspace, 'workspaceFolders').get(() => workspaceFolders);
+            workspaceFoldersStub = helper.createStubObject(workspace, 'workspaceFolders').get(() => workspaceFolders);
 
-            helper.stubInputBox().callsFake(async (options) => {
+            helper.createShowInputBoxStub().callsFake(async (options) => {
                 if (options.value) {
                     return path.join(options.value, 'filename.txt');
                 }
@@ -84,13 +84,13 @@ describe('NewFileCommand', () => {
 
         afterEach(async () => {
             helper.restoreObject(workspaceFoldersStub);
-            helper.restoreInputBox();
+            helper.restoreShowInputBox();
         });
 
         describe('with one workspace', () => {
             beforeEach(async () => {
                 workspaceFolders.push(workspaceFolderA);
-                helper.stubObject(workspace, 'getWorkspaceFolder');
+                helper.createStubObject(workspace, 'getWorkspaceFolder');
             });
 
             afterEach(async () => {
@@ -113,7 +113,7 @@ describe('NewFileCommand', () => {
 
             beforeEach(async () => {
                 workspaceFolders.push(workspaceFolderA, workspaceFolderB);
-                helper.stubObject(window, 'showWorkspaceFolderPick').resolves(workspaceFolderB);
+                helper.createStubObject(window, 'showWorkspaceFolderPick').resolves(workspaceFolderB);
             });
 
             afterEach(async () => {
@@ -133,7 +133,7 @@ describe('NewFileCommand', () => {
 
             describe('with open document', () => {
                 beforeEach(async () => {
-                    helper.stubObject(workspace, 'getWorkspaceFolder').returns(workspaceFolders[1]);
+                    helper.createStubObject(workspace, 'getWorkspaceFolder').returns(workspaceFolders[1]);
                     await helper.openDocument(helper.editorFile1);
                 });
 

@@ -17,12 +17,12 @@ describe('MoveFileCommand', () => {
         describe('with open text document', () => {
             beforeEach(async () => {
                 await helper.openDocument(helper.editorFile1);
-                helper.stubInputBox().resolves(helper.targetFile.path);
+                helper.createShowInputBoxStub().resolves(helper.targetFile.path);
             });
 
             afterEach(async () => {
                 await helper.closeAllEditors();
-                helper.restoreInputBox();
+                helper.restoreShowInputBox();
             });
 
             helper.protocol.it('prompts for file destination', subject, 'New Location');
@@ -32,8 +32,8 @@ describe('MoveFileCommand', () => {
                 extra() {
                     describe('configuration', () => {
                         beforeEach(async () => {
-                            helper.stubGetConfiguration();
-                            helper.stubExecuteCommand().withArgs('workbench.action.closeActiveEditor');
+                            helper.createGetConfigurationStub();
+                            helper.createExecuteCommandStub().withArgs('workbench.action.closeActiveEditor');
                         });
 
                         afterEach(async () => {
@@ -45,7 +45,7 @@ describe('MoveFileCommand', () => {
                             beforeEach(async () => {
                                 const keys: { [key: string]: boolean } = { 'move.closeOldTab': true };
                                 const config = { get: (key: string) => keys[key] };
-                                helper.stubGetConfiguration().returns(config);
+                                helper.createGetConfigurationStub().returns(config);
                             });
 
                             it('moves a file and verifies that the tab of the file was closed', async () => {
@@ -58,7 +58,7 @@ describe('MoveFileCommand', () => {
                             beforeEach(async () => {
                                 const keys: { [key: string]: boolean } = { 'move.closeOldTab': false };
                                 const config = { get: (key: string) => keys[key] };
-                                helper.stubGetConfiguration().returns(config);
+                                helper.createGetConfigurationStub().returns(config);
                             });
 
                             it('moves a file and verifies that the tab of the file was not closed', async () => {
@@ -77,9 +77,9 @@ describe('MoveFileCommand', () => {
     });
 
     describe('as context menu', () => {
-        beforeEach(async () => helper.stubInputBox(Promise.resolve(helper.targetFile.path)));
+        beforeEach(async () => helper.createShowInputBoxStub(Promise.resolve(helper.targetFile.path)));
 
-        afterEach(async () => helper.restoreInputBox());
+        afterEach(async () => helper.restoreShowInputBox());
 
         helper.protocol.it('prompts for file destination', subject, 'New Location');
         helper.protocol.it('moves current file to destination', subject, helper.editorFile1);

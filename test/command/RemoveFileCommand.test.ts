@@ -18,16 +18,16 @@ describe('RemoveFileCommand', () => {
         describe('with open text document', () => {
             beforeEach(async () => {
                 await helper.openDocument(helper.editorFile1);
-                helper.stubInformationMessage().resolves(helper.targetFile.path);
+                helper.createShowInformationMessageStub().resolves(helper.targetFile.path);
             });
 
             afterEach(async () => {
                 await helper.closeAllEditors();
-                helper.restoreInformationMessage();
+                helper.restoreShowInformationMessage();
             });
 
             describe('configuration', () => {
-                beforeEach(async () => helper.stubGetConfiguration());
+                beforeEach(async () => helper.createGetConfigurationStub());
 
                 afterEach(async () => helper.restoreGetConfiguration());
 
@@ -35,7 +35,7 @@ describe('RemoveFileCommand', () => {
                     beforeEach(async () => {
                         const keys: { [key: string]: boolean } = { 'delete.useTrash': false, 'delete.confirm': true };
                         const config = { get: (key: string) => keys[key] };
-                        helper.stubGetConfiguration().returns(config);
+                        helper.createGetConfigurationStub().returns(config);
                     });
 
                     it('asks to delete file', async () => {
@@ -51,7 +51,7 @@ describe('RemoveFileCommand', () => {
                     beforeEach(async () => {
                         const keys: { [key: string]: boolean } = { 'delete.useTrash': true, 'delete.confirm': true };
                         const config = { get: (key: string) => keys[key] };
-                        helper.stubGetConfiguration().returns(config);
+                        helper.createGetConfigurationStub().returns(config);
                     });
 
                     it('asks to move file to trash', async () => {
@@ -73,7 +73,7 @@ describe('RemoveFileCommand', () => {
             });
 
             describe('responding with no', () => {
-                beforeEach(async () => helper.stubInformationMessage().resolves(false));
+                beforeEach(async () => helper.createShowInformationMessageStub().resolves(false));
 
                 it('leaves the file untouched', async () => {
                     try {
@@ -90,7 +90,7 @@ describe('RemoveFileCommand', () => {
                 beforeEach(async () => {
                     const keys: { [key: string]: boolean } = { 'delete.useTrash': false, 'delete.confirm': false };
                     const config = { get: (key: string) => keys[key] };
-                    helper.stubGetConfiguration().returns(config);
+                    helper.createGetConfigurationStub().returns(config);
                 });
 
                 afterEach(async () => helper.restoreGetConfiguration());
@@ -123,10 +123,10 @@ describe('RemoveFileCommand', () => {
         describe('with no open text document', () => {
             beforeEach(async () => {
                 await helper.closeAllEditors();
-                helper.stubInformationMessage();
+                helper.createShowInformationMessageStub();
             });
 
-            afterEach(async () => helper.restoreInformationMessage());
+            afterEach(async () => helper.restoreShowInformationMessage());
 
             it('ignores the command call', async () => {
                 try {

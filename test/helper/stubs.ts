@@ -1,47 +1,47 @@
 import * as sinon from 'sinon';
 import { commands, window, workspace } from 'vscode';
 
-export function stubExecuteCommand(returns?: any): sinon.SinonStub {
-    return stubObject(commands, 'executeCommand', returns);
+export function createExecuteCommandStub(returns?: any): sinon.SinonStub {
+    return createStubObject(commands, 'executeCommand', returns);
 }
 
 export function restoreExecuteCommand() {
     restoreObject(commands.executeCommand);
 }
 
-export function stubGetConfiguration(returns?: any): sinon.SinonStub {
-    return stubObject(workspace, 'getConfiguration', returns);
+export function createGetConfigurationStub(returns?: any): sinon.SinonStub {
+    return createStubObject(workspace, 'getConfiguration', returns);
 }
 
 export function restoreGetConfiguration() {
     restoreObject(workspace.getConfiguration);
 }
 
-export function stubInputBox(returns?: any): sinon.SinonStub {
-    return stubObject(window, 'showInputBox', returns);
+export function createShowInputBoxStub(returns?: any): sinon.SinonStub {
+    return createStubObject(window, 'showInputBox', returns);
 }
 
-export function restoreInputBox() {
+export function restoreShowInputBox() {
     restoreObject(window.showInputBox);
 }
 
-export function stubQuickPick(returns?: any): sinon.SinonStub {
-    return stubObject(window, 'showQuickPick', returns);
+export function createShowQuickPickStub(returns?: any): sinon.SinonStub {
+    return createStubObject(window, 'showQuickPick', returns);
 }
 
-export function restoreQuickPick() {
+export function restoreShowQuickPick() {
     restoreObject(window.showQuickPick);
 }
 
-export function stubInformationMessage(returns?: any): sinon.SinonStub {
-    return stubObject(window, 'showInformationMessage', returns);
+export function createShowInformationMessageStub(returns?: any): sinon.SinonStub {
+    return createStubObject(window, 'showInformationMessage', returns);
 }
 
-export function restoreInformationMessage() {
+export function restoreShowInformationMessage() {
     restoreObject(window.showInformationMessage);
 }
 
-export function stubObject(handler: any, fn: string, returns?: any): sinon.SinonStub {
+export function createStubObject(handler: any, fn: string, returns?: any): sinon.SinonStub {
     const target = handler[fn];
     const stub: sinon.SinonStub = target && target.restore
         ? target

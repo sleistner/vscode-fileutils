@@ -1,3 +1,10 @@
+## [2.14.6](https://github.com/sleistner/vscode-fileutils/compare/v2.14.5...v2.14.6) (2019-08-20)
+
+
+### Bug Fixes
+
+* missing callback in remote environments ([63ef29a](https://github.com/sleistner/vscode-fileutils/commit/63ef29a))
+
 ## [2.14.5](https://github.com/sleistner/vscode-fileutils/compare/v2.14.4...v2.14.5) (2019-06-03)
 
 

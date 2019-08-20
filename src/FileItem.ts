@@ -15,17 +15,15 @@ export class FileItem {
     }
 
     get name(): string {
-        return path.basename(this.path.path);
+        return path.basename(this.SourcePath.path);
     }
 
     get path(): Uri {
-        return this.toUri(this.SourcePath);
+        return this.SourcePath;
     }
 
     get targetPath(): Uri | undefined {
-        if (this.TargetPath !== undefined) {
-            return this.TargetPath;
-        }
+        return this.TargetPath;
     }
 
     get exists(): boolean {

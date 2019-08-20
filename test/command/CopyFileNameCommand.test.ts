@@ -1,58 +1,47 @@
-import { fail } from 'assert';
-import { expect, use as chaiUse } from 'chai';
-import * as path from 'path';
-import * as sinonChai from 'sinon-chai';
-import { commands, Uri, window, workspace } from 'vscode';
-import { ClipboardUtil } from '../../src/ClipboardUtil';
-import { CopyFileNameCommand, ICommand } from '../../src/command';
-
-chaiUse(sinonChai);
-
-const rootDir = path.resolve(__dirname, '..', '..', '..');
-
-const fixtureFile1Name = 'file-1.rb';
-const fixtureFile1 = path.resolve(rootDir, 'test', 'fixtures', fixtureFile1Name);
-
-const clipboardInitialTestData = 'SOME_TEXT';
+import { expect } from 'chai';
+import { env } from 'vscode';
+import { CopyFileNameCommand } from '../../src/command';
+import { CopyFileNameController } from '../../src/controller';
+import { FileItem } from '../../src/FileItem';
+import * as helper from '../helper';
 
 describe('CopyFileNameCommand', () => {
-    const sut: ICommand = new CopyFileNameCommand();
+    const clipboardInitialTestData = 'SOME_TEXT';
+    const subject = helper.createTestSubject(CopyFileNameCommand, CopyFileNameController);
+
+    beforeEach(helper.beforeEach);
+
+    afterEach(helper.afterEach);
 
     describe('as command', () => {
-        after(async () => {
-            await ClipboardUtil.setClipboardContent(clipboardInitialTestData);
+        afterEach(async () => {
+            await env.clipboard.writeText(clipboardInitialTestData);
         });
 
         describe('with open text document', () => {
-            before(async () => {
-                const uri = Uri.file(fixtureFile1);
-                const textDocument = await workspace.openTextDocument(uri);
-                await window.showTextDocument(textDocument);
-            });
+            beforeEach(async () => helper.openDocument(helper.editorFile1));
 
-            after(async () => {
-                await commands.executeCommand('workbench.action.closeAllEditors');
-            });
+            afterEach(async () => helper.closeAllEditors());
 
             it('puts the file name to the clipboard', async () => {
-                await sut.execute();
-                const pasteContent = await ClipboardUtil.getClipboardContent();
-                expect(pasteContent).to.equal(fixtureFile1Name);
+                await subject.execute();
+                const clipboardData = await env.clipboard.readText();
+                expect(clipboardData).to.equal(new FileItem(helper.editorFile1).name);
             });
         });
 
         describe('with no open text document', () => {
-            before(async () => {
-                await commands.executeCommand('workbench.action.closeAllEditors');
-                await ClipboardUtil.setClipboardContent(clipboardInitialTestData);
+            beforeEach(async () => {
+                await helper.closeAllEditors();
+                await env.clipboard.writeText(clipboardInitialTestData);
             });
 
             it('ignores the command call and does not change the clipboard data', async () => {
                 try {
-                    await sut.execute();
-                    fail('must fail');
+                    await subject.execute();
+                    expect.fail('must fail');
                 } catch (e) {
-                    const clipboardData = await ClipboardUtil.getClipboardContent();
+                    const clipboardData = await env.clipboard.readText();
                     expect(clipboardData).to.equal(clipboardInitialTestData);
                 }
             });

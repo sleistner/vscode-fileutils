@@ -1,16 +1,18 @@
 import * as vscode from 'vscode';
-import * as VSCodeCache from 'vscode-cache';
 
-export class Cache extends VSCodeCache {
-    [x: string]: any;
+export class Cache {
+    private cache: { [key: string]: any };
 
-    private static Context: vscode.ExtensionContext;
-
-    constructor(namespace: string) {
-        super(Cache.Context, namespace);
+    constructor(private storage: vscode.Memento, private namespace: string) {
+        this.cache = storage.get(this.namespace, {});
     }
 
-    public static set context(context: vscode.ExtensionContext) {
-        Cache.Context = context;
+    public put(key: string, value: any) {
+        this.cache[key] = value;
+        this.storage.update(this.namespace, this.cache);
+    }
+
+    public get(key: string, defaultValue?: any) {
+        return key in this.cache ? this.cache[key] : defaultValue;
     }
 }

@@ -1,159 +1,113 @@
-import { fail } from 'assert';
 import * as retry from 'bluebird-retry';
-import { expect, use as chaiUse } from 'chai';
-import * as fs from 'fs-extra';
-import * as os from 'os';
+import { expect } from 'chai';
+import * as fs from 'fs';
 import * as path from 'path';
-import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
-import { commands, TextEditor, Uri, window, workspace } from 'vscode';
-import { ClipboardUtil } from '../../src/ClipboardUtil';
-import { ICommand, RemoveFileCommand } from '../../src/command';
-
-chaiUse(sinonChai);
-
-const rootDir = path.resolve(__dirname, '..', '..', '..');
-const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test--remove-file');
-
-const fixtureFile = path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb');
-const editorFile = path.resolve(tmpDir, 'file-1.rb');
+import { window } from 'vscode';
+import { RemoveFileCommand } from '../../src/command';
+import { RemoveFileController } from '../../src/controller';
+import * as helper from '../helper';
 
 describe('RemoveFileCommand', () => {
+    const subject = helper.createTestSubject(RemoveFileCommand, RemoveFileController);
 
-    const sut: ICommand = new RemoveFileCommand();
+    beforeEach(helper.beforeEach);
 
-    beforeEach(() => Promise.all([
-        fs.remove(tmpDir),
-        fs.copy(fixtureFile, editorFile),
-    ]));
-
-    afterEach(() => fs.remove(tmpDir));
+    afterEach(helper.afterEach);
 
     describe('as command', () => {
         describe('with open text document', () => {
-            beforeEach(() => {
-                const openDocument = () => {
-                    const uri = Uri.file(editorFile);
-                    return workspace.openTextDocument(uri)
-                        .then((textDocument) => window.showTextDocument(textDocument));
-                };
-
-                const stubShowInformationMessage = () => {
-                    sinon.stub(window, 'showInformationMessage').returns(Promise.resolve(true));
-                    return Promise.resolve();
-                };
-
-                return Promise.all([
-                    retry(() => openDocument(), { max_tries: 4, interval: 500 }),
-                    stubShowInformationMessage()
-                ]);
+            beforeEach(async () => {
+                await helper.openDocument(helper.editorFile1);
+                helper.createShowInformationMessageStub().resolves(helper.targetFile.path);
             });
 
-            afterEach(() => {
-                const closeAllEditors = () => {
-                    return commands.executeCommand('workbench.action.closeAllEditors');
-                };
-
-                const restoreShowInformationMessage = () => {
-                    const stub: any = window.showInformationMessage;
-                    return Promise.resolve(stub.restore());
-                };
-
-                return Promise.all([
-                    closeAllEditors(),
-                    restoreShowInformationMessage()
-                ]);
+            afterEach(async () => {
+                await helper.closeAllEditors();
+                helper.restoreShowInformationMessage();
             });
 
             describe('configuration', () => {
-                beforeEach(async () => {
-                    sinon.stub(workspace, 'getConfiguration');
-                });
+                beforeEach(async () => helper.createGetConfigurationStub());
 
-                afterEach(async () => {
-                    (workspace.getConfiguration as sinon.SinonStub).restore();
-                });
+                afterEach(async () => helper.restoreGetConfiguration());
 
                 describe('delete.useTrash set to false', () => {
                     beforeEach(async () => {
-                        const keys = { 'delete.useTrash': false, 'delete.confirm': true };
-                        (workspace.getConfiguration as sinon.SinonStub).returns({ get: (key) => keys[key] });
+                        const keys: { [key: string]: boolean } = { 'delete.useTrash': false, 'delete.confirm': true };
+                        const config = { get: (key: string) => keys[key] };
+                        helper.createGetConfigurationStub().returns(config);
                     });
 
                     it('asks to delete file', async () => {
-                        const message = `Are you sure you want to delete '${path.basename(editorFile)}'?`;
+                        await subject.execute();
+                        const message = `Are you sure you want to delete '${path.basename(helper.editorFile1.path)}'?`;
                         const action = 'Delete';
                         const options = { modal: true };
-
-                        await sut.execute();
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
 
                 describe('delete.useTrash set to true', () => {
                     beforeEach(async () => {
-                        const keys = { 'delete.useTrash': true, 'delete.confirm': true };
-                        (workspace.getConfiguration as sinon.SinonStub).returns({ get: (key) => keys[key] });
+                        const keys: { [key: string]: boolean } = { 'delete.useTrash': true, 'delete.confirm': true };
+                        const config = { get: (key: string) => keys[key] };
+                        helper.createGetConfigurationStub().returns(config);
                     });
 
                     it('asks to move file to trash', async () => {
-                        const message = `Are you sure you want to delete '${path.basename(editorFile)}'?`;
+                        await subject.execute();
+                        const message = `Are you sure you want to delete '${path.basename(helper.editorFile1.path)}'?`;
                         const action = 'Move to Trash';
                         const options = { modal: true };
-
-                        await sut.execute();
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
             });
 
             describe('responding with delete', () => {
-                it('deletes the file', () => {
-                    return sut.execute().then(() => {
-                        const message = `${editorFile} does exist`;
-                        expect(fs.existsSync(editorFile), message).to.be.false;
-                    });
+                it('deletes the file', async () => {
+                    await subject.execute();
+                    const message = `${helper.editorFile1.path} does exist`;
+                    expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.false;
                 });
             });
 
             describe('responding with no', () => {
-                beforeEach(async () => {
-                    (window.showInformationMessage as sinon.SinonStub).returns(Promise.resolve(false));
-                });
+                beforeEach(async () => helper.createShowInformationMessageStub().resolves(false));
 
                 it('leaves the file untouched', async () => {
                     try {
-                        await sut.execute();
-                        fail('must fail');
+                        await subject.execute();
+                        expect.fail('must fail');
                     } catch (e) {
-                        const message = `${editorFile} does not exist`;
-                        expect(fs.existsSync(editorFile), message).to.be.true;
+                        const message = `${helper.editorFile1.path} does not exist`;
+                        expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.true;
                     }
                 });
             });
 
             describe('delete.confirm configuration set to false', () => {
                 beforeEach(async () => {
-                    const keys = { 'delete.useTrash': false, 'delete.confirm': false };
-                    sinon.stub(workspace, 'getConfiguration').returns({ get: (key) => keys[key] });
+                    const keys: { [key: string]: boolean } = { 'delete.useTrash': false, 'delete.confirm': false };
+                    const config = { get: (key: string) => keys[key] };
+                    helper.createGetConfigurationStub().returns(config);
                 });
 
-                afterEach(async () => {
-                    (workspace.getConfiguration as sinon.SinonStub).restore();
-                });
+                afterEach(async () => helper.restoreGetConfiguration());
 
                 it('deletes the file without confirmation', async () => {
-                    await sut.execute();
+                    await subject.execute();
+                    const message = `${helper.editorFile1.path} does not exist`;
                     expect(window.showInformationMessage).to.have.not.been.called;
-                    expect(fs.existsSync(editorFile), `${editorFile} does not exist`).to.be.false;
+                    expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.false;
                 });
             });
 
             it('closes file editor', async () => {
-                let activeEditor: TextEditor;
+                let activeEditor;
 
                 const retryable = async () => {
-                    await sut.execute();
+                    await subject.execute();
                     activeEditor = window.activeTextEditor;
 
                     if (activeEditor) {
@@ -167,31 +121,20 @@ describe('RemoveFileCommand', () => {
         });
 
         describe('with no open text document', () => {
-            beforeEach(() => {
-                const closeAllEditors = () => {
-                    return commands.executeCommand('workbench.action.closeAllEditors');
-                };
-
-                const stubShowInformationMessage = () => {
-                    sinon.stub(window, 'showInformationMessage');
-                    return Promise.resolve();
-                };
-
-                return Promise.all([
-                    closeAllEditors(),
-                    stubShowInformationMessage()
-                ]);
+            beforeEach(async () => {
+                await helper.closeAllEditors();
+                helper.createShowInformationMessageStub();
             });
 
-            afterEach(() => {
-                const stub: any = window.showInformationMessage;
-                return Promise.resolve(stub.restore());
-            });
+            afterEach(async () => helper.restoreShowInformationMessage());
 
-            it('ignores the command call', () => {
-                return sut.execute().catch(() => {
+            it('ignores the command call', async () => {
+                try {
+                    await subject.execute();
+                    expect.fail('Must fail');
+                } catch {
                     expect(window.showInformationMessage).to.have.not.been.called;
-                }).catch(ClipboardUtil.handleClipboardError);
+                }
             });
         });
     });

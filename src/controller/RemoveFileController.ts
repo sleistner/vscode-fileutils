@@ -1,13 +1,13 @@
 import * as path from 'path';
 import { window } from 'vscode';
-import { FileItem } from '../Item';
+import { FileItem } from '../FileItem';
 import { getConfiguration } from '../lib/config';
 import { BaseFileController } from './BaseFileController';
 import { IExecuteOptions } from './FileController';
 
 export class RemoveFileController extends BaseFileController {
 
-    public async showDialog(): Promise<FileItem> {
+    public async showDialog(): Promise<FileItem | undefined> {
         const sourcePath = await this.getSourcePath();
 
         if (!sourcePath) {

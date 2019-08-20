@@ -3,7 +3,7 @@ sudo: false
 language: node_js
 
 node_js:
-  - '8'
+  - "8"
 
 os:
   - osx
@@ -15,24 +15,23 @@ stages:
     if: branch = master AND type = push AND fork = false
 
 before_install:
-  - if [ $TRAVIS_OS_NAME == "linux" ]; then
-      export CXX="g++-4.9" CC="gcc-4.9" DISPLAY=:99.0;
+  - |
+    if [ $TRAVIS_OS_NAME == "linux" ]; then
+      export DISPLAY=':99.0'
       sudo apt-get --assume-yes install libsecret-1-0 xclip;
-      sh -e /etc/init.d/xvfb start;
-      sleep 3;
+      /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     fi
 
 install:
-  - npm install
-  - npm run vscode:prepublish
+  - yarn install
+  - yarn run vscode:prepublish
 
 script:
-  - npm run lint --silent
-  - npm test --silent
+  - yarn run lint
+  - yarn test
 
 jobs:
   include:
     - stage: release
       os: linux
-      script: npm run semantic-release
-
+      script: yarn run semantic-release

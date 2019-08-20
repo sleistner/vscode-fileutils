@@ -1,4 +1,4 @@
-import { FileItem } from '../Item';
+import { FileItem } from '../FileItem';
 import { IExecuteOptions } from './FileController';
 import { MoveFileController } from './MoveFileController';
 

@@ -11,9 +11,15 @@ import {
     RemoveFileCommand,
     RenameFileCommand
 } from './command';
-import { Cache } from './lib/Cache';
+import {
+    CopyFileNameController,
+    DuplicateFileController,
+    MoveFileController,
+    NewFileController,
+    RemoveFileController
+} from './controller';
 
-function handleError(err) {
+function handleError(err: any) {
     if (err) {
         vscode.window.showErrorMessage(err);
     }
@@ -21,22 +27,26 @@ function handleError(err) {
 }
 
 function register(context: vscode.ExtensionContext, command: ICommand, commandName: string) {
-    const proxy = (...args) => command.execute(...args).catch(handleError);
+    const proxy = (...args: any) => command.execute(...args).catch(handleError);
     const disposable = vscode.commands.registerCommand(`fileutils.${commandName}`, proxy);
 
     context.subscriptions.push(disposable);
 }
 
 export function activate(context: vscode.ExtensionContext) {
-    Cache.context = context;
+    const moveFileController = new MoveFileController(context);
+    const newFileController = new NewFileController(context);
+    const duplicateFileController = new DuplicateFileController(context);
+    const removeFileController = new RemoveFileController(context);
+    const copyFileNameController = new CopyFileNameController(context);
 
-    register(context, new MoveFileCommand(), 'moveFile');
-    register(context, new RenameFileCommand(), 'renameFile');
-    register(context, new DuplicateFileCommand(), 'duplicateFile');
-    register(context, new RemoveFileCommand(), 'removeFile');
-    register(context, new NewFileCommand(), 'newFile');
-    register(context, new NewFileAtRootCommand(), 'newFileAtRoot');
-    register(context, new NewFolderCommand(), 'newFolder');
-    register(context, new NewFolderAtRootCommand(), 'newFolderAtRoot');
-    register(context, new CopyFileNameCommand(), 'copyFileName');
+    register(context, new MoveFileCommand(moveFileController), 'moveFile');
+    register(context, new RenameFileCommand(moveFileController), 'renameFile');
+    register(context, new DuplicateFileCommand(duplicateFileController), 'duplicateFile');
+    register(context, new RemoveFileCommand(removeFileController), 'removeFile');
+    register(context, new NewFileCommand(newFileController), 'newFile');
+    register(context, new NewFileAtRootCommand(newFileController), 'newFileAtRoot');
+    register(context, new NewFolderCommand(newFileController), 'newFolder');
+    register(context, new NewFolderAtRootCommand(newFileController), 'newFolderAtRoot');
+    register(context, new CopyFileNameCommand(copyFileNameController), 'copyFileName');
 }

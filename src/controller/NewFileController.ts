@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { Uri, window, workspace, WorkspaceFolder } from 'vscode';
-import { FileItem } from '../Item';
+import { FileItem } from '../FileItem';
 import { getConfiguration } from '../lib/config';
 import { BaseFileController } from './BaseFileController';
 import { IDialogOptions, IExecuteOptions } from './FileController';
@@ -16,9 +16,9 @@ export interface INewFileExecuteOptions extends IExecuteOptions {
 
 export class NewFileController extends BaseFileController {
 
-    public async showDialog(options: INewFileDialogOptions): Promise<FileItem> {
+    public async showDialog(options: INewFileDialogOptions): Promise<FileItem | undefined> {
         const { prompt, relativeToRoot = false } = options;
-        const sourcePath: string = await this.findSourcePath(relativeToRoot);
+        const sourcePath = await this.findSourcePath(relativeToRoot);
         if (!sourcePath) {
             throw new Error();
         }
@@ -42,7 +42,7 @@ export class NewFileController extends BaseFileController {
         }
     }
 
-    private async findSourcePath(relativeToRoot: boolean): Promise<string> {
+    private async findSourcePath(relativeToRoot: boolean): Promise<string | undefined> {
         if (relativeToRoot) {
             return this.getWorkspaceSourcePath();
         }
@@ -55,18 +55,19 @@ export class NewFileController extends BaseFileController {
 
         if (getConfiguration('typeahead.enabled') === true) {
             const typeAheadController = new TypeAheadController();
-            sourcePath = await typeAheadController.showDialog(sourcePath);
+            const cache = this.getCache(`workspace:${sourcePath}`);
+            sourcePath = await typeAheadController.showDialog(sourcePath, cache);
         }
         return sourcePath;
     }
 
-    private async getWorkspaceSourcePath(): Promise<string> {
+    private async getWorkspaceSourcePath(): Promise<string | undefined> {
         const workspaceFolder = await this.selectWorkspaceFolder();
         return workspaceFolder && workspaceFolder.uri.fsPath;
     }
 
     private async selectWorkspaceFolder(): Promise<WorkspaceFolder | undefined> {
-        if (workspace.workspaceFolders.length === 1) {
+        if (workspace.workspaceFolders && workspace.workspaceFolders.length === 1) {
             return workspace.workspaceFolders[0];
         }
 

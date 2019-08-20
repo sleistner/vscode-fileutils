@@ -1,244 +1,100 @@
-import { fail } from 'assert';
-import * as retry from 'bluebird-retry';
-import { expect, use as chaiUse } from 'chai';
-import * as fs from 'fs-extra';
-import * as os from 'os';
+import { expect } from 'chai';
 import * as path from 'path';
-import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
-import { commands, TextEditor, Uri, window, workspace } from 'vscode';
-import { ClipboardUtil } from '../../src/ClipboardUtil';
-import { ICommand, RenameFileCommand } from '../../src/command';
-
-chaiUse(sinonChai);
-
-const rootDir = path.resolve(__dirname, '..', '..', '..');
-const tmpDir = path.resolve(os.tmpdir(), 'vscode-fileutils-test--rename-file');
-
-const fixtureFile1 = path.resolve(rootDir, 'test', 'fixtures', 'file-1.rb');
-const fixtureFile2 = path.resolve(rootDir, 'test', 'fixtures', 'file-2.rb');
-
-const editorFile1 = path.resolve(tmpDir, 'file-1.rb');
-const editorFile2 = path.resolve(tmpDir, 'file-2.rb');
-
-const targetFile = path.resolve(`${editorFile1}.tmp`);
+import { commands, window } from 'vscode';
+import { RenameFileCommand } from '../../src/command';
+import { MoveFileController } from '../../src/controller';
+import * as helper from '../helper';
 
 describe('RenameFileCommand', () => {
+    const subject = helper.createTestSubject(RenameFileCommand, MoveFileController);
 
-    const sut: ICommand = new RenameFileCommand();
+    beforeEach(helper.beforeEach);
 
-    beforeEach(() => Promise.all([
-        fs.remove(tmpDir),
-        fs.copy(fixtureFile1, editorFile1),
-        fs.copy(fixtureFile2, editorFile2)
-    ]));
-
-    afterEach(() => fs.remove(tmpDir));
+    afterEach(helper.afterEach);
 
     describe('as command', () => {
         describe('with open text document', () => {
-            beforeEach(() => {
-                const openDocument = () => {
-                    const uri = Uri.file(editorFile1);
-                    return workspace.openTextDocument(uri)
-                        .then((textDocument) => window.showTextDocument(textDocument));
-                };
-
-                const stubShowInputBox = () => {
-                    sinon.stub(window, 'showInputBox').returns(Promise.resolve(targetFile));
-                    return Promise.resolve();
-                };
-
-                return Promise.all([
-                    retry(() => openDocument(), { max_tries: 4, interval: 500 }),
-                    stubShowInputBox()
-                ]);
+            beforeEach(async () => {
+                await helper.openDocument(helper.editorFile1);
+                helper.createShowInputBoxStub().resolves(helper.targetFile.path);
             });
 
-            afterEach(() => {
-                const closeAllEditors = () => {
-                    return commands.executeCommand('workbench.action.closeAllEditors');
-                };
-
-                const restoreShowInputBox = () => {
-                    const stub: any = window.showInputBox;
-                    return Promise.resolve(stub.restore());
-                };
-
-                return Promise.all([
-                    closeAllEditors(),
-                    restoreShowInputBox()
-                ]);
+            afterEach(async () => {
+                await helper.closeAllEditors();
+                helper.restoreShowInputBox();
             });
 
-            it('prompts for file destination', () => {
-                return sut.execute().then(() => {
-                    const prompt = 'New Name';
-                    const value = path.basename(editorFile1);
-                    const valueSelection = [value.length - 9, value.length - 3];
-                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
-                });
+            it('prompts for file destination', async () => {
+                await subject.execute();
+                const prompt = 'New Name';
+                const value = path.basename(helper.editorFile1.fsPath);
+                const valueSelection = [value.length - 9, value.length - 3];
+                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
             });
 
-            it('moves current file to destination', () => {
-                return sut.execute().then(() => {
-                    const message = `${targetFile} does not exist`;
-                    expect(fs.existsSync(targetFile), message).to.be.true;
-                });
-            });
+            helper.protocol.it('moves current file to destination', subject);
+            helper.protocol.describe('target file in non existing nested directories', subject);
+            helper.protocol.describe('when target destination exists', subject, {
+                extra() {
 
-            describe('target file in non existing nested directories', () => {
-                const targetDir = path.resolve(tmpDir, 'level-1', 'level-2', 'level-3');
-
-                beforeEach(() => {
-                    const stub: any = window.showInputBox;
-                    stub.returns(Promise.resolve(path.resolve(targetDir, 'file.rb')));
-                });
-
-                it('creates nested directories', () => {
-                    return sut.execute().then((textEditor: TextEditor) => {
-                        const dirname = path.dirname(textEditor.document.fileName);
-                        const directories: string[] = dirname.split(path.sep);
-
-                        expect(directories.pop()).to.equal('level-3');
-                        expect(directories.pop()).to.equal('level-2');
-                        expect(directories.pop()).to.equal('level-1');
-                    });
-                });
-            });
-
-            it('opens target file as active editor', () => {
-                return sut.execute().then(() => {
-                    const activeEditor: TextEditor = window.activeTextEditor;
-                    expect(activeEditor.document.fileName).to.equal(targetFile);
-                });
-            });
-
-            describe('when target destination exists', () => {
-                beforeEach(() => {
-                    const createTargetFile = () => {
-                        return fs.copy(editorFile2, targetFile);
-                    };
-
-                    const stubShowInformationMessage = () => {
-                        sinon.stub(window, 'showInformationMessage').returns(Promise.resolve(true));
-                        return Promise.resolve();
-                    };
-
-                    return Promise.all([
-                        createTargetFile(),
-                        stubShowInformationMessage()
-                    ]);
-                });
-
-                afterEach(() => {
-                    const stub: any = window.showInformationMessage;
-                    return Promise.resolve(stub.restore());
-                });
-
-                it('asks to overwrite destination file', () => {
-                    const message = `File '${targetFile}' already exists.`;
-                    const action = 'Overwrite';
-                    const options = { modal: true };
-
-                    return sut.execute().then(() => {
-                        expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
-                    });
-                });
-
-                describe('responding with delete', () => {
-                    it('overwrites the existing file', () => {
-                        return sut.execute().then(() => {
-                            const fileContent = fs.readFileSync(targetFile).toString();
-                            expect(fileContent).to.equal('class FileOne; end');
-                        });
-                    });
-                });
-
-                describe('responding with no', () => {
-                    beforeEach(() => {
-                        const stub: any = window.showInformationMessage;
-                        stub.returns(Promise.resolve(false));
-                        return Promise.resolve();
-                    });
-
-                    it('leaves existing file untouched', async () => {
-                        try {
-                            await sut.execute();
-                            fail('must fail');
-                        } catch (e) {
-                            const fileContent = fs.readFileSync(targetFile).toString();
-                            expect(fileContent).to.equal('class FileTwo; end');
-                        }
-                    });
-                });
-
-                describe('configuration', () => {
-                    beforeEach(async () => {
-                        sinon.stub(workspace, 'getConfiguration');
-                        sinon.stub(commands, 'executeCommand').withArgs('workbench.action.closeActiveEditor');
-                    });
-
-                    afterEach(async () => {
-                        (workspace.getConfiguration as sinon.SinonStub).restore();
-                        (commands.executeCommand as sinon.SinonStub).restore();
-                    });
-
-                    describe('rename.closeOldTab set to true', () => {
+                    describe('configuration', () => {
                         beforeEach(async () => {
-                            const keys = { 'rename.closeOldTab': true };
-                            (workspace.getConfiguration as sinon.SinonStub).returns({ get: (key) => keys[key] });
+                            helper.createGetConfigurationStub();
+                            helper.createExecuteCommandStub().withArgs('workbench.action.closeActiveEditor');
                         });
 
-                        it('renames a file and verifies that the tab of the renamed file was closed', () => {
-                            return sut.execute().then(() => {
+                        afterEach(async () => {
+                            helper.restoreGetConfiguration();
+                            helper.restoreExecuteCommand();
+                        });
+
+                        describe('rename.closeOldTab set to true', () => {
+                            beforeEach(async () => {
+                                const keys: { [key: string]: boolean } = { 'rename.closeOldTab': true };
+                                const config = { get: (key: string) => keys[key] };
+                                helper.createGetConfigurationStub().returns(config);
+                            });
+
+                            it('renames a file and verifies that the tab of the file was closed', async () => {
+                                await subject.execute();
                                 expect(commands.executeCommand).to.have.been.called;
                             });
                         });
-                    });
 
-                    describe('rename.closeOldTab set to false', () => {
-                        beforeEach(async () => {
-                            const keys = { 'rename.closeOldTab': false };
-                            (workspace.getConfiguration as sinon.SinonStub).returns({ get: (key) => keys[key] });
-                        });
+                        describe('rename.closeOldTab set to false', () => {
+                            beforeEach(async () => {
+                                const keys: { [key: string]: boolean } = { 'rename.closeOldTab': false };
+                                const config = { get: (key: string) => keys[key] };
+                                helper.createGetConfigurationStub().returns(config);
+                            });
 
-                        it('renames a file and verifies that the tab of the renamed file was not closed', () => {
-                            return sut.execute().then(() => {
+                            it('renames a file and verifies that the tab of the file was not closed', async () => {
+                                await subject.execute();
                                 expect(commands.executeCommand).to.have.not.been.called;
                             });
                         });
                     });
-                });
+                }
             });
+
+            helper.protocol.it('opens target file as active editor', subject);
         });
 
         describe('with no open text document', () => {
-            beforeEach(() => {
-                const closeAllEditors = () => {
-                    return commands.executeCommand('workbench.action.closeAllEditors');
-                };
-
-                const stubShowInputBox = () => {
-                    sinon.stub(window, 'showInputBox');
-                    return Promise.resolve();
-                };
-
-                return Promise.all([
-                    closeAllEditors(),
-                    stubShowInputBox()
-                ]);
+            beforeEach(async () => {
+                await helper.closeAllEditors();
+                helper.createShowInputBoxStub();
             });
 
-            afterEach(() => {
-                const stub: any = window.showInputBox;
-                return Promise.resolve(stub.restore());
-            });
+            afterEach(() => helper.restoreShowInputBox());
 
-            it('ignores the command call', () => {
-                return sut.execute().catch(() => {
+            it('ignores the command call', async () => {
+                try {
+                    await subject.execute();
+                    expect.fail('Must fail');
+                } catch {
                     expect(window.showInputBox).to.have.not.been.called;
-                }).catch(ClipboardUtil.handleClipboardError);
+                }
             });
         });
     });

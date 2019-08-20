@@ -1,19 +1,18 @@
 import * as path from 'path';
-import { extensions, QuickPickItem, window } from 'vscode';
+import { QuickPickItem, window } from 'vscode';
 import { Cache } from '../lib/Cache';
 import { TreeWalker } from '../lib/TreeWalker';
 
 export class TypeAheadController {
 
-    public async showDialog(sourcePath: string): Promise<string> {
-        const cache = new Cache(`workspace:${sourcePath}`);
+    public async showDialog(sourcePath: string, cache: Cache): Promise<string> {
         const choices = await this.buildChoices(sourcePath, cache);
 
         if (choices.length < 2) {
             return sourcePath;
         }
 
-        const item: QuickPickItem = await this.showQuickPick(choices);
+        const item = await this.showQuickPick(choices);
 
         if (!item) {
             throw new Error();
@@ -45,7 +44,7 @@ export class TypeAheadController {
     }
 
     private async toQuickPickItems(choices: string[]): Promise<QuickPickItem[]> {
-        return choices.map((choice) => ({ label: choice, description: null }));
+        return choices.map((choice) => ({ label: choice, description: undefined }));
     }
 
     private async showQuickPick(choices: QuickPickItem[]) {

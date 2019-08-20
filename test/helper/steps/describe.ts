@@ -17,7 +17,7 @@ export const describe: IStep = {
         return () => {
             const targetDir = path.resolve(tmpDir.fsPath, 'level-1', 'level-2', 'level-3');
 
-            mocha.beforeEach(async () => createShowInputBoxStub(Promise.resolve(path.resolve(targetDir, 'file.rb'))));
+            mocha.beforeEach(async () => createShowInputBoxStub().resolves(path.resolve(targetDir, 'file.rb')));
 
             mocha.it('creates nested directories', async () => {
                 const textEditor: TextEditor = await subject.execute();

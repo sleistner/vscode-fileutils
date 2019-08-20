@@ -14,7 +14,7 @@ describe('DuplicateFileCommand', () => {
         describe('with open text document', () => {
             beforeEach(async () => {
                 await helper.openDocument(helper.editorFile1);
-                helper.createShowInputBoxStub(Promise.resolve(helper.targetFile.path));
+                helper.createShowInputBoxStub().resolves(helper.targetFile.path);
             });
 
             afterEach(async () => {
@@ -33,7 +33,7 @@ describe('DuplicateFileCommand', () => {
     });
 
     describe('as context menu', () => {
-        beforeEach(async () => helper.createShowInputBoxStub(Promise.resolve(helper.targetFile.path)));
+        beforeEach(async () => helper.createShowInputBoxStub().resolves(helper.targetFile.path));
 
         afterEach(async () => helper.restoreShowInputBox());
 

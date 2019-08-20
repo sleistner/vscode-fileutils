@@ -17,8 +17,8 @@ describe('NewFileCommand', () => {
     describe('with relativeToRoot set "false"', () => {
         beforeEach(async () => {
             await helper.openDocument(helper.editorFile1);
-            helper.createShowInputBoxStub(Promise.resolve(path.basename(helper.targetFile.path)));
-            helper.createShowQuickPickStub(Promise.resolve({ label: '/', description: '' }));
+            helper.createShowInputBoxStub().resolves(path.basename(helper.targetFile.path));
+            helper.createShowQuickPickStub().resolves({ label: '/', description: '' });
         });
 
         afterEach(async () => {
@@ -44,7 +44,7 @@ describe('NewFileCommand', () => {
         describe('file path ends with path separator', () => {
             beforeEach(async () => {
                 const fileName = path.basename(helper.targetFile.fsPath) + path.sep;
-                helper.createShowInputBoxStub(Promise.resolve(fileName));
+                helper.createShowInputBoxStub().resolves(fileName);
             });
 
             it('creates the directory at destination', async () => {

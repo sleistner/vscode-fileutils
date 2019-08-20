@@ -77,7 +77,7 @@ describe('MoveFileCommand', () => {
     });
 
     describe('as context menu', () => {
-        beforeEach(async () => helper.createShowInputBoxStub(Promise.resolve(helper.targetFile.path)));
+        beforeEach(async () => helper.createShowInputBoxStub().resolves(helper.targetFile.path));
 
         afterEach(async () => helper.restoreShowInputBox());
 

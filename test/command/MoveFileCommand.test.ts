@@ -32,7 +32,6 @@ describe('MoveFileCommand', () => {
                 extra() {
                     describe('configuration', () => {
                         beforeEach(async () => {
-                            helper.createGetConfigurationStub();
                             helper.createExecuteCommandStub().withArgs('workbench.action.closeActiveEditor');
                         });
 
@@ -43,9 +42,7 @@ describe('MoveFileCommand', () => {
 
                         describe('move.closeOldTab set to true', () => {
                             beforeEach(async () => {
-                                const keys: { [key: string]: boolean } = { 'move.closeOldTab': true };
-                                const config = { get: (key: string) => keys[key] };
-                                helper.createGetConfigurationStub().returns(config);
+                                helper.createGetConfigurationStub({ 'move.closeOldTab': true });
                             });
 
                             it('moves a file and verifies that the tab of the file was closed', async () => {
@@ -56,9 +53,7 @@ describe('MoveFileCommand', () => {
 
                         describe('move.closeOldTab set to false', () => {
                             beforeEach(async () => {
-                                const keys: { [key: string]: boolean } = { 'move.closeOldTab': false };
-                                const config = { get: (key: string) => keys[key] };
-                                helper.createGetConfigurationStub().returns(config);
+                                helper.createGetConfigurationStub({ 'move.closeOldTab': false });
                             });
 
                             it('moves a file and verifies that the tab of the file was not closed', async () => {

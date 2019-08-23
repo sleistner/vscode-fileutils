@@ -5,52 +5,61 @@ import { TreeWalker } from '../lib/TreeWalker';
 
 export class TypeAheadController {
 
-    public async showDialog(sourcePath: string, cache: Cache): Promise<string> {
-        const choices = await this.buildChoices(sourcePath, cache);
+    constructor(private cache: Cache, private relativeToRoot: boolean) { }
 
-        if (choices.length < 2) {
+    public async showDialog(sourcePath: string): Promise<string> {
+        const items = await this.buildQuickPickItems(sourcePath);
+
+        if (items.length < 2) {
             return sourcePath;
         }
 
-        const item = await this.showQuickPick(choices);
+        const item = await this.showQuickPick(items);
 
         if (!item) {
             throw new Error();
         }
 
         const selection = item.label;
-        cache.put('last', selection);
+        this.cache.put('last', selection);
 
         return path.join(sourcePath, selection);
     }
 
-    private async buildChoices(sourcePath: string, cache: Cache): Promise<QuickPickItem[]> {
+    private async buildQuickPickItems(sourcePath: string): Promise<QuickPickItem[]> {
+        const directories = await this.listDirectoriesAtSourcePath(sourcePath);
+        return [
+            ...this.buildQuickPickItemsHeader(),
+            ...directories.map((directory) => this.buildQuickPickItem(directory))
+        ];
+    }
+
+    private async listDirectoriesAtSourcePath(sourcePath: string): Promise<string[]> {
         const treeWalker = new TreeWalker();
-
-        return treeWalker.directories(sourcePath)
-            .then(this.toQuickPickItems)
-            .then(this.prependChoice('/', '- workspace root'))
-            .then(this.prependChoice(cache.get('last'), '- last selection'));
+        return treeWalker.directories(sourcePath);
     }
 
-    private prependChoice(label: string, description: string): (choices: QuickPickItem[]) => QuickPickItem[] {
-        return (choices) => {
-            if (label) {
-                const choice = { description, label };
-                choices.unshift(choice);
-            }
-            return choices;
-        };
+    private buildQuickPickItemsHeader(): QuickPickItem[] {
+        const items = [
+            this.buildQuickPickItem('/', `- ${this.relativeToRoot ? 'workspace root' : 'current file'}`)
+        ];
+
+        const lastEntry = this.cache.get('last');
+        if (lastEntry) {
+            items.push(this.buildQuickPickItem(lastEntry, '- last selection'));
+        }
+
+        return items;
     }
 
-    private async toQuickPickItems(choices: string[]): Promise<QuickPickItem[]> {
-        return choices.map((choice) => ({ label: choice, description: undefined }));
+    private buildQuickPickItem(label: string, description?: string | undefined): QuickPickItem {
+        return { description, label };
     }
 
-    private async showQuickPick(choices: QuickPickItem[]) {
+    private async showQuickPick(items: QuickPickItem[]) {
         const placeHolder = `
             First, select an existing path to create relative to (larger projects may take a moment to load)
         `;
-        return window.showQuickPick<QuickPickItem>(choices, { placeHolder });
+        return window.showQuickPick<QuickPickItem>(items, { placeHolder });
     }
 }

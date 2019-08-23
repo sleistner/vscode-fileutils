@@ -39,7 +39,6 @@ describe('RenameFileCommand', () => {
 
                     describe('configuration', () => {
                         beforeEach(async () => {
-                            helper.createGetConfigurationStub();
                             helper.createExecuteCommandStub().withArgs('workbench.action.closeActiveEditor');
                         });
 
@@ -50,9 +49,7 @@ describe('RenameFileCommand', () => {
 
                         describe('rename.closeOldTab set to true', () => {
                             beforeEach(async () => {
-                                const keys: { [key: string]: boolean } = { 'rename.closeOldTab': true };
-                                const config = { get: (key: string) => keys[key] };
-                                helper.createGetConfigurationStub().returns(config);
+                                helper.createGetConfigurationStub({ 'rename.closeOldTab': true });
                             });
 
                             it('renames a file and verifies that the tab of the file was closed', async () => {
@@ -63,9 +60,7 @@ describe('RenameFileCommand', () => {
 
                         describe('rename.closeOldTab set to false', () => {
                             beforeEach(async () => {
-                                const keys: { [key: string]: boolean } = { 'rename.closeOldTab': false };
-                                const config = { get: (key: string) => keys[key] };
-                                helper.createGetConfigurationStub().returns(config);
+                                helper.createGetConfigurationStub({ 'rename.closeOldTab': false });
                             });
 
                             it('renames a file and verifies that the tab of the file was not closed', async () => {

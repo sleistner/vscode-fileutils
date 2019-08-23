@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
-import { commands, Uri, window, workspace, WorkspaceFolder } from 'vscode';
+import { Uri, window, workspace, WorkspaceFolder } from 'vscode';
 import { NewFileCommand } from '../../src/command';
 import { NewFileController } from '../../src/controller';
 import * as helper from '../helper';
@@ -33,6 +33,43 @@ describe('NewFileCommand', () => {
             const value = path.join(path.dirname(helper.editorFile1.path), path.sep);
             const valueSelection = [value.length, value.length];
             expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+        });
+
+        describe('configuration', () => {
+            beforeEach(async () => {
+                await workspace.fs.createDirectory(Uri.file(path.resolve(helper.tmpDir.fsPath, 'dir-1')));
+                await workspace.fs.createDirectory(Uri.file(path.resolve(helper.tmpDir.fsPath, 'dir-2')));
+            });
+
+            afterEach(async () => {
+                helper.restoreGetConfiguration();
+            });
+
+            describe('typeahead.enabled set to true', () => {
+                beforeEach(async () => {
+                    helper.createGetConfigurationStub({ 'typeahead.enabled': true });
+                });
+
+                it('shows the quick pick dialog', async () => {
+                    await subject.execute();
+                    expect(window.showQuickPick).to.have.been.calledOnceWith([
+                        { description: '- current file', label: '/' },
+                        { description: undefined, label: '/dir-1' },
+                        { description: undefined, label: '/dir-2' }
+                    ]);
+                });
+            });
+
+            describe('typeahead.enabled set to false', () => {
+                beforeEach(async () => {
+                    helper.createGetConfigurationStub({ 'typeahead.enabled': false });
+                });
+
+                it('shows the quick pick dialog', async () => {
+                    await subject.execute();
+                    expect(window.showQuickPick).to.have.not.been;
+                });
+            });
         });
 
         it('creates the file at destination', async () => {
@@ -73,6 +110,9 @@ describe('NewFileCommand', () => {
         let workspaceFoldersStub: sinon.SinonStub;
 
         beforeEach(async () => {
+            await workspace.fs.createDirectory(workspaceFolderA.uri);
+            await workspace.fs.createDirectory(workspaceFolderB.uri);
+
             workspaceFoldersStub = helper.createStubObject(workspace, 'workspaceFolders').get(() => workspaceFolders);
 
             helper.createShowInputBoxStub().callsFake(async (options) => {
@@ -80,11 +120,13 @@ describe('NewFileCommand', () => {
                     return path.join(options.value, 'filename.txt');
                 }
             });
+            helper.createShowQuickPickStub().resolves({ label: '/', description: '' });
         });
 
         afterEach(async () => {
             helper.restoreObject(workspaceFoldersStub);
             helper.restoreShowInputBox();
+            helper.restoreShowQuickPick();
         });
 
         describe('with one workspace', () => {
@@ -94,8 +136,8 @@ describe('NewFileCommand', () => {
             });
 
             afterEach(async () => {
-                helper.restoreObject(workspace.getWorkspaceFolder);
                 workspaceFolders = [];
+                helper.restoreObject(workspace.getWorkspaceFolder);
             });
 
             it('selects first workspace', async () => {
@@ -106,6 +148,43 @@ describe('NewFileCommand', () => {
                 const value = path.join(workspacePathA, path.sep);
                 const valueSelection = [value.length, value.length];
                 expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+            });
+
+            describe('configuration', () => {
+                beforeEach(async () => {
+                    await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderA.uri.fsPath, 'dir-1')));
+                    await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderA.uri.fsPath, 'dir-2')));
+                });
+
+                afterEach(async () => {
+                    helper.restoreGetConfiguration();
+                });
+
+                describe('typeahead.enabled set to true', () => {
+                    beforeEach(async () => {
+                        helper.createGetConfigurationStub({ 'typeahead.enabled': true });
+                    });
+
+                    it('shows the quick pick dialog', async () => {
+                        await subject.execute(undefined, { relativeToRoot: true });
+                        expect(window.showQuickPick).to.have.been.calledOnceWith([
+                            { description: '- workspace root', label: '/' },
+                            { description: undefined, label: '/dir-1' },
+                            { description: undefined, label: '/dir-2' }
+                        ]);
+                    });
+                });
+
+                describe('typeahead.enabled set to false', () => {
+                    beforeEach(async () => {
+                        helper.createGetConfigurationStub({ 'typeahead.enabled': false });
+                    });
+
+                    it('shows the quick pick dialog', async () => {
+                        await subject.execute(undefined, { relativeToRoot: true });
+                        expect(window.showQuickPick).to.have.not.been;
+                    });
+                });
             });
         });
 
@@ -146,6 +225,43 @@ describe('NewFileCommand', () => {
                     await subject.execute(undefined, { relativeToRoot: true });
                     expect(workspace.getWorkspaceFolder).to.have.been.calledWith(Uri.file(helper.editorFile1.fsPath));
                     expect(window.showWorkspaceFolderPick).to.have.not.been.called;
+                });
+            });
+
+            describe('configuration', () => {
+                beforeEach(async () => {
+                    await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderB.uri.fsPath, 'dir-1')));
+                    await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderB.uri.fsPath, 'dir-2')));
+                });
+
+                afterEach(async () => {
+                    helper.restoreGetConfiguration();
+                });
+
+                describe('typeahead.enabled set to true', () => {
+                    beforeEach(async () => {
+                        helper.createGetConfigurationStub({ 'typeahead.enabled': true });
+                    });
+
+                    it('shows the quick pick dialog', async () => {
+                        await subject.execute(undefined, { relativeToRoot: true });
+                        expect(window.showQuickPick).to.have.been.calledOnceWith([
+                            { description: '- workspace root', label: '/' },
+                            { description: undefined, label: '/dir-1' },
+                            { description: undefined, label: '/dir-2' }
+                        ]);
+                    });
+                });
+
+                describe('typeahead.enabled set to false', () => {
+                    beforeEach(async () => {
+                        helper.createGetConfigurationStub({ 'typeahead.enabled': false });
+                    });
+
+                    it('shows the quick pick dialog', async () => {
+                        await subject.execute(undefined, { relativeToRoot: true });
+                        expect(window.showQuickPick).to.have.not.been;
+                    });
                 });
             });
         });

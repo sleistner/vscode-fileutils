@@ -1,7 +1,7 @@
 import { commands, env, ExtensionContext, TextEditor, ViewColumn, window, workspace } from 'vscode';
 import { FileItem } from '../FileItem';
 import { Cache } from '../lib/Cache';
-import { IDialogOptions, IExecuteOptions, IFileController } from './FileController';
+import { IDialogOptions, IExecuteOptions, IFileController, IGetSourcePathOptions } from './FileController';
 
 export abstract class BaseFileController implements IFileController {
     constructor(protected context: ExtensionContext) { }
@@ -32,7 +32,7 @@ export abstract class BaseFileController implements IFileController {
         return commands.executeCommand('workbench.action.closeActiveEditor');
     }
 
-    public async getSourcePath(): Promise<string> {
+    public async getSourcePath(options?: IGetSourcePathOptions): Promise<string> {
         // Attempting to get the fileName from the activeTextEditor.
         // Works for text files only.
         const activeEditor = window.activeTextEditor;

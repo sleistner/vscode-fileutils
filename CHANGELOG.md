@@ -1,3 +1,10 @@
+## [2.14.7](https://github.com/sleistner/vscode-fileutils/compare/v2.14.6...v2.14.7) (2019-08-23)
+
+
+### Bug Fixes
+
+* **NewFileCommand:** show folder selector ([38fb33f](https://github.com/sleistner/vscode-fileutils/commit/38fb33f))
+
 ## [2.14.6](https://github.com/sleistner/vscode-fileutils/compare/v2.14.5...v2.14.6) (2019-08-20)
 
 

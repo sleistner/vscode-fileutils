@@ -37,8 +37,6 @@ describe('NewFileCommand', () => {
 
         describe('configuration', () => {
             beforeEach(async () => {
-                helper.createGetConfigurationStub();
-
                 await workspace.fs.createDirectory(Uri.file(path.resolve(helper.tmpDir.fsPath, 'dir-1')));
                 await workspace.fs.createDirectory(Uri.file(path.resolve(helper.tmpDir.fsPath, 'dir-2')));
             });
@@ -49,9 +47,7 @@ describe('NewFileCommand', () => {
 
             describe('typeahead.enabled set to true', () => {
                 beforeEach(async () => {
-                    const keys: { [key: string]: boolean } = { 'typeahead.enabled': true };
-                    const config = { get: (key: string) => keys[key] };
-                    helper.createGetConfigurationStub().returns(config);
+                    helper.createGetConfigurationStub({ 'typeahead.enabled': true });
                 });
 
                 it('shows the quick pick dialog', async () => {
@@ -66,9 +62,7 @@ describe('NewFileCommand', () => {
 
             describe('typeahead.enabled set to false', () => {
                 beforeEach(async () => {
-                    const keys: { [key: string]: boolean } = { 'typeahead.enabled': false };
-                    const config = { get: (key: string) => keys[key] };
-                    helper.createGetConfigurationStub().returns(config);
+                    helper.createGetConfigurationStub({ 'typeahead.enabled': false });
                 });
 
                 it('shows the quick pick dialog', async () => {
@@ -158,8 +152,6 @@ describe('NewFileCommand', () => {
 
             describe('configuration', () => {
                 beforeEach(async () => {
-                    helper.createGetConfigurationStub();
-
                     await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderA.uri.fsPath, 'dir-1')));
                     await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderA.uri.fsPath, 'dir-2')));
                 });
@@ -170,9 +162,7 @@ describe('NewFileCommand', () => {
 
                 describe('typeahead.enabled set to true', () => {
                     beforeEach(async () => {
-                        const keys: { [key: string]: boolean } = { 'typeahead.enabled': true };
-                        const config = { get: (key: string) => keys[key] };
-                        helper.createGetConfigurationStub().returns(config);
+                        helper.createGetConfigurationStub({ 'typeahead.enabled': true });
                     });
 
                     it('shows the quick pick dialog', async () => {
@@ -187,9 +177,7 @@ describe('NewFileCommand', () => {
 
                 describe('typeahead.enabled set to false', () => {
                     beforeEach(async () => {
-                        const keys: { [key: string]: boolean } = { 'typeahead.enabled': false };
-                        const config = { get: (key: string) => keys[key] };
-                        helper.createGetConfigurationStub().returns(config);
+                        helper.createGetConfigurationStub({ 'typeahead.enabled': false });
                     });
 
                     it('shows the quick pick dialog', async () => {
@@ -242,8 +230,6 @@ describe('NewFileCommand', () => {
 
             describe('configuration', () => {
                 beforeEach(async () => {
-                    helper.createGetConfigurationStub();
-
                     await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderB.uri.fsPath, 'dir-1')));
                     await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderB.uri.fsPath, 'dir-2')));
                 });
@@ -254,9 +240,7 @@ describe('NewFileCommand', () => {
 
                 describe('typeahead.enabled set to true', () => {
                     beforeEach(async () => {
-                        const keys: { [key: string]: boolean } = { 'typeahead.enabled': true };
-                        const config = { get: (key: string) => keys[key] };
-                        helper.createGetConfigurationStub().returns(config);
+                        helper.createGetConfigurationStub({ 'typeahead.enabled': true });
                     });
 
                     it('shows the quick pick dialog', async () => {
@@ -271,9 +255,7 @@ describe('NewFileCommand', () => {
 
                 describe('typeahead.enabled set to false', () => {
                     beforeEach(async () => {
-                        const keys: { [key: string]: boolean } = { 'typeahead.enabled': false };
-                        const config = { get: (key: string) => keys[key] };
-                        helper.createGetConfigurationStub().returns(config);
+                        helper.createGetConfigurationStub({ 'typeahead.enabled': false });
                     });
 
                     it('shows the quick pick dialog', async () => {

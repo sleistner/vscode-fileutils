@@ -9,8 +9,9 @@ export function restoreExecuteCommand() {
     restoreObject(commands.executeCommand);
 }
 
-export function createGetConfigurationStub(): sinon.SinonStub {
-    return createStubObject(workspace, 'getConfiguration');
+export function createGetConfigurationStub(keys: { [key: string]: boolean }): sinon.SinonStub {
+    const config = { get: (key: string) => keys[key] };
+    return createStubObject(workspace, 'getConfiguration').returns(config);
 }
 
 export function restoreGetConfiguration() {

@@ -27,15 +27,11 @@ describe('RemoveFileCommand', () => {
             });
 
             describe('configuration', () => {
-                beforeEach(async () => helper.createGetConfigurationStub());
-
                 afterEach(async () => helper.restoreGetConfiguration());
 
                 describe('delete.useTrash set to false', () => {
                     beforeEach(async () => {
-                        const keys: { [key: string]: boolean } = { 'delete.useTrash': false, 'delete.confirm': true };
-                        const config = { get: (key: string) => keys[key] };
-                        helper.createGetConfigurationStub().returns(config);
+                        helper.createGetConfigurationStub({ 'delete.useTrash': false, 'delete.confirm': true });
                     });
 
                     it('asks to delete file', async () => {
@@ -49,9 +45,7 @@ describe('RemoveFileCommand', () => {
 
                 describe('delete.useTrash set to true', () => {
                     beforeEach(async () => {
-                        const keys: { [key: string]: boolean } = { 'delete.useTrash': true, 'delete.confirm': true };
-                        const config = { get: (key: string) => keys[key] };
-                        helper.createGetConfigurationStub().returns(config);
+                        helper.createGetConfigurationStub({ 'delete.useTrash': true, 'delete.confirm': true });
                     });
 
                     it('asks to move file to trash', async () => {
@@ -88,9 +82,7 @@ describe('RemoveFileCommand', () => {
 
             describe('delete.confirm configuration set to false', () => {
                 beforeEach(async () => {
-                    const keys: { [key: string]: boolean } = { 'delete.useTrash': false, 'delete.confirm': false };
-                    const config = { get: (key: string) => keys[key] };
-                    helper.createGetConfigurationStub().returns(config);
+                    helper.createGetConfigurationStub({ 'delete.useTrash': false, 'delete.confirm': false });
                 });
 
                 afterEach(async () => helper.restoreGetConfiguration());

@@ -10,6 +10,9 @@ describe('NewFileCommand', () => {
 
     const subject = helper.createTestSubject(NewFileCommand, NewFileController);
 
+    const hint = 'larger projects may take a moment to load';
+    const expectedShowQuickPickPlaceHolder = `First, select an existing path to create relative to (${hint})`;
+
     beforeEach(helper.beforeEach);
 
     afterEach(helper.afterEach);
@@ -52,11 +55,16 @@ describe('NewFileCommand', () => {
 
                 it('shows the quick pick dialog', async () => {
                     await subject.execute();
-                    expect(window.showQuickPick).to.have.been.calledOnceWith([
-                        { description: '- current file', label: '/' },
-                        { description: undefined, label: '/dir-1' },
-                        { description: undefined, label: '/dir-2' }
-                    ]);
+                    expect(window.showQuickPick).to.have.been.calledOnceWithExactly(
+                        Promise.resolve([
+                            { description: '- current file', label: '/' },
+                            { description: undefined, label: '/dir-1' },
+                            { description: undefined, label: '/dir-2' }
+                        ]),
+                        {
+                            placeHolder: expectedShowQuickPickPlaceHolder
+                        }
+                    );
                 });
             });
 
@@ -167,11 +175,15 @@ describe('NewFileCommand', () => {
 
                     it('shows the quick pick dialog', async () => {
                         await subject.execute(undefined, { relativeToRoot: true });
-                        expect(window.showQuickPick).to.have.been.calledOnceWith([
-                            { description: '- workspace root', label: '/' },
-                            { description: undefined, label: '/dir-1' },
-                            { description: undefined, label: '/dir-2' }
-                        ]);
+                        expect(window.showQuickPick).to.have.been.calledOnceWith(
+                            Promise.resolve([
+                                { description: '- workspace root', label: '/' },
+                                { description: undefined, label: '/dir-1' },
+                                { description: undefined, label: '/dir-2' }
+                            ]), {
+                                placeHolder: expectedShowQuickPickPlaceHolder
+                            }
+                        );
                     });
                 });
 
@@ -245,11 +257,16 @@ describe('NewFileCommand', () => {
 
                     it('shows the quick pick dialog', async () => {
                         await subject.execute(undefined, { relativeToRoot: true });
-                        expect(window.showQuickPick).to.have.been.calledOnceWith([
-                            { description: '- workspace root', label: '/' },
-                            { description: undefined, label: '/dir-1' },
-                            { description: undefined, label: '/dir-2' }
-                        ]);
+                        expect(window.showQuickPick).to.have.been.calledOnceWith(
+                            Promise.resolve([
+                                { description: '- workspace root', label: '/' },
+                                { description: undefined, label: '/dir-1' },
+                                { description: undefined, label: '/dir-2' }
+                            ]),
+                            {
+                                placeHolder: expectedShowQuickPickPlaceHolder
+                            }
+                        );
                     });
                 });
 

@@ -1,3 +1,10 @@
+## [2.14.8](https://github.com/sleistner/vscode-fileutils/compare/v2.14.7...v2.14.8) (2019-08-26)
+
+
+### Bug Fixes
+
+* **NewFileCommand:** show quickpick on large directory structures ([8c8c537](https://github.com/sleistner/vscode-fileutils/commit/8c8c537))
+
 ## [2.14.7](https://github.com/sleistner/vscode-fileutils/compare/v2.14.6...v2.14.7) (2019-08-23)
 
 

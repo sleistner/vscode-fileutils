@@ -3,18 +3,16 @@ import { QuickPickItem, window } from 'vscode';
 import { Cache } from '../lib/Cache';
 import { TreeWalker } from '../lib/TreeWalker';
 
+async function waitForIOEvents(): Promise<void> {
+    return new Promise((resolve) => setImmediate(resolve));
+}
+
 export class TypeAheadController {
 
     constructor(private cache: Cache, private relativeToRoot: boolean) { }
 
     public async showDialog(sourcePath: string): Promise<string> {
-        const items = await this.buildQuickPickItems(sourcePath);
-
-        if (items.length < 2) {
-            return sourcePath;
-        }
-
-        const item = await this.showQuickPick(items);
+        const item = await this.showQuickPick(this.buildQuickPickItems(sourcePath));
 
         if (!item) {
             throw new Error();
@@ -35,6 +33,7 @@ export class TypeAheadController {
     }
 
     private async listDirectoriesAtSourcePath(sourcePath: string): Promise<string[]> {
+        await waitForIOEvents();
         const treeWalker = new TreeWalker();
         return treeWalker.directories(sourcePath);
     }
@@ -56,10 +55,9 @@ export class TypeAheadController {
         return { description, label };
     }
 
-    private async showQuickPick(items: QuickPickItem[]) {
-        const placeHolder = `
-            First, select an existing path to create relative to (larger projects may take a moment to load)
-        `;
+    private async showQuickPick(items: Thenable<QuickPickItem[]>) {
+        const hint = 'larger projects may take a moment to load';
+        const placeHolder = `First, select an existing path to create relative to (${hint})`;
         return window.showQuickPick<QuickPickItem>(items, { placeHolder });
     }
 }

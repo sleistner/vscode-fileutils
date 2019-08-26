@@ -1,14 +1,17 @@
+import * as fs from 'fs';
 import * as glob from 'glob';
 import * as path from 'path';
-import { Uri, workspace } from 'vscode';
+import { workspace } from 'vscode';
 import { getConfiguration } from '../lib/config';
 
 export class TreeWalker {
 
     public async directories(sourcePath: string): Promise<string[]> {
-        return glob
-            .sync('**/', { cwd: sourcePath, ignore: this.configIgnore() })
-            .map((file) => path.sep + file.replace(/\/$/, ''));
+        const ignore = this.configIgnore();
+        const files = glob.sync('**', { cwd: sourcePath, ignore });
+        return files
+            .filter((file) => fs.statSync(path.join(sourcePath, file)).isDirectory())
+            .map((file) => path.sep + file);
     }
 
     private configIgnore(): string[] {

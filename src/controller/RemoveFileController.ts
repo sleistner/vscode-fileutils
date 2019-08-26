@@ -14,7 +14,7 @@ export class RemoveFileController extends BaseFileController {
             throw new Error();
         }
 
-        if (!this.confirmDelete) {
+        if (this.confirmDelete === false) {
             return new FileItem(sourcePath);
         }
 

@@ -19,16 +19,16 @@ describe('RemoveFileCommand', () => {
             beforeEach(async () => {
                 await helper.openDocument(helper.editorFile1);
                 helper.createShowInformationMessageStub().resolves(helper.targetFile.path);
+                helper.createGetConfigurationStub({});
             });
 
             afterEach(async () => {
                 await helper.closeAllEditors();
                 helper.restoreShowInformationMessage();
+                helper.restoreGetConfiguration();
             });
 
             describe('configuration', () => {
-                afterEach(async () => helper.restoreGetConfiguration());
-
                 describe('delete.useTrash set to false', () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ 'delete.useTrash': false, 'delete.confirm': true });
@@ -67,7 +67,9 @@ describe('RemoveFileCommand', () => {
             });
 
             describe('responding with no', () => {
-                beforeEach(async () => helper.createShowInformationMessageStub().resolves(false));
+                beforeEach(async () => {
+                    helper.createShowInformationMessageStub().resolves(false);
+                });
 
                 it('leaves the file untouched', async () => {
                     try {
@@ -85,30 +87,12 @@ describe('RemoveFileCommand', () => {
                     helper.createGetConfigurationStub({ 'delete.useTrash': false, 'delete.confirm': false });
                 });
 
-                afterEach(async () => helper.restoreGetConfiguration());
-
                 it('deletes the file without confirmation', async () => {
                     await subject.execute();
                     const message = `${helper.editorFile1.path} does not exist`;
                     expect(window.showInformationMessage).to.have.not.been.called;
                     expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.false;
                 });
-            });
-
-            it('closes file editor', async () => {
-                let activeEditor;
-
-                const retryable = async () => {
-                    await subject.execute();
-                    activeEditor = window.activeTextEditor;
-
-                    if (activeEditor) {
-                        throw new Error();
-                    }
-                };
-
-                await retry(retryable, { max_tries: 4, interval: 500 });
-                expect(activeEditor).to.not.exist;
             });
         });
 

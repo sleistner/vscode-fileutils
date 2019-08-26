@@ -1,3 +1,10 @@
+## [2.14.9](https://github.com/sleistner/vscode-fileutils/compare/v2.14.8...v2.14.9) (2019-08-26)
+
+
+### Bug Fixes
+
+* **RemoveFileCommand:** ensure only delete file tab was closed ([557e794](https://github.com/sleistner/vscode-fileutils/commit/557e794))
+
 ## [2.14.8](https://github.com/sleistner/vscode-fileutils/compare/v2.14.7...v2.14.8) (2019-08-26)
 
 

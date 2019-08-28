@@ -38,22 +38,18 @@ export class FileItem {
     }
 
     public async move(): Promise<FileItem> {
-        if (this.targetPath === undefined) {
-            throw new Error('Missing target path');
-        }
-        await workspace.fs.rename(this.path, this.targetPath, { overwrite: true });
+        this.ensureTargetPath();
+        await workspace.fs.rename(this.path, this.targetPath!, { overwrite: true });
 
-        this.SourcePath = this.targetPath;
+        this.SourcePath = this.targetPath!;
         return this;
     }
 
     public async duplicate(): Promise<FileItem> {
-        if (this.targetPath === undefined) {
-            throw new Error('Missing target path');
-        }
-        await workspace.fs.copy(this.path, this.targetPath, { overwrite: true });
+        this.ensureTargetPath();
+        await workspace.fs.copy(this.path, this.targetPath!, { overwrite: true });
 
-        return new FileItem(this.targetPath);
+        return new FileItem(this.targetPath!);
     }
 
     public async remove(useTrash = false): Promise<FileItem> {
@@ -69,19 +65,23 @@ export class FileItem {
     }
 
     public async create(mkDir?: boolean): Promise<FileItem> {
+        this.ensureTargetPath();
+
+        await workspace.fs.delete(this.targetPath!, { recursive: true });
+
+        if (mkDir === true || this.isDir) {
+            await workspace.fs.createDirectory(this.targetPath!);
+        } else {
+            await workspace.fs.writeFile(this.targetPath!, new Uint8Array());
+        }
+
+        return new FileItem(this.targetPath!);
+    }
+
+    private ensureTargetPath() {
         if (this.targetPath === undefined) {
             throw new Error('Missing target path');
         }
-
-        await workspace.fs.delete(this.targetPath, { recursive: true });
-
-        if (mkDir === true || this.isDir) {
-            await workspace.fs.createDirectory(this.targetPath);
-        } else {
-            await workspace.fs.writeFile(this.targetPath, new Uint8Array());
-        }
-
-        return new FileItem(this.targetPath);
     }
 
     private toUri(uriOrString: Uri | string): Uri {

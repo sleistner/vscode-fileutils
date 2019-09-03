@@ -19,9 +19,9 @@ import {
     RemoveFileController
 } from './controller';
 
-function handleError(err: any) {
-    if (err) {
-        vscode.window.showErrorMessage(err);
+function handleError(err: Error) {
+    if (err && err.message) {
+        vscode.window.showErrorMessage(err.message);
     }
     return err;
 }

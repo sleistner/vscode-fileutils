@@ -11,3 +11,10 @@ vsc-extension-quickstart.md
 tsd.json
 *.vsix
 releases/**
+yarn-error.log
+yarn.lock
+.releaserc
+tslint.json
+.devcontainer/**
+.github/**
+node_modules/**

@@ -1,27 +1,37 @@
-import * as fs from 'fs';
-import * as glob from 'glob';
 import * as path from 'path';
-import { workspace } from 'vscode';
-import { getConfiguration } from '../lib/config';
+import { RelativePattern, Uri, workspace } from 'vscode';
 
 export class TreeWalker {
 
     public async directories(sourcePath: string): Promise<string[]> {
-        const ignore = this.configIgnore();
-        const files = glob.sync('**', { cwd: sourcePath, ignore });
-        return files
-            .filter((file) => fs.statSync(path.join(sourcePath, file)).isDirectory())
-            .map((file) => path.sep + file);
+        try {
+            this.ensureFailSafeFileLookup();
+            const pattern = new RelativePattern(sourcePath, '**');
+            const files = await workspace.findFiles(pattern, undefined, Number.MAX_VALUE);
+            const directories = files.reduce(this.directoryReducer(sourcePath), new Set<string>());
+            return this.toSortedArray(directories);
+        } catch (err) {
+            throw new Error(`Unable to list subdirectories for directory "${sourcePath}". Details: (${err.message})`);
+        }
     }
 
-    private configIgnore(): string[] {
-        const excludedFilesConfig = {
-            ...getConfiguration('typeahead.exclude'),
-            ...workspace.getConfiguration('files.exclude', null)
+    private ensureFailSafeFileLookup() {
+        (process as any).noAsar = true;
+    }
+
+    private directoryReducer(sourcePath: string) {
+        return (accumulator: Set<string>, file: Uri) => {
+            const directory = path.dirname(file.fsPath).replace(sourcePath, '');
+            if (directory) {
+                accumulator.add(directory);
+            }
+            return accumulator;
         };
-        return Object
-            .keys(excludedFilesConfig)
-            .filter((key) => excludedFilesConfig[key] === true)
-            .map(((pattern) => pattern.replace(/^!/, '')));
+    }
+
+    private toSortedArray(directories: Set<string>): string[] {
+        return Array
+            .from(directories)
+            .sort();
     }
 }

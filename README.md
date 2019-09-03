@@ -134,11 +134,6 @@ Nonexistent folders are created automatically.
         "type": "boolean",
         "default": true,
         "description": "Controls if directory selector should be shown."
-    },
-    "fileutils.typeahead.exclude": {
-        "type": "object",
-        "default": {},
-        "description": "Configure glob patterns for excluding files and folders."
     }
 }
 ```

@@ -1,3 +1,16 @@
+# [3.0.0](https://github.com/sleistner/vscode-fileutils/compare/v2.14.9...v3.0.0) (2019-09-03)
+
+
+### Bug Fixes
+
+* **TreeWalker:** handle large directory structures safely ([c419c78](https://github.com/sleistner/vscode-fileutils/commit/c419c78))
+
+
+### BREAKING CHANGES
+
+* **TreeWalker:** The configuration option "typeahead.exclude" has been
+removed in favour of VS Code native "files.exclude" option.
+
 ## [2.14.9](https://github.com/sleistner/vscode-fileutils/compare/v2.14.8...v2.14.9) (2019-08-26)
 
 

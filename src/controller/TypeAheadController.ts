@@ -39,12 +39,13 @@ export class TypeAheadController {
     }
 
     private buildQuickPickItemsHeader(): QuickPickItem[] {
+        const rootItem = '/';
         const items = [
-            this.buildQuickPickItem('/', `- ${this.relativeToRoot ? 'workspace root' : 'current file'}`)
+            this.buildQuickPickItem(rootItem, `- ${this.relativeToRoot ? 'workspace root' : 'current file'}`)
         ];
 
         const lastEntry = this.cache.get('last');
-        if (lastEntry) {
+        if (lastEntry && lastEntry !== rootItem) {
             items.push(this.buildQuickPickItem(lastEntry, '- last selection'));
         }
 

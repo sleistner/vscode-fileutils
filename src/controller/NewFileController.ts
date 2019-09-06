@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { Uri, window, workspace, WorkspaceFolder } from 'vscode';
+import { commands, Uri, window, workspace, WorkspaceFolder } from 'vscode';
 import { FileItem } from '../FileItem';
 import { getConfiguration } from '../lib/config';
 import { BaseFileController } from './BaseFileController';
@@ -15,11 +15,12 @@ export interface INewFileExecuteOptions extends IExecuteOptions {
 }
 
 export class NewFileController extends BaseFileController {
+    private fallbackToRoot: boolean = false;
 
     public async showDialog(options: INewFileDialogOptions): Promise<FileItem | undefined> {
         const { prompt, relativeToRoot = false } = options;
         const sourcePath = await this.getSourcePath({ relativeToRoot });
-        const value: string = path.join(sourcePath, path.sep);
+        const value = path.join(sourcePath, path.sep);
         const valueSelection: [number, number] = [value.length, value.length];
         const targetPath = await window.showInputBox({ prompt, value, valueSelection });
         if (targetPath) {
@@ -48,7 +49,7 @@ export class NewFileController extends BaseFileController {
             throw new Error();
         }
 
-        return this.getFileSourcePathAtRoot(rootPath, relativeToRoot === true);
+        return this.getFileSourcePathAtRoot(rootPath, relativeToRoot === true || this.fallbackToRoot);
     }
 
     private async getWorkspaceSourcePath(): Promise<string | undefined> {
@@ -57,7 +58,12 @@ export class NewFileController extends BaseFileController {
     }
 
     private async selectWorkspaceFolder(): Promise<WorkspaceFolder | undefined> {
-        if (workspace.workspaceFolders && workspace.workspaceFolders.length === 1) {
+        if (!workspace.workspaceFolders) {
+            await this.showOpenFolderDialog();
+            return;
+        }
+
+        if (workspace.workspaceFolders.length === 1) {
             return workspace.workspaceFolders[0];
         }
 
@@ -66,8 +72,24 @@ export class NewFileController extends BaseFileController {
         return workspace.getWorkspaceFolder(uri) || window.showWorkspaceFolderPick();
     }
 
-    private async getFileSourcePath(): Promise<string> {
-        return path.dirname(await super.getSourcePath());
+    private async showOpenFolderDialog(): Promise<void> {
+        const message = 'It doesn\'t look like you have a folder opened in your workspace. Try opening a folder first.';
+        const openFolderItem = 'Open Folder';
+        const result = await window.showInformationMessage(message, { modal: true }, openFolderItem);
+        if (result === openFolderItem) {
+            await commands.executeCommand('vscode.openFolder');
+        }
+    }
+
+    private async getFileSourcePath(): Promise<string | undefined> {
+        const sourcePath = await super.getSourcePath();
+        const uri = Uri.file(sourcePath);
+        const workspaceFolder = workspace.getWorkspaceFolder(uri);
+        if (workspaceFolder) {
+            return path.dirname(sourcePath);
+        }
+        this.fallbackToRoot = true;
+        return this.getWorkspaceSourcePath();
     }
 
     private async getFileSourcePathAtRoot(rootPath: string, relativeToRoot: boolean): Promise<string> {

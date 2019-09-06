@@ -1,7 +1,7 @@
 import { commands, env, ExtensionContext, TextEditor, ViewColumn, window, workspace } from 'vscode';
 import { FileItem } from '../FileItem';
 import { Cache } from '../lib/Cache';
-import { IDialogOptions, IExecuteOptions, IFileController, IGetSourcePathOptions } from './FileController';
+import { IDialogOptions, IExecuteOptions, IFileController, IGetSourcePathOptions } from './IFileController';
 
 export abstract class BaseFileController implements IFileController {
     constructor(protected context: ExtensionContext) { }

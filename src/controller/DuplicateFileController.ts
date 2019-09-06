@@ -1,5 +1,5 @@
 import { FileItem } from '../FileItem';
-import { IExecuteOptions } from './FileController';
+import { IExecuteOptions } from './IFileController';
 import { MoveFileController } from './MoveFileController';
 
 export class DuplicateFileController extends MoveFileController {

@@ -3,7 +3,7 @@ import { window } from 'vscode';
 import { FileItem } from '../FileItem';
 import { getConfiguration } from '../lib/config';
 import { BaseFileController } from './BaseFileController';
-import { IExecuteOptions } from './FileController';
+import { IExecuteOptions } from './IFileController';
 
 export class RemoveFileController extends BaseFileController {
 

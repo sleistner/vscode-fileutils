@@ -3,7 +3,7 @@ import { Uri, window, workspace, WorkspaceFolder } from 'vscode';
 import { FileItem } from '../FileItem';
 import { getConfiguration } from '../lib/config';
 import { BaseFileController } from './BaseFileController';
-import { IDialogOptions, IExecuteOptions, IGetSourcePathOptions } from './FileController';
+import { IDialogOptions, IExecuteOptions, IGetSourcePathOptions } from './IFileController';
 import { TypeAheadController } from './TypeAheadController';
 
 export interface INewFileDialogOptions extends IDialogOptions {

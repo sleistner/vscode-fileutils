@@ -1,7 +1,7 @@
 import { env, Uri } from 'vscode';
 import { FileItem } from '../FileItem';
 import { BaseFileController } from './BaseFileController';
-import { IDialogOptions, IExecuteOptions } from './FileController';
+import { IDialogOptions, IExecuteOptions } from './IFileController';
 
 export interface ICopyFileNameDialogOptions extends IDialogOptions {
     uri?: Uri;

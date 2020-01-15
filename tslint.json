@@ -10,8 +10,17 @@
     ],
     "trailing-comma": [
       true,
-      "never"
-    ],
+      {
+          "singleline": "never",
+          "multiline": {
+              "objects": "never",
+              "arrays": "never",
+              "functions": "never",
+              "typeLiterals": "never"
+          }
+      }
+  ],
+  "object-literal-sort-keys": false,
     "no-implicit-dependencies": [
       true,
       "dev",

@@ -67,7 +67,9 @@ export class FileItem {
     public async create(mkDir?: boolean): Promise<FileItem> {
         this.ensureTargetPath();
 
-        await workspace.fs.delete(this.targetPath!, { recursive: true });
+        if (this.exists) {
+            await workspace.fs.delete(this.targetPath!, { recursive: true });
+        }
 
         if (mkDir === true || this.isDir) {
             await workspace.fs.createDirectory(this.targetPath!);

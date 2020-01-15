@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/sleistner/vscode-fileutils/compare/v3.0.0...v3.0.1) (2020-01-15)
+
+
+### Bug Fixes
+
+* **FileItem:** ensure file exists before deleting it ([7a44326](https://github.com/sleistner/vscode-fileutils/commit/7a44326))
+
 # [3.0.0](https://github.com/sleistner/vscode-fileutils/compare/v2.14.9...v3.0.0) (2019-09-03)
 
 

@@ -89,10 +89,10 @@
     universal-user-agent "^3.0.0"
     url-template "^2.0.8"
 
-"@semantic-release/changelog@^3.0.4":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@semantic-release/changelog/-/changelog-3.0.4.tgz#8fc578b76bca5b23c3000694277c38e0fa835edd"
-  integrity sha512-UqEPahcZSW0IKtzOglyjeEZCN99ku6Wb/yH/iOKEBJ7Vkw0/+Fc3VRiGoXTkMfHSFUJk+4UkoQKTlYuwf61C2w==
+"@semantic-release/changelog@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@semantic-release/changelog/-/changelog-5.0.0.tgz#3db43fc15d78267c5b3f3f9dd311ddb2a0f8596b"
+  integrity sha512-A1uKqWtQG4WX9Vh4QI5b2ddhqx1qAJFlbow8szSNiXn+TaJg15LSUA9NVqyu0VxQFy3hKUJYwbBHGRXCxCy2fg==
   dependencies:
     "@semantic-release/error" "^2.1.0"
     aggregate-error "^3.0.0"
@@ -270,10 +270,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.2.tgz#c4e63af5e8823ce9cc3f0b34f7b998c2171f0c44"
   integrity sha512-dyYO+f6ihZEtNPDcWNR1fkoTDf3zAK3lAABDze3mz6POyIercH0lEUawUFXlG8xaQZmm1yEBON/4TsYv/laDYg==
 
-"@types/node@^10.12.21":
-  version "10.14.15"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.15.tgz#e8f7729b631be1b02ae130ff0b61f3e018000640"
-  integrity sha512-CBR5avlLcu0YCILJiDIXeU2pTw7UK/NIxfC63m7d7CVamho1qDEzXKkOtEauQRPMy6MI8mLozth+JJkas7HY6g==
+"@types/node@^12.7.3":
+  version "12.12.25"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.25.tgz#792c0afb798f1dd681dce9c4b4c431f7245a0a42"
+  integrity sha512-nf1LMGZvgFX186geVZR1xMZKKblJiRfiASTHw85zED2kI1yDKHDwTKMdkaCbTlXoRKlGKaDfYywt+V0As30q3w==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"

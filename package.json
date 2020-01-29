@@ -185,7 +185,7 @@
     "@types/bluebird": "^3.5.20",
     "@types/bluebird-retry": "0.11.4",
     "@types/chai": "^4.2.0",
-    "@types/mocha": "^5.2.6",
+    "@types/mocha": "^7.0.0",
     "@types/node": "^12.7.3",
     "@types/sinon": "^7.0.3",
     "@types/sinon-chai": "^3.2.0",

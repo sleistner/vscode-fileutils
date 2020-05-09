@@ -193,7 +193,7 @@
     "bluebird": "3.7.2",
     "bluebird-retry": "0.11.0",
     "chai": "4.2.0",
-    "mocha": "6.2.0",
+    "mocha": "6.2.3",
     "precommit-hook-eslint": "3.0.0",
     "semantic-release": "15.13.21",
     "semantic-release-vsce": "2.2.8",

@@ -1246,12 +1246,12 @@ didyoumean@^1.2.1:
   resolved "https://registry.yarnpkg.com/didyoumean/-/didyoumean-1.2.1.tgz#e92edfdada6537d484d73c0172fd1eba0c4976ff"
   integrity sha1-6S7f2tplN9SE1zwBcv0eugxJdv8=
 
-diff@3.5.0, diff@^3.2.0:
+diff@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
   integrity sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==
 
-diff@^4.0.2:
+diff@^4.0.1, diff@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
@@ -4684,16 +4684,16 @@ tslint-no-unused-expression-chai@0.1.4:
   dependencies:
     tsutils "^3.0.0"
 
-tslint@5.19.0:
-  version "5.19.0"
-  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.19.0.tgz#a2cbd4a7699386da823f6b499b8394d6c47bb968"
-  integrity sha512-1LwwtBxfRJZnUvoS9c0uj8XQtAnyhWr9KlNvDIdB+oXyT+VpsOAaEhEgKi1HrZ8rq0ki/AAnbGSv4KM6/AfVZw==
+tslint@5.20.1:
+  version "5.20.1"
+  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.20.1.tgz#e401e8aeda0152bc44dd07e614034f3f80c67b7d"
+  integrity sha512-EcMxhzCFt8k+/UP5r8waCf/lzmeSyVlqxqMEDQE7rWYiQky8KpIBz1JAoYXfROHrPZ1XXd43q8yQnULOLiBRQg==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     builtin-modules "^1.1.1"
     chalk "^2.3.0"
     commander "^2.12.1"
-    diff "^3.2.0"
+    diff "^4.0.1"
     glob "^7.1.1"
     js-yaml "^3.13.1"
     minimatch "^3.0.4"

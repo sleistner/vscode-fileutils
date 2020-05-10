@@ -179,9 +179,9 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "3.0.4",
-    "@semantic-release/git": "7.0.16",
-    "@semantic-release/npm": "5.1.13",
+    "@semantic-release/changelog": "3.0.6",
+    "@semantic-release/git": "7.0.18",
+    "@semantic-release/npm": "5.3.5",
     "@types/bluebird": "3.5.30",
     "@types/bluebird-retry": "0.11.4",
     "@types/chai": "4.2.11",
@@ -195,7 +195,7 @@
     "chai": "4.2.0",
     "mocha": "6.2.3",
     "precommit-hook-eslint": "3.0.0",
-    "semantic-release": "15.13.21",
+    "semantic-release": "15.14.0",
     "semantic-release-vsce": "2.2.8",
     "sinon": "8.1.1",
     "sinon-chai": "3.5.0",

@@ -189,7 +189,7 @@
     "@types/node": "12.12.54",
     "@types/sinon": "9.0.4",
     "@types/sinon-chai": "3.2.4",
-    "@types/vscode": "1.47.0",
+    "@types/vscode": "1.48.0",
     "bluebird": "3.7.2",
     "bluebird-retry": "0.11.0",
     "chai": "4.2.0",

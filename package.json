@@ -188,7 +188,7 @@
     "@types/mocha": "7.0.2",
     "@types/node": "12.12.62",
     "@types/sinon": "9.0.6",
-    "@types/sinon-chai": "3.2.4",
+    "@types/sinon-chai": "3.2.5",
     "@types/vscode": "1.49.0",
     "bluebird": "3.7.2",
     "bluebird-retry": "0.11.0",

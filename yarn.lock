@@ -366,10 +366,10 @@
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-7.0.13.tgz#ca039c23a9e27ebea53e0901ef928ea2a1a6d313"
   integrity sha512-d7c/C/+H/knZ3L8/cxhicHUiTDxdgap0b/aNJfsmLwFu/iOP17mdgbQsbHA3SJmrzsjD0l3UEE5SN4xxuz5ung==
 
-"@types/sinon@9.0.6":
-  version "9.0.6"
-  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-9.0.6.tgz#fb4b6883fe0417e6a1ac5d9753bdcb7016dd4dd0"
-  integrity sha512-j3GK0fiHgn8fe7sqOpInMjm0A2Tary1NBZ8gbI/sZ0C0JxYeO+nh8H0/pW/0l94vNWcH1FnZOZu/cOvIfNZTrg==
+"@types/sinon@9.0.7":
+  version "9.0.7"
+  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-9.0.7.tgz#c277e19cf9eb0c71106e785650f1e5c299262302"
+  integrity sha512-uyFiy2gp4P/FK9pmU3WIbT5ZzH54hCswwRkQFhxX7xl8jzhW3g+xOkVqk5YP4cIO//Few8UDAX0MtzFpqBEqwA==
   dependencies:
     "@types/sinonjs__fake-timers" "*"
 
@@ -4928,10 +4928,10 @@ sinon-chai@3.5.0:
   resolved "https://registry.yarnpkg.com/sinon-chai/-/sinon-chai-3.5.0.tgz#c9a78304b0e15befe57ef68e8a85a00553f5c60e"
   integrity sha512-IifbusYiQBpUxxFJkR3wTU68xzBN0+bxCScEaKMjBvAQERg6FnTTc1F17rseLb1tjmkJ23730AXpFI0c47FgAg==
 
-sinon@9.0.3:
-  version "9.0.3"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-9.0.3.tgz#bffc3ec28c936332cd2a41833547b9eed201ecff"
-  integrity sha512-IKo9MIM111+smz9JGwLmw5U1075n1YXeAq8YeSFlndCLhAL5KGn6bLgu7b/4AYHTV/LcEMcRm2wU2YiL55/6Pg==
+sinon@9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-9.1.0.tgz#4afc90707c8e360fe051398eed2d3b197980ffc3"
+  integrity sha512-9zQShgaeylYH6qtsnNXlTvv0FGTTckuDfHBi+qhgj5PvW2r2WslHZpgc3uy3e/ZAoPkqaOASPi+juU6EdYRYxA==
   dependencies:
     "@sinonjs/commons" "^1.7.2"
     "@sinonjs/fake-timers" "^6.0.1"

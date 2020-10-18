@@ -1,6 +1,19 @@
 # [3.1.0](https://github.com/sleistner/vscode-fileutils/compare/v3.0.1...v3.1.0) (2020-10-18)
 
 
+### Bug Fixes
+
+* **package:** restore version ([cf5c8cd](https://github.com/sleistner/vscode-fileutils/commit/cf5c8cd))
+* **package:** update engine version ([dc4ecd1](https://github.com/sleistner/vscode-fileutils/commit/dc4ecd1))
+
+
+### Features
+
+* **move/rename:** trigger update imports when moving file ([7a40237](https://github.com/sleistner/vscode-fileutils/commit/7a40237))
+
+# [3.1.0](https://github.com/sleistner/vscode-fileutils/compare/v3.0.1...v3.1.0) (2020-10-18)
+
+
 ### Features
 
 * **move/rename:** trigger update imports when moving file ([7a40237](https://github.com/sleistner/vscode-fileutils/commit/7a40237))

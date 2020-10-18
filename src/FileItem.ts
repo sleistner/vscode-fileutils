@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { FileSystemError, Uri, workspace } from 'vscode';
+import { FileSystemError, Uri, workspace, WorkspaceEdit } from 'vscode';
 
 export class FileItem {
 
@@ -39,7 +39,10 @@ export class FileItem {
 
     public async move(): Promise<FileItem> {
         this.ensureTargetPath();
-        await workspace.fs.rename(this.path, this.targetPath!, { overwrite: true });
+
+        const edit = new WorkspaceEdit();
+        edit.renameFile(this.path, this.targetPath!, { overwrite: true });
+        await workspace.applyEdit(edit);
 
         this.SourcePath = this.targetPath!;
         return this;

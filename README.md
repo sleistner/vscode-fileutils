@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/sleistner/vscode-fileutils.svg?branch=master)](https://travis-ci.org/sleistner/vscode-fileutils)
 [![Dependency Status](https://david-dm.org/sleistner/vscode-fileutils.svg)](https://david-dm.org/sleistner/vscode-fileutils)
-[![Known Vulnerabilities](https://snyk.io/test/github/sleistner/vscode-fileutils/badge.svg)](https://snyk.io/test/github/sleistner/vscode-fileutils) 
+[![Known Vulnerabilities](https://snyk.io/test/github/sleistner/vscode-fileutils/badge.svg)](https://snyk.io/test/github/sleistner/vscode-fileutils)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
@@ -111,26 +111,6 @@ Nonexistent folders are created automatically.
 
 ```json
 {
-    "fileutils.delete.useTrash": {
-        "type": "boolean",
-        "default": false,
-        "description": "Move file to the recycle bin instead of deleting it permanently."
-    },
-    "fileutils.delete.confirm": {
-        "type": "boolean",
-        "default": true,
-        "description": "Controls if it should ask for confirmation when deleting a file."
-    },
-    "fileutils.rename.closeOldTab": {
-          "type": "boolean",
-          "default": true,
-          "description": "Controls whether to close the tab of the renamed file (Will work only if 'Close On File Delete' setting is disabled)"
-    },
-    "fileutils.move.closeOldTab": {
-          "type": "boolean",
-          "default": true,
-          "description": "Controls whether to close the tab of the moved file (Will work only if 'Close On File Delete' setting is disabled)"
-    },
     "fileutils.typeahead.enabled": {
         "type": "boolean",
         "default": true,

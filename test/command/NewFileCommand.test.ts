@@ -30,7 +30,7 @@ describe('NewFileCommand', () => {
             helper.restoreShowQuickPick();
         });
 
-        it('prompts for file destination', async () => {
+        it('should prompt for file destination', async () => {
             await subject.execute();
             const prompt = 'File Name';
             const value = path.join(path.dirname(helper.editorFile1.path), path.sep);
@@ -101,7 +101,7 @@ describe('NewFileCommand', () => {
 
         helper.protocol.describe('target file in non existing nested directories', subject);
         helper.protocol.describe('when target destination exists', subject, { overwriteFileContent: '' });
-        helper.protocol.it('opens target file as active editor', subject);
+        helper.protocol.it('should open target file as active editor', subject);
     });
 
     describe('with relativeToRoot set "true"', () => {

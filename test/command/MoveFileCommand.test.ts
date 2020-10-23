@@ -25,47 +25,9 @@ describe('MoveFileCommand', () => {
                 helper.restoreShowInputBox();
             });
 
-            helper.protocol.it('prompts for file destination', subject, 'New Location');
-            helper.protocol.it('moves current file to destination', subject);
+            helper.protocol.it('should prompt for file destination', subject, 'New Location');
+            helper.protocol.it('should move current file to destination', subject);
             helper.protocol.describe('target file in non existing nested directories', subject);
-            helper.protocol.describe('when target destination exists', subject, {
-                extra() {
-                    describe('configuration', () => {
-                        beforeEach(async () => {
-                            helper.createExecuteCommandStub().withArgs('workbench.action.closeActiveEditor');
-                        });
-
-                        afterEach(async () => {
-                            helper.restoreGetConfiguration();
-                            helper.restoreExecuteCommand();
-                        });
-
-                        describe('move.closeOldTab set to true', () => {
-                            beforeEach(async () => {
-                                helper.createGetConfigurationStub({ 'move.closeOldTab': true });
-                            });
-
-                            it('moves a file and verifies that the tab of the file was closed', async () => {
-                                await subject.execute();
-                                expect(commands.executeCommand).to.have.been.called;
-                            });
-                        });
-
-                        describe('move.closeOldTab set to false', () => {
-                            beforeEach(async () => {
-                                helper.createGetConfigurationStub({ 'move.closeOldTab': false });
-                            });
-
-                            it('moves a file and verifies that the tab of the file was not closed', async () => {
-                                await subject.execute();
-                                expect(commands.executeCommand).to.have.not.been.called;
-                            });
-                        });
-                    });
-                }
-            });
-
-            helper.protocol.it('opens target file as active editor', subject);
         });
 
         helper.protocol.describe('without open text document', subject);
@@ -76,8 +38,7 @@ describe('MoveFileCommand', () => {
 
         afterEach(async () => helper.restoreShowInputBox());
 
-        helper.protocol.it('prompts for file destination', subject, 'New Location');
-        helper.protocol.it('moves current file to destination', subject, helper.editorFile1);
-        helper.protocol.it('opens target file as active editor', subject, helper.editorFile1);
+        helper.protocol.it('should prompt for file destination', subject, 'New Location');
+        helper.protocol.it('should move current file to destination', subject, helper.editorFile1);
     });
 });

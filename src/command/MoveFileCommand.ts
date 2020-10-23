@@ -1,7 +1,5 @@
-import { ExtensionContext, Uri } from 'vscode';
-import { IFileController, MoveFileController } from '../controller';
+import { Uri } from 'vscode';
 import { IMoveFileDialogOptions } from '../controller/MoveFileController';
-import { getConfiguration } from '../lib/config';
 import { BaseCommand } from './BaseCommand';
 
 export class MoveFileCommand extends BaseCommand {
@@ -11,12 +9,6 @@ export class MoveFileCommand extends BaseCommand {
         const fileItem = await this.controller.showDialog(dialogOptions);
         if (fileItem) {
             await this.controller.execute({ fileItem });
-
-            if (getConfiguration('move.closeOldTab')) {
-                await this.controller.closeCurrentFileEditor();
-            }
-
-            return this.controller.openFileInEditor(fileItem);
         }
     }
 

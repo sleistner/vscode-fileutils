@@ -19,9 +19,12 @@ export const describe: IStep = {
 
             mocha.beforeEach(async () => createShowInputBoxStub().resolves(path.resolve(targetDir, 'file.rb')));
 
-            mocha.it('creates nested directories', async () => {
-                const textEditor: TextEditor = await subject.execute();
-                const dirname = path.dirname(textEditor.document.fileName);
+            mocha.it('should create nested directories', async () => {
+                await subject.execute();
+                const textEditor = window.activeTextEditor;
+                expect(textEditor);
+
+                const dirname = path.dirname(textEditor!.document.fileName);
                 const directories: string[] = dirname.split(path.sep);
 
                 expect(directories.pop()).to.equal('level-3');
@@ -39,7 +42,7 @@ export const describe: IStep = {
 
             mocha.afterEach(async () => restoreShowInformationMessage());
 
-            mocha.it('asks to overwrite destination file', async () => {
+            mocha.it('should prompt with confirmation dialog to overwrite destination file', async () => {
                 await subject.execute();
                 const message = `File '${targetFile.path}' already exists.`;
                 const action = 'Overwrite';
@@ -48,7 +51,7 @@ export const describe: IStep = {
             });
 
             mocha.describe(`responding with 'Overwrite'`, () => {
-                mocha.it('overwrites the existig file', async () => {
+                mocha.it('should overwrite the existig file', async () => {
                     await subject.execute();
                     const fileContent = await readFile(targetFile);
                     const expectedFileContent = config && 'overwriteFileContent' in config
@@ -61,7 +64,7 @@ export const describe: IStep = {
             mocha.describe(`responding with 'Cancel'`, () => {
                 mocha.beforeEach(async () => createShowInformationMessageStub().resolves(false));
 
-                mocha.it('leaves existing file untouched', async () => {
+                mocha.it('should leave existing file untouched', async () => {
                     try {
                         await subject.execute();
                         expect.fail('must fail');
@@ -86,7 +89,7 @@ export const describe: IStep = {
 
             mocha.afterEach(async () => restoreShowInputBox());
 
-            mocha.it('ignores the command call', async () => {
+            mocha.it('should ignore the command call', async () => {
                 try {
                     await subject.execute();
                     expect.fail('must fail');

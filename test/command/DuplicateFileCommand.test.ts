@@ -22,11 +22,11 @@ describe('DuplicateFileCommand', () => {
                 helper.restoreShowInputBox();
             });
 
-            helper.protocol.it('prompts for file destination', subject, 'Duplicate As');
-            helper.protocol.it('duplicates current file to destination', subject);
+            helper.protocol.it('should prompt for file destination', subject, 'Duplicate As');
+            helper.protocol.it('should duplicate current file to destination', subject);
             helper.protocol.describe('target file in non existing nested directories', subject);
             helper.protocol.describe('when target destination exists', subject);
-            helper.protocol.it('opens target file as active editor', subject);
+            helper.protocol.it('should open target file as active editor', subject);
         });
 
         helper.protocol.describe('without open text document', subject);
@@ -37,8 +37,8 @@ describe('DuplicateFileCommand', () => {
 
         afterEach(async () => helper.restoreShowInputBox());
 
-        helper.protocol.it('prompts for file destination', subject, 'Duplicate As');
-        helper.protocol.it('duplicates current file to destination', subject, helper.editorFile1);
-        helper.protocol.it('opens target file as active editor', subject, helper.editorFile1);
+        helper.protocol.it('should prompt for file destination', subject, 'Duplicate As');
+        helper.protocol.it('should duplicate current file to destination', subject, helper.editorFile1);
+        helper.protocol.it('should open target file as active editor', subject, helper.editorFile1);
     });
 });

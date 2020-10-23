@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { FileSystemError, Uri, workspace, WorkspaceEdit } from 'vscode';
+import { Uri, workspace, WorkspaceEdit } from 'vscode';
 
 export class FileItem {
 
@@ -50,20 +50,16 @@ export class FileItem {
 
     public async duplicate(): Promise<FileItem> {
         this.ensureTargetPath();
+
         await workspace.fs.copy(this.path, this.targetPath!, { overwrite: true });
 
         return new FileItem(this.targetPath!);
     }
 
-    public async remove(useTrash = false): Promise<FileItem> {
-        try {
-            await workspace.fs.delete(this.path, { recursive: true, useTrash });
-        } catch (err) {
-            if (useTrash === true && err instanceof FileSystemError) {
-                return this.remove(false);
-            }
-            throw err;
-        }
+    public async remove(): Promise<FileItem> {
+        const edit = new WorkspaceEdit();
+        edit.deleteFile(this.path, { recursive: true, ignoreIfNotExists: true });
+        await workspace.applyEdit(edit);
         return this;
     }
 

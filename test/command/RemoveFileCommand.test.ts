@@ -1,4 +1,3 @@
-import * as retry from 'bluebird-retry';
 import { expect } from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -29,26 +28,12 @@ describe('RemoveFileCommand', () => {
             });
 
             describe('configuration', () => {
-                describe('delete.useTrash set to false', () => {
+                describe('when explorer.confirmDelete is set to true', () => {
                     beforeEach(async () => {
-                        helper.createGetConfigurationStub({ 'delete.useTrash': false, 'delete.confirm': true });
+                        helper.createGetConfigurationStub({ confirmDelete: true });
                     });
 
-                    it('asks to delete file', async () => {
-                        await subject.execute();
-                        const message = `Are you sure you want to delete '${path.basename(helper.editorFile1.path)}'?`;
-                        const action = 'Delete';
-                        const options = { modal: true };
-                        expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
-                    });
-                });
-
-                describe('delete.useTrash set to true', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ 'delete.useTrash': true, 'delete.confirm': true });
-                    });
-
-                    it('asks to move file to trash', async () => {
+                    it('should show a confirmation dialog', async () => {
                         await subject.execute();
                         const message = `Are you sure you want to delete '${path.basename(helper.editorFile1.path)}'?`;
                         const action = 'Move to Trash';
@@ -56,10 +41,23 @@ describe('RemoveFileCommand', () => {
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
+
+                describe('when explorer.confirmDelete is set to false', () => {
+                    beforeEach(async () => {
+                        helper.createGetConfigurationStub({ confirmDelete: false });
+                    });
+
+                    it('should delete the file without confirmation', async () => {
+                        await subject.execute();
+                        const message = `${helper.editorFile1.path} does not exist`;
+                        expect(window.showInformationMessage).to.have.not.been.called;
+                        expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.false;
+                    });
+                });
             });
 
             describe('responding with delete', () => {
-                it('deletes the file', async () => {
+                it('should delete the file', async () => {
                     await subject.execute();
                     const message = `${helper.editorFile1.path} does exist`;
                     expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.false;
@@ -68,10 +66,11 @@ describe('RemoveFileCommand', () => {
 
             describe('responding with no', () => {
                 beforeEach(async () => {
+                    helper.createGetConfigurationStub({ confirmDelete: true });
                     helper.createShowInformationMessageStub().resolves(false);
                 });
 
-                it('leaves the file untouched', async () => {
+                it('should leave the file untouched', async () => {
                     try {
                         await subject.execute();
                         expect.fail('must fail');
@@ -82,18 +81,6 @@ describe('RemoveFileCommand', () => {
                 });
             });
 
-            describe('delete.confirm configuration set to false', () => {
-                beforeEach(async () => {
-                    helper.createGetConfigurationStub({ 'delete.useTrash': false, 'delete.confirm': false });
-                });
-
-                it('deletes the file without confirmation', async () => {
-                    await subject.execute();
-                    const message = `${helper.editorFile1.path} does not exist`;
-                    expect(window.showInformationMessage).to.have.not.been.called;
-                    expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.false;
-                });
-            });
         });
 
         describe('with no open text document', () => {
@@ -104,7 +91,7 @@ describe('RemoveFileCommand', () => {
 
             afterEach(async () => helper.restoreShowInformationMessage());
 
-            it('ignores the command call', async () => {
+            it('should ignore the command call', async () => {
                 try {
                     await subject.execute();
                     expect.fail('Must fail');

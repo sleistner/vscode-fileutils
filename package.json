@@ -166,7 +166,7 @@
     "@types/bluebird-retry": "0.11.4",
     "@types/chai": "4.2.14",
     "@types/mocha": "7.0.2",
-    "@types/node": "12.19.0",
+    "@types/node": "12.19.1",
     "@types/sinon": "9.0.8",
     "@types/sinon-chai": "3.2.5",
     "@types/vscode": "1.50.0",

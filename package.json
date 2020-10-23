@@ -48,47 +48,47 @@
     "commands": [
       {
         "command": "fileutils.renameFile",
-        "category": "File",
+        "category": "File Utils",
         "title": "Rename"
       },
       {
         "command": "fileutils.moveFile",
-        "category": "File",
+        "category": "File Utils",
         "title": "Move"
       },
       {
         "command": "fileutils.duplicateFile",
-        "category": "File",
+        "category": "File Utils",
         "title": "Duplicate"
       },
       {
         "command": "fileutils.removeFile",
-        "category": "File",
+        "category": "File Utils",
         "title": "Delete"
       },
       {
         "command": "fileutils.newFile",
-        "category": "File",
+        "category": "File Utils",
         "title": "New File Relative to Current View"
       },
       {
         "command": "fileutils.newFileAtRoot",
-        "category": "File",
+        "category": "File Utils",
         "title": "New File Relative to Project Root"
       },
       {
         "command": "fileutils.newFolder",
-        "category": "File",
+        "category": "File Utils",
         "title": "New Folder Relative to Current View"
       },
       {
         "command": "fileutils.newFolderAtRoot",
-        "category": "File",
+        "category": "File Utils",
         "title": "New Folder Relative to Project Root"
       },
       {
         "command": "fileutils.copyFileName",
-        "category": "File",
+        "category": "File Utils",
         "title": "Copy Name"
       }
     ],
@@ -140,26 +140,6 @@
       "type": "object",
       "title": "Fileutils configuration",
       "properties": {
-        "fileutils.delete.useTrash": {
-          "type": "boolean",
-          "default": false,
-          "description": "Move file to the recycle bin instead of deleting it permanently."
-        },
-        "fileutils.delete.confirm": {
-          "type": "boolean",
-          "default": true,
-          "description": "Controls if it should ask for confirmation when deleting a file."
-        },
-        "fileutils.rename.closeOldTab": {
-          "type": "boolean",
-          "default": true,
-          "description": "Controls whether to close the tab of the renamed file (Will work only if 'Close On File Delete' setting is disabled)"
-        },
-        "fileutils.move.closeOldTab": {
-          "type": "boolean",
-          "default": true,
-          "description": "Controls whether to close the tab of the moved file (Will work only if 'Close On File Delete' setting is disabled)"
-        },
         "fileutils.typeahead.enabled": {
           "type": "boolean",
           "default": true,

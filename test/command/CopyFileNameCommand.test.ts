@@ -36,7 +36,7 @@ describe('CopyFileNameCommand', () => {
                 await env.clipboard.writeText(clipboardInitialTestData);
             });
 
-            it('ignores the command call and does not change the clipboard data', async () => {
+            it('should ignore the command call and does not change the clipboard data', async () => {
                 try {
                     await subject.execute();
                     expect.fail('must fail');

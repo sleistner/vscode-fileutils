@@ -24,7 +24,7 @@ describe('RenameFileCommand', () => {
                 helper.restoreShowInputBox();
             });
 
-            it('prompts for file destination', async () => {
+            it('should prompt for file destination', async () => {
                 await subject.execute();
                 const prompt = 'New Name';
                 const value = path.basename(helper.editorFile1.fsPath);
@@ -32,47 +32,9 @@ describe('RenameFileCommand', () => {
                 expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
             });
 
-            helper.protocol.it('moves current file to destination', subject);
+            helper.protocol.it('should move current file to destination', subject);
             helper.protocol.describe('target file in non existing nested directories', subject);
-            helper.protocol.describe('when target destination exists', subject, {
-                extra() {
-
-                    describe('configuration', () => {
-                        beforeEach(async () => {
-                            helper.createExecuteCommandStub().withArgs('workbench.action.closeActiveEditor');
-                        });
-
-                        afterEach(async () => {
-                            helper.restoreGetConfiguration();
-                            helper.restoreExecuteCommand();
-                        });
-
-                        describe('rename.closeOldTab set to true', () => {
-                            beforeEach(async () => {
-                                helper.createGetConfigurationStub({ 'rename.closeOldTab': true });
-                            });
-
-                            it('renames a file and verifies that the tab of the file was closed', async () => {
-                                await subject.execute();
-                                expect(commands.executeCommand).to.have.been.called;
-                            });
-                        });
-
-                        describe('rename.closeOldTab set to false', () => {
-                            beforeEach(async () => {
-                                helper.createGetConfigurationStub({ 'rename.closeOldTab': false });
-                            });
-
-                            it('renames a file and verifies that the tab of the file was not closed', async () => {
-                                await subject.execute();
-                                expect(commands.executeCommand).to.have.not.been.called;
-                            });
-                        });
-                    });
-                }
-            });
-
-            helper.protocol.it('opens target file as active editor', subject);
+            helper.protocol.it('should open target file as active editor', subject);
         });
 
         describe('with no open text document', () => {
@@ -83,7 +45,7 @@ describe('RenameFileCommand', () => {
 
             afterEach(() => helper.restoreShowInputBox());
 
-            it('ignores the command call', async () => {
+            it('should ignore the command call', async () => {
                 try {
                     await subject.execute();
                     expect.fail('Must fail');

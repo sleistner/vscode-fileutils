@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { FileSystemError, Uri, workspace, WorkspaceEdit } from 'vscode';
+import { Uri, workspace, WorkspaceEdit } from 'vscode';
 
 export class FileItem {
 
@@ -51,7 +51,6 @@ export class FileItem {
     public async duplicate(): Promise<FileItem> {
         this.ensureTargetPath();
 
-        const edit = new WorkspaceEdit();
         await workspace.fs.copy(this.path, this.targetPath!, { overwrite: true });
 
         return new FileItem(this.targetPath!);

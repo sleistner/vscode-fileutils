@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/sleistner/vscode-fileutils/compare/v3.3.0...v3.3.1) (2020-10-25)
+
+
+### Bug Fixes
+
+* **duplicate:** prevent directories to be opened as document ([dc1c9f0](https://github.com/sleistner/vscode-fileutils/commit/dc1c9f0))
+
 # [3.3.0](https://github.com/sleistner/vscode-fileutils/compare/v3.2.0...v3.3.0) (2020-10-25)
 
 

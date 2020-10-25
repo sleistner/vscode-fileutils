@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/sleistner/vscode-fileutils/compare/v3.1.0...v3.1.1) (2020-10-23)
+
+
+### Bug Fixes
+
+* **Rename, Move:** keep file in editor group ([5478345](https://github.com/sleistner/vscode-fileutils/commit/5478345))
+
 # [3.1.0](https://github.com/sleistner/vscode-fileutils/compare/v3.0.1...v3.1.0) (2020-10-18)
 
 

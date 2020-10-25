@@ -86,33 +86,6 @@ Non-existent folders are created automatically.
 ]
 ```
 
-## Context Menu
-
-```json
-{
-    "explorer/context": [
-        {
-            "command": "fileutils.moveFile",
-            "group": "edit"
-        },
-        {
-            "command": "fileutils.duplicateFile",
-            "group": "edit"
-        }
-    ],
-    "editor/context": [
-        {
-            "command": "fileutils.moveFile",
-            "group": "edit"
-        },
-        {
-            "command": "fileutils.duplicateFile",
-            "group": "edit"
-        }
-    ]
-}
-```
-
 ## Configuration
 
 ```json

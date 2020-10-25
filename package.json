@@ -2,7 +2,7 @@
   "name": "vscode-fileutils",
   "displayName": "File Utils",
   "description": "A convenient way of creating, duplicating, moving, renaming and deleting files and directories.",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "private": true,
   "license": "MIT",
   "publisher": "sleistner",
@@ -117,22 +117,46 @@
       ],
       "editor/context": [
         {
-          "command": "fileutils.moveFile",
-          "group": "1_modification"
-        },
-        {
-          "command": "fileutils.duplicateFile",
-          "group": "1_modification"
+          "command": "fileutils.copyFileName",
+          "group": "1_copypath"
         },
         {
           "command": "fileutils.renameFile",
-          "group": "1_modification"
+          "group": "1_modification@1"
+        },
+        {
+          "command": "fileutils.moveFile",
+          "group": "1_modification@2"
+        },
+        {
+          "command": "fileutils.duplicateFile",
+          "group": "1_modification@3"
+        },
+        {
+          "command": "fileutils.removeFile",
+          "group": "1_modification@4"
         }
       ],
       "editor/title/context": [
         {
           "command": "fileutils.copyFileName",
           "group": "1_copypath"
+        },
+        {
+          "command": "fileutils.renameFile",
+          "group": "1_modification@1"
+        },
+        {
+          "command": "fileutils.moveFile",
+          "group": "1_modification@2"
+        },
+        {
+          "command": "fileutils.duplicateFile",
+          "group": "1_modification@3"
+        },
+        {
+          "command": "fileutils.removeFile",
+          "group": "1_modification@4"
         }
       ]
     },
@@ -152,7 +176,7 @@
     "vscode:prepublish": "yarn run build:compile",
     "build:compile": "tsc -p tsconfig.build.json",
     "build:compile:test": "tsc -p tsconfig.json",
-    "build:compile:watch": "tsc -watch -p tsconfig.json",
+    "watch": "tsc -watch -p ./",
     "pretest": "yarn run build:compile:test",
     "test": "node ./out/test/runTest.js",
     "lint": "eslint './{src,test}/**/*.ts'",
@@ -175,9 +199,9 @@
     "bluebird-retry": "0.11.0",
     "chai": "4.2.0",
     "eslint": "7.12.0",
-    "husky": "^4.3.0",
+    "husky": "4.3.0",
     "mocha": "7.2.0",
-    "prettier": "2.0.5",
+    "prettier": "2.1.2",
     "semantic-release": "15.14.0",
     "semantic-release-vsce": "2.2.8",
     "sinon": "9.2.0",

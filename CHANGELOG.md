@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/sleistner/vscode-fileutils/compare/v3.2.0...v3.3.0) (2020-10-25)
+
+
+### Features
+
+* **menus:** add file releated commands to tab and editor context ([a8b748e](https://github.com/sleistner/vscode-fileutils/commit/a8b748e))
+
 # [3.2.0](https://github.com/sleistner/vscode-fileutils/compare/v3.1.1...v3.2.0) (2020-10-25)
 
 

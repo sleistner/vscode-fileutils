@@ -1,5 +1,5 @@
 import * as path from "path";
-import { Uri, window } from "vscode";
+import { FileType, Uri, window, workspace } from "vscode";
 import { FileItem } from "../FileItem";
 import { BaseFileController } from "./BaseFileController";
 import { DialogOptions, ExecuteOptions } from "./FileController";
@@ -27,8 +27,9 @@ export class MoveFileController extends BaseFileController {
         });
 
         if (targetPath) {
+            const isDir = (await workspace.fs.stat(Uri.file(sourcePath))).type === FileType.Directory;
             const realPath = path.resolve(path.dirname(sourcePath), targetPath);
-            return new FileItem(sourcePath, realPath);
+            return new FileItem(sourcePath, realPath, isDir);
         }
     }
 

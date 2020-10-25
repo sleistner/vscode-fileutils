@@ -3,7 +3,7 @@
         "outDir": "out",
         "module": "commonjs",
         "target": "ES2019",
-        "sourceMap": false,
+        "sourceMap": true,
         "strict": true,
         "moduleResolution": "node",
         "removeComments": true,
@@ -14,8 +14,7 @@
         "allowSyntheticDefaultImports": true,
         "typeRoots": [
 			"node_modules/@types",
-			"types",
-            "jest"
+			"types"
         ]
     },
     "include": [

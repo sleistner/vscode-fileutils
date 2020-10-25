@@ -1,4 +1,4 @@
-<img src="images/icon.png" alt="enter-at" width="100">
+![icon](images/icon-96x96.png)
 
 # File Utils - Visual Studio Code Extension
 

@@ -1,6 +1,18 @@
 # [3.2.0](https://github.com/sleistner/vscode-fileutils/compare/v3.1.1...v3.2.0) (2020-10-25)
 
 
+### Bug Fixes
+
+* **readme:** change icon path ([a048dab](https://github.com/sleistner/vscode-fileutils/commit/a048dab))
+
+
+### Features
+
+* update icon ([5c2156b](https://github.com/sleistner/vscode-fileutils/commit/5c2156b))
+
+# [3.2.0](https://github.com/sleistner/vscode-fileutils/compare/v3.1.1...v3.2.0) (2020-10-25)
+
+
 ### Features
 
 * update icon ([5c2156b](https://github.com/sleistner/vscode-fileutils/commit/5c2156b))

@@ -17,7 +17,7 @@
             "outFiles": [
                 "${workspaceFolder}/out/src/**/*.js"
             ],
-            "preLaunchTask": "npm: build:compile:test"
+            "preLaunchTask": "npm: watch"
         },
         {
             "name": "Launch Tests",
@@ -32,7 +32,7 @@
             "outFiles": [
                 "${workspaceFolder}/out/test/**/*.js"
             ],
-            "preLaunchTask": "npm: build:compile:test"
+            "preLaunchTask": "npm: watch"
         }
     ]
 }

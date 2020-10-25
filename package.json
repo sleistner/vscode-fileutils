@@ -152,7 +152,7 @@
     "vscode:prepublish": "yarn run build:compile",
     "build:compile": "tsc -p tsconfig.build.json",
     "build:compile:test": "tsc -p tsconfig.json",
-    "build:compile:watch": "tsc -watch -p tsconfig.json",
+    "watch": "tsc -watch -p ./",
     "pretest": "yarn run build:compile:test",
     "test": "node ./out/test/runTest.js",
     "lint": "eslint './{src,test}/**/*.ts'",

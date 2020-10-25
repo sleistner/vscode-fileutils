@@ -1,10 +1,8 @@
-import { Uri } from 'vscode';
-import { NewFileCommand } from './NewFileCommand';
+import { Uri } from "vscode";
+import { NewFileCommand } from "./NewFileCommand";
 
 export class NewFileAtRootCommand extends NewFileCommand {
-
-    public async execute(uri?: Uri) {
-        return super.execute(uri, { relativeToRoot: true });
+    public async execute(uri?: Uri): Promise<void> {
+        await super.execute(uri, { relativeToRoot: true });
     }
-
 }

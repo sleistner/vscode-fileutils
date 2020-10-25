@@ -1,20 +1,20 @@
-import { expect } from 'chai';
-import * as fs from 'fs';
-import * as path from 'path';
-import { window } from 'vscode';
-import { RemoveFileCommand } from '../../src/command';
-import { RemoveFileController } from '../../src/controller';
-import * as helper from '../helper';
+import { expect } from "chai";
+import * as fs from "fs";
+import * as path from "path";
+import { window } from "vscode";
+import { RemoveFileCommand } from "../../src/command";
+import { RemoveFileController } from "../../src/controller";
+import * as helper from "../helper";
 
-describe('RemoveFileCommand', () => {
-    const subject = helper.createTestSubject(RemoveFileCommand, RemoveFileController);
+describe("RemoveFileCommand", () => {
+    const subject = new RemoveFileCommand(new RemoveFileController(helper.createExtensionContext()));
 
     beforeEach(helper.beforeEach);
 
     afterEach(helper.afterEach);
 
-    describe('as command', () => {
-        describe('with open text document', () => {
+    describe("as command", () => {
+        describe("with open text document", () => {
             beforeEach(async () => {
                 await helper.openDocument(helper.editorFile1);
                 helper.createShowInformationMessageStub().resolves(helper.targetFile.path);
@@ -27,27 +27,27 @@ describe('RemoveFileCommand', () => {
                 helper.restoreGetConfiguration();
             });
 
-            describe('configuration', () => {
-                describe('when explorer.confirmDelete is set to true', () => {
+            describe("configuration", () => {
+                describe("when explorer.confirmDelete is set to true", () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ confirmDelete: true });
                     });
 
-                    it('should show a confirmation dialog', async () => {
+                    it("should show a confirmation dialog", async () => {
                         await subject.execute();
                         const message = `Are you sure you want to delete '${path.basename(helper.editorFile1.path)}'?`;
-                        const action = 'Move to Trash';
+                        const action = "Move to Trash";
                         const options = { modal: true };
                         expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
                     });
                 });
 
-                describe('when explorer.confirmDelete is set to false', () => {
+                describe("when explorer.confirmDelete is set to false", () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ confirmDelete: false });
                     });
 
-                    it('should delete the file without confirmation', async () => {
+                    it("should delete the file without confirmation", async () => {
                         await subject.execute();
                         const message = `${helper.editorFile1.path} does not exist`;
                         expect(window.showInformationMessage).to.have.not.been.called;
@@ -56,34 +56,33 @@ describe('RemoveFileCommand', () => {
                 });
             });
 
-            describe('responding with delete', () => {
-                it('should delete the file', async () => {
+            describe("responding with delete", () => {
+                it("should delete the file", async () => {
                     await subject.execute();
                     const message = `${helper.editorFile1.path} does exist`;
                     expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.false;
                 });
             });
 
-            describe('responding with no', () => {
+            describe("responding with no", () => {
                 beforeEach(async () => {
                     helper.createGetConfigurationStub({ confirmDelete: true });
                     helper.createShowInformationMessageStub().resolves(false);
                 });
 
-                it('should leave the file untouched', async () => {
+                it("should leave the file untouched", async () => {
                     try {
                         await subject.execute();
-                        expect.fail('must fail');
+                        expect.fail("must fail");
                     } catch (e) {
                         const message = `${helper.editorFile1.path} does not exist`;
                         expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.true;
                     }
                 });
             });
-
         });
 
-        describe('with no open text document', () => {
+        describe("with no open text document", () => {
             beforeEach(async () => {
                 await helper.closeAllEditors();
                 helper.createShowInformationMessageStub();
@@ -91,10 +90,10 @@ describe('RemoveFileCommand', () => {
 
             afterEach(async () => helper.restoreShowInformationMessage());
 
-            it('should ignore the command call', async () => {
+            it("should ignore the command call", async () => {
                 try {
                     await subject.execute();
-                    expect.fail('Must fail');
+                    expect.fail("Must fail");
                 } catch {
                     expect(window.showInformationMessage).to.have.not.been.called;
                 }

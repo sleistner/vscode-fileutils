@@ -1,27 +1,31 @@
-import * as path from 'path';
-import { Uri, window, workspace, WorkspaceFolder } from 'vscode';
-import { FileItem } from '../FileItem';
-import { getConfiguration } from '../lib/config';
-import { BaseFileController } from './BaseFileController';
-import { IDialogOptions, IExecuteOptions, IGetSourcePathOptions } from './FileController';
-import { TypeAheadController } from './TypeAheadController';
+import * as path from "path";
+import { Uri, window, workspace, WorkspaceFolder } from "vscode";
+import { FileItem } from "../FileItem";
+import { getConfiguration } from "../lib/config";
+import { BaseFileController } from "./BaseFileController";
+import { DialogOptions, ExecuteOptions, GetSourcePathOptions } from "./FileController";
+import { TypeAheadController } from "./TypeAheadController";
 
-export interface INewFileDialogOptions extends IDialogOptions {
+export interface NewFileDialogOptions extends DialogOptions {
     relativeToRoot?: boolean;
 }
 
-export interface INewFileExecuteOptions extends IExecuteOptions {
+export interface NewFileExecuteOptions extends ExecuteOptions {
     isDir?: boolean;
 }
 
 export class NewFileController extends BaseFileController {
-
-    public async showDialog(options: INewFileDialogOptions): Promise<FileItem | undefined> {
+    public async showDialog(options: NewFileDialogOptions): Promise<FileItem | undefined> {
         const { prompt, relativeToRoot = false } = options;
         const sourcePath = await this.getSourcePath({ relativeToRoot });
         const value: string = path.join(sourcePath, path.sep);
         const valueSelection: [number, number] = [value.length, value.length];
-        const targetPath = await window.showInputBox({ prompt, value, valueSelection });
+        const targetPath = await window.showInputBox({
+            prompt,
+            value,
+            valueSelection,
+        });
+
         if (targetPath) {
             const isDir = targetPath.endsWith(path.sep);
             const realPath = path.resolve(sourcePath, targetPath);
@@ -29,7 +33,7 @@ export class NewFileController extends BaseFileController {
         }
     }
 
-    public async execute(options: INewFileExecuteOptions): Promise<FileItem> {
+    public async execute(options: NewFileExecuteOptions): Promise<FileItem> {
         const { fileItem, isDir = false } = options;
         await this.ensureWritableFile(fileItem);
         try {
@@ -39,10 +43,8 @@ export class NewFileController extends BaseFileController {
         }
     }
 
-    public async getSourcePath({ relativeToRoot }: IGetSourcePathOptions): Promise<string> {
-        const rootPath = relativeToRoot
-            ? await this.getWorkspaceSourcePath()
-            : await this.getFileSourcePath();
+    public async getSourcePath({ relativeToRoot }: GetSourcePathOptions): Promise<string> {
+        const rootPath = relativeToRoot ? await this.getWorkspaceSourcePath() : await this.getFileSourcePath();
 
         if (!rootPath) {
             throw new Error();
@@ -73,7 +75,7 @@ export class NewFileController extends BaseFileController {
     private async getFileSourcePathAtRoot(rootPath: string, relativeToRoot: boolean): Promise<string> {
         let sourcePath = rootPath;
 
-        if (getConfiguration('typeahead.enabled') === true) {
+        if (getConfiguration("typeahead.enabled") === true) {
             const cache = this.getCache(`workspace:${sourcePath}`);
             const typeAheadController = new TypeAheadController(cache, relativeToRoot);
             sourcePath = await typeAheadController.showDialog(sourcePath);

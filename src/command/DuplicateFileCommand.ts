@@ -1,16 +1,15 @@
-import { Uri } from 'vscode';
-import { IMoveFileDialogOptions } from '../controller/MoveFileController';
-import { BaseCommand } from './BaseCommand';
+import { Uri } from "vscode";
+import { MoveFileController } from "../controller/MoveFileController";
+import { BaseCommand } from "./BaseCommand";
 
-export class DuplicateFileCommand extends BaseCommand {
-
-    public async execute(uri?: Uri) {
-        const dialogOptions: IMoveFileDialogOptions = { prompt: 'Duplicate As', showFullPath: true, uri };
+export class DuplicateFileCommand extends BaseCommand<MoveFileController> {
+    public async execute(uri?: Uri): Promise<void> {
+        const dialogOptions = { prompt: "Duplicate As", showFullPath: true, uri };
         const fileItem = await this.controller.showDialog(dialogOptions);
+
         if (fileItem) {
-            const copiedFileItem = await this.controller.execute({ fileItem });
-            return this.controller.openFileInEditor(copiedFileItem);
+            const duplicatedFileItem = await this.controller.execute({ fileItem });
+            await this.controller.openFileInEditor(duplicatedFileItem);
         }
     }
-
 }

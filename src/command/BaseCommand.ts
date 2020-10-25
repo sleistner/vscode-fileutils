@@ -1,11 +1,9 @@
-import { Uri } from 'vscode';
-import { IFileController } from '../controller';
-import { ICommand } from './Command';
+import { Uri } from "vscode";
+import { FileController } from "../controller";
+import { Command } from "./Command";
 
-export abstract class BaseCommand implements ICommand {
+export abstract class BaseCommand<T extends FileController> implements Command {
+    constructor(protected controller: T) {}
 
-    constructor(protected controller: IFileController) { }
-
-    public abstract async execute(uri?: Uri): Promise<any>;
-
+    public abstract async execute(uri?: Uri): Promise<void>;
 }

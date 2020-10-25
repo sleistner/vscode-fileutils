@@ -1,20 +1,16 @@
-import { expect } from 'chai';
-import * as sinon from 'sinon';
-import { commands, workspace } from 'vscode';
-import { MoveFileCommand } from '../../src/command';
-import { MoveFileController } from '../../src/controller';
-import * as helper from '../helper';
+import { MoveFileCommand } from "../../src/command";
+import { MoveFileController } from "../../src/controller";
+import * as helper from "../helper";
 
-describe('MoveFileCommand', () => {
-    const subject = helper.createTestSubject(MoveFileCommand, MoveFileController);
+describe("MoveFileCommand", () => {
+    const subject = new MoveFileCommand(new MoveFileController(helper.createExtensionContext()));
 
     beforeEach(helper.beforeEach);
 
     afterEach(helper.afterEach);
 
-    describe('as command', () => {
-
-        describe('with open text document', () => {
+    describe("as command", () => {
+        describe("with open text document", () => {
             beforeEach(async () => {
                 await helper.openDocument(helper.editorFile1);
                 helper.createShowInputBoxStub().resolves(helper.targetFile.path);
@@ -25,20 +21,20 @@ describe('MoveFileCommand', () => {
                 helper.restoreShowInputBox();
             });
 
-            helper.protocol.it('should prompt for file destination', subject, 'New Location');
-            helper.protocol.it('should move current file to destination', subject);
-            helper.protocol.describe('target file in non existing nested directories', subject);
+            helper.protocol.it("should prompt for file destination", subject, "New Location");
+            helper.protocol.it("should move current file to destination", subject);
+            helper.protocol.describe("target file in non existing nested directories", subject);
         });
 
-        helper.protocol.describe('without open text document', subject);
+        helper.protocol.describe("without open text document", subject);
     });
 
-    describe('as context menu', () => {
+    describe("as context menu", () => {
         beforeEach(async () => helper.createShowInputBoxStub().resolves(helper.targetFile.path));
 
         afterEach(async () => helper.restoreShowInputBox());
 
-        helper.protocol.it('should prompt for file destination', subject, 'New Location');
-        helper.protocol.it('should move current file to destination', subject, helper.editorFile1);
+        helper.protocol.it("should prompt for file destination", subject, "New Location");
+        helper.protocol.it("should move current file to destination", subject, helper.editorFile1);
     });
 });

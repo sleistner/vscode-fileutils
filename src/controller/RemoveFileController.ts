@@ -1,11 +1,10 @@
-import * as path from 'path';
-import { window, workspace } from 'vscode';
-import { FileItem } from '../FileItem';
-import { BaseFileController } from './BaseFileController';
-import { IExecuteOptions } from './FileController';
+import * as path from "path";
+import { window, workspace } from "vscode";
+import { FileItem } from "../FileItem";
+import { BaseFileController } from "./BaseFileController";
+import { ExecuteOptions } from "./FileController";
 
 export class RemoveFileController extends BaseFileController {
-
     public async showDialog(): Promise<FileItem | undefined> {
         const sourcePath = await this.getSourcePath();
 
@@ -18,14 +17,14 @@ export class RemoveFileController extends BaseFileController {
         }
 
         const message = `Are you sure you want to delete '${path.basename(sourcePath)}'?`;
-        const action = 'Move to Trash';
+        const action = "Move to Trash";
         const remove = await window.showInformationMessage(message, { modal: true }, action);
         if (remove) {
             return new FileItem(sourcePath);
         }
     }
 
-    public async execute(options: IExecuteOptions): Promise<FileItem> {
+    public async execute(options: ExecuteOptions): Promise<FileItem> {
         const { fileItem } = options;
         try {
             await fileItem.remove();
@@ -36,6 +35,6 @@ export class RemoveFileController extends BaseFileController {
     }
 
     private get confirmDelete(): boolean {
-        return workspace.getConfiguration('explorer', null).get('confirmDelete') === true;
+        return workspace.getConfiguration("explorer", null).get("confirmDelete") === true;
     }
 }

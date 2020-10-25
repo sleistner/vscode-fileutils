@@ -1,22 +1,20 @@
-import { Uri } from 'vscode';
-import { INewFileDialogOptions } from '../controller/NewFileController';
-import { BaseCommand } from './BaseCommand';
+import { Uri } from "vscode";
+import { NewFileController } from "../controller/NewFileController";
+import { BaseCommand } from "./BaseCommand";
 
-export interface INewFileOptions {
+export interface NewFileOptions {
     relativeToRoot?: boolean;
 }
 
-export class NewFileCommand extends BaseCommand {
-
-    public async execute(uri?: Uri, options?: INewFileOptions): Promise<any> {
+export class NewFileCommand extends BaseCommand<NewFileController> {
+    public async execute(uri?: Uri, options?: NewFileOptions): Promise<void> {
         const { relativeToRoot = false } = options || {};
-
-        const dialogOptions: INewFileDialogOptions = { prompt: 'File Name', relativeToRoot };
+        const dialogOptions = { prompt: "File Name", relativeToRoot };
         const fileItem = await this.controller.showDialog(dialogOptions);
+
         if (fileItem) {
             const newFileItem = await this.controller.execute({ fileItem });
-            return this.controller.openFileInEditor(newFileItem);
+            await this.controller.openFileInEditor(newFileItem);
         }
     }
-
 }

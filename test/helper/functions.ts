@@ -1,29 +1,28 @@
-import * as retry from 'bluebird-retry';
-import { TextDecoder } from 'util';
-import { commands, ExtensionContext, Uri, window, workspace } from 'vscode';
+import retry from "bluebird-retry";
+import { TextDecoder } from "util";
+import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
 
-const textDecoder = new TextDecoder('utf-8');
+const textDecoder = new TextDecoder("utf-8");
 
 export async function readFile(file: Uri): Promise<string> {
     return textDecoder.decode(await workspace.fs.readFile(file));
 }
 
-export function createTestSubject(Command: any, Controller: any) {
+export function createExtensionContext(): ExtensionContext {
     const context = {
         globalState: {
-            get<T>(key: string, defaultValue: T) {
+            get() {
                 return {};
             },
-            update<T>(key: string, value: any) {
-                return {};
-            }
-        }
+            async update(): Promise<void> {
+                return;
+            },
+        },
     };
-    const controller = new Controller(context as ExtensionContext);
-    return new Command(controller);
+    return (context as unknown) as ExtensionContext;
 }
 
-export async function openDocument(document: Uri) {
+export async function openDocument(document: Uri): Promise<void> {
     const tryOpenDocument = async () => {
         const textDocument = await workspace.openTextDocument(document);
         await window.showTextDocument(textDocument);
@@ -31,6 +30,6 @@ export async function openDocument(document: Uri) {
     await retry(() => tryOpenDocument(), { max_tries: 4, interval: 500 });
 }
 
-export async function closeAllEditors() {
-    await commands.executeCommand('workbench.action.closeAllEditors');
+export async function closeAllEditors(): Promise<void> {
+    await commands.executeCommand("workbench.action.closeAllEditors");
 }

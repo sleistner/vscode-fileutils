@@ -2459,11 +2459,6 @@ git-log-parser@^1.2.0:
     through2 "~2.0.0"
     traverse "~0.6.6"
 
-git-validate@^2.0.0:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/git-validate/-/git-validate-2.2.4.tgz#0adc02a2887f09ffe077db38932ba8a3de508cbe"
-  integrity sha512-BM49gj2g/VtV+AvsaGYfIXavVyWUfqcJt2klTOr7kji/HYqpgwB6CmlevIJuPyGoBPkIUUXNSov33Ht22juh0Q==
-
 glob-parent@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.0.0.tgz#1dc99f0f39b006d3e92c2c284068382f0c20e954"
@@ -2724,7 +2719,7 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-husky@^4.2.5:
+husky@^4.2.5, husky@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/husky/-/husky-4.3.0.tgz#0b2ec1d66424e9219d359e26a51c58ec5278f0de"
   integrity sha512-tTMeLCLqSBqnflBZnlVDhpaIMucSGaYyX6855jM4AguGeWCeSzNdb1mfyWduTZ3pe3SJVvVWGL0jO1iKZVPfTA==
@@ -4966,13 +4961,6 @@ please-upgrade-node@^3.2.0:
   integrity sha512-gQR3WpIgNIKwBMVLkpMUeR3e1/E1y42bqDQZfql+kDeXd8COYfM8PQA4X6y7a8u9Ua9FHmsrrmirW2vHs45hWg==
   dependencies:
     semver-compare "^1.0.0"
-
-precommit-hook-eslint@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/precommit-hook-eslint/-/precommit-hook-eslint-3.0.0.tgz#9071feb34c0d5206fdfa550d526e6e26120db70a"
-  integrity sha1-kHH+s0wNUgb9+lUNUm5uJhINtwo=
-  dependencies:
-    git-validate "^2.0.0"
 
 prelude-ls@^1.2.1:
   version "1.2.1"

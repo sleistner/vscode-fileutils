@@ -58,7 +58,7 @@ export class FileItem {
 
         await workspace.fs.copy(this.path, this.targetPath, { overwrite: true });
 
-        return new FileItem(this.targetPath);
+        return new FileItem(this.targetPath, undefined, this.isDir);
     }
 
     public async remove(): Promise<FileItem> {
@@ -81,7 +81,7 @@ export class FileItem {
             await workspace.fs.writeFile(this.targetPath, new Uint8Array());
         }
 
-        return new FileItem(this.targetPath);
+        return new FileItem(this.targetPath, undefined, this.isDir);
     }
 
     private toUri(uriOrString: Uri | string): Uri {

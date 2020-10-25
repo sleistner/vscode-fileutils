@@ -151,8 +151,9 @@
   "scripts": {
     "vscode:prepublish": "yarn run build:compile",
     "build:compile": "tsc -p tsconfig.build.json",
-    "watch": "tsc -watch -p ./",
-    "pretest": "yarn run compile",
+    "build:compile:test": "tsc -p tsconfig.json",
+    "build:compile:watch": "tsc -watch -p tsconfig.json",
+    "pretest": "yarn run build:compile:test",
     "test": "node ./out/test/runTest.js",
     "lint": "eslint './{src,test}/**/*.ts'",
     "semantic-release": "semantic-release"

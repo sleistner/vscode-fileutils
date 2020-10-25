@@ -6,9 +6,6 @@ export class CopyFileNameCommand extends BaseCommand<CopyFileNameController> {
     public async execute(uri?: Uri): Promise<void> {
         const dialogOptions = { uri };
         const fileItem = await this.controller.showDialog(dialogOptions);
-
-        if (fileItem) {
-            await this.controller.execute({ fileItem });
-        }
+        await this.executeController(fileItem);
     }
 }

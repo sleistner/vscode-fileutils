@@ -7,8 +7,7 @@ export class NewFolderCommand extends NewFileCommand {
         const fileItem = await this.controller.showDialog(dialogOptions);
 
         if (fileItem) {
-            const executeOptions = { fileItem, isDir: true };
-            await this.controller.execute(executeOptions);
+            await this.controller.execute({ fileItem, isDir: true });
         }
     }
 }

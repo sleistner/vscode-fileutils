@@ -1,8 +1,8 @@
-import { describe } from './describe';
-import { it } from './it';
-import { IStep } from './types';
+import { describe } from "./describe";
+import { it } from "./it";
+import { Step } from "./types";
 
-export const steps: { [key: string]: IStep } = {
+export const steps: Record<string, Step> = {
     describe,
-    it
+    it,
 };

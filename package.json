@@ -149,16 +149,17 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "yarn run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "yarn run compile",
+    "vscode:prepublish": "yarn run build:compile",
+    "build:compile": "tsc -p tsconfig.build.json",
+    "build:compile:test": "tsc -p tsconfig.json",
+    "build:compile:watch": "tsc -watch -p tsconfig.json",
+    "pretest": "yarn run build:compile:test",
     "test": "node ./out/test/runTest.js",
-    "lint": "tslint -e './node_modules/**/*.ts' -e './typings/**/*.ts' './**/*.ts'",
-    "semantic-release": "semantic-release",
-    "validate": "npm ls"
+    "lint": "eslint './{src,test}/**/*.ts'",
+    "semantic-release": "semantic-release"
   },
   "devDependencies": {
+    "@enter-at/eslint-config-typescript-prettier": "1.1.0",
     "@semantic-release/changelog": "3.0.6",
     "@semantic-release/git": "7.0.18",
     "@semantic-release/npm": "5.3.5",
@@ -173,20 +174,21 @@
     "bluebird": "3.7.2",
     "bluebird-retry": "0.11.0",
     "chai": "4.2.0",
+    "eslint": "7.5.0",
+    "husky": "^4.3.0",
     "mocha": "7.2.0",
-    "precommit-hook-eslint": "3.0.0",
+    "prettier": "2.0.5",
     "semantic-release": "15.14.0",
     "semantic-release-vsce": "2.2.8",
     "sinon": "9.2.0",
     "sinon-chai": "3.5.0",
-    "tslint": "5.20.1",
-    "tslint-no-unused-expression-chai": "0.1.4",
     "typescript": "3.9.7",
     "vscode-test": "1.4.0"
   },
   "dependencies": {},
-  "pre-commit": [
-    "lint",
-    "test"
-  ]
+  "husky": {
+    "hooks": {
+        "pre-commit": "yarn run lint && yarm run test"
+    }
+}
 }

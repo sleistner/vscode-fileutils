@@ -1,14 +1,14 @@
-import { commands, env, ExtensionContext, TextEditor, ViewColumn, window, workspace } from 'vscode';
-import { FileItem } from '../FileItem';
-import { Cache } from '../lib/Cache';
-import { IDialogOptions, IExecuteOptions, IFileController, IGetSourcePathOptions } from './FileController';
+import { commands, env, ExtensionContext, TextEditor, ViewColumn, window, workspace } from "vscode";
+import { FileItem } from "../FileItem";
+import { Cache } from "../lib/Cache";
+import { DialogOptions, ExecuteOptions, FileController, GetSourcePathOptions } from "./FileController";
 
-export abstract class BaseFileController implements IFileController {
-    constructor(protected context: ExtensionContext) { }
+export abstract class BaseFileController implements FileController {
+    constructor(protected context: ExtensionContext) {}
 
-    public abstract async showDialog(options?: IDialogOptions): Promise<FileItem | undefined>;
+    public abstract async showDialog(options?: DialogOptions): Promise<FileItem | undefined>;
 
-    public abstract async execute(options: IExecuteOptions): Promise<FileItem>;
+    public abstract async execute(options: ExecuteOptions): Promise<FileItem>;
 
     public async openFileInEditor(fileItem: FileItem): Promise<TextEditor | undefined> {
         if (fileItem.isDir) {
@@ -17,22 +17,23 @@ export abstract class BaseFileController implements IFileController {
 
         const textDocument = await workspace.openTextDocument(fileItem.path);
         if (!textDocument) {
-            throw new Error('Could not open file!');
+            throw new Error("Could not open file!");
         }
 
         const editor = await window.showTextDocument(textDocument, ViewColumn.Active);
         if (!editor) {
-            throw new Error('Could not show document!');
+            throw new Error("Could not show document!");
         }
 
         return editor;
     }
 
-    public async closeCurrentFileEditor(): Promise<any> {
-        return commands.executeCommand('workbench.action.closeActiveEditor');
+    public async closeCurrentFileEditor(): Promise<unknown> {
+        return commands.executeCommand("workbench.action.closeActiveEditor");
     }
 
-    public async getSourcePath(options?: IGetSourcePathOptions): Promise<string> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public async getSourcePath(_?: GetSourcePathOptions): Promise<string> {
         // Attempting to get the fileName from the activeTextEditor.
         // Works for text files only.
         const activeEditor = window.activeTextEditor;
@@ -62,11 +63,11 @@ export abstract class BaseFileController implements IFileController {
         }
 
         if (fileItem.targetPath === undefined) {
-            throw new Error('Missing target path');
+            throw new Error("Missing target path");
         }
 
         const message = `File '${fileItem.targetPath.path}' already exists.`;
-        const action = 'Overwrite';
+        const action = "Overwrite";
         const overwrite = await window.showInformationMessage(message, { modal: true }, action);
         if (overwrite) {
             return fileItem;
@@ -80,14 +81,14 @@ export abstract class BaseFileController implements IFileController {
         const originalClipboardData = await env.clipboard.readText();
 
         // 2. Populating the clipboard with an empty string
-        await env.clipboard.writeText('');
+        await env.clipboard.writeText("");
 
         // 3. Calling the copyPathOfActiveFile that populates the clipboard with the source path of the active file.
         // If there is no active file - the clipboard will not be populated and it will stay with the empty string.
-        await commands.executeCommand('workbench.action.files.copyPathOfActiveFile');
+        await commands.executeCommand("workbench.action.files.copyPathOfActiveFile");
 
         // 4. Get the clipboard data after the API call
-        const postAPICallClipboardData = await await env.clipboard.readText();
+        const postAPICallClipboardData = await env.clipboard.readText();
 
         // 5. Return the saved original clipboard data to the clipboard so this method
         // will not interfere with the clipboard's content.

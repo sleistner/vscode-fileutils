@@ -1,6 +1,6 @@
-import { existsSync } from 'fs';
-import { workspace } from 'vscode';
-import { editorFile1, editorFile2, fixtureFile1, fixtureFile2, tmpDir } from './environment';
+import { existsSync } from "fs";
+import { workspace } from "vscode";
+import { editorFile1, editorFile2, fixtureFile1, fixtureFile2, tmpDir } from "./environment";
 
 export async function beforeEach(): Promise<void> {
     if (existsSync(tmpDir.fsPath)) {

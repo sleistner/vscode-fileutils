@@ -1,5 +1,5 @@
-import { workspace } from 'vscode';
+import { workspace } from "vscode";
 
-export function getConfiguration(key: string): any {
-    return workspace.getConfiguration('fileutils', null).get(key);
+export function getConfiguration<T>(key: string): T | undefined {
+    return workspace.getConfiguration("fileutils", null).get(key);
 }

@@ -1,5 +1,9 @@
-import { Uri } from 'vscode';
+import { Uri } from "vscode";
 
-export interface ICommand {
-    execute(uri?: Uri): Promise<any>;
+export interface CommandConstructorOptions {
+    relativeToRoot?: boolean;
+}
+
+export interface Command {
+    execute(uri?: Uri): Promise<void>;
 }

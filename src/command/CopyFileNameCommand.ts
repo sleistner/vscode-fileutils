@@ -1,14 +1,11 @@
-import { Uri } from 'vscode';
-import { ICopyFileNameDialogOptions } from '../controller/CopyFileNameController';
-import { BaseCommand } from './BaseCommand';
+import { Uri } from "vscode";
+import { CopyFileNameController } from "../controller/CopyFileNameController";
+import { BaseCommand } from "./BaseCommand";
 
-export class CopyFileNameCommand extends BaseCommand {
-
-    public async execute(uri?: Uri) {
-        const dialogOptions: ICopyFileNameDialogOptions = { uri };
+export class CopyFileNameCommand extends BaseCommand<CopyFileNameController> {
+    public async execute(uri?: Uri): Promise<void> {
+        const dialogOptions = { uri };
         const fileItem = await this.controller.showDialog(dialogOptions);
-        if (fileItem) {
-            return this.controller.execute({ fileItem });
-        }
+        await this.executeController(fileItem);
     }
 }

@@ -1,12 +1,15 @@
-import * as path from 'path';
-import { RelativePattern, Uri, workspace } from 'vscode';
+import * as path from "path";
+import { RelativePattern, Uri, workspace } from "vscode";
+
+interface ExtendedProcess {
+    noAsar: boolean;
+}
 
 export class TreeWalker {
-
     public async directories(sourcePath: string): Promise<string[]> {
         try {
             this.ensureFailSafeFileLookup();
-            const pattern = new RelativePattern(sourcePath, '**');
+            const pattern = new RelativePattern(sourcePath, "**");
             const files = await workspace.findFiles(pattern, undefined, Number.MAX_VALUE);
             const directories = files.reduce(this.directoryReducer(sourcePath), new Set<string>());
             return this.toSortedArray(directories);
@@ -16,12 +19,12 @@ export class TreeWalker {
     }
 
     private ensureFailSafeFileLookup() {
-        (process as any).noAsar = true;
+        ((process as unknown) as ExtendedProcess).noAsar = true;
     }
 
     private directoryReducer(sourcePath: string) {
         return (accumulator: Set<string>, file: Uri) => {
-            const directory = path.dirname(file.fsPath).replace(sourcePath, '');
+            const directory = path.dirname(file.fsPath).replace(sourcePath, "");
             if (directory) {
                 accumulator.add(directory);
             }
@@ -30,8 +33,6 @@ export class TreeWalker {
     }
 
     private toSortedArray(directories: Set<string>): string[] {
-        return Array
-            .from(directories)
-            .sort();
+        return Array.from(directories).sort();
     }
 }

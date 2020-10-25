@@ -1,22 +1,22 @@
-import { TextEditor } from 'vscode';
-import { FileItem } from '../FileItem';
+import { TextEditor } from "vscode";
+import { FileItem } from "../FileItem";
 
-export interface IDialogOptions {
+export interface DialogOptions {
     prompt?: string;
 }
 
-export interface IExecuteOptions {
+export interface ExecuteOptions {
     fileItem: FileItem;
 }
 
-export interface IGetSourcePathOptions {
+export interface GetSourcePathOptions {
     relativeToRoot?: boolean;
 }
 
-export interface IFileController {
-    showDialog(options?: IDialogOptions): Promise<FileItem | undefined>;
-    execute(options: IExecuteOptions): Promise<FileItem>;
+export interface FileController {
+    showDialog(options?: DialogOptions): Promise<FileItem | undefined>;
+    execute(options: ExecuteOptions): Promise<FileItem>;
     openFileInEditor(fileItem: FileItem): Promise<TextEditor | undefined>;
-    closeCurrentFileEditor(): Promise<any>;
-    getSourcePath(options?: IGetSourcePathOptions): Promise<string>;
+    closeCurrentFileEditor(): Promise<unknown>;
+    getSourcePath(options?: GetSourcePathOptions): Promise<string>;
 }

@@ -1,14 +1,20 @@
+<img src="images/icon.png" alt="enter-at" width="100">
+
+# File Utils - Visual Studio Code Extension
+
 [![Build Status](https://travis-ci.org/sleistner/vscode-fileutils.svg?branch=master)](https://travis-ci.org/sleistner/vscode-fileutils)
 [![Dependency Status](https://david-dm.org/sleistner/vscode-fileutils.svg)](https://david-dm.org/sleistner/vscode-fileutils)
 [![Known Vulnerabilities](https://snyk.io/test/github/sleistner/vscode-fileutils/badge.svg)](https://snyk.io/test/github/sleistner/vscode-fileutils)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# File Utils - Visual Studio Code Extension
+
+---
+
 
 A convenient way of creating, duplicating, moving, renaming, deleting files and directories.
 
-> Inspired by [Sidebar Enhancements](https://github.com/titoBouzout/SideBarEnhancements) for Sublime.
+_Inspired by [Sidebar Enhancements](https://github.com/titoBouzout/SideBarEnhancements) for Sublime._
 
 
 # How to use
@@ -17,7 +23,7 @@ A convenient way of creating, duplicating, moving, renaming, deleting files and 
 
 ## Using the command palette:
 
-* Bring up the command palette, and select "File: ".
+* Bring up the command palette, and select "File Utils: ".
 * Select one of the commands mentioned below.
 * Press [Enter] to confirm, or [Escape] to cancel.
 
@@ -25,7 +31,7 @@ A convenient way of creating, duplicating, moving, renaming, deleting files and 
 
 ## Note
 
-Nonexistent folders are created automatically.
+Non-existent folders are created automatically.
 
 
 ## Commands
@@ -34,47 +40,47 @@ Nonexistent folders are created automatically.
 [
     {
         "command": "fileutils.renameFile",
-        "category": "File",
+        "category": "File Utils",
         "title": "Rename"
     },
     {
         "command": "fileutils.moveFile",
-        "category": "File",
+        "category": "File Utils",
         "title": "Move"
     },
     {
         "command": "fileutils.duplicateFile",
-        "category": "File",
+        "category": "File Utils",
         "title": "Duplicate"
     },
     {
         "command": "fileutils.removeFile",
-        "category": "File",
+        "category": "File Utils",
         "title": "Delete"
     },
     {
         "command": "fileutils.newFile",
-        "category": "File",
+        "category": "File Utils",
         "title": "New File Relative to Current View"
     },
     {
         "command": "fileutils.newFileAtRoot",
-        "category": "File",
+        "category": "File Utils",
         "title": "New File Relative to Project Root"
     },
     {
         "command": "fileutils.newFolder",
-        "category": "File",
+        "category": "File Utils",
         "title": "New Folder Relative to Current View"
     },
     {
         "command": "fileutils.newFolderAtRoot",
-        "category": "File",
+        "category": "File Utils",
         "title": "New Folder Relative to Project Root"
     },
     {
         "command": "fileutils.copyFileName",
-        "category": "File",
+        "category": "File Utils",
         "title": "Copy Name Of Active File"
     }
 ]
@@ -142,3 +148,8 @@ or take any responsibility in case of lost data.
 # License
 
 MIT
+
+# Credits
+
+## Icon
+- [Janosch, Green Tropical Waters - Utilities Icon](https://iconarchive.com/show/tropical-waters-folders-icons-by-janosch500/Utilities-icon.html)

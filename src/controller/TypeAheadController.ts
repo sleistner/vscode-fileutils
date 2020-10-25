@@ -1,15 +1,14 @@
-import * as path from 'path';
-import { QuickPickItem, window } from 'vscode';
-import { Cache } from '../lib/Cache';
-import { TreeWalker } from '../lib/TreeWalker';
+import * as path from "path";
+import { QuickPickItem, window } from "vscode";
+import { Cache } from "../lib/Cache";
+import { TreeWalker } from "../lib/TreeWalker";
 
 async function waitForIOEvents(): Promise<void> {
     return new Promise((resolve) => setImmediate(resolve));
 }
 
 export class TypeAheadController {
-
-    constructor(private cache: Cache, private relativeToRoot: boolean) { }
+    constructor(private cache: Cache, private relativeToRoot: boolean) {}
 
     public async showDialog(sourcePath: string): Promise<string> {
         const item = await this.showQuickPick(this.buildQuickPickItems(sourcePath));
@@ -19,7 +18,7 @@ export class TypeAheadController {
         }
 
         const selection = item.label;
-        this.cache.put('last', selection);
+        this.cache.put("last", selection);
 
         return path.join(sourcePath, selection);
     }
@@ -28,7 +27,7 @@ export class TypeAheadController {
         const directories = await this.listDirectoriesAtSourcePath(sourcePath);
         return [
             ...this.buildQuickPickItemsHeader(),
-            ...directories.map((directory) => this.buildQuickPickItem(directory))
+            ...directories.map((directory) => this.buildQuickPickItem(directory)),
         ];
     }
 
@@ -39,13 +38,11 @@ export class TypeAheadController {
     }
 
     private buildQuickPickItemsHeader(): QuickPickItem[] {
-        const items = [
-            this.buildQuickPickItem('/', `- ${this.relativeToRoot ? 'workspace root' : 'current file'}`)
-        ];
+        const items = [this.buildQuickPickItem("/", `- ${this.relativeToRoot ? "workspace root" : "current file"}`)];
 
-        const lastEntry = this.cache.get('last');
+        const lastEntry: string = this.cache.get("last");
         if (lastEntry) {
-            items.push(this.buildQuickPickItem(lastEntry, '- last selection'));
+            items.push(this.buildQuickPickItem(lastEntry, "- last selection"));
         }
 
         return items;
@@ -56,7 +53,7 @@ export class TypeAheadController {
     }
 
     private async showQuickPick(items: Thenable<QuickPickItem[]>) {
-        const hint = 'larger projects may take a moment to load';
+        const hint = "larger projects may take a moment to load";
         const placeHolder = `First, select an existing path to create relative to (${hint})`;
         return window.showQuickPick<QuickPickItem>(items, { placeHolder });
     }

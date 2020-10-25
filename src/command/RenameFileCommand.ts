@@ -1,14 +1,10 @@
-import { Uri } from 'vscode';
-import { BaseCommand } from './BaseCommand';
+import { MoveFileController } from "../controller";
+import { BaseCommand } from "./BaseCommand";
 
-export class RenameFileCommand extends BaseCommand {
-
-    public async execute(uri?: Uri) {
-        const fileItem = await this.controller.showDialog({ prompt: 'New Name' });
-
-        if (fileItem) {
-            await this.controller.execute({ fileItem });
-        }
+export class RenameFileCommand extends BaseCommand<MoveFileController> {
+    public async execute(): Promise<void> {
+        const dialogOptions = { prompt: "New Name" };
+        const fileItem = await this.controller.showDialog(dialogOptions);
+        await this.executeController(fileItem);
     }
-
 }

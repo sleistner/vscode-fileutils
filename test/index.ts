@@ -1,16 +1,16 @@
-import * as Mocha from 'mocha';
-import * as path from 'path';
-import { RelativePattern, workspace } from 'vscode';
+import Mocha from "mocha";
+import * as path from "path";
+import { RelativePattern, workspace } from "vscode";
 
 export async function run(): Promise<void> {
     const mocha = new Mocha({
-        reporter: 'list',
-        ui: 'bdd',
-        useColors: true
+        reporter: "list",
+        ui: "bdd",
+        useColors: true,
     });
 
-    const testsRoot = path.resolve(__dirname, '..');
-    const pattern = new RelativePattern(testsRoot, '**/**.test.js');
+    const testsRoot = path.resolve(__dirname, "..");
+    const pattern = new RelativePattern(testsRoot, "**/**.test.js");
     const files = await workspace.findFiles(pattern, undefined, Number.MAX_VALUE);
 
     // Add files to the test suite
@@ -19,7 +19,7 @@ export async function run(): Promise<void> {
     // Run the mocha test
     return new Promise((resolve, reject) => {
         try {
-            mocha.run((failures) => {
+            mocha.run((failures: number) => {
                 if (failures > 0) {
                     reject(new Error(`${failures} tests failed.`));
                 } else {

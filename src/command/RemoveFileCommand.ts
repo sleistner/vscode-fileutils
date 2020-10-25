@@ -1,13 +1,9 @@
-import { Uri } from 'vscode';
-import { BaseCommand } from './BaseCommand';
+import { RemoveFileController } from "../controller";
+import { BaseCommand } from "./BaseCommand";
 
-export class RemoveFileCommand extends BaseCommand {
-
-    public async execute(uri?: Uri) {
+export class RemoveFileCommand extends BaseCommand<RemoveFileController> {
+    public async execute(): Promise<void> {
         const fileItem = await this.controller.showDialog();
-        if (fileItem) {
-            return this.controller.execute({ fileItem });
-        }
+        await this.executeController(fileItem);
     }
-
 }

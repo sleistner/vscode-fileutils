@@ -117,22 +117,46 @@
       ],
       "editor/context": [
         {
-          "command": "fileutils.moveFile",
-          "group": "1_modification"
-        },
-        {
-          "command": "fileutils.duplicateFile",
-          "group": "1_modification"
+            "command": "fileutils.copyFileName",
+            "group": "1_copypath"
         },
         {
           "command": "fileutils.renameFile",
-          "group": "1_modification"
+          "group": "1_modification@1"
+        },
+        {
+          "command": "fileutils.moveFile",
+          "group": "1_modification@2"
+        },
+        {
+          "command": "fileutils.duplicateFile",
+          "group": "1_modification@3"
+        },
+        {
+          "command": "fileutils.removeFile",
+          "group": "1_modification@4"
         }
       ],
       "editor/title/context": [
         {
           "command": "fileutils.copyFileName",
           "group": "1_copypath"
+        },
+        {
+          "command": "fileutils.renameFile",
+          "group": "1_modification@1"
+        },
+        {
+          "command": "fileutils.moveFile",
+          "group": "1_modification@2"
+        },
+        {
+          "command": "fileutils.duplicateFile",
+          "group": "1_modification@3"
+        },
+        {
+            "command": "fileutils.removeFile",
+            "group": "1_modification@4"
         }
       ]
     },

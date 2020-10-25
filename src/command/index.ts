@@ -1,7 +1,5 @@
 export { NewFileCommand } from "./NewFileCommand";
-export { NewFileAtRootCommand } from "./NewFileAtRootCommand";
 export { NewFolderCommand } from "./NewFolderCommand";
-export { NewFolderAtRootCommand } from "./NewFolderAtRootCommand";
 export { RenameFileCommand } from "./RenameFileCommand";
 export { RemoveFileCommand } from "./RemoveFileCommand";
 export { DuplicateFileCommand } from "./DuplicateFileCommand";

@@ -7,8 +7,6 @@ import { NewFileController } from "../../src/controller";
 import * as helper from "../helper";
 
 describe("NewFileCommand", () => {
-    const subject = new NewFileCommand(new NewFileController(helper.createExtensionContext()));
-
     const hint = "larger projects may take a moment to load";
     const expectedShowQuickPickPlaceHolder = `First, select an existing path to create relative to (${hint})`;
 
@@ -16,7 +14,9 @@ describe("NewFileCommand", () => {
 
     afterEach(helper.afterEach);
 
-    describe('with relativeToRoot set "false"', () => {
+    describe('with relativeToRoot set "false"', async () => {
+        const subject = new NewFileCommand(new NewFileController(helper.createExtensionContext()));
+
         beforeEach(async () => {
             await helper.openDocument(helper.editorFile1);
             helper.createShowInputBoxStub().resolves(path.basename(helper.targetFile.path));
@@ -52,7 +52,7 @@ describe("NewFileCommand", () => {
                     helper.createGetConfigurationStub({ "typeahead.enabled": true });
                 });
 
-                it("shows the quick pick dialog", async () => {
+                it("should show the quick pick dialog", async () => {
                     await subject.execute();
                     expect(window.showQuickPick).to.have.been.calledOnceWithExactly(
                         Promise.resolve([
@@ -72,14 +72,14 @@ describe("NewFileCommand", () => {
                     helper.createGetConfigurationStub({ "typeahead.enabled": false });
                 });
 
-                it("shows the quick pick dialog", async () => {
+                it("should show the quick pick dialog", async () => {
                     await subject.execute();
                     expect(window.showQuickPick).to.have.not.been;
                 });
             });
         });
 
-        it("creates the file at destination", async () => {
+        it("should create the file at destination", async () => {
             await subject.execute();
             const message = `${helper.targetFile.path} does not exist`;
             expect(fs.existsSync(helper.targetFile.fsPath), message).to.be.true;
@@ -91,7 +91,7 @@ describe("NewFileCommand", () => {
                 helper.createShowInputBoxStub().resolves(fileName);
             });
 
-            it("creates the directory at destination", async () => {
+            it("should create the directory at destination", async () => {
                 await subject.execute();
                 const message = `${helper.targetFile.path} must be a directory`;
                 expect(fs.statSync(helper.targetFile.fsPath).isDirectory(), message).to.be.true;
@@ -104,6 +104,10 @@ describe("NewFileCommand", () => {
     });
 
     describe('with relativeToRoot set "true"', () => {
+        const subject = new NewFileCommand(new NewFileController(helper.createExtensionContext()), {
+            relativeToRoot: true,
+        });
+
         class WorkspaceFolderStub implements WorkspaceFolder {
             constructor(readonly uri: Uri, readonly name: string, readonly index: number) {}
         }
@@ -147,8 +151,8 @@ describe("NewFileCommand", () => {
                 helper.restoreObject(workspace.getWorkspaceFolder);
             });
 
-            it("selects first workspace", async () => {
-                await subject.execute(undefined, { relativeToRoot: true });
+            it("should select first workspace", async () => {
+                await subject.execute();
                 expect(workspace.getWorkspaceFolder).to.have.not.been.called;
 
                 const prompt = "File Name";
@@ -172,8 +176,8 @@ describe("NewFileCommand", () => {
                         helper.createGetConfigurationStub({ "typeahead.enabled": true });
                     });
 
-                    it("shows the quick pick dialog", async () => {
-                        await subject.execute(undefined, { relativeToRoot: true });
+                    it("should show the quick pick dialog", async () => {
+                        await subject.execute();
                         expect(window.showQuickPick).to.have.been.calledOnceWith(
                             Promise.resolve([
                                 { description: "- workspace root", label: "/" },
@@ -193,7 +197,7 @@ describe("NewFileCommand", () => {
                     });
 
                     it("shows the quick pick dialog", async () => {
-                        await subject.execute(undefined, { relativeToRoot: true });
+                        await subject.execute();
                         expect(window.showQuickPick).to.have.not.been;
                     });
                 });
@@ -212,7 +216,7 @@ describe("NewFileCommand", () => {
             });
 
             it("shows workspace selector", async () => {
-                await subject.execute(undefined, { relativeToRoot: true });
+                await subject.execute();
                 expect(window.showWorkspaceFolderPick).to.have.been.calledWith();
 
                 const prompt = "File Name";
@@ -233,7 +237,7 @@ describe("NewFileCommand", () => {
                 });
 
                 it("selects workspace for open file", async () => {
-                    await subject.execute(undefined, { relativeToRoot: true });
+                    await subject.execute();
                     expect(workspace.getWorkspaceFolder).to.have.been.calledWith(Uri.file(helper.editorFile1.fsPath));
                     expect(window.showWorkspaceFolderPick).to.have.not.been.called;
                 });
@@ -255,7 +259,7 @@ describe("NewFileCommand", () => {
                     });
 
                     it("shows the quick pick dialog", async () => {
-                        await subject.execute(undefined, { relativeToRoot: true });
+                        await subject.execute();
                         expect(window.showQuickPick).to.have.been.calledOnceWith(
                             Promise.resolve([
                                 { description: "- workspace root", label: "/" },
@@ -275,7 +279,7 @@ describe("NewFileCommand", () => {
                     });
 
                     it("shows the quick pick dialog", async () => {
-                        await subject.execute(undefined, { relativeToRoot: true });
+                        await subject.execute();
                         expect(window.showQuickPick).to.have.not.been;
                     });
                 });

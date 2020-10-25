@@ -1,9 +1,8 @@
-import { Uri } from "vscode";
-import { NewFileCommand, NewFileOptions } from "./NewFileCommand";
+import { NewFileCommand } from "./NewFileCommand";
 
 export class NewFolderCommand extends NewFileCommand {
-    public async execute(uri?: Uri, options?: NewFileOptions): Promise<void> {
-        const { relativeToRoot = false } = options || {};
+    public async execute(): Promise<void> {
+        const relativeToRoot = this.options?.relativeToRoot ?? false;
         const dialogOptions = { prompt: "Folder Name", relativeToRoot };
         const fileItem = await this.controller.showDialog(dialogOptions);
 

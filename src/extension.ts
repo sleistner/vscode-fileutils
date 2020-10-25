@@ -1,12 +1,10 @@
 import * as vscode from "vscode";
 import {
+    Command,
     CopyFileNameCommand,
     DuplicateFileCommand,
-    Command,
     MoveFileCommand,
-    NewFileAtRootCommand,
     NewFileCommand,
-    NewFolderAtRootCommand,
     NewFolderCommand,
     RemoveFileCommand,
     RenameFileCommand,
@@ -45,8 +43,8 @@ export function activate(context: vscode.ExtensionContext): void {
     register(context, new DuplicateFileCommand(duplicateFileController), "duplicateFile");
     register(context, new RemoveFileCommand(removeFileController), "removeFile");
     register(context, new NewFileCommand(newFileController), "newFile");
-    register(context, new NewFileAtRootCommand(newFileController), "newFileAtRoot");
+    register(context, new NewFileCommand(newFileController, { relativeToRoot: true }), "newFileAtRoot");
     register(context, new NewFolderCommand(newFileController), "newFolder");
-    register(context, new NewFolderAtRootCommand(newFileController), "newFolderAtRoot");
+    register(context, new NewFolderCommand(newFileController, { relativeToRoot: true }), "newFolderAtRoot");
     register(context, new CopyFileNameCommand(copyFileNameController), "copyFileName");
 }

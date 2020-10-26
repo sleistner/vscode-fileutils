@@ -23,7 +23,7 @@ describe("CopyFileNameCommand", () => {
 
             afterEach(async () => helper.closeAllEditors());
 
-            it("puts the file name to the clipboard", async () => {
+            it("should put the file name to the clipboard", async () => {
                 await subject.execute();
                 const clipboardData = await env.clipboard.readText();
                 expect(clipboardData).to.equal(new FileItem(helper.editorFile1).name);

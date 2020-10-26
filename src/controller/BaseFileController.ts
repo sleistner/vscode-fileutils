@@ -32,8 +32,7 @@ export abstract class BaseFileController implements FileController {
         return commands.executeCommand("workbench.action.closeActiveEditor");
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public async getSourcePath(_?: GetSourcePathOptions): Promise<string> {
+    public async getSourcePath({ ignoreIfNotExists }: GetSourcePathOptions = {}): Promise<string> {
         // Attempting to get the fileName from the activeTextEditor.
         // Works for text files only.
         const activeEditor = window.activeTextEditor;
@@ -45,8 +44,8 @@ export abstract class BaseFileController implements FileController {
         // the active file is a non-text file (e.g. binary files such as images).
         // Since there is no actual API to differentiate between the scenarios, we try to retrieve
         // the path for a non-textual file before throwing an error.
-        const sourcePath = this.getSourcePathForNonTextFile();
-        if (!sourcePath) {
+        const sourcePath = await this.getSourcePathForNonTextFile();
+        if (!sourcePath && ignoreIfNotExists !== true) {
             throw new Error();
         }
 

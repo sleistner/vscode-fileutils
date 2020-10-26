@@ -5,7 +5,7 @@ import { RenameFileCommand } from "../../src/command";
 import { MoveFileController } from "../../src/controller";
 import * as helper from "../helper";
 
-describe("RenameFileCommand", () => {
+describe(RenameFileCommand.name, () => {
     const subject = new RenameFileCommand(new MoveFileController(helper.createExtensionContext()));
 
     beforeEach(helper.beforeEach);
@@ -33,11 +33,11 @@ describe("RenameFileCommand", () => {
             });
 
             helper.protocol.it("should move current file to destination", subject);
-            helper.protocol.describe("target file in non existing nested directories", subject);
+            helper.protocol.describe("with target file in non-existent nested directory", subject);
             helper.protocol.it("should open target file as active editor", subject);
         });
 
-        describe("with no open text document", () => {
+        describe("without an open text document", () => {
             beforeEach(async () => {
                 await helper.closeAllEditors();
                 helper.createShowInputBoxStub();

@@ -1,4 +1,3 @@
-import { fail } from "assert";
 import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
@@ -48,7 +47,7 @@ describe(NewFileCommand.name, () => {
                 helper.restoreGetConfiguration();
             });
 
-            describe("typeahead.enabled set to true", () => {
+            describe('"typeahead.enabled" is "true"', () => {
                 beforeEach(async () => {
                     helper.createGetConfigurationStub({ "typeahead.enabled": true });
                 });
@@ -68,7 +67,7 @@ describe(NewFileCommand.name, () => {
                 });
             });
 
-            describe("typeahead.enabled set to false", () => {
+            describe('"typeahead.enabled" is "false"', () => {
                 beforeEach(async () => {
                     helper.createGetConfigurationStub({ "typeahead.enabled": false });
                 });
@@ -99,7 +98,7 @@ describe(NewFileCommand.name, () => {
             });
         });
 
-        helper.protocol.describe("target file in non existing nested directories", subject);
+        helper.protocol.describe("with target file in non-existent nested directory", subject);
         helper.protocol.describe("when target destination exists", subject, { overwriteFileContent: "" });
         helper.protocol.it("should open target file as active editor", subject);
     });
@@ -172,7 +171,7 @@ describe(NewFileCommand.name, () => {
                     helper.restoreGetConfiguration();
                 });
 
-                describe("typeahead.enabled set to true", () => {
+                describe('when "typeahead.enabled" is "true"', () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ "typeahead.enabled": true });
                     });
@@ -192,7 +191,7 @@ describe(NewFileCommand.name, () => {
                     });
                 });
 
-                describe("typeahead.enabled set to false", () => {
+                describe('when "typeahead.enabled" is "false"', () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ "typeahead.enabled": false });
                     });
@@ -283,7 +282,7 @@ describe(NewFileCommand.name, () => {
                     it("should not show the quick pick dialog", async () => {
                         try {
                             await subject.execute();
-                            fail("must fail");
+                            expect.fail("Must fail");
                         } catch (e) {
                             expect(window.showQuickPick).to.have.not.been.called;
                         }

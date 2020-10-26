@@ -14,7 +14,7 @@ import {
 import { FuncVoid, Step } from "./types";
 
 export const describe: Step = {
-    "target file in non existing nested directories"(subject: Command): FuncVoid {
+    "with target file in non-existent nested directory"(subject: Command): FuncVoid {
         return () => {
             const targetDir = path.resolve(tmpDir.fsPath, "level-1", "level-2", "level-3");
 
@@ -51,7 +51,7 @@ export const describe: Step = {
                 expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
             });
 
-            mocha.describe(`responding with 'Overwrite'`, () => {
+            mocha.describe('when answered with "Overwrite"', () => {
                 mocha.it("should overwrite the existig file", async () => {
                     await subject.execute();
                     const fileContent = await readFile(targetFile);
@@ -61,7 +61,7 @@ export const describe: Step = {
                 });
             });
 
-            mocha.describe(`responding with 'Cancel'`, () => {
+            mocha.describe('when answered with "Cancel"', () => {
                 mocha.beforeEach(async () => createShowInformationMessageStub().resolves(false));
 
                 mocha.it("should leave existing file untouched", async () => {
@@ -76,7 +76,7 @@ export const describe: Step = {
             });
         };
     },
-    "without open text document"(subject: Command): FuncVoid {
+    "without an open text document"(subject: Command): FuncVoid {
         return () => {
             mocha.beforeEach(async () => {
                 await closeAllEditors();

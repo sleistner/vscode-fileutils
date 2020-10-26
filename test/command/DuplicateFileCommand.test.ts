@@ -7,7 +7,7 @@ import { DuplicateFileController } from "../../src/controller";
 import * as helper from "../helper";
 import { tmpDir } from "../helper";
 
-describe("DuplicateFileCommand", () => {
+describe(DuplicateFileCommand.name, () => {
     const subject = new DuplicateFileCommand(new DuplicateFileController(helper.createExtensionContext()));
 
     beforeEach(helper.beforeEach);
@@ -28,12 +28,12 @@ describe("DuplicateFileCommand", () => {
 
             helper.protocol.it("should prompt for file destination", subject, "Duplicate As");
             helper.protocol.it("should duplicate current file to destination", subject);
-            helper.protocol.describe("target file in non existing nested directories", subject);
+            helper.protocol.describe("with target file in non-existent nested directory", subject);
             helper.protocol.describe("when target destination exists", subject);
             helper.protocol.it("should open target file as active editor", subject);
         });
 
-        helper.protocol.describe("without open text document", subject);
+        helper.protocol.describe("without an open text document", subject);
     });
 
     describe("as context menu", () => {

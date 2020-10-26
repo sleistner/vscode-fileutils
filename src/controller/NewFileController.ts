@@ -55,7 +55,7 @@ export class NewFileController extends BaseFileController {
 
     private async getWorkspaceSourcePath(): Promise<string | undefined> {
         const workspaceFolder = await this.selectWorkspaceFolder();
-        return workspaceFolder && workspaceFolder.uri.fsPath;
+        return workspaceFolder?.uri.fsPath;
     }
 
     private async selectWorkspaceFolder(): Promise<WorkspaceFolder | undefined> {
@@ -63,7 +63,7 @@ export class NewFileController extends BaseFileController {
             return workspace.workspaceFolders[0];
         }
 
-        const sourcePath = await super.getSourcePath();
+        const sourcePath = await super.getSourcePath({ ignoreIfNotExists: true });
         const uri = Uri.file(sourcePath);
         return workspace.getWorkspaceFolder(uri) || window.showWorkspaceFolderPick();
     }

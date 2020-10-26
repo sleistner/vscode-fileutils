@@ -6,7 +6,7 @@ import { RemoveFileCommand } from "../../src/command";
 import { RemoveFileController } from "../../src/controller";
 import * as helper from "../helper";
 
-describe("RemoveFileCommand", () => {
+describe(RemoveFileCommand.name, () => {
     const subject = new RemoveFileCommand(new RemoveFileController(helper.createExtensionContext()));
 
     beforeEach(helper.beforeEach);
@@ -28,7 +28,7 @@ describe("RemoveFileCommand", () => {
             });
 
             describe("configuration", () => {
-                describe("when explorer.confirmDelete is set to true", () => {
+                describe('when "explorer.confirmDelete" is "true"', () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ confirmDelete: true });
                     });
@@ -42,7 +42,7 @@ describe("RemoveFileCommand", () => {
                     });
                 });
 
-                describe("when explorer.confirmDelete is set to false", () => {
+                describe('when "explorer.confirmDelete" is "false"', () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ confirmDelete: false });
                     });
@@ -56,7 +56,7 @@ describe("RemoveFileCommand", () => {
                 });
             });
 
-            describe("responding with delete", () => {
+            describe('when answered with "Move to Trash"', () => {
                 it("should delete the file", async () => {
                     await subject.execute();
                     const message = `${helper.editorFile1.path} does exist`;
@@ -64,7 +64,7 @@ describe("RemoveFileCommand", () => {
                 });
             });
 
-            describe("responding with no", () => {
+            describe('when answered with "Cancel"', () => {
                 beforeEach(async () => {
                     helper.createGetConfigurationStub({ confirmDelete: true });
                     helper.createShowInformationMessageStub().resolves(false);
@@ -73,7 +73,7 @@ describe("RemoveFileCommand", () => {
                 it("should leave the file untouched", async () => {
                     try {
                         await subject.execute();
-                        expect.fail("must fail");
+                        expect.fail("Must fail");
                     } catch (e) {
                         const message = `${helper.editorFile1.path} does not exist`;
                         expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.true;
@@ -82,7 +82,7 @@ describe("RemoveFileCommand", () => {
             });
         });
 
-        describe("with no open text document", () => {
+        describe("without an open text document", () => {
             beforeEach(async () => {
                 await helper.closeAllEditors();
                 helper.createShowInformationMessageStub();

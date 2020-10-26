@@ -6,7 +6,7 @@ import { NewFileCommand } from "../../src/command";
 import { NewFileController } from "../../src/controller";
 import * as helper from "../helper";
 
-describe("NewFileCommand", () => {
+describe(NewFileCommand.name, () => {
     const hint = "larger projects may take a moment to load";
     const expectedShowQuickPickPlaceHolder = `First, select an existing path to create relative to (${hint})`;
 
@@ -14,7 +14,7 @@ describe("NewFileCommand", () => {
 
     afterEach(helper.afterEach);
 
-    describe('with relativeToRoot set "false"', async () => {
+    describe('when "relativeToRoot" is "false"', async () => {
         const subject = new NewFileCommand(new NewFileController(helper.createExtensionContext()));
 
         beforeEach(async () => {
@@ -47,7 +47,7 @@ describe("NewFileCommand", () => {
                 helper.restoreGetConfiguration();
             });
 
-            describe("typeahead.enabled set to true", () => {
+            describe('"typeahead.enabled" is "true"', () => {
                 beforeEach(async () => {
                     helper.createGetConfigurationStub({ "typeahead.enabled": true });
                 });
@@ -67,7 +67,7 @@ describe("NewFileCommand", () => {
                 });
             });
 
-            describe("typeahead.enabled set to false", () => {
+            describe('"typeahead.enabled" is "false"', () => {
                 beforeEach(async () => {
                     helper.createGetConfigurationStub({ "typeahead.enabled": false });
                 });
@@ -98,12 +98,12 @@ describe("NewFileCommand", () => {
             });
         });
 
-        helper.protocol.describe("target file in non existing nested directories", subject);
+        helper.protocol.describe("with target file in non-existent nested directory", subject);
         helper.protocol.describe("when target destination exists", subject, { overwriteFileContent: "" });
         helper.protocol.it("should open target file as active editor", subject);
     });
 
-    describe('with relativeToRoot set "true"', () => {
+    describe('when "relativeToRoot" is "true"', () => {
         const subject = new NewFileCommand(new NewFileController(helper.createExtensionContext()), {
             relativeToRoot: true,
         });
@@ -171,7 +171,7 @@ describe("NewFileCommand", () => {
                     helper.restoreGetConfiguration();
                 });
 
-                describe("typeahead.enabled set to true", () => {
+                describe('when "typeahead.enabled" is "true"', () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ "typeahead.enabled": true });
                     });
@@ -191,12 +191,12 @@ describe("NewFileCommand", () => {
                     });
                 });
 
-                describe("typeahead.enabled set to false", () => {
+                describe('when "typeahead.enabled" is "false"', () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ "typeahead.enabled": false });
                     });
 
-                    it("shows the quick pick dialog", async () => {
+                    it("should show the quick pick dialog", async () => {
                         await subject.execute();
                         expect(window.showQuickPick).to.have.not.been;
                     });
@@ -215,7 +215,7 @@ describe("NewFileCommand", () => {
                 workspaceFolders = [];
             });
 
-            it("shows workspace selector", async () => {
+            it("should show workspace selector", async () => {
                 await subject.execute();
                 expect(window.showWorkspaceFolderPick).to.have.been.calledWith();
 
@@ -236,7 +236,7 @@ describe("NewFileCommand", () => {
                     await helper.closeAllEditors();
                 });
 
-                it("selects workspace for open file", async () => {
+                it("should select workspace for open file", async () => {
                     await subject.execute();
                     expect(workspace.getWorkspaceFolder).to.have.been.calledWith(Uri.file(helper.editorFile1.fsPath));
                     expect(window.showWorkspaceFolderPick).to.have.not.been.called;
@@ -253,12 +253,12 @@ describe("NewFileCommand", () => {
                     helper.restoreGetConfiguration();
                 });
 
-                describe("typeahead.enabled set to true", () => {
+                describe('when "typeahead.enabled" is "true"', () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ "typeahead.enabled": true });
                     });
 
-                    it("shows the quick pick dialog", async () => {
+                    it("should show the quick pick dialog", async () => {
                         await subject.execute();
                         expect(window.showQuickPick).to.have.been.calledOnceWith(
                             Promise.resolve([
@@ -273,14 +273,18 @@ describe("NewFileCommand", () => {
                     });
                 });
 
-                describe("typeahead.enabled set to false", () => {
+                describe('when "typeahead.enabled" is "false"', () => {
                     beforeEach(async () => {
                         helper.createGetConfigurationStub({ "typeahead.enabled": false });
                     });
 
-                    it("shows the quick pick dialog", async () => {
-                        await subject.execute();
-                        expect(window.showQuickPick).to.have.not.been;
+                    it("should not show the quick pick dialog", async () => {
+                        try {
+                            await subject.execute();
+                            expect.fail("Must fail");
+                        } catch (e) {
+                            expect(window.showQuickPick).to.have.not.been.called;
+                        }
                     });
                 });
             });

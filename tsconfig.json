@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "rootDir": ".",
         "outDir": "out",
         "module": "commonjs",
         "target": "ES2019",
@@ -11,16 +12,8 @@
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "allowSyntheticDefaultImports": true,
-        "typeRoots": [
-			"node_modules/@types",
-			"types"
-        ]
+        "allowSyntheticDefaultImports": true
     },
-    "include": [
-        "src",
-        "test"
-    ],
     "exclude": [
 		"node_modules",
 		".vscode-test"

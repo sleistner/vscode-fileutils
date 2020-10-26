@@ -11,6 +11,7 @@ export interface ExecuteOptions {
 
 export interface GetSourcePathOptions {
     relativeToRoot?: boolean;
+    ignoreIfNotExists?: boolean;
 }
 
 export interface FileController {

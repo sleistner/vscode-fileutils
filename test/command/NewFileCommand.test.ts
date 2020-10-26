@@ -206,7 +206,6 @@ describe(NewFileCommand.name, () => {
 
         describe("with multiple workspaces", () => {
             beforeEach(async () => {
-                // await helper.closeAllEditors();
                 workspaceFolders.push(workspaceFolderA, workspaceFolderB);
                 helper.createStubObject(window, "showWorkspaceFolderPick").resolves(workspaceFolderB);
             });

@@ -1,3 +1,10 @@
+## [3.3.2](https://github.com/sleistner/vscode-fileutils/compare/v3.3.1...v3.3.2) (2020-10-26)
+
+
+### Bug Fixes
+
+* **package:** update extension main file entry ([4892f84](https://github.com/sleistner/vscode-fileutils/commit/4892f84))
+
 ## [3.3.1](https://github.com/sleistner/vscode-fileutils/compare/v3.3.0...v3.3.1) (2020-10-25)
 
 

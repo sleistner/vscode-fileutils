@@ -1,3 +1,10 @@
+## [3.3.3](https://github.com/sleistner/vscode-fileutils/compare/v3.3.2...v3.3.3) (2020-10-26)
+
+
+### Bug Fixes
+
+* **New Folder or File Relative to Current View:** cancel execution if no editor is open ([858fea6](https://github.com/sleistner/vscode-fileutils/commit/858fea6))
+
 ## [3.3.2](https://github.com/sleistner/vscode-fileutils/compare/v3.3.1...v3.3.2) (2020-10-26)
 
 

@@ -43,7 +43,7 @@
     "onCommand:fileutils.newFolderAtRoot",
     "onCommand:fileutils.copyFileName"
   ],
-  "main": "./out/src/extension",
+  "main": "./out/extension",
   "contributes": {
     "commands": [
       {

@@ -43,7 +43,7 @@
     "onCommand:fileutils.newFolderAtRoot",
     "onCommand:fileutils.copyFileName"
   ],
-  "main": "./out/extension",
+  "main": "./out/main",
   "contributes": {
     "commands": [
       {
@@ -173,11 +173,11 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "yarn run build:compile",
-    "build:compile": "tsc -p tsconfig.build.json",
-    "build:compile:test": "tsc -p tsconfig.json",
+    "vscode:prepublish": "yarn run build:compile:prod",
+    "build:compile:prod": "tsc -p tsconfig.build.json",
+    "build:compile:dev": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "pretest": "yarn run build:compile:test",
+    "pretest": "yarn run build:compile:dev",
     "test": "node ./out/test/runTest.js",
     "lint": "eslint './{src,test}/**/*.ts'",
     "semantic-release": "semantic-release"

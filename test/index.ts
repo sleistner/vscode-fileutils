@@ -6,7 +6,7 @@ export async function run(): Promise<void> {
     const mocha = new Mocha({
         reporter: "list",
         ui: "bdd",
-        useColors: true,
+        color: true,
     });
 
     const testsRoot = path.resolve(__dirname, "..");

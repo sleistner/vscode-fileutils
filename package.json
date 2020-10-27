@@ -198,7 +198,7 @@
     "bluebird": "3.7.2",
     "bluebird-retry": "0.11.0",
     "chai": "4.2.0",
-    "eslint": "7.12.0",
+    "eslint": "7.12.1",
     "husky": "4.3.0",
     "mocha": "7.2.0",
     "prettier": "2.1.2",

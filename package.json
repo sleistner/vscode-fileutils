@@ -207,7 +207,7 @@
     "sinon": "9.2.0",
     "sinon-chai": "3.5.0",
     "typescript": "4.0.5",
-    "vscode-test": "1.4.0"
+    "vscode-test": "1.4.1"
   },
   "dependencies": {},
   "husky": {

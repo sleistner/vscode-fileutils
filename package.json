@@ -200,7 +200,7 @@
     "chai": "4.2.0",
     "eslint": "7.12.1",
     "husky": "4.3.0",
-    "mocha": "8.2.0",
+    "mocha": "8.2.1",
     "prettier": "2.1.2",
     "semantic-release": "17.2.2",
     "semantic-release-vsce": "3.0.1",

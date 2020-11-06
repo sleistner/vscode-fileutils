@@ -32,7 +32,7 @@ _Inspired by [Sidebar Enhancements](https://github.com/titoBouzout/SideBarEnhanc
 ## Brace Expansion
 > Brace expansion is a mechanism by which arbitrary strings may be generated.
 
-Example file name inputs
+Example file name input
 ```bash
 /tmp/{a,b,c}/index.{cpp,ts,scss}
 ```

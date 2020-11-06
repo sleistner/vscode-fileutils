@@ -1,4 +1,4 @@
-import { commands, env, ExtensionContext, TextEditor, ViewColumn, window, workspace } from "vscode";
+import { commands, env, ExtensionContext, TextEditor, window, workspace } from "vscode";
 import { FileItem } from "../FileItem";
 import { Cache } from "../lib/Cache";
 import { DialogOptions, ExecuteOptions, FileController, GetSourcePathOptions } from "./FileController";
@@ -6,7 +6,7 @@ import { DialogOptions, ExecuteOptions, FileController, GetSourcePathOptions } f
 export abstract class BaseFileController implements FileController {
     constructor(protected context: ExtensionContext) {}
 
-    public abstract async showDialog(options?: DialogOptions): Promise<FileItem | undefined>;
+    public abstract async showDialog(options?: DialogOptions): Promise<FileItem | FileItem[] | undefined>;
 
     public abstract async execute(options: ExecuteOptions): Promise<FileItem>;
 
@@ -20,7 +20,7 @@ export abstract class BaseFileController implements FileController {
             throw new Error("Could not open file!");
         }
 
-        const editor = await window.showTextDocument(textDocument, ViewColumn.Active);
+        const editor = await window.showTextDocument(textDocument);
         if (!editor) {
             throw new Error("Could not show document!");
         }

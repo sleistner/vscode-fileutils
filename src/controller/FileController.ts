@@ -15,7 +15,7 @@ export interface GetSourcePathOptions {
 }
 
 export interface FileController {
-    showDialog(options?: DialogOptions): Promise<FileItem | undefined>;
+    showDialog(options?: DialogOptions): Promise<FileItem | FileItem[] | undefined>;
     execute(options: ExecuteOptions): Promise<FileItem>;
     openFileInEditor(fileItem: FileItem): Promise<TextEditor | undefined>;
     closeCurrentFileEditor(): Promise<unknown>;

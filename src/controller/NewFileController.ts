@@ -5,6 +5,7 @@ import { getConfiguration } from "../lib/config";
 import { BaseFileController } from "./BaseFileController";
 import { DialogOptions, ExecuteOptions, GetSourcePathOptions } from "./FileController";
 import { TypeAheadController } from "./TypeAheadController";
+import expand from "brace-expansion";
 
 export interface NewFileDialogOptions extends DialogOptions {
     relativeToRoot?: boolean;
@@ -15,7 +16,7 @@ export interface NewFileExecuteOptions extends ExecuteOptions {
 }
 
 export class NewFileController extends BaseFileController {
-    public async showDialog(options: NewFileDialogOptions): Promise<FileItem | undefined> {
+    public async showDialog(options: NewFileDialogOptions): Promise<FileItem[] | undefined> {
         const { prompt, relativeToRoot = false } = options;
         const sourcePath = await this.getSourcePath({ relativeToRoot });
         const value: string = path.join(sourcePath, path.sep);
@@ -27,9 +28,11 @@ export class NewFileController extends BaseFileController {
         });
 
         if (targetPath) {
-            const isDir = targetPath.endsWith(path.sep);
-            const realPath = path.resolve(sourcePath, targetPath);
-            return new FileItem(sourcePath, realPath, isDir);
+            return expand(targetPath).map((filePath) => {
+                const realPath = path.resolve(sourcePath, filePath);
+                const isDir = filePath.endsWith(path.sep);
+                return new FileItem(sourcePath, realPath, isDir);
+            });
         }
     }
 

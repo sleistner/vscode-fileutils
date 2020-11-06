@@ -189,6 +189,7 @@
     "@semantic-release/npm": "7.0.6",
     "@types/bluebird": "3.5.33",
     "@types/bluebird-retry": "0.11.4",
+    "@types/brace-expansion": "^1.1.0",
     "@types/chai": "4.2.14",
     "@types/mocha": "8.0.3",
     "@types/node": "12.19.3",
@@ -209,7 +210,9 @@
     "typescript": "4.0.5",
     "vscode-test": "1.4.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "brace-expansion": "^2.0.0"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "yarn run lint && yarm run test"

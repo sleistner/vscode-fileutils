@@ -358,7 +358,7 @@
   resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.33.tgz#d79c020f283bd50bd76101d7d300313c107325fc"
   integrity sha512-ndEo1xvnYeHxm7I/5sF6tBvnsA4Tdi3zj1keRKRs12SP+2ye2A27NDJ1B6PqkfMbGAcT+mqQVqbZRIrhfOp5PQ==
 
-"@types/brace-expansion@^1.1.0":
+"@types/brace-expansion@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@types/brace-expansion/-/brace-expansion-1.1.0.tgz#fbce69132b7277e35e4d4bfc13a69c0d1ab6ebf8"
   integrity sha512-SaU/Kgp6z40CiF9JxlsrSrBEa+8YIry9IiCPhhYSNekeEhIAkY7iyu9aZ+5dSQIdo7mf86MUVvxWYm5GAzB/0g==
@@ -903,6 +903,13 @@ boxen@^1.2.1:
     term-size "^1.2.0"
     widest-line "^2.0.0"
 
+brace-expansion@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-2.0.0.tgz#3b53b490c803c23a6a5d6c9c8b309879c37c7f98"
+  integrity sha512-A4GHY1GpcTnp+Elcwp1CbKHY6ZQwwVR7QdjZk4fPetEh7oNBfICu+eLvvVvTEMHgC+SGn+XiLAgGo0MnPPBGOg==
+  dependencies:
+    balanced-match "^1.0.0"
+
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
@@ -910,13 +917,6 @@ brace-expansion@^1.1.7:
   dependencies:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
-
-brace-expansion@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-2.0.0.tgz#3b53b490c803c23a6a5d6c9c8b309879c37c7f98"
-  integrity sha512-A4GHY1GpcTnp+Elcwp1CbKHY6ZQwwVR7QdjZk4fPetEh7oNBfICu+eLvvVvTEMHgC+SGn+XiLAgGo0MnPPBGOg==
-  dependencies:
-    balanced-match "^1.0.0"
 
 braces@^3.0.1, braces@~3.0.2:
   version "3.0.2"

@@ -29,6 +29,32 @@ _Inspired by [Sidebar Enhancements](https://github.com/titoBouzout/SideBarEnhanc
 
 ![howto](images/howto.png)
 
+## Brace Expansion
+> Brace expansion is a mechanism by which arbitrary strings may be generated.
+
+Example file name inputs
+```bash
+/tmp/{a,b,c}/index.{cpp,ts,scss}
+```
+
+will generate the following files
+```bash
+➜  example tree /tmp/example
+/tmp
+├── a
+│   ├── index.cpp
+│   ├── index.scss
+│   └── index.ts
+├── b
+│   ├── index.cpp
+│   ├── index.scss
+│   └── index.ts
+└── c
+    ├── index.cpp
+    ├── index.scss
+    └── index.ts
+```
+
 ## Note
 
 Non-existent folders are created automatically.

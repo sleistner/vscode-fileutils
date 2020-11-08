@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/sleistner/vscode-fileutils/compare/v3.4.0...v3.4.1) (2020-11-08)
+
+
+### Bug Fixes
+
+* **build:** include node_modules ([a28b0da](https://github.com/sleistner/vscode-fileutils/commit/a28b0da))
+
 # [3.4.0](https://github.com/sleistner/vscode-fileutils/compare/v3.3.3...v3.4.0) (2020-11-08)
 
 

@@ -1,3 +1,16 @@
+# [3.4.0](https://github.com/sleistner/vscode-fileutils/compare/v3.3.3...v3.4.0) (2020-11-08)
+
+
+### Bug Fixes
+
+* update vscode engine ([3ec19f0](https://github.com/sleistner/vscode-fileutils/commit/3ec19f0))
+* **readme:** trigger release ([9314428](https://github.com/sleistner/vscode-fileutils/commit/9314428))
+
+
+### Features
+
+* **NewFileCommand:** add support for brace expansion ([5e06afc](https://github.com/sleistner/vscode-fileutils/commit/5e06afc))
+
 # [3.4.0](https://github.com/sleistner/vscode-fileutils/compare/v3.3.3...v3.4.0) (2020-11-07)
 
 

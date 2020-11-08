@@ -39,7 +39,7 @@ Example file name input
 
 will generate the following files
 ```bash
-➜  example tree /tmp/example
+➜  tree /tmp
 /tmp
 ├── a
 │   ├── index.cpp

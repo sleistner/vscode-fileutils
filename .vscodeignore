@@ -2,5 +2,6 @@
 */**
 
 !images/icon.*
+!node_modules
 !out/main.js
 !out/src/**/*.js

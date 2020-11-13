@@ -22,6 +22,7 @@ If applicable, add screenshots to help explain your problem.
 **Desktop (please complete the following information):**
 - VSCode Version:
 - OS Version:
+- FileUtils Extension Version:
 
 **Additional context**
 Add any other context about the problem here.

@@ -1,3 +1,10 @@
+## [3.4.2](https://github.com/sleistner/vscode-fileutils/compare/v3.4.1...v3.4.2) (2020-11-17)
+
+
+### Bug Fixes
+
+* **build:** include README ([b724700](https://github.com/sleistner/vscode-fileutils/commit/b724700))
+
 ## [3.4.1](https://github.com/sleistner/vscode-fileutils/compare/v3.4.0...v3.4.1) (2020-11-08)
 
 

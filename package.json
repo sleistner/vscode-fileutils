@@ -202,7 +202,7 @@
     "eslint": "7.14.0",
     "husky": "4.3.0",
     "mocha": "8.2.1",
-    "prettier": "2.2.0",
+    "prettier": "2.2.1",
     "semantic-release": "17.3.0",
     "semantic-release-vsce": "3.0.1",
     "sinon": "9.2.1",

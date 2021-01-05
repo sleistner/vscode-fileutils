@@ -28,9 +28,9 @@ export class NewFileController extends BaseFileController {
         });
 
         if (targetPath) {
-            return expand(targetPath).map((filePath) => {
+            return expand(targetPath.replace(/\\/g, "/")).map((filePath) => {
                 const realPath = path.resolve(sourcePath, filePath);
-                const isDir = filePath.endsWith(path.sep);
+                const isDir = filePath.endsWith("/");
                 return new FileItem(sourcePath, realPath, isDir);
             });
         }
@@ -47,7 +47,7 @@ export class NewFileController extends BaseFileController {
     }
 
     public async getSourcePath({ relativeToRoot }: GetSourcePathOptions): Promise<string> {
-        const rootPath = relativeToRoot ? await this.getWorkspaceSourcePath() : await this.getFileSourcePath();
+        const rootPath = await (relativeToRoot ? this.getWorkspaceSourcePath() : this.getFileSourcePath());
 
         if (!rootPath) {
             throw new Error();

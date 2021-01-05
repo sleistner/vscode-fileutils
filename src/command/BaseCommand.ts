@@ -10,7 +10,7 @@ interface ExecuteControllerOptions {
 export abstract class BaseCommand<T extends FileController> implements Command {
     constructor(protected controller: T, readonly options?: CommandConstructorOptions) {}
 
-    public abstract async execute(uri?: Uri): Promise<void>;
+    public abstract execute(uri?: Uri): Promise<void>;
 
     protected async executeController(
         fileItem: FileItem | undefined,

@@ -98,6 +98,19 @@ describe(NewFileCommand.name, () => {
             });
         });
 
+        describe("file path contains dot and backslash path separator", () => {
+            beforeEach(async () => {
+                const fileName = helper.targetFileWithDot.fsPath.replace(/\//g, "\\");
+                helper.createShowInputBoxStub().resolves(fileName);
+            });
+
+            it("should create the file at destination", async () => {
+                await subject.execute();
+                const message = `${helper.targetFileWithDot.path} does not exist`;
+                expect(fs.existsSync(helper.targetFileWithDot.fsPath), message).to.be.true;
+            });
+        });
+
         helper.protocol.describe("with target file in non-existent nested directory", subject);
         helper.protocol.describe("when target destination exists", subject, { overwriteFileContent: "" });
         helper.protocol.it("should open target file as active editor", subject);

@@ -6,9 +6,9 @@ import { DialogOptions, ExecuteOptions, FileController, GetSourcePathOptions } f
 export abstract class BaseFileController implements FileController {
     constructor(protected context: ExtensionContext) {}
 
-    public abstract async showDialog(options?: DialogOptions): Promise<FileItem | FileItem[] | undefined>;
+    public abstract showDialog(options?: DialogOptions): Promise<FileItem | FileItem[] | undefined>;
 
-    public abstract async execute(options: ExecuteOptions): Promise<FileItem>;
+    public abstract execute(options: ExecuteOptions): Promise<FileItem>;
 
     public async openFileInEditor(fileItem: FileItem): Promise<TextEditor | undefined> {
         if (fileItem.isDir) {

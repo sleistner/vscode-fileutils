@@ -1,3 +1,10 @@
+## [3.4.3](https://github.com/sleistner/vscode-fileutils/compare/v3.4.2...v3.4.3) (2021-01-06)
+
+
+### Bug Fixes
+
+* **NewFileController:** properly brace expand backslash paths ([ff95aae](https://github.com/sleistner/vscode-fileutils/commit/ff95aae))
+
 ## [3.4.2](https://github.com/sleistner/vscode-fileutils/compare/v3.4.1...v3.4.2) (2020-11-17)
 
 

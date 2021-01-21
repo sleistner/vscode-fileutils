@@ -18,13 +18,6 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/runtime@^7.9.2":
-  version "7.9.6"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
-  integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
-  dependencies:
-    regenerator-runtime "^0.13.4"
-
 "@enter-at/eslint-config-typescript-prettier@1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@enter-at/eslint-config-typescript-prettier/-/eslint-config-typescript-prettier-1.3.0.tgz#4fd7ae0569917fadf5cdab0ea592b3fc5fc851e5"
@@ -1419,17 +1412,6 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
-
-cosmiconfig@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-6.0.0.tgz#da4fee853c52f6b1e6935f41c1a2fc50bd4a9982"
-  integrity sha512-xb3ZL6+L8b9JLLCx3ZdoZy4+2ECphCMo2PwqgP1tlfVq6M6YReyzBJtvWWtbDSpNr9hn96pkCiZqUcFEc+54Qg==
-  dependencies:
-    "@types/parse-json" "^4.0.0"
-    import-fresh "^3.1.0"
-    parse-json "^5.0.0"
-    path-type "^4.0.0"
-    yaml "^1.7.2"
 
 cosmiconfig@^7.0.0:
   version "7.0.0"
@@ -2921,7 +2903,7 @@ ignore@^5.1.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.8.tgz#f150a8b50a34289b33e22f5889abd4d8016f0e57"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
 
-import-fresh@^3.0.0, import-fresh@^3.1.0, import-fresh@^3.2.1:
+import-fresh@^3.0.0, import-fresh@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-3.2.1.tgz#633ff618506e793af5ac91bf48b72677e15cbe66"
   integrity sha512-6e1q1cnWP2RXD9/keSkxHScg508CdXqXWgWBaETNhyuBFz+kUZlKboh+ISK+bU++DmbHimVBrOz/zzPe0sZ3sQ==
@@ -5531,11 +5513,6 @@ redeyed@~2.1.0:
   dependencies:
     esprima "~4.0.0"
 
-regenerator-runtime@^0.13.4:
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.5.tgz#d878a1d094b4306d10b9096484b33ebd55e26697"
-  integrity sha512-ZS5w8CpKFinUzOwW3c83oPeVXoNsrLsaCoLtJvAClH135j/R77RuymhiSErhm2lKcwSCIpmvIWSbDkIfAqKQlA==
-
 regexpp@^3.0.0, regexpp@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/regexpp/-/regexpp-3.1.0.tgz#206d0ad0a5648cffbdb8ae46438f3dc51c9f78e2"
@@ -5693,10 +5670,10 @@ semantic-release-vsce@3.1.3:
     read-pkg-up "^7.0.1"
     vsce "^1.73.0"
 
-semantic-release@17.3.5:
-  version "17.3.5"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.3.5.tgz#3a6eec22d5c0ee4c511847987c5367de62de2a04"
-  integrity sha512-NvXg5wiaovoKTLS/gpj/AQlXDE/nxK1jweDGkNPwHainlukmc+hBeufICOiyyFat9YFH1eJN0c3DXLAKAB+pig==
+semantic-release@17.3.6:
+  version "17.3.6"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.3.6.tgz#0390eb9c4d13e82dbf0f8e5700f196b599fa2a12"
+  integrity sha512-zPAFxmnMtEVbN1Lzxz+CMXlt5a9txB/PRWaVq+oAC9Mppbax/vWXZ0kisHX92O+BjEBbsaFtISjz82E+2Ro9gQ==
   dependencies:
     "@semantic-release/commit-analyzer" "^8.0.0"
     "@semantic-release/error" "^2.2.0"
@@ -5704,10 +5681,10 @@ semantic-release@17.3.5:
     "@semantic-release/npm" "^7.0.0"
     "@semantic-release/release-notes-generator" "^9.0.0"
     aggregate-error "^3.0.0"
-    cosmiconfig "^6.0.0"
+    cosmiconfig "^7.0.0"
     debug "^4.0.0"
     env-ci "^5.0.0"
-    execa "^4.0.0"
+    execa "^5.0.0"
     figures "^3.0.0"
     find-versions "^4.0.0"
     get-stream "^5.0.0"
@@ -6814,13 +6791,6 @@ yaml@^1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.0.tgz#3b593add944876077d4d683fee01081bd9fff31e"
   integrity sha512-yr2icI4glYaNG+KWONODapy2/jDdMSDnrONSjblABjD9B4Z5LgiircSt8m8sRZFNi08kG9Sm0uSHtEmP3zaEGg==
-
-yaml@^1.7.2:
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.9.2.tgz#f0cfa865f003ab707663e4f04b3956957ea564ed"
-  integrity sha512-HPT7cGGI0DuRcsO51qC1j9O16Dh1mZ2bnXwsi0jrSpsLz0WxOLSLXfkABVl6bZO629py3CU+OMJtpNHDLB97kg==
-  dependencies:
-    "@babel/runtime" "^7.9.2"
 
 yargs-parser@13.1.2, yargs-parser@^13.1.2:
   version "13.1.2"

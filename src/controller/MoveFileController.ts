@@ -6,13 +6,12 @@ import { DialogOptions, ExecuteOptions } from "./FileController";
 
 export interface MoveFileDialogOptions extends DialogOptions {
     showFullPath?: boolean;
-    uri?: Uri;
 }
 
 export class MoveFileController extends BaseFileController {
     public async showDialog(options: MoveFileDialogOptions): Promise<FileItem | undefined> {
-        const { prompt, showFullPath = false, uri = null } = options;
-        const sourcePath = (uri && uri.fsPath) ?? (await this.getSourcePath());
+        const { prompt, showFullPath = false, uri } = options;
+        const sourcePath = await this.getSourcePath({ uri });
 
         if (!sourcePath) {
             throw new Error();

@@ -1,12 +1,16 @@
 import * as path from "path";
-import { window, workspace } from "vscode";
+import { Uri, window, workspace } from "vscode";
 import { FileItem } from "../FileItem";
 import { BaseFileController } from "./BaseFileController";
-import { ExecuteOptions } from "./FileController";
+import { DialogOptions, ExecuteOptions } from "./FileController";
 
+export interface RemoveFileDialogOptions extends DialogOptions {
+    uri?: Uri;
+}
 export class RemoveFileController extends BaseFileController {
-    public async showDialog(): Promise<FileItem | undefined> {
-        const sourcePath = await this.getSourcePath();
+    public async showDialog(options: RemoveFileDialogOptions): Promise<FileItem | undefined> {
+        const { uri = null } = options;
+        const sourcePath = (uri && uri.fsPath) ?? (await this.getSourcePath());
 
         if (!sourcePath) {
             throw new Error();

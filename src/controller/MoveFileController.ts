@@ -12,7 +12,7 @@ export interface MoveFileDialogOptions extends DialogOptions {
 export class MoveFileController extends BaseFileController {
     public async showDialog(options: MoveFileDialogOptions): Promise<FileItem | undefined> {
         const { prompt, showFullPath = false, uri = null } = options;
-        const sourcePath = (uri && uri.fsPath) || (await this.getSourcePath());
+        const sourcePath = (uri && uri.fsPath) ?? (await this.getSourcePath());
 
         if (!sourcePath) {
             throw new Error();

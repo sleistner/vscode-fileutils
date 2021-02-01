@@ -1,8 +1,9 @@
-import { TextEditor } from "vscode";
+import { TextEditor, Uri } from "vscode";
 import { FileItem } from "../FileItem";
 
 export interface DialogOptions {
     prompt?: string;
+    uri?: Uri;
 }
 
 export interface ExecuteOptions {
@@ -12,6 +13,7 @@ export interface ExecuteOptions {
 export interface GetSourcePathOptions {
     relativeToRoot?: boolean;
     ignoreIfNotExists?: boolean;
+    uri?: Uri;
 }
 
 export interface FileController {

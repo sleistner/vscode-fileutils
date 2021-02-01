@@ -6,7 +6,6 @@ import { TreeWalker } from "../lib/TreeWalker";
 async function waitForIOEvents(): Promise<void> {
     return new Promise((resolve) => setImmediate(resolve));
 }
-
 export class TypeAheadController {
     constructor(private cache: Cache, private relativeToRoot: boolean) {}
 

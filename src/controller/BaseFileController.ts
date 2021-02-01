@@ -32,7 +32,10 @@ export abstract class BaseFileController implements FileController {
         return commands.executeCommand("workbench.action.closeActiveEditor");
     }
 
-    public async getSourcePath({ ignoreIfNotExists }: GetSourcePathOptions = {}): Promise<string> {
+    public async getSourcePath({ ignoreIfNotExists, uri }: GetSourcePathOptions = {}): Promise<string> {
+        if (uri?.fsPath) {
+            return uri.fsPath;
+        }
         // Attempting to get the fileName from the activeTextEditor.
         // Works for text files only.
         const activeEditor = window.activeTextEditor;

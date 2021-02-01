@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import * as path from "path";
-import { window } from "vscode";
+import { Uri, window } from "vscode";
 import { RenameFileCommand } from "../../src/command";
 import { MoveFileController } from "../../src/controller";
 import * as helper from "../helper";
@@ -35,6 +35,21 @@ describe(RenameFileCommand.name, () => {
             helper.protocol.it("should move current file to destination", subject);
             helper.protocol.describe("with target file in non-existent nested directory", subject);
             helper.protocol.it("should open target file as active editor", subject);
+
+            describe("prefer uri over current editor", () => {
+                beforeEach(async () => {
+                    const targetFile = Uri.file(path.resolve(`${helper.editorFile2.fsPath}.tmp`));
+                    helper.createShowInputBoxStub().resolves(targetFile.path);
+                });
+
+                it("should prompt for file destination", async () => {
+                    await subject.execute(helper.editorFile2);
+                    const prompt = "New Name";
+                    const value = path.basename(helper.editorFile2.fsPath);
+                    const valueSelection = [value.length - 9, value.length - 3];
+                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+                });
+            });
         });
 
         describe("without an open text document", () => {

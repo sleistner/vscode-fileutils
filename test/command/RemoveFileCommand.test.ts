@@ -80,6 +80,18 @@ describe(RemoveFileCommand.name, () => {
                     }
                 });
             });
+
+            describe("prefer uri over current editor", () => {
+                beforeEach(async () => {
+                    helper.createGetConfigurationStub({ confirmDelete: false });
+                });
+
+                it("should delete the file without confirmation", async () => {
+                    await subject.execute(helper.editorFile2);
+                    const message = `${helper.editorFile2.path} does not exist`;
+                    expect(fs.existsSync(helper.editorFile2.fsPath), message).to.be.false;
+                });
+            });
         });
 
         describe("without an open text document", () => {

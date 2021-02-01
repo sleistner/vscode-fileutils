@@ -7,7 +7,7 @@ import { DialogOptions, ExecuteOptions, GetSourcePathOptions } from "./FileContr
 import { TypeAheadController } from "./TypeAheadController";
 import expand from "brace-expansion";
 
-export interface NewFileDialogOptions extends DialogOptions {
+export interface NewFileDialogOptions extends Omit<DialogOptions, "uri"> {
     relativeToRoot?: boolean;
 }
 

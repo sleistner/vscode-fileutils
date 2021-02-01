@@ -1,3 +1,10 @@
+## [3.4.4](https://github.com/sleistner/vscode-fileutils/compare/v3.4.3...v3.4.4) (2021-02-01)
+
+
+### Bug Fixes
+
+* prefer uri over current editor ([e63b27f](https://github.com/sleistner/vscode-fileutils/commit/e63b27f))
+
 ## [3.4.3](https://github.com/sleistner/vscode-fileutils/compare/v3.4.2...v3.4.3) (2021-01-06)
 
 

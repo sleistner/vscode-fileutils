@@ -211,7 +211,7 @@
     "vscode-test": "1.5.1"
   },
   "dependencies": {
-    "brace-expansion": "2.0.0"
+    "brace-expansion": "2.0.1"
   },
   "husky": {
     "hooks": {

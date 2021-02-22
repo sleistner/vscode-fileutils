@@ -1,3 +1,10 @@
+## [3.4.5](https://github.com/sleistner/vscode-fileutils/compare/v3.4.4...v3.4.5) (2021-02-22)
+
+
+### Bug Fixes
+
+* **deps:** update dependency brace-expansion to v2.0.1 ([dd094d0](https://github.com/sleistner/vscode-fileutils/commit/dd094d0))
+
 ## [3.4.4](https://github.com/sleistner/vscode-fileutils/compare/v3.4.3...v3.4.4) (2021-02-01)
 
 

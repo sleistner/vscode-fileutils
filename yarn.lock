@@ -39,10 +39,10 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@enter-at/eslint-config-typescript-prettier@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@enter-at/eslint-config-typescript-prettier/-/eslint-config-typescript-prettier-1.3.0.tgz#4fd7ae0569917fadf5cdab0ea592b3fc5fc851e5"
-  integrity sha512-e8HOJVAiq9ygrcx0/UzQu8iVZidjrmi+AYB3bPX59Ipuv6/Fk4X+ecbck03EtGBnSIduWz7JheTPs5vIEf5rDg==
+"@enter-at/eslint-config-typescript-prettier@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@enter-at/eslint-config-typescript-prettier/-/eslint-config-typescript-prettier-1.4.0.tgz#a3458f2377352206feb2a390906de05867808524"
+  integrity sha512-pd9jYmrKfSTm6LxwBgB/cz4UYgy6ctPhDc1Ncodis//pSIBv/E+7NfQRLhHSHsoA6kQmb8cAU2F5FqELfp20lg==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.0.0"
     "@typescript-eslint/parser" "^4.0.0"

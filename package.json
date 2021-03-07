@@ -193,7 +193,7 @@
     "@types/chai": "4.2.15",
     "@types/mocha": "8.2.1",
     "@types/node": "12.19.3",
-    "@types/sinon": "9.0.10",
+    "@types/sinon": "9.0.11",
     "@types/sinon-chai": "3.2.5",
     "@types/vscode": "1.51.0",
     "bluebird": "3.7.2",

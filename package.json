@@ -203,7 +203,7 @@
     "husky": "4.3.8",
     "mocha": "8.3.1",
     "prettier": "2.2.1",
-    "semantic-release": "17.4.1",
+    "semantic-release": "17.4.2",
     "semantic-release-vsce": "3.2.0",
     "sinon": "9.2.4",
     "sinon-chai": "3.5.0",

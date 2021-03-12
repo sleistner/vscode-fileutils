@@ -5741,10 +5741,10 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-semantic-release-vsce@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/semantic-release-vsce/-/semantic-release-vsce-3.2.0.tgz#52641f69db066cf3f1bce5e0f6cd7f2d114005ac"
-  integrity sha512-jtoKPsinaPrgCAxYuQPqSpf1Mt+oZRAcjH4yhh+VE9Tpq5aaw4zK0g5Xy8VLzHa5EHwvxSU87p6UsQxXdHMIxw==
+semantic-release-vsce@3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/semantic-release-vsce/-/semantic-release-vsce-3.3.0.tgz#eda70d8aa3eb84e90ef3d3a5771d63edb581cab7"
+  integrity sha512-3sM7GUEZoSIPvae/XpNLZCVCF8vnVliuSCyRaJw7ne+LolPo+GfsbzFYQd/uG48F1Dg1/lYBr1f368GJGRA/Iw==
   dependencies:
     "@semantic-release/error" "^2.2.0"
     detect-indent "^6.0.0"

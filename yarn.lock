@@ -39,16 +39,16 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@enter-at/eslint-config-typescript-prettier@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@enter-at/eslint-config-typescript-prettier/-/eslint-config-typescript-prettier-1.5.0.tgz#3198d58b9f9cb3960954812ee0237fe93bec0bec"
-  integrity sha512-j245CzGRqF44tA3Ai1eHuiGHvlaMe/77wyBDNwrqUvqCGWvYcundMNMUtQMGbeZJushXoXb4grvPw90CKArQ3g==
+"@enter-at/eslint-config-typescript-prettier@1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@enter-at/eslint-config-typescript-prettier/-/eslint-config-typescript-prettier-1.5.1.tgz#3fb4886ce7aebfe0dd404e6ac61ba1a76a64b858"
+  integrity sha512-LUPgyhnQPVUDB2WqoT50JuUNmcUUXb/s6K2jSSlsF4otXzb8KSHDCbTosluGN/1S9RBiYGTfLy6MfAw7DUiaIQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.15.1"
     "@typescript-eslint/parser" "^4.15.1"
     eslint-config-prettier "^8.0.0"
     eslint-plugin-import "^2.22.1"
-    eslint-plugin-prettier "^3.3.1"
+    eslint-plugin-prettier "^3.4.0"
     husky "^4.2.5"
 
 "@eslint/eslintrc@^0.4.0":
@@ -2325,10 +2325,10 @@ eslint-plugin-import@^2.22.1:
     resolve "^1.17.0"
     tsconfig-paths "^3.9.0"
 
-eslint-plugin-prettier@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-3.3.1.tgz#7079cfa2497078905011e6f82e8dd8453d1371b7"
-  integrity sha512-Rq3jkcFY8RYeQLgk2cCwuc0P7SEFwDravPhsJZOQ5N4YI4DSg50NyqJ/9gdZHzQlHf8MvafSesbNJCcP/FF6pQ==
+eslint-plugin-prettier@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-3.4.0.tgz#cdbad3bf1dbd2b177e9825737fe63b476a08f0c7"
+  integrity sha512-UDK6rJT6INSfcOo545jiaOwB701uAIt2/dR7WnFQoGCVl1/EMqdANBmwUaqqQ45aXprsTGzSa39LI1PyuRBxxw==
   dependencies:
     prettier-linter-helpers "^1.0.0"
 

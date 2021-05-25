@@ -206,7 +206,7 @@
     "semantic-release": "17.4.3",
     "semantic-release-vsce": "3.3.0",
     "sinon": "9.2.4",
-    "sinon-chai": "3.6.0",
+    "sinon-chai": "3.7.0",
     "typescript": "4.0.5",
     "vscode-test": "1.5.2"
   },

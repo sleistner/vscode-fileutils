@@ -2733,7 +2733,7 @@ fs-extra@^10.0.0:
     jsonfile "^6.0.1"
     universalify "^2.0.0"
 
-fs-extra@^9.0.0, fs-extra@^9.0.1:
+fs-extra@^9.0.0:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-9.0.1.tgz#910da0062437ba4c39fedd863f1675ccfefcb9fc"
   integrity sha512-h2iAoN838FqAFJY2/qVpzFXy+EBxfVE220PalAqQLDVsFOHLJrZvut5puAbCdNv6WJk+B8ihI+k0c7JK5erwqQ==
@@ -6488,15 +6488,15 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-semantic-release-vsce@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/semantic-release-vsce/-/semantic-release-vsce-3.3.0.tgz#eda70d8aa3eb84e90ef3d3a5771d63edb581cab7"
-  integrity sha512-3sM7GUEZoSIPvae/XpNLZCVCF8vnVliuSCyRaJw7ne+LolPo+GfsbzFYQd/uG48F1Dg1/lYBr1f368GJGRA/Iw==
+semantic-release-vsce@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/semantic-release-vsce/-/semantic-release-vsce-3.3.1.tgz#5ad71c7cc0a691c2b74b3c18c6297f4a62c33d6b"
+  integrity sha512-Oy5HHbtJU7VnIDX9kuOCIikBzVnju46bI7lUQFuc9DR2L4XZKqxAurWkQHfTy55dCNtY4BiVaPbgY03RvIXvOg==
   dependencies:
     "@semantic-release/error" "^2.2.0"
     detect-indent "^6.0.0"
     execa "^5.0.0"
-    fs-extra "^9.0.1"
+    fs-extra "^10.0.0"
     read-pkg-up "^7.0.1"
     vsce "^1.85.1"
 

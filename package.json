@@ -191,7 +191,7 @@
     "@types/bluebird-retry": "0.11.4",
     "@types/brace-expansion": "1.1.0",
     "@types/chai": "4.2.18",
-    "@types/mocha": "8.2.2",
+    "@types/mocha": "8.2.3",
     "@types/node": "12.19.3",
     "@types/sinon": "9.0.11",
     "@types/sinon-chai": "3.2.5",

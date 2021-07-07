@@ -483,10 +483,10 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@types/bluebird-retry@0.11.4":
-  version "0.11.4"
-  resolved "https://registry.yarnpkg.com/@types/bluebird-retry/-/bluebird-retry-0.11.4.tgz#26aabd880371878d484613f70959c8bf17ade81b"
-  integrity sha512-A7ZCQmNlwXLhDhsoLapARTWKFdP+xmRAhONVMiVk3SNcT9l54f20R5ogRJ75A6oDN/EgoBRx2W45oeN2DppARQ==
+"@types/bluebird-retry@0.11.5":
+  version "0.11.5"
+  resolved "https://registry.yarnpkg.com/@types/bluebird-retry/-/bluebird-retry-0.11.5.tgz#12b26a2d3e3e758edfbd33d6be4270414d9cef7a"
+  integrity sha512-ZRHrDQgjZaS9zBXPnx5EK900eFKMZLG6iujyWcUAlfKaNIaW9jUJze26EzFcNQrfJC3Sm33iLw+E0wqgmh/GOQ==
   dependencies:
     "@types/bluebird" "*"
 

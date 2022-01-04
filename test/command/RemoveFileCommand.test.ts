@@ -29,16 +29,21 @@ describe(RemoveFileCommand.name, () => {
 
             describe("configuration", () => {
                 describe('when "explorer.confirmDelete" is "true"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ confirmDelete: true });
-                    });
+                    const message = `Are you sure you want to delete '${path.basename(helper.editorFile1.path)}'?`;
+                    const options = { modal: true };
 
-                    it("should show a confirmation dialog", async () => {
-                        await subject.execute();
-                        const message = `Are you sure you want to delete '${path.basename(helper.editorFile1.path)}'?`;
-                        const action = "Move to Trash";
-                        const options = { modal: true };
-                        expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
+                    [true, false].forEach((enableTrash) => {
+                        describe(`when "files.enableTrash" is "${enableTrash}"`, () => {
+                            beforeEach(async () => {
+                                helper.createGetConfigurationStub({ confirmDelete: true, enableTrash: enableTrash });
+                            });
+
+                            it("should show a confirmation dialog", async () => {
+                                await subject.execute();
+                                const action = enableTrash ? "Move to Trash" : "Delete";
+                                expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
+                            });
+                        });
                     });
                 });
 
@@ -56,7 +61,7 @@ describe(RemoveFileCommand.name, () => {
                 });
             });
 
-            describe('when answered with "Move to Trash"', () => {
+            describe('when answered with "Move to Trash" or "Delete"', () => {
                 it("should delete the file", async () => {
                     await subject.execute();
                     const message = `${helper.editorFile1.path} does exist`;

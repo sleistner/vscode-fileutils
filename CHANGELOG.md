@@ -1,3 +1,10 @@
+## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-14)
+
+
+### Bug Fixes
+
+* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
+
 ## [3.4.5](https://github.com/sleistner/vscode-fileutils/compare/v3.4.4...v3.4.5) (2021-02-22)
 
 

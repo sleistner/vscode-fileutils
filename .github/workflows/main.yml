@@ -47,12 +47,6 @@ jobs:
         run: yarn run test
         if: runner.os != 'Linux'
 
-      - name: Store test reports
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-reports-{{ matrix.os }}
-          path: test-reports
-
   release:
     name: Release
     runs-on: ubuntu-latest
@@ -62,7 +56,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          node-version: 16.x
           persist-credentials: false
+
+      - uses: actions/cache@v2
+        id: dependencies-cache
+        with:
+          path: ./node_modules
+          key: dependencies-${{ hashFiles('yarn.lock') }}
+
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2
         with:
@@ -70,6 +72,10 @@ jobs:
           extra_plugins: |
             @semantic-release/changelog
             @semantic-release/git
+            @semantic-release/commit-analyzer
+            @semantic-release/release-notes-generator
+            @semantic-release/npm
+            @semantic-release/github
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 

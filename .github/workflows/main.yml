@@ -78,4 +78,4 @@ jobs:
             @semantic-release/github
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          VSCE_PAT$: ${{ secrets.VS_MARKETPLACE_TOKEN }}
+          VSCE_PAT: ${{ secrets.VS_MARKETPLACE_TOKEN }}

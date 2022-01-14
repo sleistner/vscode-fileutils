@@ -2,7 +2,7 @@
 
 # File Utils - Visual Studio Code Extension
 
-[![Build Status](https://travis-ci.org/sleistner/vscode-fileutils.svg?branch=master)](https://travis-ci.org/sleistner/vscode-fileutils)
+[![CI/CD](https://github.com/sleistner/vscode-fileutils/actions/workflows/main.yml/badge.svg)](https://github.com/sleistner/vscode-fileutils/actions/workflows/main.yml)
 [![Dependency Status](https://david-dm.org/sleistner/vscode-fileutils.svg)](https://david-dm.org/sleistner/vscode-fileutils)
 [![Known Vulnerabilities](https://snyk.io/test/github/sleistner/vscode-fileutils/badge.svg)](https://snyk.io/test/github/sleistner/vscode-fileutils)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com)

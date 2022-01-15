@@ -1,3 +1,12 @@
+## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-15)
+
+
+### Bug Fixes
+
+* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
+* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
+* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
+
 ## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-14)
 
 

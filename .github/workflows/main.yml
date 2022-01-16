@@ -12,25 +12,6 @@ on:
       - published
 
 jobs:
-  debug:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
-
-      - name: Install dependencies
-        run: npm install -g vsce
-
-      - name: Verify 1
-        run: vsce verify-pat --pat ${{ secrets.VS_MARKETPLACE_TOKEN }}
-
-      - name: Verify 2
-        run: vsce verify-pat
-        env:
-          VSCE_PAT: ${{ secrets.VS_MARKETPLACE_TOKEN }}
-
   lint-test:
     name: Lint, Test
     strategy:
@@ -43,15 +24,7 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Cache dependencies
-        id: dependencies-cache
-        uses: actions/cache@v2
-        with:
-          path: ./node_modules
-          key: dependencies-${{ hashFiles('yarn.lock') }}
-
       - name: Install dependencies
-        if: steps.dependencies-cache.outputs.cache-hit != 'true'
         run: yarn install --no-progress --no-lockfile --ignore-optional
 
       - name: Run code analysis
@@ -74,14 +47,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          persist-credentials: false
 
-      - uses: actions/cache@v2
-        id: dependencies-cache
-        with:
-          path: ./node_modules
-          key: dependencies-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --no-progress --no-lockfile --ignore-optional
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2

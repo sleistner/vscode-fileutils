@@ -20,7 +20,7 @@ jobs:
           node-version: 16.x
 
       - name: Install dependencies
-        run: yarn add -g vsce
+        run: npm install -g vsce
 
       - name: Verify 1
         run: vsce verify-pat --pat ${{ secrets.VS_MARKETPLACE_TOKEN }}

@@ -2658,7 +2658,7 @@ sax@>=0.6.0:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
-semantic-release-vsce@^3.5.0:
+semantic-release-vsce@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/semantic-release-vsce/-/semantic-release-vsce-3.5.0.tgz#470fb444fd533604a936695c5ad1a25aaac68431"
   integrity sha512-PtvDgT7UN4zAHP7uTAJDZ7Iqe54WPM5ARjTgOWNin71OxOcLZwL0Lpj0ELNt9FbwBmaajkjL4Hpn/MEQZvsBuA==

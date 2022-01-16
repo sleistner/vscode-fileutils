@@ -27,7 +27,9 @@ jobs:
         run: vsce verify-pat --pat ${{ secrets.VS_MARKETPLACE_TOKEN }}
 
       - name: Verify 2
-        run: VSCE_PAT=${{ secrets.VS_MARKETPLACE_TOKEN }} vsce verify-pat
+        run: vsce verify-pat
+        env:
+          VSCE_PAT: ${{ secrets.VS_MARKETPLACE_TOKEN }}
 
   lint-test:
     name: Lint, Test

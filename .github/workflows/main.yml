@@ -12,6 +12,22 @@ on:
       - published
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: yarn install vsce
+
+      - name: Verify 1
+        run: vsce verify-pat --pat ${{ secrets.VS_MARKETPLACE_TOKEN }}
+
+      - name: Verify 2
+        run: VSCE_PAT=${{ secrets.VS_MARKETPLACE_TOKEN }} vsce verify-pat
+
   lint-test:
     name: Lint, Test
     strategy:

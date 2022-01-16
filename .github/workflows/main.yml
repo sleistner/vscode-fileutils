@@ -56,7 +56,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          node-version: 16.x
           persist-credentials: false
 
       - uses: actions/cache@v2

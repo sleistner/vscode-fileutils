@@ -17,8 +17,8 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-latest
-          # - macos-latest
+          # - ubuntu-latest
+          - macos-latest
           # - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
@@ -40,7 +40,7 @@ jobs:
         run: |
           sudo apt-get --assume-yes install libsecret-1-0 xclip;
           /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-          yarn run test
+          xvfb-run -a yarn run test
         env:
           DISPLAY: ':99.0'
         if: runner.os == 'Linux'

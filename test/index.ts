@@ -1,6 +1,5 @@
 import Mocha from "mocha";
 import * as path from "path";
-import {RelativePattern, workspace} from "vscode";
 import * as glob from "glob";
 
 export async function run(): Promise<void> {

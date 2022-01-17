@@ -16,7 +16,10 @@ jobs:
     name: Lint, Test
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os:
+          - ubuntu-latest
+          # - macos-latest
+          # - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -34,38 +37,42 @@ jobs:
         if: runner.os != 'windows'
 
       - name: Run tests
-        run: xvfb-run -a yarn run test
+        run: |
+          /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          xvfb-run -a yarn run test
+        env:
+          DISPLAY: ':99.0'
         if: runner.os == 'Linux'
 
       - name: Run tests
         run: yarn run test
         if: runner.os != 'Linux'
 
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    needs: [ lint-test ]
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
+  # release:
+  #   name: Release
+  #   runs-on: ubuntu-latest
+  #   needs: [ lint-test ]
+  #   if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         persist-credentials: false
 
-      - name: Install dependencies
-        run: yarn install --no-progress --no-lockfile --ignore-optional
+  #     - name: Install dependencies
+  #       run: yarn install --no-progress --no-lockfile --ignore-optional
 
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v2
-        with:
-          branch: master
-          extra_plugins: |
-            @semantic-release/changelog
-            @semantic-release/git
-            @semantic-release/commit-analyzer
-            @semantic-release/release-notes-generator
-            @semantic-release/npm
-            @semantic-release/github
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          VSCE_PAT: ${{ secrets.VS_MARKETPLACE_TOKEN }}
+  #     - name: Semantic Release
+  #       uses: cycjimmy/semantic-release-action@v2
+  #       with:
+  #         branch: master
+  #         extra_plugins: |
+  #           @semantic-release/changelog
+  #           @semantic-release/git
+  #           @semantic-release/commit-analyzer
+  #           @semantic-release/release-notes-generator
+  #           @semantic-release/npm
+  #           @semantic-release/github
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+  #         VSCE_PAT: ${{ secrets.VS_MARKETPLACE_TOKEN }}

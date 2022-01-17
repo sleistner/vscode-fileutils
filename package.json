@@ -204,7 +204,9 @@
     "sinon": "9.2.4",
     "sinon-chai": "3.7.0",
     "typescript": "4.0.5",
-    "vscode-test": "1.5.2"
+    "vscode-test": "1.5.2",
+    "@types/glob": "^7.1.1",
+    "glob": "^7.1.4"
   },
   "dependencies": {
     "brace-expansion": "2.0.1"

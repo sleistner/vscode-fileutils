@@ -1,6 +1,7 @@
 import Mocha from "mocha";
 import * as path from "path";
-import { RelativePattern, workspace } from "vscode";
+import {RelativePattern, workspace} from "vscode";
+import * as glob from "glob";
 
 export async function run(): Promise<void> {
     const mocha = new Mocha({
@@ -10,11 +11,11 @@ export async function run(): Promise<void> {
     });
 
     const testsRoot = path.resolve(__dirname, "..");
-    const pattern = new RelativePattern(testsRoot, "**/**.test.js");
-    const files = await workspace.findFiles(pattern, undefined, Number.MAX_VALUE);
+    const files = glob.sync("**/**.test.js", { cwd: testsRoot });
 
+    console.log("Number of test files to run:", files.length);
     // Add files to the test suite
-    files.forEach((file) => mocha.addFile(file.fsPath));
+    files.forEach((file) => mocha.addFile(path.resolve(testsRoot, file)));
 
     // Run the mocha test
     return new Promise((resolve, reject) => {

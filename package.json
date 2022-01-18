@@ -203,7 +203,7 @@
     "bluebird": "3.7.2",
     "bluebird-retry": "0.11.0",
     "chai": "4.3.4",
-    "eslint": "7.32.0",
+    "eslint": "8.7.0",
     "glob": "7.2.0",
     "husky": "4.3.8",
     "mocha": "8.4.0",
@@ -212,7 +212,7 @@
     "semantic-release-vsce": "5.0.0",
     "sinon": "9.2.4",
     "sinon-chai": "3.7.0",
-    "typescript": "4.0.5",
+    "typescript": "4.5.4",
     "vscode-test": "1.6.1"
   },
   "dependencies": {

@@ -14,7 +14,8 @@ export class TreeWalker {
             const directories = files.reduce(this.directoryReducer(sourcePath), new Set<string>());
             return this.toSortedArray(directories);
         } catch (err) {
-            throw new Error(`Unable to list subdirectories for directory "${sourcePath}". Details: (${err.message})`);
+            const details = (err as Error).message;
+            throw new Error(`Unable to list subdirectories for directory "${sourcePath}". Details: (${details})`);
         }
     }
 

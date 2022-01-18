@@ -203,7 +203,7 @@
     "bluebird": "3.7.2",
     "bluebird-retry": "0.11.0",
     "chai": "4.3.4",
-    "eslint": "7.28.0",
+    "eslint": "7.32.0",
     "glob": "7.2.0",
     "husky": "4.3.8",
     "mocha": "8.4.0",

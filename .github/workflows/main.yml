@@ -25,6 +25,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
+
       - uses: actions/setup-node@v2
         with:
           node-version: 16.x
@@ -60,21 +61,27 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
       - name: Install dependencies
         run: yarn install --no-progress --no-lockfile --ignore-optional
 
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v2
-        with:
-          branch: master
-          extra_plugins: |
-            @semantic-release/changelog
-            @semantic-release/git
-            @semantic-release/commit-analyzer
-            @semantic-release/release-notes-generator
-            @semantic-release/npm
-            @semantic-release/github
-            semantic-release-vsce
+        # uses: cycjimmy/semantic-release-action@v2
+        # with:
+        #   branch: master
+        #   extra_plugins: |
+        #     @semantic-release/changelog
+        #     @semantic-release/git
+        #     @semantic-release/commit-analyzer
+        #     @semantic-release/release-notes-generator
+        #     @semantic-release/npm
+        #     @semantic-release/github
+        #     semantic-release-vsce
+        run: |
+          yarn run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           VSCE_PAT: ${{ secrets.VS_MARKETPLACE_TOKEN }}

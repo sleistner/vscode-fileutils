@@ -18,7 +18,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          # - macos-latest
+          - macos-latest
           # - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
@@ -69,17 +69,6 @@ jobs:
         run: yarn install --no-progress --no-lockfile --ignore-optional
 
       - name: Semantic Release
-        # uses: cycjimmy/semantic-release-action@v2
-        # with:
-        #   branch: master
-        #   extra_plugins: |
-        #     @semantic-release/changelog
-        #     @semantic-release/git
-        #     @semantic-release/commit-analyzer
-        #     @semantic-release/release-notes-generator
-        #     @semantic-release/npm
-        #     @semantic-release/github
-        #     semantic-release-vsce
         run: |
           yarn run semantic-release
         env:

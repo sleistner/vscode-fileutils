@@ -210,7 +210,7 @@
     "prettier": "2.2.1",
     "semantic-release": "^19.0.2",
     "semantic-release-vsce": "^5.0.0",
-    "sinon": "9.2.4",
+    "sinon": "12.0.1",
     "sinon-chai": "3.7.0",
     "typescript": "4.0.5",
     "vscode-test": "1.5.2"

@@ -213,7 +213,7 @@
     "sinon": "9.2.4",
     "sinon-chai": "3.7.0",
     "typescript": "4.0.5",
-    "vscode-test": "1.5.2"
+    "vscode-test": "1.6.1"
   },
   "dependencies": {
     "brace-expansion": "2.0.1"

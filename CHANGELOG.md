@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/sleistner/vscode-fileutils/compare/v3.4.6...v3.5.0) (2022-01-18)
+
+
+### Features
+
+* **ci:** enable github actions ([3eead61](https://github.com/sleistner/vscode-fileutils/commit/3eead61d04d6adf1632503d29939e2c150147d87))
+
 ## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-18)
 
 

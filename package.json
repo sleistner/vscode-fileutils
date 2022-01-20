@@ -195,7 +195,7 @@
     "@types/brace-expansion": "1.1.0",
     "@types/chai": "4.3.0",
     "@types/glob": "7.2.0",
-    "@types/mocha": "9.0.0",
+    "@types/mocha": "9.1.0",
     "@types/node": "12.19.3",
     "@types/sinon": "10.0.6",
     "@types/sinon-chai": "3.2.8",

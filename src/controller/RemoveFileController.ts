@@ -20,6 +20,7 @@ export class RemoveFileController extends BaseFileController {
         const message = `Are you sure you want to delete '${path.basename(sourcePath)}'?`;
         const action = this.enableTrash ? "Move to Trash" : "Delete";
         const remove = await window.showInformationMessage(message, { modal: true }, action);
+
         if (remove) {
             return new FileItem(sourcePath);
         }

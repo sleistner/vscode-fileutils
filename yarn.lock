@@ -4657,10 +4657,10 @@ sax@>=0.6.0:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
-semantic-release-vsce@5.0.11:
-  version "5.0.11"
-  resolved "https://registry.yarnpkg.com/semantic-release-vsce/-/semantic-release-vsce-5.0.11.tgz#c5ece852cb00eaa73d30a9baa84aefe90525d321"
-  integrity sha512-S2O90lOr/pknMu2vTmuHtXQYBMapxGyYZj7++Qo+kSOpb+IHGIllAjbfb13OrbdDu7F3ATJDMrPnj9lbHHGyOQ==
+semantic-release-vsce@5.0.12:
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/semantic-release-vsce/-/semantic-release-vsce-5.0.12.tgz#2966de3cece545b8bf2f5501b03b118715fd86e5"
+  integrity sha512-cXhKhKgdhPLy+vNtRhyji0TTSbZxc5OM4TEGuhIpozmyGxYX9Y8Y+wn9tGaMDTv0dDpRfq9Altw1Iabat1XSsw==
   dependencies:
     "@semantic-release/error" "^3.0.0"
     execa "^5.0.0"

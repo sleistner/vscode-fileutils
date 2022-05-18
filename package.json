@@ -209,7 +209,7 @@
     "mocha": "9.2.2",
     "prettier": "2.2.1",
     "semantic-release": "19.0.2",
-    "semantic-release-vsce": "5.0.11",
+    "semantic-release-vsce": "5.0.12",
     "sinon": "9.2.4",
     "sinon-chai": "3.7.0",
     "typescript": "4.6.4",

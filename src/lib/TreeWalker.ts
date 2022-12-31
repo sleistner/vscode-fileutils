@@ -20,7 +20,7 @@ export class TreeWalker {
     }
 
     private ensureFailSafeFileLookup() {
-        ((process as unknown) as ExtendedProcess).noAsar = true;
+        (process as unknown as ExtendedProcess).noAsar = true;
     }
 
     private directoryReducer(sourcePath: string) {

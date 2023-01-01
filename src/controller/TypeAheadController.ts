@@ -10,7 +10,8 @@ export class TypeAheadController {
     constructor(private cache: Cache, private relativeToRoot: boolean) {}
 
     public async showDialog(sourcePath: string): Promise<string> {
-        const item = await this.showQuickPick(this.buildQuickPickItems(sourcePath));
+        const items = await this.buildQuickPickItems(sourcePath);
+        const item = await this.showQuickPick(items);
 
         if (!item) {
             throw new Error();
@@ -51,9 +52,9 @@ export class TypeAheadController {
         return { description, label };
     }
 
-    private async showQuickPick(items: Thenable<QuickPickItem[]>) {
+    private async showQuickPick(items: readonly QuickPickItem[]) {
         const hint = "larger projects may take a moment to load";
         const placeHolder = `First, select an existing path to create relative to (${hint})`;
-        return window.showQuickPick<QuickPickItem>(items, { placeHolder });
+        return window.showQuickPick(items, { placeHolder });
     }
 }

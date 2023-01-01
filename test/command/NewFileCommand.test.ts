@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
+import sinon from "sinon";
 import { Uri, window, workspace, WorkspaceFolder } from "vscode";
 import { NewFileCommand } from "../../src/command";
 import { NewFileController } from "../../src/controller";
@@ -55,14 +56,14 @@ describe(NewFileCommand.name, () => {
                 it("should show the quick pick dialog", async () => {
                     await subject.execute();
                     expect(window.showQuickPick).to.have.been.calledOnceWithExactly(
-                        Promise.resolve([
+                        sinon.match([
                             { description: "- current file", label: "/" },
                             { description: undefined, label: "/dir-1" },
                             { description: undefined, label: "/dir-2" },
                         ]),
-                        {
+                        sinon.match({
                             placeHolder: expectedShowQuickPickPlaceHolder,
-                        }
+                        })
                     );
                 });
             });
@@ -74,7 +75,7 @@ describe(NewFileCommand.name, () => {
 
                 it("should show the quick pick dialog", async () => {
                     await subject.execute();
-                    expect(window.showQuickPick).to.have.not.been;
+                    expect(window.showQuickPick).to.have.not.been.called;
                 });
             });
         });
@@ -192,14 +193,14 @@ describe(NewFileCommand.name, () => {
                     it("should show the quick pick dialog", async () => {
                         await subject.execute();
                         expect(window.showQuickPick).to.have.been.calledOnceWith(
-                            Promise.resolve([
+                            sinon.match([
                                 { description: "- workspace root", label: "/" },
                                 { description: undefined, label: "/dir-1" },
                                 { description: undefined, label: "/dir-2" },
                             ]),
-                            {
+                            sinon.match({
                                 placeHolder: expectedShowQuickPickPlaceHolder,
-                            }
+                            })
                         );
                     });
                 });
@@ -273,15 +274,16 @@ describe(NewFileCommand.name, () => {
 
                     it("should show the quick pick dialog", async () => {
                         await subject.execute();
+
                         expect(window.showQuickPick).to.have.been.calledOnceWith(
-                            Promise.resolve([
+                            sinon.match([
                                 { description: "- workspace root", label: "/" },
                                 { description: undefined, label: "/dir-1" },
                                 { description: undefined, label: "/dir-2" },
                             ]),
-                            {
+                            sinon.match({
                                 placeHolder: expectedShowQuickPickPlaceHolder,
-                            }
+                            })
                         );
                     });
                 });

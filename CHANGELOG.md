@@ -1,3 +1,11 @@
+## [3.5.1](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.5.1) (2023-01-02)
+
+
+### Bug Fixes
+
+* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
+* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
+
 # [3.5.0](https://github.com/sleistner/vscode-fileutils/compare/v3.4.6...v3.5.0) (2022-01-18)
 
 

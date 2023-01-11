@@ -4,6 +4,18 @@
 ### Bug Fixes
 
 * **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
+* disable husky with release action ([ff3b23b](https://github.com/sleistner/vscode-fileutils/commit/ff3b23ba27dcef84014a2c430d359c2241df532c))
+* remove gh semantic release action ([89f56e9](https://github.com/sleistner/vscode-fileutils/commit/89f56e98b0eeef339f6104e262102b8a4f31ebec))
+* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
+* update smr vsce ([f018fcb](https://github.com/sleistner/vscode-fileutils/commit/f018fcb7366280772bf3042b6a0f2a836810b5b2))
+* update vscode engine ([40c1bbe](https://github.com/sleistner/vscode-fileutils/commit/40c1bbed3b8ebe9b582ad84edfe4aec91cc6a8a9))
+
+## [3.5.1](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.5.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
 * **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
 * update smr vsce ([f018fcb](https://github.com/sleistner/vscode-fileutils/commit/f018fcb7366280772bf3042b6a0f2a836810b5b2))
 * update vscode engine ([40c1bbe](https://github.com/sleistner/vscode-fileutils/commit/40c1bbed3b8ebe9b582ad84edfe4aec91cc6a8a9))

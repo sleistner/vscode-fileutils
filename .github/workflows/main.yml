@@ -37,7 +37,7 @@ jobs:
           node-version: 18.x
 
       - name: Install dependencies
-        run: yarn install --no-progress --no-lockfile --ignore-optional
+        run: yarn install --no-progress --no-lockfile --ignore-optional --ignore-scripts
 
       - name: Run code analysis
         run: yarn run lint
@@ -73,7 +73,7 @@ jobs:
           node-version: 18.x
 
       - name: Install dependencies
-        run: yarn install --no-progress --no-lockfile --ignore-optional
+        run: yarn install --no-progress --no-lockfile --ignore-optional --ignore-scripts
 
       - name: Run semantic-release
         run: yarn run semantic-release

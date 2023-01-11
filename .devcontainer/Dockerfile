@@ -15,16 +15,16 @@ RUN apt-get update \
     # Verify git and needed tools are installed
     && apt-get install -y git procps \    
     #
-    # Remove outdated yarn from /opt and install via package 
-    # so it can be easily updated via apt-get upgrade yarn
-    && rm -rf /opt/yarn-* \
-    && rm -f /usr/local/bin/yarn \
-    && rm -f /usr/local/bin/yarnpkg \
+    # Remove outdated npm from /opt and install via package 
+    # so it can be easily updated via apt-get upgrade npm
+    && rm -rf /opt/npm-* \
+    && rm -f /usr/local/bin/npm \
+    && rm -f /usr/local/bin/npmpkg \
     && apt-get install -y curl apt-transport-https lsb-release \
-    && curl -sS https://dl.yarnpkg.com/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/pubkey.gpg | apt-key add - 2>/dev/null \
-    && echo "deb https://dl.yarnpkg.com/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && curl -sS https://dl.npmpkg.com/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/pubkey.gpg | apt-key add - 2>/dev/null \
+    && echo "deb https://dl.npmpkg.com/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/ stable main" | tee /etc/apt/sources.list.d/npm.list \
     && apt-get update \
-    && apt-get -y install --no-install-recommends yarn \
+    && apt-get -y install --no-install-recommends npm \
     #
     # Install tslint and typescript globally
     && npm install -g tslint typescript \

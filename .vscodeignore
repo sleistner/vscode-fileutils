@@ -3,6 +3,4 @@
 
 !images/icon.*
 !README.md
-!node_modules
-!out/main.js
-!out/src/**/*.js
+!out/extension.js

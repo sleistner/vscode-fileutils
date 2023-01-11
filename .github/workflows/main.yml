@@ -37,23 +37,23 @@ jobs:
   #         node-version: 18.x
 
   #     - name: Install dependencies
-  #       run: yarn install --no-progress --no-lockfile --ignore-optional --ignore-scripts
+  #       run: npm install --no-progress --no-lockfile --ignore-optional --ignore-scripts
 
   #     - name: Run code analysis
-  #       run: yarn run lint
+  #       run: npm run lint
   #       if: runner.os == 'Linux'
 
   #     - name: Run tests on Linux
   #       run: |
   #         sudo apt-get --assume-yes install libsecret-1-0 xclip;
   #         /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-  #         xvfb-run -a yarn run test
+  #         xvfb-run -a npm run test
   #       env:
   #         DISPLAY: ":99.0"
   #       if: runner.os == 'Linux'
 
   #     - name: Run tests on macOS and Windows
-  #       run: yarn run test
+  #       run: npm run test
   #       if: runner.os != 'Linux'
 
   release:
@@ -73,10 +73,10 @@ jobs:
           node-version: 18.x
 
       - name: Install dependencies
-        run: yarn install --no-progress --no-lockfile --ignore-optional --ignore-scripts
+        run: npm install --no-progress --no-lockfile --ignore-optional --ignore-scripts
 
       - name: Run semantic-release
-        run: yarn run semantic-release
+        run: npm run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           VSCE_PAT: ${{ secrets.VS_MARKETPLACE_TOKEN }}

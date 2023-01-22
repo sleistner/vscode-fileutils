@@ -3,4 +3,5 @@
 
 !images/icon.*
 !README.md
+!LICENSE
 !out/extension.js

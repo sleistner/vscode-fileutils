@@ -212,7 +212,7 @@ describe(NewFileCommand.name, () => {
 
                     it("should show the quick pick dialog", async () => {
                         await subject.execute();
-                        expect(window.showQuickPick).to.have.not.been;
+                        expect(window.showQuickPick).to.have.not.been.called;
                     });
                 });
             });

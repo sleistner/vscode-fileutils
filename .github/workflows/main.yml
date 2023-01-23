@@ -36,7 +36,7 @@ jobs:
           node-version: 18.x
 
       - name: Install dependencies
-        run: npm install --no-optional --no-package-lock --no-color --no-description --ignore-scripts
+        run: npm install --omit=optional --no-package-lock --no-color --no-description --ignore-scripts
 
       - name: Run code analysis
         run: npm run lint
@@ -73,11 +73,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install --no-optional --no-package-lock --no-color --no-description --ignore-scripts
+          npm install --omit=optional --no-package-lock --no-color --no-description --ignore-scripts
           npm install --save-exact esbuild --no-color --no-description
 
       - name: Run semantic-release
-        run: npx run semantic-release
+        run: npm run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           VSCE_PAT: ${{ secrets.VSCE_PAT }}

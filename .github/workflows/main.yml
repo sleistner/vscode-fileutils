@@ -78,4 +78,4 @@ jobs:
         run: npm run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          VSCE_PAT: ${{ secrets.VS_MARKETPLACE_TOKEN }}
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}

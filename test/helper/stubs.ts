@@ -47,7 +47,7 @@ type Handler = any;
 
 export function createStubObject(handler: Handler, functionName: string): sinon.SinonStub {
     const target: sinon.SinonStub | undefined = handler[functionName];
-    const stub: sinon.SinonStub = target && target.restore ? target : sinon.stub(handler, functionName);
+    const stub: sinon.SinonStub = target && "restore" in target ? target : sinon.stub(handler, functionName);
 
     return stub;
 }

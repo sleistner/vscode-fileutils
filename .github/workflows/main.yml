@@ -11,6 +11,10 @@ on:
     types:
       - published
 
+concurrency:
+  group: ci-fileutils-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   lint-test:
     name: Lint, Test
@@ -21,55 +25,57 @@ jobs:
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
 
       - name: Install dependencies
-        run: yarn install --no-progress --no-lockfile --ignore-optional
+        run: npm install --no-optional --no-package-lock --no-color --no-description --ignore-scripts
 
       - name: Run code analysis
-        run: yarn run lint
+        run: npm run lint
         if: runner.os == 'Linux'
 
       - name: Run tests on Linux
         run: |
           sudo apt-get --assume-yes install libsecret-1-0 xclip;
           /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-          xvfb-run -a yarn run test
+          xvfb-run -a npm run test
         env:
-          DISPLAY: ':99.0'
+          DISPLAY: ":99.0"
         if: runner.os == 'Linux'
 
       - name: Run tests on macOS and Windows
-        run: yarn run test
+        run: npm run test
         if: runner.os != 'Linux'
 
   release:
     name: Release
     runs-on: ubuntu-latest
-    needs: [ lint-test ]
+    needs: [lint-test]
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
 
       - name: Install dependencies
-        run: yarn install --no-progress --no-lockfile --ignore-optional
+        run: npm install --no-optional --no-package-lock --no-color --no-description --ignore-scripts
 
-      - name: Semantic Release
-        run: |
-          yarn run semantic-release
+      - name: Run semantic-release
+        run: npm run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           VSCE_PAT: ${{ secrets.VS_MARKETPLACE_TOKEN }}

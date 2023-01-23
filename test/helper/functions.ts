@@ -19,7 +19,7 @@ export function createExtensionContext(): ExtensionContext {
             },
         },
     };
-    return (context as unknown) as ExtensionContext;
+    return context as unknown as ExtensionContext;
 }
 
 export async function openDocument(document: Uri): Promise<void> {

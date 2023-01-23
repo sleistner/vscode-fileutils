@@ -1,6 +1,6 @@
 import Mocha from "mocha";
 import * as path from "path";
-import * as glob from "glob";
+import glob from "fast-glob";
 
 export async function run(): Promise<void> {
     const mocha = new Mocha({
@@ -10,7 +10,7 @@ export async function run(): Promise<void> {
     });
 
     const testsRoot = path.resolve(__dirname, "..");
-    const files = glob.sync("**/**.test.js", { cwd: testsRoot });
+    const files = await glob("**/**.test.js", { cwd: testsRoot });
 
     console.log("Number of test files to run:", files.length);
     // Add files to the test suite

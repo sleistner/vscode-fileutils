@@ -214,6 +214,7 @@
     },
     "dependencies": {
         "brace-expansion": "2.0.1",
+        "esbuild": "0.17.4",
         "fast-glob": "3.2.12"
     }
 }

@@ -3,6 +3,28 @@
 
 ### Bug Fixes
 
+* **ci:** update esbuild install ([d5214f7](https://github.com/sleistner/vscode-fileutils/commit/d5214f727afb8ad6f4aa713b4e65b01270350d4a))
+* **ci:** update esbuild install ([ba3ed67](https://github.com/sleistner/vscode-fileutils/commit/ba3ed67982f28cc027bcf00ff792e258b063e7cb))
+* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
+* **ci:** update vsce pat ([2eedd98](https://github.com/sleistner/vscode-fileutils/commit/2eedd98c8f9c04d928652a70fc010b8514a9c3dd))
+* debug semantic release ([bd1b877](https://github.com/sleistner/vscode-fileutils/commit/bd1b8772984cc38fd6b9168c84a3588ce5e0c8b5))
+* disable husky with release action ([ff3b23b](https://github.com/sleistner/vscode-fileutils/commit/ff3b23ba27dcef84014a2c430d359c2241df532c))
+* **publish:** use esbuild package builder ([a245912](https://github.com/sleistner/vscode-fileutils/commit/a2459124c693830c283d74ef77410beacde5487d))
+* remove gh semantic release action ([89f56e9](https://github.com/sleistner/vscode-fileutils/commit/89f56e98b0eeef339f6104e262102b8a4f31ebec))
+* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
+* update smr vsce ([f018fcb](https://github.com/sleistner/vscode-fileutils/commit/f018fcb7366280772bf3042b6a0f2a836810b5b2))
+* update vscode engine ([40c1bbe](https://github.com/sleistner/vscode-fileutils/commit/40c1bbed3b8ebe9b582ad84edfe4aec91cc6a8a9))
+
+
+### Features
+
+* restore previous version ([8d6d390](https://github.com/sleistner/vscode-fileutils/commit/8d6d390dc98425f3f75ada04782da1483f1987dc))
+
+# [3.6.0](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.6.0) (2023-01-23)
+
+
+### Bug Fixes
+
 * **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
 * **ci:** update vsce pat ([2eedd98](https://github.com/sleistner/vscode-fileutils/commit/2eedd98c8f9c04d928652a70fc010b8514a9c3dd))
 * debug semantic release ([bd1b877](https://github.com/sleistner/vscode-fileutils/commit/bd1b8772984cc38fd6b9168c84a3588ce5e0c8b5))

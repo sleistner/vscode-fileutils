@@ -171,6 +171,11 @@
                     "markdownDeprecationMessage": "**Deprecated**: Please use `#fileutils.newFile.typeahead.enabled#` or `#fileutils.newFolder.typeahead.enabled#` instead.",
                     "deprecationMessage": "Deprecated: Please use fileutils.newFile.typeahead.enabled or fileutils.newFolder.typeahead.enabled instead."
                 },
+                "fileutils.duplicateFile.typeahead.enabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Controls wheather to show a directory selector for duplicate file command."
+                },
                 "fileutils.moveFile.typeahead.enabled": {
                     "type": "boolean",
                     "default": false,

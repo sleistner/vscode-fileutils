@@ -22,3 +22,9 @@ export const protocol = {
         return mocha.it(name, step);
     },
 };
+
+export const quickPick = {
+    typeahead: {
+        placeHolder: "First, select an existing path to create relative to (larger projects may take a moment to load)",
+    },
+};

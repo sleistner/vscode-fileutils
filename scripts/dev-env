@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+rm -rf ./tmp
+mkdir -p ./tmp/{app,workspace,scripts}
+touch ./tmp/{app,workspace,scripts}/{foo,bar,baz}.ts

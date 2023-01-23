@@ -167,22 +167,45 @@
                 "fileutils.typeahead.enabled": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Controls if directory selector should be shown."
+                    "description": "Controls wheather to show a directory selector for new file and new folder command.",
+                    "markdownDeprecationMessage": "**Deprecated**: Please use `#fileutils.newFile.typeahead.enabled#` or `#fileutils.newFolder.typeahead.enabled#` instead.",
+                    "deprecationMessage": "Deprecated: Please use fileutils.newFile.typeahead.enabled or fileutils.newFolder.typeahead.enabled instead."
+                },
+                "fileutils.duplicateFile.typeahead.enabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Controls wheather to show a directory selector for duplicate file command."
+                },
+                "fileutils.moveFile.typeahead.enabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Controls wheather to show a directory selector for move file command."
+                },
+                "fileutils.newFile.typeahead.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Controls wheather to show a directory selector for new file command."
+                },
+                "fileutils.newFolder.typeahead.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Controls wheather to show a directory selector for new folder command."
                 }
             }
         }
     },
     "scripts": {
         "vscode:prepublish": "npm run -S esbuild-base -- --minify",
-        "esbuild-base": "rimraf out && esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
-        "build": "npm run -S esbuild-base -- --sourcemap",
-        "watch": "npm run -S esbuild-base -- --sourcemap --watch",
+        "esbuild-base": "npm run clean && esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+        "watch": "scripts/dev-env && npm run -S esbuild-base -- --sourcemap --watch",
+        "tsc:watch": "tsc -watch -p ./",
         "pretest": "tsc -p ./",
         "test": "node ./out/test/runTest.js",
         "lint": "eslint './{src,test}/**/*.ts'",
         "lint:fix": "npm run lint -- --fix",
         "semantic-release": "semantic-release",
-        "prepare": "[ ! -x ./node_modules/.bin/husky ] && exit 0; husky install"
+        "prepare": "[ ! -x ./node_modules/.bin/husky ] && exit 0; husky install",
+        "clean": "rimraf out"
     },
     "devDependencies": {
         "@enter-at/eslint-config-typescript-prettier": "1.6.0",
@@ -202,6 +225,7 @@
         "bluebird": "3.7.2",
         "bluebird-retry": "0.11.0",
         "chai": "4.3.7",
+        "esbuild": "^0.17.4",
         "eslint": "8.32.0",
         "husky": "8.0.3",
         "mocha": "10.2.0",
@@ -214,7 +238,6 @@
     },
     "dependencies": {
         "brace-expansion": "2.0.1",
-        "esbuild": "0.17.4",
         "fast-glob": "3.2.12"
     }
 }

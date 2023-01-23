@@ -4,17 +4,27 @@
         {
             "type": "npm",
             "script": "watch",
-            "group": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "problemMatcher": "$esbuild-watch",
             "isBackground": true,
             "label": "npm: watch"
         },
         {
             "type": "npm",
-            "script": "build",
-            "group": "build",
-            "problemMatcher": "$esbuild",
-            "label": "npm: build"
+            "script": "tsc:watch",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "never"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": ["$tsc-watch"],
+            "label": "npm: tsc:watch"
         }
     ]
 }

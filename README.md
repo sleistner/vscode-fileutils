@@ -113,10 +113,25 @@ Non-existent folders are created automatically.
 
 ```json
 {
-    "fileutils.typeahead.enabled": {
+    "fileutils.duplicateFile.typeahead.enabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Controls wheather to show a directory selector for duplicate file command."
+    },
+    "fileutils.moveFile.typeahead.enabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Controls wheather to show a directory selector for move file command."
+    },
+    "fileutils.newFile.typeahead.enabled": {
         "type": "boolean",
         "default": true,
-        "description": "Controls if directory selector should be shown."
+        "description": "Controls wheather to show a directory selector for new file command."
+    },
+    "fileutils.newFolder.typeahead.enabled": {
+        "type": "boolean",
+        "default": true,
+        "description": "Controls wheather to show a directory selector for new folder command."
     }
 }
 ```

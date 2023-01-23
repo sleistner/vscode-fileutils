@@ -1,3 +1,10 @@
+# [3.7.0](https://github.com/sleistner/vscode-fileutils/compare/v3.6.0...v3.7.0) (2023-01-23)
+
+
+### Features
+
+* publish to open vsx repository ([f0d643f](https://github.com/sleistner/vscode-fileutils/commit/f0d643f92aae168505ca750cf9a020cb5610840e))
+
 # [3.6.0](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.6.0) (2023-01-23)
 
 

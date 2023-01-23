@@ -1,3 +1,13 @@
+# [3.8.0](https://github.com/sleistner/vscode-fileutils/compare/v3.7.0...v3.8.0) (2023-01-23)
+
+
+### Features
+
+* **DuplicateFile:** add typeahead support ([44ac603](https://github.com/sleistner/vscode-fileutils/commit/44ac603dd241eb61e3732172ffc6cfe80555e0c0))
+* **MoveFile:** add typeahead support ([0e3e0ca](https://github.com/sleistner/vscode-fileutils/commit/0e3e0ca1f5886926758987b594461d57980f750c))
+* **NewFile:** add typeahead setting ([764f614](https://github.com/sleistner/vscode-fileutils/commit/764f614e8e7a8b8d350bd3ad68f785c695bf5e01))
+* **NewFolder:** add dedicated typeahead setting ([6d4359a](https://github.com/sleistner/vscode-fileutils/commit/6d4359a5f7bb4689b22d2ba7b3762c9b602839fb))
+
 # [3.7.0](https://github.com/sleistner/vscode-fileutils/compare/v3.6.0...v3.7.0) (2023-01-23)
 
 

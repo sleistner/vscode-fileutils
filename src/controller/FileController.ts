@@ -4,6 +4,7 @@ import { FileItem } from "../FileItem";
 export interface DialogOptions {
     prompt?: string;
     uri?: Uri;
+    typeahead?: boolean;
 }
 
 export interface ExecuteOptions {
@@ -14,6 +15,7 @@ export interface GetSourcePathOptions {
     relativeToRoot?: boolean;
     ignoreIfNotExists?: boolean;
     uri?: Uri;
+    typeahead?: boolean;
 }
 
 export interface FileController {

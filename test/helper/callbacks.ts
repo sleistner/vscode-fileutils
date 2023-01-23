@@ -1,6 +1,7 @@
 import { existsSync } from "fs";
 import { workspace } from "vscode";
 import { editorFile1, editorFile2, fixtureFile1, fixtureFile2, tmpDir } from "./environment";
+import { restoreGetConfiguration } from "./stubs";
 
 export async function beforeEach(): Promise<void> {
     if (existsSync(tmpDir.fsPath)) {
@@ -14,4 +15,5 @@ export async function afterEach(): Promise<void> {
     if (existsSync(tmpDir.fsPath)) {
         await workspace.fs.delete(tmpDir, { recursive: true, useTrash: false });
     }
+    restoreGetConfiguration();
 }

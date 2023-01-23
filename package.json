@@ -167,7 +167,19 @@
                 "fileutils.typeahead.enabled": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Controls if directory selector should be shown."
+                    "description": "Controls wheather to show a directory selector for new file and new folder command.",
+                    "markdownDeprecationMessage": "**Deprecated**: Please use `#fileutils.newFile.typeahead.enabled#` or `#fileutils.newFolder.typeahead.enabled#` instead.",
+                    "deprecationMessage": "Deprecated: Please use fileutils.newFile.typeahead.enabled or fileutils.newFolder.typeahead.enabled instead."
+                },
+                "fileutils.newFile.typeahead.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Controls wheather to show a directory selector for new file command."
+                },
+                "fileutils.newFolder.typeahead.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Controls wheather to show a directory selector for new folder command."
                 }
             }
         }

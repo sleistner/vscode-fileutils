@@ -8,10 +8,10 @@ import { NewFileController } from "../../src/controller";
 import * as helper from "../helper";
 
 describe(NewFileCommand.name, () => {
-    const hint = "larger projects may take a moment to load";
-    const expectedShowQuickPickPlaceHolder = `First, select an existing path to create relative to (${hint})`;
-
-    beforeEach(helper.beforeEach);
+    beforeEach(async () => {
+        await helper.beforeEach();
+        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
+    });
 
     afterEach(helper.afterEach);
 
@@ -44,13 +44,9 @@ describe(NewFileCommand.name, () => {
                 await workspace.fs.createDirectory(Uri.file(path.resolve(helper.tmpDir.fsPath, "dir-2")));
             });
 
-            afterEach(async () => {
-                helper.restoreGetConfiguration();
-            });
-
-            describe('"typeahead.enabled" is "true"', () => {
+            describe('"newFile.typeahead.enabled" is "true"', () => {
                 beforeEach(async () => {
-                    helper.createGetConfigurationStub({ "typeahead.enabled": true });
+                    helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
                 });
 
                 it("should show the quick pick dialog", async () => {
@@ -62,18 +58,18 @@ describe(NewFileCommand.name, () => {
                             { description: undefined, label: "/dir-2" },
                         ]),
                         sinon.match({
-                            placeHolder: expectedShowQuickPickPlaceHolder,
+                            placeHolder: helper.quickPick.typeahead.placeHolder,
                         })
                     );
                 });
             });
 
-            describe('"typeahead.enabled" is "false"', () => {
+            describe('"newFile.typeahead.enabled" is "false"', () => {
                 beforeEach(async () => {
-                    helper.createGetConfigurationStub({ "typeahead.enabled": false });
+                    helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
                 });
 
-                it("should show the quick pick dialog", async () => {
+                it("should not show the quick pick dialog", async () => {
                     await subject.execute();
                     expect(window.showQuickPick).to.have.not.been.called;
                 });
@@ -185,9 +181,9 @@ describe(NewFileCommand.name, () => {
                     helper.restoreGetConfiguration();
                 });
 
-                describe('when "typeahead.enabled" is "true"', () => {
+                describe('when "newFile.typeahead.enabled" is "true"', () => {
                     beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "typeahead.enabled": true });
+                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
                     });
 
                     it("should show the quick pick dialog", async () => {
@@ -199,18 +195,18 @@ describe(NewFileCommand.name, () => {
                                 { description: undefined, label: "/dir-2" },
                             ]),
                             sinon.match({
-                                placeHolder: expectedShowQuickPickPlaceHolder,
+                                placeHolder: helper.quickPick.typeahead.placeHolder,
                             })
                         );
                     });
                 });
 
-                describe('when "typeahead.enabled" is "false"', () => {
+                describe('when "newFile.typeahead.enabled" is "false"', () => {
                     beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "typeahead.enabled": false });
+                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
                     });
 
-                    it("should show the quick pick dialog", async () => {
+                    it("should not show the quick pick dialog", async () => {
                         await subject.execute();
                         expect(window.showQuickPick).to.have.not.been.called;
                     });
@@ -267,9 +263,9 @@ describe(NewFileCommand.name, () => {
                     helper.restoreGetConfiguration();
                 });
 
-                describe('when "typeahead.enabled" is "true"', () => {
+                describe('when "newFile.typeahead.enabled" is "true"', () => {
                     beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "typeahead.enabled": true });
+                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
                     });
 
                     it("should show the quick pick dialog", async () => {
@@ -282,15 +278,15 @@ describe(NewFileCommand.name, () => {
                                 { description: undefined, label: "/dir-2" },
                             ]),
                             sinon.match({
-                                placeHolder: expectedShowQuickPickPlaceHolder,
+                                placeHolder: helper.quickPick.typeahead.placeHolder,
                             })
                         );
                     });
                 });
 
-                describe('when "typeahead.enabled" is "false"', () => {
+                describe('when "newFile.typeahead.enabled" is "false"', () => {
                     beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "typeahead.enabled": false });
+                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
                     });
 
                     it("should not show the quick pick dialog", async () => {

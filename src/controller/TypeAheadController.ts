@@ -7,7 +7,7 @@ async function waitForIOEvents(): Promise<void> {
     return new Promise((resolve) => setImmediate(resolve));
 }
 export class TypeAheadController {
-    constructor(private cache: Cache, private relativeToRoot: boolean) {}
+    constructor(private cache: Cache, private relativeToRoot: boolean = false) {}
 
     public async showDialog(sourcePath: string): Promise<string> {
         const items = await this.buildQuickPickItems(sourcePath);

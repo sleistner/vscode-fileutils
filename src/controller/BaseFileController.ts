@@ -1,7 +1,8 @@
-import { commands, env, ExtensionContext, TextEditor, window, workspace } from "vscode";
+import { commands, env, ExtensionContext, TextEditor, Uri, window, workspace, WorkspaceFolder } from "vscode";
 import { FileItem } from "../FileItem";
 import { Cache } from "../lib/Cache";
 import { DialogOptions, ExecuteOptions, FileController, GetSourcePathOptions } from "./FileController";
+import { TypeAheadController } from "./TypeAheadController";
 
 export abstract class BaseFileController implements FileController {
     constructor(protected context: ExtensionContext) {}
@@ -98,5 +99,37 @@ export abstract class BaseFileController implements FileController {
 
         // 6. Return the clipboard data from the API call (which could be an empty string if it failed).
         return postAPICallClipboardData;
+    }
+
+    protected async getWorkspaceSourcePath(): Promise<string | undefined> {
+        const workspaceFolder = await this.selectWorkspaceFolder();
+        return workspaceFolder?.uri.fsPath;
+    }
+
+    protected async selectWorkspaceFolder(): Promise<WorkspaceFolder | undefined> {
+        if (workspace.workspaceFolders && workspace.workspaceFolders.length === 1) {
+            return workspace.workspaceFolders[0];
+        }
+
+        const sourcePath = await this.getSourcePath({ ignoreIfNotExists: true });
+        const uri = Uri.file(sourcePath);
+        return workspace.getWorkspaceFolder(uri) || window.showWorkspaceFolderPick();
+    }
+
+    protected async getFileSourcePathAtRoot(rootPath: string, options: GetSourcePathOptions): Promise<string> {
+        const { relativeToRoot = false, typeahead } = options;
+        let sourcePath = rootPath;
+
+        if (typeahead) {
+            const cache = this.getCache(`workspace:${sourcePath}`);
+            const typeAheadController = new TypeAheadController(cache, relativeToRoot);
+            sourcePath = await typeAheadController.showDialog(sourcePath);
+        }
+
+        if (!sourcePath) {
+            throw new Error();
+        }
+
+        return sourcePath;
     }
 }

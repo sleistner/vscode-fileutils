@@ -4,7 +4,7 @@ import { FileType, Uri, workspace } from "vscode";
 import { FileItem } from "../FileItem";
 import {
     BaseFileController,
-    GetTargetPathPromptValueOptions as BaseGetTargetPathPromtValueOptions,
+    GetTargetPathInputBoxValueOptions as BaseGetTargetPathInputBoxValueOptions,
 } from "./BaseFileController";
 import { DialogOptions, ExecuteOptions } from "./FileController";
 
@@ -12,7 +12,7 @@ export interface MoveFileDialogOptions extends DialogOptions {
     showPath?: boolean;
 }
 
-type GetTargetPathPromptValueOptions = BaseGetTargetPathPromtValueOptions & MoveFileDialogOptions;
+type GetTargetPathInputBoxValueOptions = BaseGetTargetPathInputBoxValueOptions & MoveFileDialogOptions;
 
 export class MoveFileController extends BaseFileController {
     public async showDialog(options: MoveFileDialogOptions): Promise<FileItem | undefined> {
@@ -40,21 +40,21 @@ export class MoveFileController extends BaseFileController {
         return fileItem.move();
     }
 
-    protected async getTargetPathPromptValue(
+    protected async getTargetPathInputBoxValue(
         sourcePath: string,
-        options: GetTargetPathPromptValueOptions
+        options: GetTargetPathInputBoxValueOptions
     ): Promise<string> {
         const { showPath } = options;
         const value = showPath
-            ? await this.getFullTargetPathPromptValue(sourcePath, options)
+            ? await this.getFullTargetPathInputBoxValue(sourcePath, options)
             : path.basename(sourcePath);
 
-        return super.getTargetPathPromptValue(value, options);
+        return super.getTargetPathInputBoxValue(value, options);
     }
 
-    private async getFullTargetPathPromptValue(
+    private async getFullTargetPathInputBoxValue(
         sourcePath: string,
-        options: GetTargetPathPromptValueOptions
+        options: GetTargetPathInputBoxValueOptions
     ): Promise<string> {
         const { typeahead, workspaceFolderPath } = options;
 

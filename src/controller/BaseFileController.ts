@@ -6,11 +6,11 @@ import { getConfiguration } from "../lib/config";
 import { DialogOptions, ExecuteOptions, FileController, GetSourcePathOptions } from "./FileController";
 import { TypeAheadController } from "./TypeAheadController";
 
-type PromptPathType = "root" | "workspace";
+type InputBoxPathType = "root" | "workspace";
 
-export interface GetTargetPathPromptValueOptions extends DialogOptions {
+export interface GetTargetPathInputBoxValueOptions extends DialogOptions {
     workspaceFolderPath?: string;
-    pathType: PromptPathType;
+    pathType: InputBoxPathType;
 }
 
 export abstract class BaseFileController implements FileController {
@@ -45,29 +45,29 @@ export abstract class BaseFileController implements FileController {
     protected async getTargetPath(sourcePath: string, options: DialogOptions): Promise<string | undefined> {
         const { prompt } = options;
 
-        const pathType = this.getPromptPathType();
+        const pathType = this.getInputBoxPathType();
         const workspaceFolderPath = await this.getWorkspaceFolderPath();
-        const value = await this.getTargetPathPromptValue(sourcePath, {
+        const value = await this.getTargetPathInputBoxValue(sourcePath, {
             ...options,
             workspaceFolderPath,
             pathType,
         });
         const valueSelection = this.getFilenameSelection(value);
 
-        const response = await window.showInputBox({
+        const targetPath = await window.showInputBox({
             prompt,
             value,
             valueSelection,
         });
 
-        if (response && workspaceFolderPath) {
-            return path.join(workspaceFolderPath, response.replace(workspaceFolderPath, ""));
+        if (targetPath && workspaceFolderPath) {
+            return path.join(workspaceFolderPath, targetPath.replace(workspaceFolderPath, ""));
         }
 
-        return response;
+        return targetPath;
     }
 
-    private getPromptPathType(): PromptPathType {
+    private getInputBoxPathType(): InputBoxPathType {
         const pathType = getConfiguration("inputBox.path");
 
         if (pathType === "workspace" || pathType === "root") {
@@ -76,9 +76,9 @@ export abstract class BaseFileController implements FileController {
         return "root";
     }
 
-    protected async getTargetPathPromptValue(
+    protected async getTargetPathInputBoxValue(
         sourcePath: string,
-        options: GetTargetPathPromptValueOptions
+        options: GetTargetPathInputBoxValueOptions
     ): Promise<string> {
         const { workspaceFolderPath, pathType } = options;
 

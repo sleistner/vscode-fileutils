@@ -11,6 +11,7 @@ describe(NewFileCommand.name, () => {
     beforeEach(async () => {
         await helper.beforeEach();
         helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
+        helper.createGetConfigurationStub({ "inputBox.path": "root" });
     });
 
     afterEach(helper.afterEach);

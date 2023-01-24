@@ -12,6 +12,7 @@ describe(MoveFileCommand.name, () => {
     beforeEach(async () => {
         await helper.beforeEach();
         helper.createGetConfigurationStub({ "moveFile.typeahead.enabled": false });
+        helper.createGetConfigurationStub({ "inputBox.path": "root" });
     });
 
     afterEach(helper.afterEach);

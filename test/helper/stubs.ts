@@ -9,7 +9,7 @@ export function restoreExecuteCommand(): void {
     restoreObject(commands.executeCommand);
 }
 
-export function createGetConfigurationStub(keys: { [key: string]: boolean }): sinon.SinonStub {
+export function createGetConfigurationStub(keys: Record<string, string | boolean>): sinon.SinonStub {
     const config = { get: (key: string) => keys[key] };
     return createStubObject(workspace, "getConfiguration").returns(config);
 }

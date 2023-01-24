@@ -23,8 +23,6 @@ describe(RemoveFileCommand.name, () => {
 
             afterEach(async () => {
                 await helper.closeAllEditors();
-                helper.restoreShowInformationMessage();
-                helper.restoreGetConfiguration();
             });
 
             describe("configuration", () => {
@@ -99,8 +97,6 @@ describe(RemoveFileCommand.name, () => {
                 await helper.closeAllEditors();
                 helper.createShowInformationMessageStub();
             });
-
-            afterEach(async () => helper.restoreShowInformationMessage());
 
             it("should ignore the command call", async () => {
                 try {

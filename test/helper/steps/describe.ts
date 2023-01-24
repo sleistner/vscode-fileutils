@@ -5,12 +5,7 @@ import { window, workspace } from "vscode";
 import { Command } from "../../../src/command";
 import { editorFile2, targetFile, tmpDir } from "../environment";
 import { closeAllEditors, readFile } from "../functions";
-import {
-    createShowInformationMessageStub,
-    createShowInputBoxStub,
-    restoreShowInformationMessage,
-    restoreShowInputBox,
-} from "../stubs";
+import { createShowInformationMessageStub, createShowInputBoxStub } from "../stubs";
 import { FuncVoid, Step } from "./types";
 
 export const describe: Step = {
@@ -40,8 +35,6 @@ export const describe: Step = {
                 await workspace.fs.copy(editorFile2, targetFile, { overwrite: true });
                 createShowInformationMessageStub().resolves({ title: "placeholder" });
             });
-
-            mocha.afterEach(async () => restoreShowInformationMessage());
 
             mocha.it("should prompt with confirmation dialog to overwrite destination file", async () => {
                 await subject.execute();
@@ -82,8 +75,6 @@ export const describe: Step = {
                 await closeAllEditors();
                 createShowInputBoxStub();
             });
-
-            mocha.afterEach(async () => restoreShowInputBox());
 
             mocha.it("should ignore the command call", async () => {
                 try {

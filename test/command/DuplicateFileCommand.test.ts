@@ -6,15 +6,13 @@ import { Uri, window, workspace } from "vscode";
 import { DuplicateFileCommand } from "../../src/command/DuplicateFileCommand";
 import { DuplicateFileController } from "../../src/controller";
 import * as helper from "../helper";
-import { tmpDir } from "../helper";
 
 describe(DuplicateFileCommand.name, () => {
     const subject = new DuplicateFileCommand(new DuplicateFileController(helper.createExtensionContext()));
 
     beforeEach(async () => {
         await helper.beforeEach();
-        helper.createGetConfigurationStub({ "duplicateFile.typeahead.enabled": false });
-        helper.createGetConfigurationStub({ "inputBox.path": "root" });
+        helper.createGetConfigurationStub({ "duplicateFile.typeahead.enabled": false, "inputBox.path": "root" });
     });
 
     afterEach(helper.afterEach);
@@ -29,8 +27,6 @@ describe(DuplicateFileCommand.name, () => {
 
             afterEach(async () => {
                 await helper.closeAllEditors();
-                helper.restoreShowInputBox();
-                helper.restoreShowQuickPick();
             });
 
             helper.protocol.it("should prompt for file destination", subject, "Duplicate As");
@@ -42,26 +38,15 @@ describe(DuplicateFileCommand.name, () => {
             describe("configuration", () => {
                 describe('when "newFile.typeahead.enabled" is "true"', () => {
                     beforeEach(async () => {
-                        await workspace.fs.createDirectory(Uri.file(path.resolve(helper.tmpDir.fsPath, "dir-1")));
-                        await workspace.fs.createDirectory(Uri.file(path.resolve(helper.tmpDir.fsPath, "dir-2")));
-
                         helper.createGetConfigurationStub({ "duplicateFile.typeahead.enabled": true });
-                        helper
-                            .createStubObject(workspace, "workspaceFolders")
-                            .get(() => [{ uri: Uri.file(helper.tmpDir.fsPath), name: "a", index: 0 }]);
+                        helper.createWorkspaceFoldersStub(helper.workspaceFolderA);
                     });
 
                     it("should show the quick pick dialog", async () => {
                         await subject.execute();
                         expect(window.showQuickPick).to.have.been.calledOnceWith(
-                            sinon.match([
-                                { description: "- workspace root", label: "/" },
-                                { description: undefined, label: "/dir-1" },
-                                { description: undefined, label: "/dir-2" },
-                            ]),
-                            sinon.match({
-                                placeHolder: helper.quickPick.typeahead.placeHolder,
-                            })
+                            sinon.match(helper.quickPick.typeahead.items.workspace),
+                            sinon.match(helper.quickPick.typeahead.options)
                         );
                     });
                 });
@@ -86,16 +71,14 @@ describe(DuplicateFileCommand.name, () => {
         describe("with selected file", () => {
             beforeEach(async () => helper.createShowInputBoxStub().resolves(helper.targetFile.path));
 
-            afterEach(async () => helper.restoreShowInputBox());
-
             helper.protocol.it("should prompt for file destination", subject, "Duplicate As");
             helper.protocol.it("should duplicate current file to destination", subject, helper.editorFile1);
             helper.protocol.it("should open target file as active editor", subject, helper.editorFile1);
         });
 
         describe("with selected directory", () => {
-            const sourceDirectory = Uri.file(path.resolve(tmpDir.path, "duplicate-source-dir"));
-            const targetDirectory = Uri.file(path.resolve(tmpDir.path, "duplicate-target-dir"));
+            const sourceDirectory = Uri.file(path.resolve(helper.tmpDir.path, "duplicate-source-dir"));
+            const targetDirectory = Uri.file(path.resolve(helper.tmpDir.path, "duplicate-target-dir"));
 
             beforeEach(async () => {
                 await workspace.fs.createDirectory(sourceDirectory);
@@ -105,7 +88,6 @@ describe(DuplicateFileCommand.name, () => {
             afterEach(async () => {
                 await workspace.fs.delete(sourceDirectory, { recursive: true, useTrash: false });
                 await workspace.fs.delete(targetDirectory, { recursive: true, useTrash: false });
-                helper.restoreShowInputBox();
             });
 
             it("should prompt for file destination", async () => {

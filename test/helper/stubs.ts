@@ -1,5 +1,21 @@
 import * as sinon from "sinon";
-import { commands, window, workspace } from "vscode";
+import { commands, window, workspace, WorkspaceFolder } from "vscode";
+
+export function createGetWorkspaceFolderStub(): sinon.SinonStub {
+    return createStubObject(workspace, "getWorkspaceFolder");
+}
+
+export function restoreGetWorkspaceFolder(): void {
+    restoreObject(workspace.getWorkspaceFolder);
+}
+
+export function createWorkspaceFoldersStub(...workspaceFolders: WorkspaceFolder[]): sinon.SinonStub {
+    return createStubObject(workspace, "workspaceFolders").get(() => workspaceFolders);
+}
+
+export function restoreWorkspaceFolders(): void {
+    restoreObject(workspace.workspaceFolders);
+}
 
 export function createExecuteCommandStub(): sinon.SinonStub {
     return createStubObject(commands, "executeCommand");
@@ -32,6 +48,14 @@ export function createShowQuickPickStub(): sinon.SinonStub {
 
 export function restoreShowQuickPick(): void {
     restoreObject(window.showQuickPick);
+}
+
+export function createShowWorkspaceFolderPickStub(): sinon.SinonStub {
+    return createStubObject(window, "showWorkspaceFolderPick");
+}
+
+export function restoreShowWorkspaceFolderPick(): void {
+    restoreObject(window.showWorkspaceFolderPick);
 }
 
 export function createShowInformationMessageStub(): sinon.SinonStub {

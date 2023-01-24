@@ -1,8 +1,7 @@
 import expand from "brace-expansion";
 import * as path from "path";
-import { window } from "vscode";
 import { FileItem } from "../FileItem";
-import { BaseFileController } from "./BaseFileController";
+import { BaseFileController, GetTargetPathPromptValueOptions } from "./BaseFileController";
 import { DialogOptions, ExecuteOptions, GetSourcePathOptions } from "./FileController";
 
 export interface NewFileDialogOptions extends Omit<DialogOptions, "uri"> {
@@ -15,15 +14,9 @@ export interface NewFileExecuteOptions extends ExecuteOptions {
 
 export class NewFileController extends BaseFileController {
     public async showDialog(options: NewFileDialogOptions): Promise<FileItem[] | undefined> {
-        const { prompt, relativeToRoot = false, typeahead } = options;
+        const { relativeToRoot = false, typeahead } = options;
         const sourcePath = await this.getNewFileSourcePath({ relativeToRoot, typeahead });
-        const value: string = path.join(sourcePath, path.sep);
-        const valueSelection: [number, number] = [value.length, value.length];
-        const targetPath = await window.showInputBox({
-            prompt,
-            value,
-            valueSelection,
-        });
+        const targetPath = await this.getTargetPath(sourcePath, options);
 
         if (targetPath) {
             return expand(targetPath.replace(/\\/g, "/")).map((filePath) => {
@@ -44,6 +37,14 @@ export class NewFileController extends BaseFileController {
         }
     }
 
+    protected async getTargetPathPromptValue(
+        sourcePath: string,
+        options: GetTargetPathPromptValueOptions
+    ): Promise<string> {
+        const value = path.join(sourcePath, path.sep);
+        return super.getTargetPathPromptValue(value, options);
+    }
+
     public async getNewFileSourcePath({ relativeToRoot, typeahead }: GetSourcePathOptions): Promise<string> {
         const rootPath = await this.getRootPath(relativeToRoot === true);
 
@@ -56,7 +57,7 @@ export class NewFileController extends BaseFileController {
 
     private async getRootPath(relativeToRoot: boolean): Promise<string | undefined> {
         if (relativeToRoot) {
-            return this.getWorkspaceSourcePath();
+            return this.getWorkspaceFolderPath();
         }
         return path.dirname(await this.getSourcePath());
     }

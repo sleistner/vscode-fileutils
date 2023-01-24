@@ -162,34 +162,47 @@
         },
         "configuration": {
             "type": "object",
-            "title": "Fileutils configuration",
+            "title": "Fileutils",
             "properties": {
                 "fileutils.typeahead.enabled": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Controls wheather to show a directory selector for new file and new folder command.",
+                    "description": "Controls whether to show a directory selector for new file and new folder command.",
                     "markdownDeprecationMessage": "**Deprecated**: Please use `#fileutils.newFile.typeahead.enabled#` or `#fileutils.newFolder.typeahead.enabled#` instead.",
                     "deprecationMessage": "Deprecated: Please use fileutils.newFile.typeahead.enabled or fileutils.newFolder.typeahead.enabled instead."
                 },
                 "fileutils.duplicateFile.typeahead.enabled": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Controls wheather to show a directory selector for duplicate file command."
+                    "description": "Controls whether to show a directory selector for the duplicate file command."
                 },
                 "fileutils.moveFile.typeahead.enabled": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Controls wheather to show a directory selector for move file command."
+                    "description": "Controls whether to show a directory selector for the move file command."
                 },
                 "fileutils.newFile.typeahead.enabled": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Controls wheather to show a directory selector for new file command."
+                    "description": "Controls whether to show a directory selector for the new file command."
                 },
                 "fileutils.newFolder.typeahead.enabled": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Controls wheather to show a directory selector for new folder command."
+                    "description": "Controls whether to show a directory selector for new folder command."
+                },
+                "fileutils.inputBox.path": {
+                    "type": "string",
+                    "default": "root",
+                    "enum": [
+                        "root",
+                        "workspace"
+                    ],
+                    "enumDescriptions": [
+                        "Absolute file path of the opened workspace or folder (e.g. /Users/Development/myWorkspace)",
+                        "Relative file path of the opened workspace or folder (e.g. /myWorkspace)"
+                    ],
+                    "description": "Controls the path that is shown in the input box."
                 }
             }
         }

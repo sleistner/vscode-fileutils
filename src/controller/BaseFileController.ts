@@ -1,5 +1,15 @@
 import path from "path";
-import { commands, env, ExtensionContext, TextEditor, Uri, window, workspace, WorkspaceFolder } from "vscode";
+import {
+    commands,
+    env,
+    ExtensionContext,
+    InputBoxOptions,
+    TextEditor,
+    Uri,
+    window,
+    workspace,
+    WorkspaceFolder,
+} from "vscode";
 import { FileItem } from "../FileItem";
 import { Cache } from "../lib/Cache";
 import { getConfiguration } from "../lib/config";
@@ -7,6 +17,8 @@ import { DialogOptions, ExecuteOptions, FileController, GetSourcePathOptions } f
 import { TypeAheadController } from "./TypeAheadController";
 
 type InputBoxPathType = "root" | "workspace";
+
+type TargetPathInputBoxOptions = InputBoxOptions & Required<Pick<InputBoxOptions, "value">>;
 
 export interface GetTargetPathInputBoxValueOptions extends DialogOptions {
     workspaceFolderPath?: string;
@@ -52,12 +64,10 @@ export abstract class BaseFileController implements FileController {
             workspaceFolderPath,
             pathType,
         });
-        const valueSelection = this.getFilenameSelection(value);
 
-        const targetPath = await window.showInputBox({
+        const targetPath = await this.showTargetPathInputBox({
             prompt,
             value,
-            valueSelection,
         });
 
         const shouldPrependWorkspaceFolderPath = targetPath && workspaceFolderPath && pathType === "workspace";
@@ -66,6 +76,17 @@ export abstract class BaseFileController implements FileController {
         }
 
         return targetPath;
+    }
+
+    protected async showTargetPathInputBox(options: TargetPathInputBoxOptions): Promise<string | undefined> {
+        const { prompt, value } = options;
+        const valueSelection = this.getFilenameSelection(value);
+
+        return await window.showInputBox({
+            prompt,
+            value,
+            valueSelection,
+        });
     }
 
     private getInputBoxPathType(): InputBoxPathType {

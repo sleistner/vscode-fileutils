@@ -60,7 +60,8 @@ export abstract class BaseFileController implements FileController {
             valueSelection,
         });
 
-        if (targetPath && workspaceFolderPath) {
+        const shouldPrependWorkspaceFolderPath = targetPath && workspaceFolderPath && pathType === "workspace";
+        if (shouldPrependWorkspaceFolderPath) {
             return path.join(workspaceFolderPath, targetPath.replace(workspaceFolderPath, ""));
         }
 

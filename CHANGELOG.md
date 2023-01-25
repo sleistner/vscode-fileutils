@@ -40,120 +40,6 @@
 
 ### Bug Fixes
 
-* **ci:** update esbuild install ([d5214f7](https://github.com/sleistner/vscode-fileutils/commit/d5214f727afb8ad6f4aa713b4e65b01270350d4a))
-* **ci:** update esbuild install ([ba3ed67](https://github.com/sleistner/vscode-fileutils/commit/ba3ed67982f28cc027bcf00ff792e258b063e7cb))
-* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
-* **ci:** update vsce pat ([2eedd98](https://github.com/sleistner/vscode-fileutils/commit/2eedd98c8f9c04d928652a70fc010b8514a9c3dd))
-* debug semantic release ([bd1b877](https://github.com/sleistner/vscode-fileutils/commit/bd1b8772984cc38fd6b9168c84a3588ce5e0c8b5))
-* disable husky with release action ([ff3b23b](https://github.com/sleistner/vscode-fileutils/commit/ff3b23ba27dcef84014a2c430d359c2241df532c))
-* **publish:** use esbuild package builder ([a245912](https://github.com/sleistner/vscode-fileutils/commit/a2459124c693830c283d74ef77410beacde5487d))
-* remove gh semantic release action ([89f56e9](https://github.com/sleistner/vscode-fileutils/commit/89f56e98b0eeef339f6104e262102b8a4f31ebec))
-* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
-* update smr vsce ([f018fcb](https://github.com/sleistner/vscode-fileutils/commit/f018fcb7366280772bf3042b6a0f2a836810b5b2))
-* update vscode engine ([40c1bbe](https://github.com/sleistner/vscode-fileutils/commit/40c1bbed3b8ebe9b582ad84edfe4aec91cc6a8a9))
-
-
-### Features
-
-* restore previous version ([8d6d390](https://github.com/sleistner/vscode-fileutils/commit/8d6d390dc98425f3f75ada04782da1483f1987dc))
-
-# [3.6.0](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.6.0) (2023-01-23)
-
-
-### Bug Fixes
-
-* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
-* **ci:** update vsce pat ([2eedd98](https://github.com/sleistner/vscode-fileutils/commit/2eedd98c8f9c04d928652a70fc010b8514a9c3dd))
-* debug semantic release ([bd1b877](https://github.com/sleistner/vscode-fileutils/commit/bd1b8772984cc38fd6b9168c84a3588ce5e0c8b5))
-* disable husky with release action ([ff3b23b](https://github.com/sleistner/vscode-fileutils/commit/ff3b23ba27dcef84014a2c430d359c2241df532c))
-* **publish:** use esbuild package builder ([a245912](https://github.com/sleistner/vscode-fileutils/commit/a2459124c693830c283d74ef77410beacde5487d))
-* remove gh semantic release action ([89f56e9](https://github.com/sleistner/vscode-fileutils/commit/89f56e98b0eeef339f6104e262102b8a4f31ebec))
-* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
-* update smr vsce ([f018fcb](https://github.com/sleistner/vscode-fileutils/commit/f018fcb7366280772bf3042b6a0f2a836810b5b2))
-* update vscode engine ([40c1bbe](https://github.com/sleistner/vscode-fileutils/commit/40c1bbed3b8ebe9b582ad84edfe4aec91cc6a8a9))
-
-
-### Features
-
-* restore previous version ([8d6d390](https://github.com/sleistner/vscode-fileutils/commit/8d6d390dc98425f3f75ada04782da1483f1987dc))
-
-# [3.6.0](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.6.0) (2023-01-23)
-
-
-### Bug Fixes
-
-* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
-* debug semantic release ([bd1b877](https://github.com/sleistner/vscode-fileutils/commit/bd1b8772984cc38fd6b9168c84a3588ce5e0c8b5))
-* disable husky with release action ([ff3b23b](https://github.com/sleistner/vscode-fileutils/commit/ff3b23ba27dcef84014a2c430d359c2241df532c))
-* **publish:** use esbuild package builder ([a245912](https://github.com/sleistner/vscode-fileutils/commit/a2459124c693830c283d74ef77410beacde5487d))
-* remove gh semantic release action ([89f56e9](https://github.com/sleistner/vscode-fileutils/commit/89f56e98b0eeef339f6104e262102b8a4f31ebec))
-* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
-* update smr vsce ([f018fcb](https://github.com/sleistner/vscode-fileutils/commit/f018fcb7366280772bf3042b6a0f2a836810b5b2))
-* update vscode engine ([40c1bbe](https://github.com/sleistner/vscode-fileutils/commit/40c1bbed3b8ebe9b582ad84edfe4aec91cc6a8a9))
-
-
-### Features
-
-* restore previous version ([8d6d390](https://github.com/sleistner/vscode-fileutils/commit/8d6d390dc98425f3f75ada04782da1483f1987dc))
-
-## [3.5.1](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.5.1) (2023-01-11)
-
-
-### Bug Fixes
-
-* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
-* debug semantic release ([bd1b877](https://github.com/sleistner/vscode-fileutils/commit/bd1b8772984cc38fd6b9168c84a3588ce5e0c8b5))
-* disable husky with release action ([ff3b23b](https://github.com/sleistner/vscode-fileutils/commit/ff3b23ba27dcef84014a2c430d359c2241df532c))
-* remove gh semantic release action ([89f56e9](https://github.com/sleistner/vscode-fileutils/commit/89f56e98b0eeef339f6104e262102b8a4f31ebec))
-* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
-* update smr vsce ([f018fcb](https://github.com/sleistner/vscode-fileutils/commit/f018fcb7366280772bf3042b6a0f2a836810b5b2))
-* update vscode engine ([40c1bbe](https://github.com/sleistner/vscode-fileutils/commit/40c1bbed3b8ebe9b582ad84edfe4aec91cc6a8a9))
-
-## [3.5.1](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.5.1) (2023-01-11)
-
-
-### Bug Fixes
-
-* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
-* disable husky with release action ([ff3b23b](https://github.com/sleistner/vscode-fileutils/commit/ff3b23ba27dcef84014a2c430d359c2241df532c))
-* remove gh semantic release action ([89f56e9](https://github.com/sleistner/vscode-fileutils/commit/89f56e98b0eeef339f6104e262102b8a4f31ebec))
-* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
-* update smr vsce ([f018fcb](https://github.com/sleistner/vscode-fileutils/commit/f018fcb7366280772bf3042b6a0f2a836810b5b2))
-* update vscode engine ([40c1bbe](https://github.com/sleistner/vscode-fileutils/commit/40c1bbed3b8ebe9b582ad84edfe4aec91cc6a8a9))
-
-## [3.5.1](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.5.1) (2023-01-11)
-
-
-### Bug Fixes
-
-* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
-* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
-* update smr vsce ([f018fcb](https://github.com/sleistner/vscode-fileutils/commit/f018fcb7366280772bf3042b6a0f2a836810b5b2))
-* update vscode engine ([40c1bbe](https://github.com/sleistner/vscode-fileutils/commit/40c1bbed3b8ebe9b582ad84edfe4aec91cc6a8a9))
-
-## [3.5.1](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.5.1) (2023-01-10)
-
-
-### Bug Fixes
-
-* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
-* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
-* update vscode engine ([40c1bbe](https://github.com/sleistner/vscode-fileutils/commit/40c1bbed3b8ebe9b582ad84edfe4aec91cc6a8a9))
-
-## [3.5.1](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.5.1) (2023-01-07)
-
-
-### Bug Fixes
-
-* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
-* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
-
-## [3.5.1](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.5.1) (2023-01-03)
-
-
-### Bug Fixes
-
-* **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
 * **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
 
 ## [3.5.1](https://github.com/sleistner/vscode-fileutils/compare/v3.5.0...v3.5.1) (2023-01-02)
@@ -162,7 +48,6 @@
 ### Bug Fixes
 
 * **ci:** update semantic release ([6c12e92](https://github.com/sleistner/vscode-fileutils/commit/6c12e92409a9a04d92193781ad1fdb8e17c99ea1))
-* **TreeWalker:** replace workspace.findFiles in favor of fast-glob ([37c5078](https://github.com/sleistner/vscode-fileutils/commit/37c50781b4025e31c2023ea568aa78b4ad66714d))
 
 # [3.5.0](https://github.com/sleistner/vscode-fileutils/compare/v3.4.6...v3.5.0) (2022-01-18)
 
@@ -171,212 +56,6 @@
 
 * **ci:** enable github actions ([3eead61](https://github.com/sleistner/vscode-fileutils/commit/3eead61d04d6adf1632503d29939e2c150147d87))
 
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-18)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* ci release ([bf2d880](https://github.com/sleistner/vscode-fileutils/commit/bf2d880304bb9301d1d8f7ea4536e964f64d5e19))
-* **ci:** debug semantic release ([76abc99](https://github.com/sleistner/vscode-fileutils/commit/76abc99ed792b84444fb5aadf4ebe0afaa016450))
-* **ci:** debug semantic release ([e5ff438](https://github.com/sleistner/vscode-fileutils/commit/e5ff438c738348e93a1d1f22e7a553909ed14c49))
-* **ci:** debug semantic release ([476b1e7](https://github.com/sleistner/vscode-fileutils/commit/476b1e7960aeeca1caceecdcdd2a809998977ceb))
-* **ci:** debug semantic release ([b7e00d0](https://github.com/sleistner/vscode-fileutils/commit/b7e00d06dc57c5f6b36d2e67695acc26a57bbba0))
-* **ci:** debug semantic release ([38c2e97](https://github.com/sleistner/vscode-fileutils/commit/38c2e97afd5ee0967b5db812a694d9cc0c08b182))
-* **ci:** debug semantic release ([6002071](https://github.com/sleistner/vscode-fileutils/commit/6002071fd674f975929eaaf1a6f3f8ea71a3595c))
-* **ci:** debug semantic release ([20bdf2d](https://github.com/sleistner/vscode-fileutils/commit/20bdf2d853b7de2cedd410248b2177cd2046ebfb))
-* **ci:** debug semantic release ([4421743](https://github.com/sleistner/vscode-fileutils/commit/4421743fda5b9a6e8563154373d7aef3e25880d7))
-* **ci:** debug semantic release ([8e8be19](https://github.com/sleistner/vscode-fileutils/commit/8e8be19c270e09eb09eda12d35036ef3abafbd0f))
-* **ci:** debug semantic release ([60426a2](https://github.com/sleistner/vscode-fileutils/commit/60426a2e5a182802bfa613ff602f2404156dd429))
-* **ci:** remove release dry run flag ([0cfd2b5](https://github.com/sleistner/vscode-fileutils/commit/0cfd2b5bd57aba628fecec3c3fec7b0f969ec370))
-* **ci:** remove unsupported keyword ([7516a78](https://github.com/sleistner/vscode-fileutils/commit/7516a782910b32fc99c840d810dbcdd7e212eea3))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-17)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* ci release ([bf2d880](https://github.com/sleistner/vscode-fileutils/commit/bf2d880304bb9301d1d8f7ea4536e964f64d5e19))
-* **ci:** debug semantic release ([e5ff438](https://github.com/sleistner/vscode-fileutils/commit/e5ff438c738348e93a1d1f22e7a553909ed14c49))
-* **ci:** debug semantic release ([476b1e7](https://github.com/sleistner/vscode-fileutils/commit/476b1e7960aeeca1caceecdcdd2a809998977ceb))
-* **ci:** debug semantic release ([b7e00d0](https://github.com/sleistner/vscode-fileutils/commit/b7e00d06dc57c5f6b36d2e67695acc26a57bbba0))
-* **ci:** debug semantic release ([38c2e97](https://github.com/sleistner/vscode-fileutils/commit/38c2e97afd5ee0967b5db812a694d9cc0c08b182))
-* **ci:** debug semantic release ([6002071](https://github.com/sleistner/vscode-fileutils/commit/6002071fd674f975929eaaf1a6f3f8ea71a3595c))
-* **ci:** debug semantic release ([20bdf2d](https://github.com/sleistner/vscode-fileutils/commit/20bdf2d853b7de2cedd410248b2177cd2046ebfb))
-* **ci:** debug semantic release ([4421743](https://github.com/sleistner/vscode-fileutils/commit/4421743fda5b9a6e8563154373d7aef3e25880d7))
-* **ci:** debug semantic release ([8e8be19](https://github.com/sleistner/vscode-fileutils/commit/8e8be19c270e09eb09eda12d35036ef3abafbd0f))
-* **ci:** debug semantic release ([60426a2](https://github.com/sleistner/vscode-fileutils/commit/60426a2e5a182802bfa613ff602f2404156dd429))
-* **ci:** remove release dry run flag ([0cfd2b5](https://github.com/sleistner/vscode-fileutils/commit/0cfd2b5bd57aba628fecec3c3fec7b0f969ec370))
-* **ci:** remove unsupported keyword ([7516a78](https://github.com/sleistner/vscode-fileutils/commit/7516a782910b32fc99c840d810dbcdd7e212eea3))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-16)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* **ci:** debug semantic release ([e5ff438](https://github.com/sleistner/vscode-fileutils/commit/e5ff438c738348e93a1d1f22e7a553909ed14c49))
-* **ci:** debug semantic release ([476b1e7](https://github.com/sleistner/vscode-fileutils/commit/476b1e7960aeeca1caceecdcdd2a809998977ceb))
-* **ci:** debug semantic release ([b7e00d0](https://github.com/sleistner/vscode-fileutils/commit/b7e00d06dc57c5f6b36d2e67695acc26a57bbba0))
-* **ci:** debug semantic release ([38c2e97](https://github.com/sleistner/vscode-fileutils/commit/38c2e97afd5ee0967b5db812a694d9cc0c08b182))
-* **ci:** debug semantic release ([6002071](https://github.com/sleistner/vscode-fileutils/commit/6002071fd674f975929eaaf1a6f3f8ea71a3595c))
-* **ci:** debug semantic release ([20bdf2d](https://github.com/sleistner/vscode-fileutils/commit/20bdf2d853b7de2cedd410248b2177cd2046ebfb))
-* **ci:** debug semantic release ([4421743](https://github.com/sleistner/vscode-fileutils/commit/4421743fda5b9a6e8563154373d7aef3e25880d7))
-* **ci:** debug semantic release ([8e8be19](https://github.com/sleistner/vscode-fileutils/commit/8e8be19c270e09eb09eda12d35036ef3abafbd0f))
-* **ci:** debug semantic release ([60426a2](https://github.com/sleistner/vscode-fileutils/commit/60426a2e5a182802bfa613ff602f2404156dd429))
-* **ci:** remove unsupported keyword ([7516a78](https://github.com/sleistner/vscode-fileutils/commit/7516a782910b32fc99c840d810dbcdd7e212eea3))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-16)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* **ci:** debug semantic release ([e5ff438](https://github.com/sleistner/vscode-fileutils/commit/e5ff438c738348e93a1d1f22e7a553909ed14c49))
-* **ci:** debug semantic release ([476b1e7](https://github.com/sleistner/vscode-fileutils/commit/476b1e7960aeeca1caceecdcdd2a809998977ceb))
-* **ci:** debug semantic release ([b7e00d0](https://github.com/sleistner/vscode-fileutils/commit/b7e00d06dc57c5f6b36d2e67695acc26a57bbba0))
-* **ci:** debug semantic release ([38c2e97](https://github.com/sleistner/vscode-fileutils/commit/38c2e97afd5ee0967b5db812a694d9cc0c08b182))
-* **ci:** debug semantic release ([6002071](https://github.com/sleistner/vscode-fileutils/commit/6002071fd674f975929eaaf1a6f3f8ea71a3595c))
-* **ci:** debug semantic release ([20bdf2d](https://github.com/sleistner/vscode-fileutils/commit/20bdf2d853b7de2cedd410248b2177cd2046ebfb))
-* **ci:** debug semantic release ([4421743](https://github.com/sleistner/vscode-fileutils/commit/4421743fda5b9a6e8563154373d7aef3e25880d7))
-* **ci:** debug semantic release ([8e8be19](https://github.com/sleistner/vscode-fileutils/commit/8e8be19c270e09eb09eda12d35036ef3abafbd0f))
-* **ci:** debug semantic release ([60426a2](https://github.com/sleistner/vscode-fileutils/commit/60426a2e5a182802bfa613ff602f2404156dd429))
-* **ci:** remove unsupported keyword ([7516a78](https://github.com/sleistner/vscode-fileutils/commit/7516a782910b32fc99c840d810dbcdd7e212eea3))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-16)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* **ci:** debug semantic release ([b7e00d0](https://github.com/sleistner/vscode-fileutils/commit/b7e00d06dc57c5f6b36d2e67695acc26a57bbba0))
-* **ci:** debug semantic release ([38c2e97](https://github.com/sleistner/vscode-fileutils/commit/38c2e97afd5ee0967b5db812a694d9cc0c08b182))
-* **ci:** debug semantic release ([6002071](https://github.com/sleistner/vscode-fileutils/commit/6002071fd674f975929eaaf1a6f3f8ea71a3595c))
-* **ci:** debug semantic release ([20bdf2d](https://github.com/sleistner/vscode-fileutils/commit/20bdf2d853b7de2cedd410248b2177cd2046ebfb))
-* **ci:** debug semantic release ([4421743](https://github.com/sleistner/vscode-fileutils/commit/4421743fda5b9a6e8563154373d7aef3e25880d7))
-* **ci:** debug semantic release ([8e8be19](https://github.com/sleistner/vscode-fileutils/commit/8e8be19c270e09eb09eda12d35036ef3abafbd0f))
-* **ci:** debug semantic release ([60426a2](https://github.com/sleistner/vscode-fileutils/commit/60426a2e5a182802bfa613ff602f2404156dd429))
-* **ci:** remove unsupported keyword ([7516a78](https://github.com/sleistner/vscode-fileutils/commit/7516a782910b32fc99c840d810dbcdd7e212eea3))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-16)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* **ci:** debug semantic release ([6002071](https://github.com/sleistner/vscode-fileutils/commit/6002071fd674f975929eaaf1a6f3f8ea71a3595c))
-* **ci:** debug semantic release ([20bdf2d](https://github.com/sleistner/vscode-fileutils/commit/20bdf2d853b7de2cedd410248b2177cd2046ebfb))
-* **ci:** debug semantic release ([4421743](https://github.com/sleistner/vscode-fileutils/commit/4421743fda5b9a6e8563154373d7aef3e25880d7))
-* **ci:** debug semantic release ([8e8be19](https://github.com/sleistner/vscode-fileutils/commit/8e8be19c270e09eb09eda12d35036ef3abafbd0f))
-* **ci:** debug semantic release ([60426a2](https://github.com/sleistner/vscode-fileutils/commit/60426a2e5a182802bfa613ff602f2404156dd429))
-* **ci:** remove unsupported keyword ([7516a78](https://github.com/sleistner/vscode-fileutils/commit/7516a782910b32fc99c840d810dbcdd7e212eea3))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-16)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* **ci:** debug semantic release ([20bdf2d](https://github.com/sleistner/vscode-fileutils/commit/20bdf2d853b7de2cedd410248b2177cd2046ebfb))
-* **ci:** debug semantic release ([4421743](https://github.com/sleistner/vscode-fileutils/commit/4421743fda5b9a6e8563154373d7aef3e25880d7))
-* **ci:** debug semantic release ([8e8be19](https://github.com/sleistner/vscode-fileutils/commit/8e8be19c270e09eb09eda12d35036ef3abafbd0f))
-* **ci:** debug semantic release ([60426a2](https://github.com/sleistner/vscode-fileutils/commit/60426a2e5a182802bfa613ff602f2404156dd429))
-* **ci:** remove unsupported keyword ([7516a78](https://github.com/sleistner/vscode-fileutils/commit/7516a782910b32fc99c840d810dbcdd7e212eea3))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-16)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* **ci:** debug semantic release ([8e8be19](https://github.com/sleistner/vscode-fileutils/commit/8e8be19c270e09eb09eda12d35036ef3abafbd0f))
-* **ci:** debug semantic release ([60426a2](https://github.com/sleistner/vscode-fileutils/commit/60426a2e5a182802bfa613ff602f2404156dd429))
-* **ci:** remove unsupported keyword ([7516a78](https://github.com/sleistner/vscode-fileutils/commit/7516a782910b32fc99c840d810dbcdd7e212eea3))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-16)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* **ci:** debug semantic release ([60426a2](https://github.com/sleistner/vscode-fileutils/commit/60426a2e5a182802bfa613ff602f2404156dd429))
-* **ci:** remove unsupported keyword ([7516a78](https://github.com/sleistner/vscode-fileutils/commit/7516a782910b32fc99c840d810dbcdd7e212eea3))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-16)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* **ci:** remove unsupported keyword ([7516a78](https://github.com/sleistner/vscode-fileutils/commit/7516a782910b32fc99c840d810dbcdd7e212eea3))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-16)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-* upxate badges ([51254fd](https://github.com/sleistner/vscode-fileutils/commit/51254fdcd350b97ba89df948e465c339c023f6ca))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-15)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-14)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
-
-## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-14)
-
-
-### Bug Fixes
-
-* add vsce pat ([6df415a](https://github.com/sleistner/vscode-fileutils/commit/6df415a06276822f66c893cd34ac65376a7d8796))
-* add vsce pat ([e6c966f](https://github.com/sleistner/vscode-fileutils/commit/e6c966fa2828134b50f9cdb80a606b19fbe7e9b2))
-* trigger gh actions release pipeline ([d9a59c9](https://github.com/sleistner/vscode-fileutils/commit/d9a59c9f974ceb2be6407aed64131e5761acb48a))
 
 ## [3.4.6](https://github.com/sleistner/vscode-fileutils/compare/v3.4.5...v3.4.6) (2022-01-14)
 
@@ -419,31 +98,6 @@
 ### Bug Fixes
 
 * **build:** include node_modules ([a28b0da](https://github.com/sleistner/vscode-fileutils/commit/a28b0da))
-
-# [3.4.0](https://github.com/sleistner/vscode-fileutils/compare/v3.3.3...v3.4.0) (2020-11-08)
-
-
-### Bug Fixes
-
-* update vscode engine ([3ec19f0](https://github.com/sleistner/vscode-fileutils/commit/3ec19f0))
-* **readme:** trigger release ([9314428](https://github.com/sleistner/vscode-fileutils/commit/9314428))
-
-
-### Features
-
-* **NewFileCommand:** add support for brace expansion ([5e06afc](https://github.com/sleistner/vscode-fileutils/commit/5e06afc))
-
-# [3.4.0](https://github.com/sleistner/vscode-fileutils/compare/v3.3.3...v3.4.0) (2020-11-07)
-
-
-### Bug Fixes
-
-* **readme:** trigger release ([9314428](https://github.com/sleistner/vscode-fileutils/commit/9314428))
-
-
-### Features
-
-* **NewFileCommand:** add support for brace expansion ([5e06afc](https://github.com/sleistner/vscode-fileutils/commit/5e06afc))
 
 # [3.4.0](https://github.com/sleistner/vscode-fileutils/compare/v3.3.3...v3.4.0) (2020-11-06)
 
@@ -488,18 +142,6 @@
 # [3.2.0](https://github.com/sleistner/vscode-fileutils/compare/v3.1.1...v3.2.0) (2020-10-25)
 
 
-### Bug Fixes
-
-* **readme:** change icon path ([a048dab](https://github.com/sleistner/vscode-fileutils/commit/a048dab))
-
-
-### Features
-
-* update icon ([5c2156b](https://github.com/sleistner/vscode-fileutils/commit/5c2156b))
-
-# [3.2.0](https://github.com/sleistner/vscode-fileutils/compare/v3.1.1...v3.2.0) (2020-10-25)
-
-
 ### Features
 
 * update icon ([5c2156b](https://github.com/sleistner/vscode-fileutils/commit/5c2156b))
@@ -510,19 +152,6 @@
 ### Bug Fixes
 
 * **Rename, Move:** keep file in editor group ([5478345](https://github.com/sleistner/vscode-fileutils/commit/5478345))
-
-# [3.1.0](https://github.com/sleistner/vscode-fileutils/compare/v3.0.1...v3.1.0) (2020-10-18)
-
-
-### Bug Fixes
-
-* **package:** restore version ([cf5c8cd](https://github.com/sleistner/vscode-fileutils/commit/cf5c8cd))
-* **package:** update engine version ([dc4ecd1](https://github.com/sleistner/vscode-fileutils/commit/dc4ecd1))
-
-
-### Features
-
-* **move/rename:** trigger update imports when moving file ([7a40237](https://github.com/sleistner/vscode-fileutils/commit/7a40237))
 
 # [3.1.0](https://github.com/sleistner/vscode-fileutils/compare/v3.0.1...v3.1.0) (2020-10-18)
 

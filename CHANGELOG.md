@@ -1,3 +1,10 @@
+## [3.9.1](https://github.com/sleistner/vscode-fileutils/compare/v3.9.0...v3.9.1) (2023-01-25)
+
+
+### Bug Fixes
+
+* **build:** include changelog ([550e190](https://github.com/sleistner/vscode-fileutils/commit/550e19025a52bd842e76021045a2786c4f4a8758))
+
 # [3.9.0](https://github.com/sleistner/vscode-fileutils/compare/v3.8.0...v3.9.0) (2023-01-25)
 
 

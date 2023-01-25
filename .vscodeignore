@@ -3,5 +3,6 @@
 
 !images/icon.*
 !README.md
+!CHANGELOG.md
 !LICENSE
 !out/extension.js

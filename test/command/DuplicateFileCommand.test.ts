@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import sinon from "sinon";
 import { Uri, window, workspace } from "vscode";
 import { DuplicateFileCommand } from "../../src/command/DuplicateFileCommand";
 import { DuplicateFileController } from "../../src/controller";
@@ -35,32 +34,13 @@ describe(DuplicateFileCommand.name, () => {
             helper.protocol.describe("when target destination exists", subject);
             helper.protocol.it("should open target file as active editor", subject);
 
-            describe("configuration", () => {
-                describe('when "newFile.typeahead.enabled" is "true"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "duplicateFile.typeahead.enabled": true });
-                        helper.createWorkspaceFoldersStub(helper.workspaceFolderA);
-                    });
+            helper.protocol.describe("typeahead configuration", subject, {
+                command: "duplicateFile",
+                items: helper.quickPick.typeahead.items.workspace,
+            });
 
-                    it("should show the quick pick dialog", async () => {
-                        await subject.execute();
-                        expect(window.showQuickPick).to.have.been.calledOnceWith(
-                            sinon.match(helper.quickPick.typeahead.items.workspace),
-                            sinon.match(helper.quickPick.typeahead.options)
-                        );
-                    });
-                });
-
-                describe('when "newFile.typeahead.enabled" is "false"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "duplicateFile.typeahead.enabled": false });
-                    });
-
-                    it("should not show the quick pick dialog", async () => {
-                        await subject.execute();
-                        expect(window.showQuickPick).to.have.not.been.called;
-                    });
-                });
+            helper.protocol.describe("inputBox configuration", subject, {
+                editorFile: helper.editorFile1,
             });
         });
 
@@ -95,7 +75,12 @@ describe(DuplicateFileCommand.name, () => {
                 const value = sourceDirectory.path;
                 const valueSelection = [value.length - (value.split(path.sep).pop() as string).length, value.length];
                 const prompt = "Duplicate As";
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+                expect(window.showInputBox).to.have.been.calledWithExactly({
+                    prompt,
+                    value,
+                    valueSelection,
+                    ignoreFocusOut: true,
+                });
             });
 
             it("should duplicate current file to destination", async () => {

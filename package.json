@@ -162,7 +162,7 @@
         },
         "configuration": {
             "type": "object",
-            "title": "Fileutils",
+            "title": "File Utils",
             "properties": {
                 "fileutils.typeahead.enabled": {
                     "type": "boolean",
@@ -191,7 +191,7 @@
                     "default": true,
                     "description": "Controls whether to show a directory selector for new folder command."
                 },
-                "fileutils.inputBox.path": {
+                "fileutils.inputBox.pathType": {
                     "type": "string",
                     "default": "root",
                     "enum": [
@@ -203,6 +203,13 @@
                         "Relative file path of the opened workspace or folder (e.g. /myWorkspace)"
                     ],
                     "description": "Controls the path that is shown in the input box."
+                },
+                "fileutils.inputBox.pathTypeIndicator": {
+                    "type": "string",
+                    "default": "@",
+                    "maxLength": 50,
+                    "description": "Controls the indicator that is shown in the input box when the path type is workspace. This setting only has an effect when 'fileutils.inputBox.pathType' is set to 'workspace'.",
+                    "markdownDescription": "Controls the indicator that is shown in the input box when the path type is workspace. \n\nThis setting only has an effect when `#fileutils.inputBox.pathType#` is set to `workspace`.\n\nFor example, if the path type is `workspace` and the indicator is `@`, the path will be shown as `@/myWorkspace`."
                 }
             }
         }

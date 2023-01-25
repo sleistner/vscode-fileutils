@@ -6,12 +6,16 @@ import { TreeWalker } from "../lib/TreeWalker";
 async function waitForIOEvents(): Promise<void> {
     return new Promise((resolve) => setImmediate(resolve));
 }
+
+const ROOT_PATH = "/";
+
 export class TypeAheadController {
     constructor(private cache: Cache, private relativeToRoot: boolean = false) {}
 
     public async showDialog(sourcePath: string): Promise<string> {
         const items = await this.buildQuickPickItems(sourcePath);
-        const item = await this.showQuickPick(items);
+
+        const item = items.length === 1 ? items[0] : await this.showQuickPick(items);
 
         if (!item) {
             throw new Error();
@@ -24,24 +28,32 @@ export class TypeAheadController {
     }
 
     private async buildQuickPickItems(sourcePath: string): Promise<QuickPickItem[]> {
-        const directories = await this.listDirectoriesAtSourcePath(sourcePath);
-        return [
-            ...this.buildQuickPickItemsHeader(),
-            ...directories.map((directory) => this.buildQuickPickItem(directory)),
-        ];
+        const lastEntry: string = this.cache.get("last");
+        const header = this.buildQuickPickItemsHeader(lastEntry);
+
+        const directories = (await this.getDirectoriesAtSourcePath(sourcePath))
+            .filter((directory) => directory !== lastEntry && directory !== ROOT_PATH)
+            .map((directory) => this.buildQuickPickItem(directory));
+
+        if (directories.length === 0 && header.length === 1) {
+            return header;
+        }
+
+        return [...header, ...directories];
     }
 
-    private async listDirectoriesAtSourcePath(sourcePath: string): Promise<string[]> {
+    private async getDirectoriesAtSourcePath(sourcePath: string): Promise<string[]> {
         await waitForIOEvents();
         const treeWalker = new TreeWalker();
         return treeWalker.directories(sourcePath);
     }
 
-    private buildQuickPickItemsHeader(): QuickPickItem[] {
-        const items = [this.buildQuickPickItem("/", `- ${this.relativeToRoot ? "workspace root" : "current file"}`)];
+    private buildQuickPickItemsHeader(lastEntry: string | undefined): QuickPickItem[] {
+        const items = [
+            this.buildQuickPickItem(ROOT_PATH, `- ${this.relativeToRoot ? "workspace root" : "current file"}`),
+        ];
 
-        const lastEntry: string = this.cache.get("last");
-        if (lastEntry) {
+        if (lastEntry && lastEntry !== ROOT_PATH) {
             items.push(this.buildQuickPickItem(lastEntry, "- last selection"));
         }
 
@@ -55,6 +67,6 @@ export class TypeAheadController {
     private async showQuickPick(items: readonly QuickPickItem[]) {
         const hint = "larger projects may take a moment to load";
         const placeHolder = `First, select an existing path to create relative to (${hint})`;
-        return window.showQuickPick(items, { placeHolder });
+        return window.showQuickPick(items, { placeHolder, ignoreFocusOut: true });
     }
 }

@@ -1,8 +1,8 @@
 import expand from "brace-expansion";
 import * as path from "path";
 import { FileItem } from "../FileItem";
-import { BaseFileController, GetTargetPathInputBoxValueOptions } from "./BaseFileController";
-import { DialogOptions, ExecuteOptions, GetSourcePathOptions } from "./FileController";
+import { BaseFileController, TargetPathInputBoxValueOptions } from "./BaseFileController";
+import { DialogOptions, ExecuteOptions, SourcePathOptions } from "./FileController";
 
 export interface NewFileDialogOptions extends Omit<DialogOptions, "uri"> {
     relativeToRoot?: boolean;
@@ -39,13 +39,13 @@ export class NewFileController extends BaseFileController {
 
     protected async getTargetPathInputBoxValue(
         sourcePath: string,
-        options: GetTargetPathInputBoxValueOptions
+        options: TargetPathInputBoxValueOptions
     ): Promise<string> {
         const value = path.join(sourcePath, path.sep);
         return super.getTargetPathInputBoxValue(value, options);
     }
 
-    public async getNewFileSourcePath({ relativeToRoot, typeahead }: GetSourcePathOptions): Promise<string> {
+    public async getNewFileSourcePath({ relativeToRoot, typeahead }: SourcePathOptions): Promise<string> {
         const rootPath = await this.getRootPath(relativeToRoot === true);
 
         if (!rootPath) {

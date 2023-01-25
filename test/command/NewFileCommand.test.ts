@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import sinon from "sinon";
 import { Uri, window, workspace } from "vscode";
 import { NewFileCommand } from "../../src/command";
 import { NewFileController } from "../../src/controller";
@@ -33,34 +32,22 @@ describe(NewFileCommand.name, () => {
             const prompt = "File Name";
             const value = path.join(path.dirname(helper.editorFile1.path), path.sep);
             const valueSelection = [value.length, value.length];
-            expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+            expect(window.showInputBox).to.have.been.calledWithExactly({
+                prompt,
+                value,
+                valueSelection,
+                ignoreFocusOut: true,
+            });
         });
 
-        describe("configuration", () => {
-            describe('"newFile.typeahead.enabled" is "true"', () => {
-                beforeEach(async () => {
-                    helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
-                });
+        helper.protocol.describe("typeahead configuration", subject, {
+            command: "newFile",
+            items: helper.quickPick.typeahead.items.currentFile,
+        });
 
-                it("should show the quick pick dialog", async () => {
-                    await subject.execute();
-                    expect(window.showQuickPick).to.have.been.calledOnceWithExactly(
-                        sinon.match(helper.quickPick.typeahead.items.currentFile),
-                        sinon.match(helper.quickPick.typeahead.options)
-                    );
-                });
-            });
-
-            describe('"newFile.typeahead.enabled" is "false"', () => {
-                beforeEach(async () => {
-                    helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
-                });
-
-                it("should not show the quick pick dialog", async () => {
-                    await subject.execute();
-                    expect(window.showQuickPick).to.have.not.been.called;
-                });
-            });
+        helper.protocol.describe("inputBox configuration", subject, {
+            editorFile: helper.editorFile1,
+            expectedPath: "",
         });
 
         it("should create the file at destination", async () => {
@@ -127,48 +114,17 @@ describe(NewFileCommand.name, () => {
                 const prompt = "File Name";
                 const value = path.join(helper.workspacePathA, path.sep);
                 const valueSelection = [value.length, value.length];
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+                expect(window.showInputBox).to.have.been.calledWithExactly({
+                    prompt,
+                    value,
+                    valueSelection,
+                    ignoreFocusOut: true,
+                });
             });
 
-            describe("configuration", () => {
-                describe('when "newFile.typeahead.enabled" is "true"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
-                    });
-
-                    it("should show the quick pick dialog", async () => {
-                        await subject.execute();
-                        expect(window.showQuickPick).to.have.been.calledOnceWith(
-                            sinon.match(helper.quickPick.typeahead.items.workspace),
-                            sinon.match(helper.quickPick.typeahead.options)
-                        );
-                    });
-                });
-
-                describe('when "newFile.typeahead.enabled" is "false"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
-                    });
-
-                    it("should not show the quick pick dialog", async () => {
-                        await subject.execute();
-                        expect(window.showQuickPick).to.have.not.been.called;
-                    });
-                });
-
-                describe.skip('when "inputBox.path" equals "workspace"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "inputBox.path": "workspace" });
-                    });
-
-                    it("should show the quick pick dialog", async () => {
-                        await subject.execute();
-                        expect(window.showQuickPick).to.have.been.calledOnceWith(
-                            sinon.match(helper.quickPick.typeahead.items.currentFile),
-                            sinon.match(helper.quickPick.typeahead.options)
-                        );
-                    });
-                });
+            helper.protocol.describe("typeahead configuration", subject, {
+                command: "newFile",
+                items: helper.quickPick.typeahead.items.workspace,
             });
         });
 
@@ -189,7 +145,12 @@ describe(NewFileCommand.name, () => {
                 const prompt = "File Name";
                 const value = path.join(helper.workspaceFolderB.uri.fsPath, path.sep);
                 const valueSelection = [value.length, value.length];
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+                expect(window.showInputBox).to.have.been.calledWithExactly({
+                    prompt,
+                    value,
+                    valueSelection,
+                    ignoreFocusOut: true,
+                });
             });
 
             describe("with open document", () => {
@@ -209,36 +170,9 @@ describe(NewFileCommand.name, () => {
                 });
             });
 
-            describe("configuration", () => {
-                describe('when "newFile.typeahead.enabled" is "true"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
-                    });
-
-                    it("should show the quick pick dialog", async () => {
-                        await subject.execute();
-
-                        expect(window.showQuickPick).to.have.been.calledOnceWith(
-                            sinon.match(helper.quickPick.typeahead.items.workspace),
-                            sinon.match(helper.quickPick.typeahead.options)
-                        );
-                    });
-                });
-
-                describe('when "newFile.typeahead.enabled" is "false"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
-                    });
-
-                    it("should not show the quick pick dialog", async () => {
-                        try {
-                            await subject.execute();
-                            expect.fail("Must fail");
-                        } catch (e) {
-                            expect(window.showQuickPick).to.have.not.been.called;
-                        }
-                    });
-                });
+            helper.protocol.describe("typeahead configuration", subject, {
+                command: "newFile",
+                items: helper.quickPick.typeahead.items.workspace,
             });
         });
     });

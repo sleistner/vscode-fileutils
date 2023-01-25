@@ -2,7 +2,7 @@ import expand from "brace-expansion";
 import * as path from "path";
 import { FileType, Uri, workspace } from "vscode";
 import { FileItem } from "../FileItem";
-import { BaseFileController, GetTargetPathInputBoxValueOptions } from "./BaseFileController";
+import { BaseFileController, TargetPathInputBoxValueOptions } from "./BaseFileController";
 import { DialogOptions, ExecuteOptions } from "./FileController";
 
 export class MoveFileController extends BaseFileController {
@@ -33,7 +33,7 @@ export class MoveFileController extends BaseFileController {
 
     protected async getTargetPathInputBoxValue(
         sourcePath: string,
-        options: GetTargetPathInputBoxValueOptions
+        options: TargetPathInputBoxValueOptions
     ): Promise<string> {
         const value = await this.getFullTargetPathInputBoxValue(sourcePath, options);
         return super.getTargetPathInputBoxValue(value, options);
@@ -41,7 +41,7 @@ export class MoveFileController extends BaseFileController {
 
     private async getFullTargetPathInputBoxValue(
         sourcePath: string,
-        options: GetTargetPathInputBoxValueOptions
+        options: TargetPathInputBoxValueOptions
     ): Promise<string> {
         const { typeahead, workspaceFolderPath } = options;
 

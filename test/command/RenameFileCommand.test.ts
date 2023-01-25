@@ -30,7 +30,12 @@ describe(RenameFileCommand.name, () => {
                 const prompt = "New Name";
                 const value = path.basename(helper.editorFile1.fsPath);
                 const valueSelection = [value.length - 9, value.length - 3];
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+                expect(window.showInputBox).to.have.been.calledWithExactly({
+                    prompt,
+                    value,
+                    valueSelection,
+                    ignoreFocusOut: true,
+                });
             });
 
             helper.protocol.it("should move current file to destination", subject);
@@ -48,7 +53,12 @@ describe(RenameFileCommand.name, () => {
                     const prompt = "New Name";
                     const value = path.basename(helper.editorFile2.fsPath);
                     const valueSelection = [value.length - 9, value.length - 3];
-                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+                    expect(window.showInputBox).to.have.been.calledWithExactly({
+                        prompt,
+                        value,
+                        valueSelection,
+                        ignoreFocusOut: true,
+                    });
                 });
             });
         });

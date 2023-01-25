@@ -46,6 +46,7 @@ export const quickPick = {
         options: {
             placeHolder:
                 "First, select an existing path to create relative to (larger projects may take a moment to load)",
+            ignoreFocusOut: true,
         },
     },
 };

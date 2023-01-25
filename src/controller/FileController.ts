@@ -11,7 +11,7 @@ export interface ExecuteOptions {
     fileItem: FileItem;
 }
 
-export interface GetSourcePathOptions {
+export interface SourcePathOptions {
     relativeToRoot?: boolean;
     ignoreIfNotExists?: boolean;
     uri?: Uri;
@@ -23,5 +23,5 @@ export interface FileController {
     execute(options: ExecuteOptions): Promise<FileItem>;
     openFileInEditor(fileItem: FileItem): Promise<TextEditor | undefined>;
     closeCurrentFileEditor(): Promise<unknown>;
-    getSourcePath(options?: GetSourcePathOptions): Promise<string>;
+    getSourcePath(options?: SourcePathOptions): Promise<string>;
 }

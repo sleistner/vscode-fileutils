@@ -47,7 +47,11 @@ export class FileItem {
 
         const edit = new WorkspaceEdit();
         edit.renameFile(this.path, this.targetPath, { overwrite: true });
-        await workspace.applyEdit(edit);
+        const result = await workspace.applyEdit(edit);
+
+        if (!result) {
+            throw new Error(`Failed to move file "${this.targetPath.fsPath}."`);
+        }
 
         this.SourcePath = this.targetPath;
         return this;
@@ -56,15 +60,23 @@ export class FileItem {
     public async duplicate(): Promise<FileItem> {
         assertTargetPath(this.targetPath);
 
-        await workspace.fs.copy(this.path, this.targetPath, { overwrite: true });
-
-        return new FileItem(this.targetPath, undefined, this.isDir);
+        try {
+            await workspace.fs.copy(this.path, this.targetPath, { overwrite: true });
+            return new FileItem(this.targetPath, undefined, this.isDir);
+        } catch (error) {
+            throw new Error(`Failed to duplicate file "${this.targetPath.fsPath}. (${error})"`);
+        }
     }
 
     public async remove(): Promise<FileItem> {
         const edit = new WorkspaceEdit();
         edit.deleteFile(this.path, { recursive: true, ignoreIfNotExists: true });
-        await workspace.applyEdit(edit);
+        const result = await workspace.applyEdit(edit);
+
+        if (!result) {
+            throw new Error(`Failed to delete file "${this.path.fsPath}."`);
+        }
+
         return this;
     }
 

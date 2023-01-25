@@ -1,8 +1,7 @@
 import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import sinon from "sinon";
-import { Uri, window, workspace, WorkspaceFolder } from "vscode";
+import { Uri, window, workspace } from "vscode";
 import { NewFileCommand } from "../../src/command";
 import { NewFileController } from "../../src/controller";
 import * as helper from "../helper";
@@ -10,7 +9,7 @@ import * as helper from "../helper";
 describe(NewFileCommand.name, () => {
     beforeEach(async () => {
         await helper.beforeEach();
-        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
+        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false, "inputBox.path": "root" });
     });
 
     afterEach(helper.afterEach);
@@ -26,8 +25,6 @@ describe(NewFileCommand.name, () => {
 
         afterEach(async () => {
             await helper.closeAllEditors();
-            helper.restoreShowInputBox();
-            helper.restoreShowQuickPick();
         });
 
         it("should prompt for file destination", async () => {
@@ -35,45 +32,22 @@ describe(NewFileCommand.name, () => {
             const prompt = "File Name";
             const value = path.join(path.dirname(helper.editorFile1.path), path.sep);
             const valueSelection = [value.length, value.length];
-            expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+            expect(window.showInputBox).to.have.been.calledWithExactly({
+                prompt,
+                value,
+                valueSelection,
+                ignoreFocusOut: true,
+            });
         });
 
-        describe("configuration", () => {
-            beforeEach(async () => {
-                await workspace.fs.createDirectory(Uri.file(path.resolve(helper.tmpDir.fsPath, "dir-1")));
-                await workspace.fs.createDirectory(Uri.file(path.resolve(helper.tmpDir.fsPath, "dir-2")));
-            });
+        helper.protocol.describe("typeahead configuration", subject, {
+            command: "newFile",
+            items: helper.quickPick.typeahead.items.currentFile,
+        });
 
-            describe('"newFile.typeahead.enabled" is "true"', () => {
-                beforeEach(async () => {
-                    helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
-                });
-
-                it("should show the quick pick dialog", async () => {
-                    await subject.execute();
-                    expect(window.showQuickPick).to.have.been.calledOnceWithExactly(
-                        sinon.match([
-                            { description: "- current file", label: "/" },
-                            { description: undefined, label: "/dir-1" },
-                            { description: undefined, label: "/dir-2" },
-                        ]),
-                        sinon.match({
-                            placeHolder: helper.quickPick.typeahead.placeHolder,
-                        })
-                    );
-                });
-            });
-
-            describe('"newFile.typeahead.enabled" is "false"', () => {
-                beforeEach(async () => {
-                    helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
-                });
-
-                it("should not show the quick pick dialog", async () => {
-                    await subject.execute();
-                    expect(window.showQuickPick).to.have.not.been.called;
-                });
-            });
+        helper.protocol.describe("inputBox configuration", subject, {
+            editorFile: helper.editorFile1,
+            expectedPath: "",
         });
 
         it("should create the file at destination", async () => {
@@ -118,24 +92,7 @@ describe(NewFileCommand.name, () => {
             relativeToRoot: true,
         });
 
-        class WorkspaceFolderStub implements WorkspaceFolder {
-            constructor(readonly uri: Uri, readonly name: string, readonly index: number) {}
-        }
-
-        const workspacePathA = path.join(helper.tmpDir.fsPath, "workspaceA");
-        const workspacePathB = path.join(helper.tmpDir.fsPath, "workspaceB");
-
-        const workspaceFolderA = new WorkspaceFolderStub(Uri.file(workspacePathA), "a", 0);
-        const workspaceFolderB = new WorkspaceFolderStub(Uri.file(workspacePathB), "b", 1);
-        let workspaceFolders: WorkspaceFolder[] = [];
-        let workspaceFoldersStub: sinon.SinonStub;
-
         beforeEach(async () => {
-            await workspace.fs.createDirectory(workspaceFolderA.uri);
-            await workspace.fs.createDirectory(workspaceFolderB.uri);
-
-            workspaceFoldersStub = helper.createStubObject(workspace, "workspaceFolders").get(() => workspaceFolders);
-
             helper.createShowInputBoxStub().callsFake(async (options) => {
                 if (options.value) {
                     return path.join(options.value, "filename.txt");
@@ -144,21 +101,10 @@ describe(NewFileCommand.name, () => {
             helper.createShowQuickPickStub().resolves({ label: "/", description: "" });
         });
 
-        afterEach(async () => {
-            helper.restoreObject(workspaceFoldersStub);
-            helper.restoreShowInputBox();
-            helper.restoreShowQuickPick();
-        });
-
         describe("with one workspace", () => {
             beforeEach(async () => {
-                workspaceFolders.push(workspaceFolderA);
-                helper.createStubObject(workspace, "getWorkspaceFolder");
-            });
-
-            afterEach(async () => {
-                workspaceFolders = [];
-                helper.restoreObject(workspace.getWorkspaceFolder);
+                helper.createWorkspaceFoldersStub(helper.workspaceFolderA);
+                helper.createGetWorkspaceFolderStub();
             });
 
             it("should select first workspace", async () => {
@@ -166,63 +112,30 @@ describe(NewFileCommand.name, () => {
                 expect(workspace.getWorkspaceFolder).to.have.not.been.called;
 
                 const prompt = "File Name";
-                const value = path.join(workspacePathA, path.sep);
+                const value = path.join(helper.workspacePathA, path.sep);
                 const valueSelection = [value.length, value.length];
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+                expect(window.showInputBox).to.have.been.calledWithExactly({
+                    prompt,
+                    value,
+                    valueSelection,
+                    ignoreFocusOut: true,
+                });
             });
 
-            describe("configuration", () => {
-                beforeEach(async () => {
-                    await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderA.uri.fsPath, "dir-1")));
-                    await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderA.uri.fsPath, "dir-2")));
-                });
-
-                afterEach(async () => {
-                    helper.restoreGetConfiguration();
-                });
-
-                describe('when "newFile.typeahead.enabled" is "true"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
-                    });
-
-                    it("should show the quick pick dialog", async () => {
-                        await subject.execute();
-                        expect(window.showQuickPick).to.have.been.calledOnceWith(
-                            sinon.match([
-                                { description: "- workspace root", label: "/" },
-                                { description: undefined, label: "/dir-1" },
-                                { description: undefined, label: "/dir-2" },
-                            ]),
-                            sinon.match({
-                                placeHolder: helper.quickPick.typeahead.placeHolder,
-                            })
-                        );
-                    });
-                });
-
-                describe('when "newFile.typeahead.enabled" is "false"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
-                    });
-
-                    it("should not show the quick pick dialog", async () => {
-                        await subject.execute();
-                        expect(window.showQuickPick).to.have.not.been.called;
-                    });
-                });
+            helper.protocol.describe("typeahead configuration", subject, {
+                command: "newFile",
+                items: helper.quickPick.typeahead.items.workspace,
             });
         });
 
         describe("with multiple workspaces", () => {
             beforeEach(async () => {
-                workspaceFolders.push(workspaceFolderA, workspaceFolderB);
-                helper.createStubObject(window, "showWorkspaceFolderPick").resolves(workspaceFolderB);
+                helper.createWorkspaceFoldersStub(helper.workspaceFolderA, helper.workspaceFolderB);
+                helper.createStubObject(window, "showWorkspaceFolderPick").resolves(helper.workspaceFolderB);
             });
 
             afterEach(async () => {
                 helper.restoreObject(window.showWorkspaceFolderPick);
-                workspaceFolders = [];
             });
 
             it("should show workspace selector", async () => {
@@ -230,19 +143,23 @@ describe(NewFileCommand.name, () => {
                 expect(window.showWorkspaceFolderPick).to.have.been.calledWith();
 
                 const prompt = "File Name";
-                const value = path.join(workspacePathB, path.sep);
+                const value = path.join(helper.workspaceFolderB.uri.fsPath, path.sep);
                 const valueSelection = [value.length, value.length];
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+                expect(window.showInputBox).to.have.been.calledWithExactly({
+                    prompt,
+                    value,
+                    valueSelection,
+                    ignoreFocusOut: true,
+                });
             });
 
             describe("with open document", () => {
                 beforeEach(async () => {
-                    helper.createStubObject(workspace, "getWorkspaceFolder").returns(workspaceFolders[1]);
+                    helper.createGetWorkspaceFolderStub().returns(helper.workspaceFolderB);
                     await helper.openDocument(helper.editorFile1);
                 });
 
                 afterEach(async () => {
-                    helper.restoreObject(workspace.getWorkspaceFolder);
                     await helper.closeAllEditors();
                 });
 
@@ -253,51 +170,9 @@ describe(NewFileCommand.name, () => {
                 });
             });
 
-            describe("configuration", () => {
-                beforeEach(async () => {
-                    await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderB.uri.fsPath, "dir-1")));
-                    await workspace.fs.createDirectory(Uri.file(path.resolve(workspaceFolderB.uri.fsPath, "dir-2")));
-                });
-
-                afterEach(async () => {
-                    helper.restoreGetConfiguration();
-                });
-
-                describe('when "newFile.typeahead.enabled" is "true"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
-                    });
-
-                    it("should show the quick pick dialog", async () => {
-                        await subject.execute();
-
-                        expect(window.showQuickPick).to.have.been.calledOnceWith(
-                            sinon.match([
-                                { description: "- workspace root", label: "/" },
-                                { description: undefined, label: "/dir-1" },
-                                { description: undefined, label: "/dir-2" },
-                            ]),
-                            sinon.match({
-                                placeHolder: helper.quickPick.typeahead.placeHolder,
-                            })
-                        );
-                    });
-                });
-
-                describe('when "newFile.typeahead.enabled" is "false"', () => {
-                    beforeEach(async () => {
-                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
-                    });
-
-                    it("should not show the quick pick dialog", async () => {
-                        try {
-                            await subject.execute();
-                            expect.fail("Must fail");
-                        } catch (e) {
-                            expect(window.showQuickPick).to.have.not.been.called;
-                        }
-                    });
-                });
+            helper.protocol.describe("typeahead configuration", subject, {
+                command: "newFile",
+                items: helper.quickPick.typeahead.items.workspace,
             });
         });
     });

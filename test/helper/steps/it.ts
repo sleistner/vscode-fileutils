@@ -24,7 +24,12 @@ export const it: Step = {
             await subject.execute(editorFile1);
             const value = editorFile1.path;
             const valueSelection = [value.length - 9, value.length - 3];
-            expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+            expect(window.showInputBox).to.have.been.calledWithExactly({
+                prompt,
+                value,
+                valueSelection,
+                ignoreFocusOut: true,
+            });
         };
     },
 };

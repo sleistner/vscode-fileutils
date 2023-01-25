@@ -1,8 +1,32 @@
-import { commands, env, ExtensionContext, TextEditor, Uri, window, workspace, WorkspaceFolder } from "vscode";
+import path from "path";
+import {
+    commands,
+    env,
+    ExtensionContext,
+    InputBoxOptions,
+    TextEditor,
+    Uri,
+    window,
+    workspace,
+    WorkspaceFolder,
+} from "vscode";
 import { FileItem } from "../FileItem";
 import { Cache } from "../lib/Cache";
-import { DialogOptions, ExecuteOptions, FileController, GetSourcePathOptions } from "./FileController";
+import { getConfiguration } from "../lib/config";
+import { DialogOptions, ExecuteOptions, FileController, SourcePathOptions } from "./FileController";
 import { TypeAheadController } from "./TypeAheadController";
+
+enum InputBoxPathType {
+    Root = "root",
+    Workspace = "workspace",
+}
+
+type TargetPathInputBoxOptions = InputBoxOptions & Required<Pick<InputBoxOptions, "value">>;
+
+export interface TargetPathInputBoxValueOptions extends DialogOptions {
+    workspaceFolderPath?: string;
+    pathType: InputBoxPathType;
+}
 
 export abstract class BaseFileController implements FileController {
     constructor(protected context: ExtensionContext) {}
@@ -10,6 +34,10 @@ export abstract class BaseFileController implements FileController {
     public abstract showDialog(options?: DialogOptions): Promise<FileItem | FileItem[] | undefined>;
 
     public abstract execute(options: ExecuteOptions): Promise<FileItem>;
+
+    private get pathTypeIndicator(): string {
+        return getConfiguration("inputBox.pathTypeIndicator") ?? "";
+    }
 
     public async openFileInEditor(fileItem: FileItem): Promise<TextEditor | undefined> {
         if (fileItem.isDir) {
@@ -33,7 +61,72 @@ export abstract class BaseFileController implements FileController {
         return commands.executeCommand("workbench.action.closeActiveEditor");
     }
 
-    public async getSourcePath({ ignoreIfNotExists, uri }: GetSourcePathOptions = {}): Promise<string> {
+    protected async getTargetPath(sourcePath: string, options: DialogOptions): Promise<string | undefined> {
+        const { prompt } = options;
+
+        const pathType = this.getInputBoxPathType();
+        const workspaceFolderPath = await this.getWorkspaceFolderPath();
+        const value = await this.getTargetPathInputBoxValue(sourcePath, {
+            ...options,
+            workspaceFolderPath,
+            pathType,
+        });
+
+        const targetPath = await this.showTargetPathInputBox({
+            prompt,
+            value,
+        });
+
+        const shouldRestoreAbsolutePath = targetPath && workspaceFolderPath && pathType === InputBoxPathType.Workspace;
+
+        if (shouldRestoreAbsolutePath) {
+            return path.join(
+                workspaceFolderPath,
+                targetPath.replace(new RegExp(`^(${this.pathTypeIndicator}|${workspaceFolderPath})`, "g"), "")
+            );
+        }
+
+        return targetPath;
+    }
+
+    protected async showTargetPathInputBox(options: TargetPathInputBoxOptions): Promise<string | undefined> {
+        const { prompt, value } = options;
+        const valueSelection = this.getFilenameSelection(value);
+
+        return await window.showInputBox({
+            prompt,
+            value,
+            valueSelection,
+            ignoreFocusOut: true,
+        });
+    }
+
+    private getInputBoxPathType(): InputBoxPathType {
+        const pathType: InputBoxPathType | undefined = getConfiguration("inputBox.pathType");
+
+        if (pathType && Object.values(InputBoxPathType).includes(pathType)) {
+            return pathType;
+        }
+        return InputBoxPathType.Root;
+    }
+
+    protected async getTargetPathInputBoxValue(
+        sourcePath: string,
+        options: TargetPathInputBoxValueOptions
+    ): Promise<string> {
+        const { workspaceFolderPath, pathType } = options;
+
+        if (pathType === InputBoxPathType.Workspace && workspaceFolderPath) {
+            return sourcePath.replace(workspaceFolderPath, this.pathTypeIndicator);
+        }
+        return sourcePath;
+    }
+
+    protected getFilenameSelection(value: string): [number, number] {
+        return [value.length, value.length];
+    }
+
+    public async getSourcePath({ ignoreIfNotExists, uri }: SourcePathOptions = {}): Promise<string> {
         if (uri?.fsPath) {
             return uri.fsPath;
         }
@@ -101,7 +194,7 @@ export abstract class BaseFileController implements FileController {
         return postAPICallClipboardData;
     }
 
-    protected async getWorkspaceSourcePath(): Promise<string | undefined> {
+    protected async getWorkspaceFolderPath(): Promise<string | undefined> {
         const workspaceFolder = await this.selectWorkspaceFolder();
         return workspaceFolder?.uri.fsPath;
     }
@@ -116,7 +209,7 @@ export abstract class BaseFileController implements FileController {
         return workspace.getWorkspaceFolder(uri) || window.showWorkspaceFolderPick();
     }
 
-    protected async getFileSourcePathAtRoot(rootPath: string, options: GetSourcePathOptions): Promise<string> {
+    protected async getFileSourcePathAtRoot(rootPath: string, options: SourcePathOptions): Promise<string> {
         const { relativeToRoot = false, typeahead } = options;
         let sourcePath = rootPath;
 

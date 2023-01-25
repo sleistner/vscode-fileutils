@@ -1,16 +1,12 @@
 import expand from "brace-expansion";
 import * as path from "path";
-import { FileType, Uri, window, workspace } from "vscode";
+import { FileType, Uri, workspace } from "vscode";
 import { FileItem } from "../FileItem";
-import { BaseFileController } from "./BaseFileController";
+import { BaseFileController, TargetPathInputBoxValueOptions } from "./BaseFileController";
 import { DialogOptions, ExecuteOptions } from "./FileController";
 
-export interface MoveFileDialogOptions extends DialogOptions {
-    showFullPath?: boolean;
-}
-
 export class MoveFileController extends BaseFileController {
-    public async showDialog(options: MoveFileDialogOptions): Promise<FileItem | undefined> {
+    public async showDialog(options: DialogOptions): Promise<FileItem | undefined> {
         const { uri } = options;
         const sourcePath = await this.getSourcePath({ uri });
 
@@ -35,46 +31,35 @@ export class MoveFileController extends BaseFileController {
         return fileItem.move();
     }
 
-    private async getTargetPath(sourcePath: string, options: MoveFileDialogOptions): Promise<string | undefined> {
-        const { prompt } = options;
-        const value = await this.getTargetPathPromptValue(sourcePath, options);
-        const valueSelection = this.getFilenameSelection(value);
-
-        return await window.showInputBox({
-            prompt,
-            value,
-            valueSelection,
-        });
+    protected async getTargetPathInputBoxValue(
+        sourcePath: string,
+        options: TargetPathInputBoxValueOptions
+    ): Promise<string> {
+        const value = await this.getFullTargetPathInputBoxValue(sourcePath, options);
+        return super.getTargetPathInputBoxValue(value, options);
     }
 
-    private async getTargetPathPromptValue(sourcePath: string, options: MoveFileDialogOptions): Promise<string> {
-        const { showFullPath = false } = options;
-        if (showFullPath) {
-            return await this.getFullTargetPathPromptValue(sourcePath, options);
-        }
-        return path.basename(sourcePath);
-    }
-
-    private async getFullTargetPathPromptValue(sourcePath: string, options: MoveFileDialogOptions): Promise<string> {
-        const { typeahead } = options;
+    private async getFullTargetPathInputBoxValue(
+        sourcePath: string,
+        options: TargetPathInputBoxValueOptions
+    ): Promise<string> {
+        const { typeahead, workspaceFolderPath } = options;
 
         if (!typeahead) {
             return sourcePath;
         }
 
-        const workspaceSourcePath = await this.getWorkspaceSourcePath();
-
-        if (!workspaceSourcePath) {
+        if (!workspaceFolderPath) {
             throw new Error();
         }
 
-        const rootPath = await this.getFileSourcePathAtRoot(workspaceSourcePath, { relativeToRoot: true, typeahead });
+        const rootPath = await this.getFileSourcePathAtRoot(workspaceFolderPath, { relativeToRoot: true, typeahead });
         const fileName = path.basename(sourcePath);
 
         return path.join(rootPath, fileName);
     }
 
-    private getFilenameSelection(value: string): [number, number] {
+    protected getFilenameSelection(value: string): [number, number] {
         const basename = path.basename(value);
         const start = value.length - basename.length;
         const dot = basename.lastIndexOf(".");

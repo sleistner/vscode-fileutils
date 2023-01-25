@@ -2,13 +2,15 @@ import { expect } from "chai";
 import * as path from "path";
 import { Uri, window } from "vscode";
 import { RenameFileCommand } from "../../src/command";
-import { MoveFileController } from "../../src/controller";
+import { RenameFileController } from "../../src/controller/RenameFileController";
 import * as helper from "../helper";
 
 describe(RenameFileCommand.name, () => {
-    const subject = new RenameFileCommand(new MoveFileController(helper.createExtensionContext()));
+    const subject = new RenameFileCommand(new RenameFileController(helper.createExtensionContext()));
 
-    beforeEach(helper.beforeEach);
+    beforeEach(async () => {
+        await helper.beforeEach();
+    });
 
     afterEach(helper.afterEach);
 
@@ -21,7 +23,6 @@ describe(RenameFileCommand.name, () => {
 
             afterEach(async () => {
                 await helper.closeAllEditors();
-                helper.restoreShowInputBox();
             });
 
             it("should prompt for file destination", async () => {
@@ -29,7 +30,12 @@ describe(RenameFileCommand.name, () => {
                 const prompt = "New Name";
                 const value = path.basename(helper.editorFile1.fsPath);
                 const valueSelection = [value.length - 9, value.length - 3];
-                expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+                expect(window.showInputBox).to.have.been.calledWithExactly({
+                    prompt,
+                    value,
+                    valueSelection,
+                    ignoreFocusOut: true,
+                });
             });
 
             helper.protocol.it("should move current file to destination", subject);
@@ -47,7 +53,12 @@ describe(RenameFileCommand.name, () => {
                     const prompt = "New Name";
                     const value = path.basename(helper.editorFile2.fsPath);
                     const valueSelection = [value.length - 9, value.length - 3];
-                    expect(window.showInputBox).to.have.been.calledWithExactly({ prompt, value, valueSelection });
+                    expect(window.showInputBox).to.have.been.calledWithExactly({
+                        prompt,
+                        value,
+                        valueSelection,
+                        ignoreFocusOut: true,
+                    });
                 });
             });
         });
@@ -57,8 +68,6 @@ describe(RenameFileCommand.name, () => {
                 await helper.closeAllEditors();
                 helper.createShowInputBoxStub();
             });
-
-            afterEach(() => helper.restoreShowInputBox());
 
             it("should ignore the command call", async () => {
                 try {

@@ -1,3 +1,16 @@
+# [3.9.0](https://github.com/sleistner/vscode-fileutils/compare/v3.8.0...v3.9.0) (2023-01-25)
+
+
+### Bug Fixes
+
+* **RenameFileController:** always append base path ([cd6f352](https://github.com/sleistner/vscode-fileutils/commit/cd6f35276331f5ff8b73dbd88443f7f0952b6cc8))
+
+
+### Features
+
+* add inputBox pathTypeIndicator setting ([3390544](https://github.com/sleistner/vscode-fileutils/commit/3390544f5f75ac6dc481827b485a3113447d4b3b))
+* **inputBox:** add path representation configuration ([82e7364](https://github.com/sleistner/vscode-fileutils/commit/82e7364b67551388a1cc58ac1ee8122975f835aa))
+
 # [3.8.0](https://github.com/sleistner/vscode-fileutils/compare/v3.7.0...v3.8.0) (2023-01-23)
 
 

@@ -1,4 +1,3 @@
-import expand from "brace-expansion";
 import * as path from "path";
 import { FileType, Uri, workspace } from "vscode";
 import { FileItem } from "../FileItem";
@@ -18,10 +17,7 @@ export class MoveFileController extends BaseFileController {
 
         if (targetPath) {
             const isDir = (await workspace.fs.stat(Uri.file(sourcePath))).type === FileType.Directory;
-
-            return expand(targetPath)
-                .map((filePath) => new FileItem(sourcePath, filePath, isDir))
-                .at(0);
+            return new FileItem(sourcePath, targetPath, isDir);
         }
     }
 

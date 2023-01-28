@@ -1,3 +1,10 @@
+## [3.9.2](https://github.com/sleistner/vscode-fileutils/compare/v3.9.1...v3.9.2) (2023-01-28)
+
+
+### Bug Fixes
+
+* **MoveFileController:** disable brace expansion ([8874f26](https://github.com/sleistner/vscode-fileutils/commit/8874f2664c62035e31ad61656fa18d018f5fc36a))
+
 ## [3.9.1](https://github.com/sleistner/vscode-fileutils/compare/v3.9.0...v3.9.1) (2023-01-25)
 
 

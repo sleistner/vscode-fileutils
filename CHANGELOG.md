@@ -1,3 +1,10 @@
+# [3.10.0](https://github.com/sleistner/vscode-fileutils/compare/v3.9.3...v3.10.0) (2023-01-30)
+
+
+### Features
+
+* **Settings:** add option to disable context menus ([f3b1431](https://github.com/sleistner/vscode-fileutils/commit/f3b143134f62337a1082ecf30b4588e7dcfab7ae))
+
 ## [3.9.3](https://github.com/sleistner/vscode-fileutils/compare/v3.9.2...v3.9.3) (2023-01-30)
 
 

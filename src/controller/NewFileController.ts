@@ -1,5 +1,6 @@
 import expand from "brace-expansion";
 import * as path from "path";
+import { window } from "vscode";
 import { FileItem } from "../FileItem";
 import { BaseFileController, TargetPathInputBoxValueOptions } from "./BaseFileController";
 import { DialogOptions, ExecuteOptions, SourcePathOptions } from "./FileController";
@@ -18,13 +19,15 @@ export class NewFileController extends BaseFileController {
         const sourcePath = await this.getNewFileSourcePath({ relativeToRoot, typeahead });
         const targetPath = await this.getTargetPath(sourcePath, options);
 
-        if (targetPath) {
-            return expand(targetPath.replace(/\\/g, "/")).map((filePath) => {
-                const realPath = path.resolve(sourcePath, filePath);
-                const isDir = filePath.endsWith("/");
-                return new FileItem(sourcePath, realPath, isDir);
-            });
+        if (!targetPath) {
+            return;
         }
+
+        return expand(targetPath.replace(/\\/g, "/")).map((filePath) => {
+            const realPath = path.resolve(sourcePath, filePath);
+            const isDir = filePath.endsWith("/");
+            return new FileItem(sourcePath, realPath, isDir);
+        });
     }
 
     public async execute(options: NewFileExecuteOptions): Promise<FileItem> {
@@ -32,7 +35,7 @@ export class NewFileController extends BaseFileController {
         await this.ensureWritableFile(fileItem);
         try {
             return fileItem.create(isDir);
-        } catch (e) {
+        } catch {
             throw new Error(`Error creating file '${fileItem.path}'.`);
         }
     }
@@ -57,8 +60,18 @@ export class NewFileController extends BaseFileController {
 
     private async getRootPath(relativeToRoot: boolean): Promise<string | undefined> {
         if (relativeToRoot) {
-            return this.getWorkspaceFolderPath();
+            return this.getWorkspaceFolderPath(relativeToRoot);
         }
         return path.dirname(await this.getSourcePath());
+    }
+
+    protected async getWorkspaceFolderPath(relativeToRoot: boolean): Promise<string | undefined> {
+        const requiresWorkspaceFolderPick = relativeToRoot && this.isMultiRootWorkspace;
+        if (requiresWorkspaceFolderPick) {
+            const workspaceFolder = await window.showWorkspaceFolderPick();
+            return workspaceFolder?.uri.fsPath;
+        }
+
+        return super.getWorkspaceFolderPath();
     }
 }

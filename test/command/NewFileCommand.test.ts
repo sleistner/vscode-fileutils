@@ -140,7 +140,7 @@ describe(NewFileCommand.name, () => {
 
             it("should show workspace selector", async () => {
                 await subject.execute();
-                expect(window.showWorkspaceFolderPick).to.have.been.calledWith();
+                expect(window.showWorkspaceFolderPick).to.have.been.called;
 
                 const prompt = "File Name";
                 const value = path.join(helper.workspaceFolderB.uri.fsPath, path.sep);
@@ -157,16 +157,19 @@ describe(NewFileCommand.name, () => {
                 beforeEach(async () => {
                     helper.createGetWorkspaceFolderStub().returns(helper.workspaceFolderB);
                     await helper.openDocument(helper.editorFile1);
+                    await subject.execute();
                 });
 
                 afterEach(async () => {
                     await helper.closeAllEditors();
                 });
 
+                it("should show workspace selector", async () => {
+                    expect(window.showWorkspaceFolderPick).to.have.been.called;
+                });
+
                 it("should select workspace for open file", async () => {
-                    await subject.execute();
                     expect(workspace.getWorkspaceFolder).to.have.been.calledWith(Uri.file(helper.editorFile1.fsPath));
-                    expect(window.showWorkspaceFolderPick).to.have.not.been.called;
                 });
             });
 

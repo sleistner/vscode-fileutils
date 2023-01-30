@@ -194,6 +194,7 @@ export abstract class BaseFileController implements FileController {
         return postAPICallClipboardData;
     }
 
+    protected async getWorkspaceFolderPath(relativeToRoot?: boolean): Promise<string | undefined>;
     protected async getWorkspaceFolderPath(): Promise<string | undefined> {
         const workspaceFolder = await this.selectWorkspaceFolder();
         return workspaceFolder?.uri.fsPath;
@@ -207,6 +208,10 @@ export abstract class BaseFileController implements FileController {
         const sourcePath = await this.getSourcePath({ ignoreIfNotExists: true });
         const uri = Uri.file(sourcePath);
         return workspace.getWorkspaceFolder(uri) || window.showWorkspaceFolderPick();
+    }
+
+    protected get isMultiRootWorkspace(): boolean {
+        return workspace.workspaceFolders !== undefined && workspace.workspaceFolders.length > 1;
     }
 
     protected async getFileSourcePathAtRoot(rootPath: string, options: SourcePathOptions): Promise<string> {

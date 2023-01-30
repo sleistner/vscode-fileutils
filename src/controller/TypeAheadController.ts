@@ -1,45 +1,96 @@
+import * as fs from "fs";
 import * as path from "path";
-import { QuickPickItem, window } from "vscode";
+import { QuickPickItem, QuickPickItemKind, window } from "vscode";
 import { Cache } from "../lib/Cache";
+import { getConfiguration } from "../lib/config";
 import { TreeWalker } from "../lib/TreeWalker";
+
+type QuickPickItemHeaderOptions = {
+    lastEntry: string | undefined;
+    sourcePath: string;
+    workspaceFolderPath: string;
+};
+
+type TypeAheadControllerOptions = {
+    relativeToRoot: boolean;
+    showParentFolder?: boolean;
+};
 
 async function waitForIOEvents(): Promise<void> {
     return new Promise((resolve) => setImmediate(resolve));
 }
 
-const ROOT_PATH = "/";
+const WORKSPACE_FOLDER = path.sep;
+const CURRENT_FOLDER = ".";
+const PARENT_PATH = "..";
+const LABEL_PADDING = Math.max(CURRENT_FOLDER.length, WORKSPACE_FOLDER.length, PARENT_PATH.length);
 
 export class TypeAheadController {
-    constructor(private cache: Cache, private relativeToRoot: boolean = false) {}
+    private readonly relativeToRoot: boolean;
+    private readonly showParentFolder: boolean;
 
-    public async showDialog(sourcePath: string): Promise<string> {
-        const items = await this.buildQuickPickItems(sourcePath);
+    constructor(private cache: Cache, options: TypeAheadControllerOptions) {
+        this.relativeToRoot = options.relativeToRoot ?? false;
+        this.showParentFolder = options.showParentFolder ?? false;
+    }
 
-        const item = items.length === 1 ? items[0] : await this.showQuickPick(items);
+    public async showDialog(sourcePath: string, workspaceFolderPath: string): Promise<string> {
+        const item = await this.getQuickPickItem(sourcePath, workspaceFolderPath);
 
         if (!item) {
             throw new Error();
         }
 
         const selection = item.label;
-        this.cache.put("last", selection);
+
+        this.addToCacheIfApplicable(selection);
+
+        if (selection === PARENT_PATH) {
+            return await this.showDialog(path.join(sourcePath, item.label), workspaceFolderPath);
+        }
+
+        if (selection === CURRENT_FOLDER) {
+            return sourcePath;
+        }
+
+        if (selection === WORKSPACE_FOLDER) {
+            return workspaceFolderPath;
+        }
 
         return path.join(sourcePath, selection);
     }
 
-    private async buildQuickPickItems(sourcePath: string): Promise<QuickPickItem[]> {
-        const lastEntry: string = this.cache.get("last");
-        const header = this.buildQuickPickItemsHeader(lastEntry);
-
-        const directories = (await this.getDirectoriesAtSourcePath(sourcePath))
-            .filter((directory) => directory !== lastEntry && directory !== ROOT_PATH)
-            .map((directory) => this.buildQuickPickItem(directory));
+    private async getQuickPickItem(
+        sourcePath: string,
+        workspaceFolderPath: string
+    ): Promise<QuickPickItem | undefined> {
+        const { header, directories } = await this.buildQuickPickItems(sourcePath, workspaceFolderPath);
 
         if (directories.length === 0 && header.length === 1) {
-            return header;
+            return header[0];
         }
 
-        return [...header, ...directories];
+        return await this.showQuickPick([...header, ...directories]);
+    }
+
+    private addToCacheIfApplicable(selection: string) {
+        if (selection !== WORKSPACE_FOLDER && selection !== CURRENT_FOLDER && selection !== PARENT_PATH) {
+            this.cache.put("last", selection);
+        }
+    }
+
+    private async buildQuickPickItems(
+        sourcePath: string,
+        workspaceFolderPath: string
+    ): Promise<{ header: QuickPickItem[]; directories: QuickPickItem[] }> {
+        const lastEntry: string = this.cache.get("last");
+        const header = this.buildQuickPickItemsHeader({ lastEntry, sourcePath, workspaceFolderPath });
+
+        const directories = (await this.getDirectoriesAtSourcePath(sourcePath))
+            .filter((directory) => directory !== lastEntry && directory !== WORKSPACE_FOLDER)
+            .map((directory) => this.buildQuickPickItem(directory));
+
+        return { header, directories };
     }
 
     private async getDirectoriesAtSourcePath(sourcePath: string): Promise<string[]> {
@@ -48,20 +99,60 @@ export class TypeAheadController {
         return treeWalker.directories(sourcePath);
     }
 
-    private buildQuickPickItemsHeader(lastEntry: string | undefined): QuickPickItem[] {
+    private buildQuickPickItemsHeader(options: QuickPickItemHeaderOptions): QuickPickItem[] {
+        const { lastEntry, sourcePath, workspaceFolderPath } = options;
+        const items = [];
+
+        if (this.relativeToRoot) {
+            items.push(...this.buildQuickPickItemsHeaderForRelativeRoot(sourcePath, workspaceFolderPath));
+        } else {
+            items.push(this.buildQuickPickItem(CURRENT_FOLDER, "current folder"));
+        }
+
+        if (
+            lastEntry &&
+            lastEntry !== WORKSPACE_FOLDER &&
+            lastEntry !== CURRENT_FOLDER &&
+            fs.existsSync(path.join(sourcePath, lastEntry))
+        ) {
+            items.push(this.buildQuickPickItem(lastEntry, "last selection"));
+        }
+
+        return items;
+    }
+
+    private buildQuickPickItemsHeaderForRelativeRoot(sourcePath: string, workspaceFolderPath: string): QuickPickItem[] {
+        const workplaceFolderIndicator: string = getConfiguration("inputBox.pathTypeIndicator") ?? "";
+
         const items = [
-            this.buildQuickPickItem(ROOT_PATH, `- ${this.relativeToRoot ? "workspace root" : "current file"}`),
+            {
+                kind: QuickPickItemKind.Separator,
+                label: sourcePath.replace(workspaceFolderPath, workplaceFolderIndicator),
+            },
+            this.buildQuickPickItem(CURRENT_FOLDER, "current folder"),
         ];
 
-        if (lastEntry && lastEntry !== ROOT_PATH) {
-            items.push(this.buildQuickPickItem(lastEntry, "- last selection"));
+        const parentPath = path.join(sourcePath, PARENT_PATH);
+
+        if (this.showParentFolder && path.join(workspaceFolderPath, PARENT_PATH) !== parentPath) {
+            const item = this.buildQuickPickItem(PARENT_PATH, "parent folder");
+            items.push(item);
+        }
+
+        if (workspaceFolderPath !== sourcePath) {
+            const item = this.buildQuickPickItem(WORKSPACE_FOLDER, "workspace root");
+            items.push(item);
         }
 
         return items;
     }
 
     private buildQuickPickItem(label: string, description?: string | undefined): QuickPickItem {
-        return { description, label };
+        if (description) {
+            const padding = LABEL_PADDING - label.length;
+            return { label, description: `${"".padStart(padding)}${description}` };
+        }
+        return { label };
     }
 
     private async showQuickPick(items: readonly QuickPickItem[]) {

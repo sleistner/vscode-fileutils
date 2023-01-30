@@ -96,67 +96,82 @@
             "explorer/context": [
                 {
                     "command": "fileutils.moveFile",
-                    "group": "7_modification"
+                    "group": "7_modification",
+                    "when": "config.fileutils.menus.context.explorer =~ /moveFile/"
                 },
                 {
                     "command": "fileutils.duplicateFile",
-                    "group": "7_modification"
+                    "group": "7_modification",
+                    "when": "config.fileutils.menus.context.explorer =~ /duplicateFile/"
                 },
                 {
                     "command": "fileutils.newFileAtRoot",
-                    "group": "2_workspace"
+                    "group": "2_workspace",
+                    "when": "config.fileutils.menus.context.explorer =~ /newFileAtRoot/"
                 },
                 {
                     "command": "fileutils.newFolderAtRoot",
-                    "group": "2_workspace"
+                    "group": "2_workspace",
+                    "when": "config.fileutils.menus.context.explorer =~ /newFolderAtRoot/"
                 },
                 {
                     "command": "fileutils.copyFileName",
-                    "group": "6_copypath"
+                    "group": "6_copypath",
+                    "when": "config.fileutils.menus.context.explorer =~ /copyFileName/"
                 }
             ],
             "editor/context": [
                 {
                     "command": "fileutils.copyFileName",
-                    "group": "1_copypath"
+                    "group": "1_copypath",
+                    "when": "config.fileutils.menus.context.editor =~ /copyFileName/"
                 },
                 {
                     "command": "fileutils.renameFile",
-                    "group": "1_modification@1"
+                    "group": "1_modification@1",
+                    "when": "config.fileutils.menus.context.editor =~ /renameFile/"
                 },
                 {
                     "command": "fileutils.moveFile",
-                    "group": "1_modification@2"
+                    "group": "1_modification@2",
+                    "when": "config.fileutils.menus.context.editor =~ /moveFile/"
                 },
                 {
                     "command": "fileutils.duplicateFile",
-                    "group": "1_modification@3"
+                    "group": "1_modification@3",
+                    "when": "config.fileutils.menus.context.editor =~ /duplicateFile/"
                 },
                 {
                     "command": "fileutils.removeFile",
-                    "group": "1_modification@4"
+                    "group": "1_modification@4",
+                    "when": "config.fileutils.menus.context.editor =~ /removeFile/"
                 }
             ],
             "editor/title/context": [
                 {
                     "command": "fileutils.copyFileName",
-                    "group": "1_copypath"
+                    "group": "1_copypath",
+                    "when": "config.fileutils.menus.context.editorTitle =~ /copyFileName/"
                 },
                 {
                     "command": "fileutils.renameFile",
-                    "group": "1_modification@1"
+                    "group": "1_modification@1",
+                    "when": "config.fileutils.menus.context.editorTitle =~ /renameFile/"
                 },
                 {
                     "command": "fileutils.moveFile",
-                    "group": "1_modification@2"
+                    "group": "1_modification@2",
+                    "when": "config.fileutils.menus.context.editorTitle =~ /moveFile/"
                 },
                 {
                     "command": "fileutils.duplicateFile",
-                    "group": "1_modification@3"
+                    "group": "1_modification@3",
+                    "when": "config.fileutils.menus.context.editorTitle =~ /duplicateFile/"
                 },
                 {
                     "command": "fileutils.removeFile",
-                    "group": "1_modification@4"
+                    "group": "1_modification@4",
+                    "when": "config.fileutils.menus.context.editorTitle =~ /removeFile/"
                 }
             ]
         },
@@ -210,6 +225,96 @@
                     "maxLength": 50,
                     "description": "Controls the indicator that is shown in the input box when the path type is workspace. This setting only has an effect when 'fileutils.inputBox.pathType' is set to 'workspace'.",
                     "markdownDescription": "Controls the indicator that is shown in the input box when the path type is workspace. \n\nThis setting only has an effect when `#fileutils.inputBox.pathType#` is set to `workspace`.\n\nFor example, if the path type is `workspace` and the indicator is `@`, the path will be shown as `@/myWorkspace`."
+                },
+                "fileutils.menus.context.explorer": {
+                    "type": "array",
+                    "default": [
+                        "moveFile",
+                        "duplicateFile",
+                        "newFileAtRoot",
+                        "newFolderAtRoot",
+                        "copyFileName"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "moveFile",
+                            "duplicateFile",
+                            "newFileAtRoot",
+                            "newFolderAtRoot",
+                            "copyFileName"
+                        ],
+                        "enumDescriptions": [
+                            "Move",
+                            "Duplicate",
+                            "New File Relative to Project Root",
+                            "New Folder Relative to Project Root",
+                            "Copy Name"
+                        ]
+                    },
+                    "uniqueItems": true,
+                    "description": "Controls whether to show the command in the explorer context menu.",
+                    "order": 90
+                },
+                "fileutils.menus.context.editor": {
+                    "type": "array",
+                    "default": [
+                        "renameFile",
+                        "moveFile",
+                        "duplicateFile",
+                        "removeFile",
+                        "copyFileName"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "renameFile",
+                            "moveFile",
+                            "duplicateFile",
+                            "removeFile",
+                            "copyFileName"
+                        ],
+                        "enumDescriptions": [
+                            "Rename",
+                            "Move",
+                            "Duplicate",
+                            "Remove",
+                            "Copy Name"
+                        ]
+                    },
+                    "uniqueItems": true,
+                    "description": "Controls whether to show the command in the editor context menu.",
+                    "order": 100
+                },
+                "fileutils.menus.context.editorTitle": {
+                    "type": "array",
+                    "default": [
+                        "renameFile",
+                        "moveFile",
+                        "duplicateFile",
+                        "removeFile",
+                        "copyFileName"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "renameFile",
+                            "moveFile",
+                            "duplicateFile",
+                            "removeFile",
+                            "copyFileName"
+                        ],
+                        "enumDescriptions": [
+                            "Rename",
+                            "Move",
+                            "Duplicate",
+                            "Remove",
+                            "Copy Name"
+                        ]
+                    },
+                    "uniqueItems": true,
+                    "description": "Controls whether to show the command in the editor title context menu.",
+                    "order": 110
                 }
             }
         }

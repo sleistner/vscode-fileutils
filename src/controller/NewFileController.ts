@@ -55,7 +55,7 @@ export class NewFileController extends BaseFileController {
             throw new Error();
         }
 
-        return this.getFileSourcePathAtRoot(rootPath, { relativeToRoot, typeahead });
+        return this.getFileSourcePathAtRoot(rootPath, rootPath, { relativeToRoot, typeahead });
     }
 
     private async getRootPath(relativeToRoot: boolean): Promise<string | undefined> {

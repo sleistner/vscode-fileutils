@@ -1,5 +1,4 @@
 import glob from "fast-glob";
-import * as path from "path";
 import { workspace } from "vscode";
 
 interface ExtendedProcess {
@@ -7,18 +6,18 @@ interface ExtendedProcess {
 }
 
 export class TreeWalker {
-    public async directories(sourcePath: string): Promise<string[]> {
+    public async directories(cwd: string): Promise<string[]> {
         try {
             this.ensureFailSafeFileLookup();
             const files = await glob("**", {
-                cwd: sourcePath,
+                cwd,
                 onlyDirectories: true,
                 ignore: this.getExcludePatterns(),
             });
-            return files.map((file) => path.join(path.sep, file)).sort();
+            return files.map((file) => file).sort();
         } catch (err) {
             const details = (err as Error).message;
-            throw new Error(`Unable to list subdirectories for directory "${sourcePath}". Details: (${details})`);
+            throw new Error(`Unable to list subdirectories for directory "${cwd}". Details: (${details})`);
         }
     }
 

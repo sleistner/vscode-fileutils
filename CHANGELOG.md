@@ -1,3 +1,10 @@
+## [3.9.3](https://github.com/sleistner/vscode-fileutils/compare/v3.9.2...v3.9.3) (2023-01-30)
+
+
+### Bug Fixes
+
+* **NewFileController:** show workspace selector when relative to root ([e3fcf96](https://github.com/sleistner/vscode-fileutils/commit/e3fcf962ec74f5b803da963ba9bdfe4676f83aeb))
+
 ## [3.9.2](https://github.com/sleistner/vscode-fileutils/compare/v3.9.1...v3.9.2) (2023-01-28)
 
 

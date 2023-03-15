@@ -333,7 +333,7 @@
         "clean": "rimraf out"
     },
     "devDependencies": {
-        "@enter-at/eslint-config-typescript-prettier": "1.6.0",
+        "@enter-at/eslint-config-typescript-prettier": "1.6.1",
         "@semantic-release/changelog": "6.0.2",
         "@semantic-release/git": "10.0.1",
         "@tsconfig/node18": "1.0.1",

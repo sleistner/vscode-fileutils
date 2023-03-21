@@ -49,17 +49,17 @@
             {
                 "command": "fileutils.renameFile",
                 "category": "File Utils",
-                "title": "Rename"
+                "title": "Rename..."
             },
             {
                 "command": "fileutils.moveFile",
                 "category": "File Utils",
-                "title": "Move"
+                "title": "Move..."
             },
             {
                 "command": "fileutils.duplicateFile",
                 "category": "File Utils",
-                "title": "Duplicate"
+                "title": "Duplicate..."
             },
             {
                 "command": "fileutils.removeFile",
@@ -69,22 +69,22 @@
             {
                 "command": "fileutils.newFile",
                 "category": "File Utils",
-                "title": "New File Relative to Current View"
+                "title": "New File Relative to Current View..."
             },
             {
                 "command": "fileutils.newFileAtRoot",
                 "category": "File Utils",
-                "title": "New File Relative to Project Root"
+                "title": "New File Relative to Project Root..."
             },
             {
                 "command": "fileutils.newFolder",
                 "category": "File Utils",
-                "title": "New Folder Relative to Current View"
+                "title": "New Folder Relative to Current View..."
             },
             {
                 "command": "fileutils.newFolderAtRoot",
                 "category": "File Utils",
-                "title": "New Folder Relative to Project Root"
+                "title": "New Folder Relative to Project Root..."
             },
             {
                 "command": "fileutils.copyFileName",
@@ -124,27 +124,27 @@
                 {
                     "command": "fileutils.copyFileName",
                     "group": "1_copypath",
-                    "when": "config.fileutils.menus.context.editor =~ /copyFileName/"
+                    "when": "config.fileutils.menus.context.editor =~ /copyFileName/ && resourceScheme != output"
                 },
                 {
                     "command": "fileutils.renameFile",
                     "group": "1_modification@1",
-                    "when": "config.fileutils.menus.context.editor =~ /renameFile/"
+                    "when": "config.fileutils.menus.context.editor =~ /renameFile/ && resourceScheme != output"
                 },
                 {
                     "command": "fileutils.moveFile",
                     "group": "1_modification@2",
-                    "when": "config.fileutils.menus.context.editor =~ /moveFile/"
+                    "when": "config.fileutils.menus.context.editor =~ /moveFile/ && resourceScheme != output"
                 },
                 {
                     "command": "fileutils.duplicateFile",
                     "group": "1_modification@3",
-                    "when": "config.fileutils.menus.context.editor =~ /duplicateFile/"
+                    "when": "config.fileutils.menus.context.editor =~ /duplicateFile/ && resourceScheme != output"
                 },
                 {
                     "command": "fileutils.removeFile",
                     "group": "1_modification@4",
-                    "when": "config.fileutils.menus.context.editor =~ /removeFile/"
+                    "when": "config.fileutils.menus.context.editor =~ /removeFile/ && resourceScheme != output"
                 }
             ],
             "editor/title/context": [

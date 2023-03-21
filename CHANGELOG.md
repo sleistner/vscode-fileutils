@@ -1,3 +1,10 @@
+## [3.10.1](https://github.com/sleistner/vscode-fileutils/compare/v3.10.0...v3.10.1) (2023-03-21)
+
+
+### Bug Fixes
+
+* rename commands to comply with VSCode style guides ([72f6843](https://github.com/sleistner/vscode-fileutils/commit/72f6843c02d6cbec5d5588a27ef8097e1130e68e))
+
 # [3.10.0](https://github.com/sleistner/vscode-fileutils/compare/v3.9.3...v3.10.0) (2023-01-30)
 
 

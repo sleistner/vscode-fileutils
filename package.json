@@ -350,7 +350,7 @@
         "bluebird": "3.7.2",
         "bluebird-retry": "0.11.0",
         "chai": "4.3.7",
-        "esbuild": "0.17.13",
+        "esbuild": "0.17.14",
         "eslint": "8.36.0",
         "husky": "8.0.3",
         "mocha": "10.2.0",

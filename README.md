@@ -19,7 +19,7 @@ _Inspired by [Sidebar Enhancements](https://github.com/titoBouzout/SideBarEnhanc
 ## Using the context menu:
 
 -   Right click on a file or folder in the Explorer pane or in a file tab.
--   Select one of those command: `Copy Name`, `Duplicate`, `Move`, `Rename`, `Delete`.
+-   Select one of those command: `Copy Name`, `Duplicate...`, `Move...`, `Rename...`, `Delete...`.
 -   For comand `Copy name`, the file name is copied to the clipboard.
 -   For other command, answer the additional info requested:
     -   Duplicate: update path to duplicate near where the command palette is displayed.

@@ -16,7 +16,18 @@ _Inspired by [Sidebar Enhancements](https://github.com/titoBouzout/SideBarEnhanc
 
 ![demo](images/demo.gif)
 
-## Using the command palette:
+## Using the context menu:
+
+-   Right click on a file or folder in the Explorer pane or in a file tab.
+-   Select one of those command: `Copy Name`, `Duplicate...`, `Move...`, `Rename...`, `Delete...`.
+-   For comand `Copy name`, the file name is copied to the clipboard.
+-   For other command, answer the additional info requested:
+    -   Duplicate: update path to duplicate near where the command palette is displayed.
+    -   Move: update path to move to near where the command palette is displayed.
+    -   Rename: update name in Explorer pane or near where the command palette is displayed
+    -   Delete: answer Visual Studio Code delete dialog.
+
+### Using the command palette:
 
 -   Bring up the command palette, and select "File Utils: ".
 -   Select one of the commands mentioned below.

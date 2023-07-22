@@ -1,3 +1,10 @@
+## [3.10.3](https://github.com/sleistner/vscode-fileutils/compare/v3.10.2...v3.10.3) (2023-07-22)
+
+
+### Bug Fixes
+
+* **deps:** update dependency fast-glob to v3.3.1 ([5581fa3](https://github.com/sleistner/vscode-fileutils/commit/5581fa33c582fc43bcc2f951570db60b367b9928))
+
 ## [3.10.2](https://github.com/sleistner/vscode-fileutils/compare/v3.10.1...v3.10.2) (2023-06-30)
 
 

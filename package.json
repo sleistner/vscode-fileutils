@@ -363,6 +363,6 @@
     },
     "dependencies": {
         "brace-expansion": "2.0.1",
-        "fast-glob": "3.3.0"
+        "fast-glob": "3.3.1"
     }
 }

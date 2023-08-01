@@ -346,7 +346,7 @@
         "@types/sinon": "10.0.15",
         "@types/sinon-chai": "3.2.9",
         "@types/vscode": "1.74.0",
-        "@vscode/test-electron": "2.3.3",
+        "@vscode/test-electron": "2.3.4",
         "bluebird": "3.7.2",
         "bluebird-retry": "0.11.0",
         "chai": "4.3.7",

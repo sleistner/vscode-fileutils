@@ -49,7 +49,12 @@ export class MoveFileController extends BaseFileController {
             throw new Error();
         }
 
-        const rootPath = await this.getFileSourcePathAtRoot(workspaceFolderPath, { relativeToRoot: true, typeahead });
+        const sourcePathFolder = path.dirname(sourcePath);
+        const rootPath = await this.getFileSourcePathAtRoot(sourcePathFolder, workspaceFolderPath, {
+            relativeToRoot: true,
+            typeahead,
+            showParentFolder: true,
+        });
         const fileName = path.basename(sourcePath);
 
         return path.join(rootPath, fileName);

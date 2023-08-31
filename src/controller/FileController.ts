@@ -16,6 +16,7 @@ export interface SourcePathOptions {
     ignoreIfNotExists?: boolean;
     uri?: Uri;
     typeahead?: boolean;
+    showParentFolder?: boolean;
 }
 
 export interface FileController {

@@ -214,14 +214,21 @@ export abstract class BaseFileController implements FileController {
         return workspace.workspaceFolders !== undefined && workspace.workspaceFolders.length > 1;
     }
 
-    protected async getFileSourcePathAtRoot(rootPath: string, options: SourcePathOptions): Promise<string> {
-        const { relativeToRoot = false, typeahead } = options;
+    protected async getFileSourcePathAtRoot(
+        rootPath: string,
+        workspaceFolderPath: string,
+        options: SourcePathOptions
+    ): Promise<string> {
+        const { relativeToRoot = false, typeahead, showParentFolder } = options;
         let sourcePath = rootPath;
 
         if (typeahead) {
             const cache = this.getCache(`workspace:${sourcePath}`);
-            const typeAheadController = new TypeAheadController(cache, relativeToRoot);
-            sourcePath = await typeAheadController.showDialog(sourcePath);
+            const typeAheadController = new TypeAheadController(cache, {
+                relativeToRoot,
+                showParentFolder,
+            });
+            sourcePath = await typeAheadController.showDialog(sourcePath, workspaceFolderPath);
         }
 
         if (!sourcePath) {

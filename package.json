@@ -189,22 +189,26 @@
                 "fileutils.duplicateFile.typeahead.enabled": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Controls whether to show a directory selector for the duplicate file command."
+                    "description": "Controls whether to show a directory selector for the duplicate file command.",
+                    "order": 0
                 },
                 "fileutils.moveFile.typeahead.enabled": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Controls whether to show a directory selector for the move file command."
+                    "description": "Controls whether to show a directory selector for the move file command.",
+                    "order": 10
                 },
                 "fileutils.newFile.typeahead.enabled": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Controls whether to show a directory selector for the new file command."
+                    "description": "Controls whether to show a directory selector for the new file command.",
+                    "order": 20
                 },
                 "fileutils.newFolder.typeahead.enabled": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Controls whether to show a directory selector for new folder command."
+                    "description": "Controls whether to show a directory selector for new folder command.",
+                    "order": 30
                 },
                 "fileutils.inputBox.pathType": {
                     "type": "string",
@@ -217,14 +221,16 @@
                         "Absolute file path of the opened workspace or folder (e.g. /Users/Development/myWorkspace)",
                         "Relative file path of the opened workspace or folder (e.g. /myWorkspace)"
                     ],
-                    "description": "Controls the path that is shown in the input box."
+                    "description": "Controls the path that is shown in the input box.",
+                    "order": 40
                 },
                 "fileutils.inputBox.pathTypeIndicator": {
                     "type": "string",
                     "default": "@",
                     "maxLength": 50,
                     "description": "Controls the indicator that is shown in the input box when the path type is workspace. This setting only has an effect when 'fileutils.inputBox.pathType' is set to 'workspace'.",
-                    "markdownDescription": "Controls the indicator that is shown in the input box when the path type is workspace. \n\nThis setting only has an effect when `#fileutils.inputBox.pathType#` is set to `workspace`.\n\nFor example, if the path type is `workspace` and the indicator is `@`, the path will be shown as `@/myWorkspace`."
+                    "markdownDescription": "Controls the indicator that is shown in the input box when the path type is workspace. \n\nThis setting only has an effect when `#fileutils.inputBox.pathType#` is set to `workspace`.\n\nFor example, if the path type is `workspace` and the indicator is `@`, the path will be shown as `@/myWorkspace`.",
+                    "order": 50
                 },
                 "fileutils.menus.context.explorer": {
                     "type": "array",

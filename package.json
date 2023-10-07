@@ -343,7 +343,7 @@
         "@types/chai": "4.3.6",
         "@types/mocha": "10.0.2",
         "@types/node": "18.11.18",
-        "@types/sinon": "10.0.18",
+        "@types/sinon": "10.0.19",
         "@types/sinon-chai": "3.2.10",
         "@types/vscode": "1.74.0",
         "@vscode/test-electron": "2.3.5",

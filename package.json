@@ -340,7 +340,7 @@
         "@types/bluebird": "3.5.41",
         "@types/bluebird-retry": "0.11.7",
         "@types/brace-expansion": "1.1.1",
-        "@types/chai": "4.3.8",
+        "@types/chai": "4.3.9",
         "@types/mocha": "10.0.3",
         "@types/node": "18.11.18",
         "@types/sinon": "10.0.19",

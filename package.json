@@ -362,7 +362,7 @@
         "typescript": "4.9.5"
     },
     "dependencies": {
-        "brace-expansion": "2.0.1",
+        "brace-expansion": "3.0.0",
         "fast-glob": "3.3.1"
     }
 }

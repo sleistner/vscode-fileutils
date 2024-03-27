@@ -336,7 +336,7 @@
         "@enter-at/eslint-config-typescript-prettier": "1.7.17",
         "@semantic-release/changelog": "6.0.3",
         "@semantic-release/git": "10.0.1",
-        "@tsconfig/node18": "1.0.3",
+        "@tsconfig/node18": "18.2.4",
         "@types/bluebird": "3.5.41",
         "@types/bluebird-retry": "0.11.7",
         "@types/brace-expansion": "1.1.1",

@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# This script is used to create a development environment for the project.
+# It creates a temporary directory with the following structure:
+
+
 rm -rf ./tmp
-mkdir -p ./tmp/{app,workspace,scripts}
-touch ./tmp/{app,workspace,scripts}/{foo,bar,baz}.ts
+mkdir -p ./tmp/{app,workspace,scripts}/{sub1,sub2,sub3}/{sub-sub1,sub-sub2,sub-sub3}
+
+touch ./tmp/{1..3}.ts
+touch ./tmp/{app,workspace,scripts}/file-{1..5}.ts
+touch ./tmp/{app,workspace,scripts}/{sub1,sub2,sub3}/sub-file-{1..4}.ts
+touch ./tmp/{app,workspace,scripts}/{sub1,sub2,sub3}/{sub-sub1,sub-sub2,sub-sub3}/sub-sub-file-{1..3}.ts

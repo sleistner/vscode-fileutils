@@ -7,6 +7,7 @@
     "license": "MIT",
     "publisher": "sleistner",
     "engines": {
+        "node": ">=22.0.0",
         "vscode": "^1.74.0"
     },
     "categories": [
@@ -33,17 +34,6 @@
     },
     "homepage": "https://github.com/sleistner/vscode-fileutils/blob/master/README.md",
     "main": "./out/extension.js",
-    "activationEvents": [
-        "onCommand:fileutils.renameFile",
-        "onCommand:fileutils.moveFile",
-        "onCommand:fileutils.duplicateFile",
-        "onCommand:fileutils.removeFile",
-        "onCommand:fileutils.newFile",
-        "onCommand:fileutils.newFileAtRoot",
-        "onCommand:fileutils.newFolder",
-        "onCommand:fileutils.newFolderAtRoot",
-        "onCommand:fileutils.copyFileName"
-    ],
     "contributes": {
         "commands": [
             {
@@ -326,43 +316,44 @@
         "tsc:watch": "tsc -watch -p ./",
         "pretest": "tsc -p ./",
         "test": "node ./out/test/runTest.js",
-        "lint": "eslint './{src,test}/**/*.ts'",
-        "lint:fix": "npm run lint -- --fix",
+        "lint": "biome check src test",
+        "lint:fix": "biome check --write src test",
+        "format": "biome format src test",
+        "format:write": "biome format --write src test",
         "semantic-release": "semantic-release",
         "prepare": "[ ! -x ./node_modules/.bin/husky ] && exit 0; husky install",
         "clean": "rimraf out"
     },
     "devDependencies": {
-        "@enter-at/eslint-config-typescript-prettier": "1.7.17",
+        "@biomejs/biome": "^2.1.4",
         "@semantic-release/changelog": "6.0.3",
         "@semantic-release/git": "10.0.1",
-        "@tsconfig/node18": "1.0.3",
-        "@types/bluebird": "3.5.41",
-        "@types/bluebird-retry": "0.11.7",
-        "@types/brace-expansion": "1.1.1",
-        "@types/chai": "4.3.9",
-        "@types/mocha": "10.0.3",
-        "@types/node": "18.11.18",
-        "@types/sinon": "10.0.20",
-        "@types/sinon-chai": "3.2.11",
-        "@types/vscode": "1.74.0",
-        "@vscode/test-electron": "2.3.5",
+        "@tsconfig/node22": "^22.0.2",
+        "@types/bluebird": "^3.5.42",
+        "@types/bluebird-retry": "^0.11.8",
+        "@types/brace-expansion": "^1.1.2",
+        "@types/chai": "^4.3.20",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^24.2.1",
+        "@types/sinon": "^17.0.4",
+        "@types/sinon-chai": "^3.2.12",
+        "@types/vscode": "^1.102.0",
+        "@vscode/test-electron": "^2.5.2",
         "bluebird": "3.7.2",
         "bluebird-retry": "0.11.0",
-        "chai": "4.3.10",
-        "esbuild": "0.19.5",
-        "eslint": "8.52.0",
-        "husky": "8.0.3",
-        "mocha": "10.2.0",
-        "prettier": "2.8.8",
-        "semantic-release": "20.1.3",
-        "semantic-release-vsce": "5.6.3",
-        "sinon": "15.2.0",
-        "sinon-chai": "3.7.0",
-        "typescript": "4.9.5"
+        "chai": "^4.5.0",
+        "esbuild": "^0.25.8",
+        "husky": "^9.1.7",
+        "mocha": "^11.7.1",
+        "rimraf": "^6.0.1",
+        "semantic-release": "^24.2.7",
+        "semantic-release-vsce": "^6.0.11",
+        "sinon": "^21.0.0",
+        "sinon-chai": "^3.7.0",
+        "typescript": "^5.9.2"
     },
     "dependencies": {
-        "brace-expansion": "2.0.1",
-        "fast-glob": "3.3.1"
+        "brace-expansion": "^4.0.1",
+        "fast-glob": "^3.3.3"
     }
 }

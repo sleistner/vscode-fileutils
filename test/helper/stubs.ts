@@ -1,5 +1,5 @@
 import * as sinon from "sinon";
-import { commands, window, workspace, WorkspaceFolder } from "vscode";
+import { commands, type WorkspaceFolder, window, workspace } from "vscode";
 
 export function createGetWorkspaceFolderStub(): sinon.SinonStub {
     return createStubObject(workspace, "getWorkspaceFolder");
@@ -66,7 +66,7 @@ export function restoreShowInformationMessage(): void {
     restoreObject(window.showInformationMessage);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: Handler needs to work with various VS Code API objects
 type Handler = any;
 
 export function createStubObject(handler: Handler, functionName: string): sinon.SinonStub {
@@ -78,7 +78,7 @@ export function createStubObject(handler: Handler, functionName: string): sinon.
 
 export function restoreObject(object: unknown): void {
     const stub = object as sinon.SinonStub;
-    if (stub && stub.restore) {
+    if (stub?.restore) {
         stub.restore();
     }
 }

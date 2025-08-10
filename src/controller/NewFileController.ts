@@ -2,8 +2,8 @@ import expand from "brace-expansion";
 import * as path from "path";
 import { window } from "vscode";
 import { FileItem } from "../FileItem";
-import { BaseFileController, TargetPathInputBoxValueOptions } from "./BaseFileController";
-import { DialogOptions, ExecuteOptions, SourcePathOptions } from "./FileController";
+import { BaseFileController, type TargetPathInputBoxValueOptions } from "./BaseFileController";
+import type { DialogOptions, ExecuteOptions, SourcePathOptions } from "./FileController";
 
 export interface NewFileDialogOptions extends Omit<DialogOptions, "uri"> {
     relativeToRoot?: boolean;

@@ -1,6 +1,6 @@
+import glob from "fast-glob";
 import Mocha from "mocha";
 import * as path from "path";
-import glob from "fast-glob";
 
 export async function run(): Promise<void> {
     const mocha = new Mocha({

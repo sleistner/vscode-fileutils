@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import * as fs from "fs";
-import { Uri, window } from "vscode";
-import { Command } from "../../../src/command";
+import { type Uri, window } from "vscode";
+import type { Command } from "../../../src/command";
 import { editorFile1, targetFile } from "../environment";
-import { FuncVoid, Step } from "./types";
+import type { FuncVoid, Step } from "./types";
 
 export const it: Step = {
     "should open target file as active editor"(subject: Command, uri?: Uri): FuncVoid {

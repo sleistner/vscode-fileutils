@@ -1,5 +1,5 @@
-import { Uri } from "vscode";
-import { RemoveFileController } from "../controller";
+import type { Uri } from "vscode";
+import type { RemoveFileController } from "../controller";
 import { BaseCommand } from "./BaseCommand";
 
 export class RemoveFileCommand extends BaseCommand<RemoveFileController> {

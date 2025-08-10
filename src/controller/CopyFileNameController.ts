@@ -1,7 +1,7 @@
 import { env } from "vscode";
 import { FileItem } from "../FileItem";
 import { BaseFileController } from "./BaseFileController";
-import { DialogOptions, ExecuteOptions } from "./FileController";
+import type { DialogOptions, ExecuteOptions } from "./FileController";
 
 export class CopyFileNameController extends BaseFileController {
     public async showDialog(options: DialogOptions): Promise<FileItem> {

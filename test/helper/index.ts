@@ -1,9 +1,9 @@
 import { use } from "chai";
 import * as mocha from "mocha";
 import sinonChai from "sinon-chai";
-import { Command } from "../../src/command";
+import type { Command } from "../../src/command";
 import { steps } from "./steps";
-import { Rest } from "./steps/types";
+import type { Rest } from "./steps/types";
 
 export * from "./callbacks";
 export * from "./environment";

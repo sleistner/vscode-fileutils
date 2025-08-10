@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run pretest:*)",
+      "Bash(grep:*)",
+      "Bash(npm test)",
+      "Bash(VSCODE_TEST_ELECTRON_PATH= npm test)",
+      "Bash(mkdir:*)"
+    ],
+    "deny": []
+  }
+}

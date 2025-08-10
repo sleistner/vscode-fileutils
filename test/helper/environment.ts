@@ -1,6 +1,6 @@
 import * as os from "os";
 import * as path from "path";
-import { Uri, WorkspaceFolder } from "vscode";
+import { Uri, type WorkspaceFolder } from "vscode";
 
 export const rootDir = path.resolve(__dirname, "..", "..", "..");
 export const tmpDir = Uri.file(path.resolve(os.tmpdir(), "vscode-fileutils-test"));

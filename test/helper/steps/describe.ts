@@ -2,9 +2,9 @@ import { expect } from "chai";
 import * as mocha from "mocha";
 import * as path from "path";
 import sinon from "sinon";
-import { QuickPickItem, Uri, window, workspace } from "vscode";
+import { type QuickPickItem, Uri, window, workspace } from "vscode";
+import type { Command } from "../../../src/command";
 import { quickPick } from "..";
-import { Command } from "../../../src/command";
 import { editorFile2, targetFile, tmpDir, workspaceFolderA } from "../environment";
 import { closeAllEditors, readFile } from "../functions";
 import {
@@ -14,7 +14,7 @@ import {
     createShowInputBoxStub,
     createWorkspaceFoldersStub,
 } from "../stubs";
-import { FuncVoid, Step } from "./types";
+import type { FuncVoid, Step } from "./types";
 
 export const describe: Step = {
     "with target file in non-existent nested directory"(subject: Command): FuncVoid {
@@ -69,7 +69,7 @@ export const describe: Step = {
                     try {
                         await subject.execute();
                         expect.fail("must fail");
-                    } catch (e) {
+                    } catch (_e) {
                         const fileContent = await readFile(targetFile);
                         expect(fileContent).to.equal("class FileTwo; end");
                     }

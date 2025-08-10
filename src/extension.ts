@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import {
-    Command,
+    type Command,
     CopyFileNameCommand,
     DuplicateFileCommand,
     MoveFileCommand,
@@ -19,7 +19,7 @@ import {
 import { RenameFileController } from "./controller/RenameFileController";
 
 function handleError(err: Error) {
-    if (err && err.message) {
+    if (err?.message) {
         vscode.window.showErrorMessage(err.message);
     }
     return err;

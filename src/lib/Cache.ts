@@ -1,9 +1,12 @@
-import * as vscode from "vscode";
+import type * as vscode from "vscode";
 
 export class Cache {
     private cache: { [key: string]: unknown };
 
-    constructor(private storage: vscode.Memento, private namespace: string) {
+    constructor(
+        private storage: vscode.Memento,
+        private namespace: string
+    ) {
         this.cache = storage.get(this.namespace, {});
     }
 

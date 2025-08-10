@@ -2,7 +2,7 @@ import * as path from "path";
 import { window, workspace } from "vscode";
 import { FileItem } from "../FileItem";
 import { BaseFileController } from "./BaseFileController";
-import { DialogOptions, ExecuteOptions } from "./FileController";
+import type { DialogOptions, ExecuteOptions } from "./FileController";
 
 export class RemoveFileController extends BaseFileController {
     public async showDialog(options: DialogOptions): Promise<FileItem | undefined> {
@@ -29,7 +29,7 @@ export class RemoveFileController extends BaseFileController {
         const { fileItem } = options;
         try {
             await fileItem.remove();
-        } catch (e) {
+        } catch (_e) {
             throw new Error(`Error deleting file '${fileItem.path}'.`);
         }
         return fileItem;

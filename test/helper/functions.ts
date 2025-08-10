@@ -1,6 +1,6 @@
 import retry from "bluebird-retry";
 import { TextDecoder } from "util";
-import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
+import { commands, type ExtensionContext, type Uri, window, workspace } from "vscode";
 
 const textDecoder = new TextDecoder("utf-8");
 

@@ -26,17 +26,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 22.x
+          cache: "npm"
 
       - name: Install dependencies
-        run: npm install --omit=optional --no-package-lock --no-color --no-description --ignore-scripts
+        run: npm ci
 
       - name: Run code analysis
         run: npm run lint
@@ -51,7 +52,7 @@ jobs:
           DISPLAY: ":99.0"
         if: runner.os == 'Linux'
 
-      - name: Run tests on macOS and Windows
+      - name: Run tests on macOS
         run: npm run test
         if: runner.os != 'Linux'
 
@@ -62,19 +63,18 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 22.x
+          cache: "npm"
 
       - name: Install dependencies
-        run: |
-          npm install --omit=optional --no-package-lock --no-color --no-description --ignore-scripts
-          npm install --save-exact esbuild --no-color --no-description
+        run: npm ci
 
       - name: Run semantic-release
         run: npm run semantic-release

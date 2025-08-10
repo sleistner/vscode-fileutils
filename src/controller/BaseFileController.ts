@@ -1,19 +1,19 @@
 import path from "path";
 import {
     commands,
+    type ExtensionContext,
     env,
-    ExtensionContext,
-    InputBoxOptions,
-    TextEditor,
+    type InputBoxOptions,
+    type TextEditor,
     Uri,
+    type WorkspaceFolder,
     window,
     workspace,
-    WorkspaceFolder,
 } from "vscode";
-import { FileItem } from "../FileItem";
+import type { FileItem } from "../FileItem";
 import { Cache } from "../lib/Cache";
 import { getConfiguration } from "../lib/config";
-import { DialogOptions, ExecuteOptions, FileController, SourcePathOptions } from "./FileController";
+import type { DialogOptions, ExecuteOptions, FileController, SourcePathOptions } from "./FileController";
 import { TypeAheadController } from "./TypeAheadController";
 
 enum InputBoxPathType {
@@ -133,7 +133,7 @@ export abstract class BaseFileController implements FileController {
         // Attempting to get the fileName from the activeTextEditor.
         // Works for text files only.
         const activeEditor = window.activeTextEditor;
-        if (activeEditor && activeEditor.document && activeEditor.document.fileName) {
+        if (activeEditor?.document?.fileName) {
             return activeEditor.document.fileName;
         }
 

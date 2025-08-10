@@ -7,6 +7,7 @@
     "license": "MIT",
     "publisher": "sleistner",
     "engines": {
+        "node": ">=22.0.0",
         "vscode": "^1.74.0"
     },
     "categories": [
@@ -327,7 +328,7 @@
         "@biomejs/biome": "^2.1.4",
         "@semantic-release/changelog": "6.0.3",
         "@semantic-release/git": "10.0.1",
-        "@tsconfig/node18": "^18.2.4",
+        "@tsconfig/node22": "^22.0.2",
         "@types/bluebird": "^3.5.42",
         "@types/bluebird-retry": "^0.11.8",
         "@types/brace-expansion": "^1.1.2",
@@ -349,7 +350,7 @@
         "semantic-release-vsce": "^6.0.11",
         "sinon": "^21.0.0",
         "sinon-chai": "^3.7.0",
-        "typescript": "^5.3.3"
+        "typescript": "^5.9.2"
     },
     "dependencies": {
         "brace-expansion": "^4.0.1",

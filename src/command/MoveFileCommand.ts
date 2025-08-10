@@ -1,5 +1,5 @@
-import { Uri } from "vscode";
-import { MoveFileController } from "../controller/MoveFileController";
+import type { Uri } from "vscode";
+import type { MoveFileController } from "../controller/MoveFileController";
 import { getConfiguration } from "../lib/config";
 import { BaseCommand } from "./BaseCommand";
 

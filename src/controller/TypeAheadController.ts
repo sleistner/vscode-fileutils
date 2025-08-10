@@ -1,6 +1,6 @@
 import * as path from "path";
-import { QuickPickItem, window } from "vscode";
-import { Cache } from "../lib/Cache";
+import { type QuickPickItem, window } from "vscode";
+import type { Cache } from "../lib/Cache";
 import { TreeWalker } from "../lib/TreeWalker";
 
 async function waitForIOEvents(): Promise<void> {
@@ -10,7 +10,10 @@ async function waitForIOEvents(): Promise<void> {
 const ROOT_PATH = "/";
 
 export class TypeAheadController {
-    constructor(private cache: Cache, private relativeToRoot: boolean = false) {}
+    constructor(
+        private cache: Cache,
+        private relativeToRoot: boolean = false
+    ) {}
 
     public async showDialog(sourcePath: string): Promise<string> {
         const items = await this.buildQuickPickItems(sourcePath);

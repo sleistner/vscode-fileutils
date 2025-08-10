@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Uri, workspace, WorkspaceEdit } from "vscode";
+import { Uri, WorkspaceEdit, workspace } from "vscode";
 
 function assertTargetPath(targetPath: Uri | undefined): asserts targetPath is Uri {
     if (targetPath === undefined) {
@@ -12,7 +12,11 @@ export class FileItem {
     private SourcePath: Uri;
     private TargetPath: Uri | undefined;
 
-    constructor(sourcePath: Uri | string, targetPath?: Uri | string, private IsDir: boolean = false) {
+    constructor(
+        sourcePath: Uri | string,
+        targetPath?: Uri | string,
+        private IsDir: boolean = false
+    ) {
         this.SourcePath = this.toUri(sourcePath);
         if (targetPath !== undefined) {
             this.TargetPath = this.toUri(targetPath);

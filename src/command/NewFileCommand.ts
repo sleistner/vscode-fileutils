@@ -1,4 +1,4 @@
-import { NewFileController } from "../controller/NewFileController";
+import type { NewFileController } from "../controller/NewFileController";
 import { getConfiguration } from "../lib/config";
 import { BaseCommand } from "./BaseCommand";
 

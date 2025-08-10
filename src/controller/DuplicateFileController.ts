@@ -1,5 +1,5 @@
-import { FileItem } from "../FileItem";
-import { ExecuteOptions } from "./FileController";
+import type { FileItem } from "../FileItem";
+import type { ExecuteOptions } from "./FileController";
 import { MoveFileController } from "./MoveFileController";
 
 export class DuplicateFileController extends MoveFileController {

@@ -1,6 +1,5 @@
-import * as path from "path";
-
 import { runTests } from "@vscode/test-electron";
+import * as path from "path";
 
 async function main() {
     try {
@@ -18,7 +17,7 @@ async function main() {
             extensionTestsPath,
             launchArgs: ["--disable-extensions"],
         });
-    } catch (err) {
+    } catch (_err) {
         // tslint:disable-next-line: no-console
         console.error("Failed to run tests");
         process.exit(1);

@@ -1,8 +1,8 @@
 import * as path from "path";
 import { FileType, Uri, workspace } from "vscode";
 import { FileItem } from "../FileItem";
-import { BaseFileController, TargetPathInputBoxValueOptions } from "./BaseFileController";
-import { DialogOptions, ExecuteOptions } from "./FileController";
+import { BaseFileController, type TargetPathInputBoxValueOptions } from "./BaseFileController";
+import type { DialogOptions, ExecuteOptions } from "./FileController";
 
 export class MoveFileController extends BaseFileController {
     public async showDialog(options: DialogOptions): Promise<FileItem | undefined> {

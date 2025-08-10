@@ -40,7 +40,7 @@ describe(CopyFileNameCommand.name, () => {
                 try {
                     await subject.execute();
                     expect.fail("must fail");
-                } catch (e) {
+                } catch (_e) {
                     const clipboardData = await env.clipboard.readText();
                     expect(clipboardData).to.equal(clipboardInitialTestData);
                 }

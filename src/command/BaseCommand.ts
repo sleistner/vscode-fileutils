@@ -1,14 +1,17 @@
-import { Uri } from "vscode";
-import { FileController } from "../controller";
-import { FileItem } from "../FileItem";
-import { Command, CommandConstructorOptions } from "./Command";
+import type { Uri } from "vscode";
+import type { FileController } from "../controller";
+import type { FileItem } from "../FileItem";
+import type { Command, CommandConstructorOptions } from "./Command";
 
 interface ExecuteControllerOptions {
     openFileInEditor?: boolean;
 }
 
 export abstract class BaseCommand<T extends FileController> implements Command {
-    constructor(protected controller: T, readonly options?: CommandConstructorOptions) {}
+    constructor(
+        protected controller: T,
+        readonly options?: CommandConstructorOptions
+    ) {}
 
     public abstract execute(uri?: Uri): Promise<void>;
 

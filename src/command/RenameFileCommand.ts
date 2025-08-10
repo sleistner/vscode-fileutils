@@ -1,5 +1,5 @@
-import { Uri } from "vscode";
-import { RenameFileController } from "../controller/RenameFileController";
+import type { Uri } from "vscode";
+import type { RenameFileController } from "../controller/RenameFileController";
 import { BaseCommand } from "./BaseCommand";
 
 export class RenameFileCommand extends BaseCommand<RenameFileController> {

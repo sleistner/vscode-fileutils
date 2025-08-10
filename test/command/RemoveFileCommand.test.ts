@@ -72,7 +72,7 @@ describe(RemoveFileCommand.name, () => {
                     try {
                         await subject.execute();
                         expect.fail("Must fail");
-                    } catch (e) {
+                    } catch (_e) {
                         const message = `${helper.editorFile1.path} does not exist`;
                         expect(fs.existsSync(helper.editorFile1.fsPath), message).to.be.true;
                     }

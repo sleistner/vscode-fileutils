@@ -7,6 +7,6 @@
         "out": true // set this to false to include "out" folder in search results
     },
     "editor.codeActionsOnSave": {
-        "source.organizeImports": true
+        "source.organizeImports": "explicit"
     }
 }

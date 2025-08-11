@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import * as fs from "fs";
 import * as path from "path";
 import { Uri, window } from "vscode";
 import { RenameFileCommand } from "../../src/command";
@@ -38,9 +39,36 @@ describe(RenameFileCommand.name, () => {
                 });
             });
 
-            helper.protocol.it("should move current file to destination", subject);
-            helper.protocol.describe("with target file in non-existent nested directory", subject);
-            helper.protocol.it("should open target file as active editor", subject);
+            it("should move current file to destination", async () => {
+                await subject.execute();
+                const message = `${helper.targetFile} does not exist`;
+                expect(fs.existsSync(helper.targetFile.fsPath), message).to.be.true;
+            });
+
+            describe("with target file in non-existent nested directory", () => {
+                beforeEach(async () => {
+                    const targetDir = path.resolve(helper.tmpDir.fsPath, "level-1", "level-2", "level-3");
+                    helper.createShowInputBoxStub().resolves(path.resolve(targetDir, "file.rb"));
+                });
+
+                it("should create nested directories", async () => {
+                    await subject.execute();
+                    const textEditor = window.activeTextEditor;
+                    expect(textEditor);
+
+                    const dirname = path.dirname(textEditor?.document.fileName ?? "");
+                    const directories: string[] = dirname.split(path.sep);
+
+                    expect(directories.pop()).to.equal("level-3");
+                    expect(directories.pop()).to.equal("level-2");
+                    expect(directories.pop()).to.equal("level-1");
+                });
+            });
+
+            it("should open target file as active editor", async () => {
+                await subject.execute();
+                expect(window.activeTextEditor?.document.fileName).to.equal(helper.targetFile.path);
+            });
 
             describe("prefer uri over current editor", () => {
                 beforeEach(async () => {

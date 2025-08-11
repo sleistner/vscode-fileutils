@@ -1,7 +1,8 @@
 import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import { Uri, window, workspace } from "vscode";
+import sinon from "sinon";
+import { type QuickPickItem, Uri, window, workspace } from "vscode";
 import { NewFileCommand } from "../../src/command";
 import { NewFileController } from "../../src/controller";
 import * as helper from "../helper";
@@ -40,14 +41,84 @@ describe(NewFileCommand.name, () => {
             });
         });
 
-        helper.protocol.describe("typeahead configuration", subject, {
-            command: "newFile",
-            items: helper.quickPick.typeahead.items.currentFile,
+        describe("typeahead configuration", () => {
+            describe('when "newFile.typeahead.enabled" is "true"', () => {
+                beforeEach(async () => {
+                    helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
+                    helper.createWorkspaceFoldersStub(helper.workspaceFolderA);
+                });
+
+                it("should show the quick pick dialog", async () => {
+                    await subject.execute();
+                    const items: QuickPickItem[] = [
+                        { description: "- current file", label: "/" },
+                        { description: undefined, label: "/dir-1" },
+                        { description: undefined, label: "/dir-2" },
+                        { description: undefined, label: "/workspaceA" },
+                        { description: undefined, label: "/workspaceA/dir-1" },
+                        { description: undefined, label: "/workspaceA/dir-2" },
+                        { description: undefined, label: "/workspaceB" },
+                        { description: undefined, label: "/workspaceB/dir-1" },
+                        { description: undefined, label: "/workspaceB/dir-2" },
+                    ];
+                    expect(window.showQuickPick).to.have.been.calledOnceWith(
+                        sinon.match(items),
+                        sinon.match(helper.quickPick.typeahead.options)
+                    );
+                });
+            });
+
+            describe('when "newFile.typeahead.enabled" is "false"', () => {
+                beforeEach(async () => {
+                    helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
+                });
+
+                it("should not show the quick pick dialog", async () => {
+                    await subject.execute();
+                    expect(window.showQuickPick).to.have.not.been.called;
+                });
+            });
         });
 
-        helper.protocol.describe("inputBox configuration", subject, {
-            editorFile: helper.editorFile1,
-            expectedPath: "",
+        describe("inputBox configuration", () => {
+            const runs = [
+                { pathType: "workspace", pathTypeIndicator: "@" },
+                { pathType: "workspace", pathTypeIndicator: "" },
+                { pathType: "workspace", pathTypeIndicator: ":" },
+                { pathType: "workspace", pathTypeIndicator: " " },
+            ];
+
+            runs.forEach(({ pathType, pathTypeIndicator }) => {
+                describe(`when "inputBox.pathType" is "${pathType}" and "inputBox.pathTypeIndicator" is "${pathTypeIndicator}"`, () => {
+                    beforeEach(async () => {
+                        helper.createGetConfigurationStub({
+                            "inputBox.pathType": pathType,
+                            "inputBox.pathTypeIndicator": pathTypeIndicator,
+                        });
+
+                        const workspaceFolder = path.dirname(helper.editorFile1.path);
+                        helper.createWorkspaceFoldersStub({
+                            uri: Uri.file(workspaceFolder),
+                            name: "workspace-a",
+                            index: 0,
+                        });
+                        helper.createGetWorkspaceFolderStub().returns(workspaceFolder);
+                    });
+
+                    it("should show the quick pick dialog", async () => {
+                        await subject.execute();
+
+                        const expectedValue = `${pathTypeIndicator}/`;
+
+                        expect(window.showInputBox).to.have.been.calledOnceWith({
+                            prompt: sinon.match.string,
+                            value: sinon.match(expectedValue),
+                            valueSelection: sinon.match.array,
+                            ignoreFocusOut: true,
+                        });
+                    });
+                });
+            });
         });
 
         it("should create the file at destination", async () => {
@@ -82,9 +153,67 @@ describe(NewFileCommand.name, () => {
             });
         });
 
-        helper.protocol.describe("with target file in non-existent nested directory", subject);
-        helper.protocol.describe("when target destination exists", subject, { overwriteFileContent: "" });
-        helper.protocol.it("should open target file as active editor", subject);
+        describe("with target file in non-existent nested directory", () => {
+            beforeEach(async () => {
+                const targetDir = path.resolve(helper.tmpDir.fsPath, "level-1", "level-2", "level-3");
+                helper.createShowInputBoxStub().resolves(path.resolve(targetDir, "file.rb"));
+            });
+
+            it("should create nested directories", async () => {
+                await subject.execute();
+                const textEditor = window.activeTextEditor;
+                expect(textEditor);
+
+                const dirname = path.dirname(textEditor?.document.fileName ?? "");
+                const directories: string[] = dirname.split(path.sep);
+
+                expect(directories.pop()).to.equal("level-3");
+                expect(directories.pop()).to.equal("level-2");
+                expect(directories.pop()).to.equal("level-1");
+            });
+        });
+
+        describe("when target destination exists", () => {
+            beforeEach(async () => {
+                await workspace.fs.copy(helper.editorFile2, helper.targetFile, { overwrite: true });
+                helper.createShowInformationMessageStub().resolves({ title: "placeholder" });
+            });
+
+            it("should prompt with confirmation dialog to overwrite destination file", async () => {
+                await subject.execute();
+                const message = `File '${helper.targetFile.path}' already exists.`;
+                const action = "Overwrite";
+                const options = { modal: true };
+                expect(window.showInformationMessage).to.have.been.calledWith(message, options, action);
+            });
+
+            describe('when answered with "Overwrite"', () => {
+                it("should overwrite the existing file", async () => {
+                    await subject.execute();
+                    const fileContent = await helper.readFile(helper.targetFile);
+                    expect(fileContent).to.equal("");
+                });
+            });
+
+            describe('when answered with "Cancel"', () => {
+                beforeEach(async () => helper.createShowInformationMessageStub().resolves(false));
+
+                it("should leave existing file untouched", async () => {
+                    try {
+                        await subject.execute();
+                        expect.fail("must fail");
+                    } catch (_e) {
+                        const fileContent = await helper.readFile(helper.targetFile);
+                        expect(fileContent).to.equal("class FileTwo; end");
+                    }
+                });
+            });
+        });
+
+        it("should open target file as active editor", async () => {
+            await subject.execute();
+            expect(window.activeTextEditor?.document.fileName).to.equal(helper.targetFile.path);
+        });
     });
 
     describe('when "relativeToRoot" is "true"', () => {
@@ -122,9 +251,37 @@ describe(NewFileCommand.name, () => {
                 });
             });
 
-            helper.protocol.describe("typeahead configuration", subject, {
-                command: "newFile",
-                items: helper.quickPick.typeahead.items.workspace,
+            describe("typeahead configuration", () => {
+                describe('when "newFile.typeahead.enabled" is "true"', () => {
+                    beforeEach(async () => {
+                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
+                        helper.createWorkspaceFoldersStub(helper.workspaceFolderA);
+                    });
+
+                    it("should show the quick pick dialog", async () => {
+                        await subject.execute();
+                        const items: QuickPickItem[] = [
+                            { description: "- workspace root", label: "/" },
+                            { description: undefined, label: "/dir-1" },
+                            { description: undefined, label: "/dir-2" },
+                        ];
+                        expect(window.showQuickPick).to.have.been.calledOnceWith(
+                            sinon.match(items),
+                            sinon.match(helper.quickPick.typeahead.options)
+                        );
+                    });
+                });
+
+                describe('when "newFile.typeahead.enabled" is "false"', () => {
+                    beforeEach(async () => {
+                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
+                    });
+
+                    it("should not show the quick pick dialog", async () => {
+                        await subject.execute();
+                        expect(window.showQuickPick).to.have.not.been.called;
+                    });
+                });
             });
         });
 
@@ -173,9 +330,37 @@ describe(NewFileCommand.name, () => {
                 });
             });
 
-            helper.protocol.describe("typeahead configuration", subject, {
-                command: "newFile",
-                items: helper.quickPick.typeahead.items.workspace,
+            describe("typeahead configuration", () => {
+                describe('when "newFile.typeahead.enabled" is "true"', () => {
+                    beforeEach(async () => {
+                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": true });
+                        helper.createWorkspaceFoldersStub(helper.workspaceFolderA);
+                    });
+
+                    it("should show the quick pick dialog", async () => {
+                        await subject.execute();
+                        const items: QuickPickItem[] = [
+                            { description: "- workspace root", label: "/" },
+                            { description: undefined, label: "/dir-1" },
+                            { description: undefined, label: "/dir-2" },
+                        ];
+                        expect(window.showQuickPick).to.have.been.calledOnceWith(
+                            sinon.match(items),
+                            sinon.match(helper.quickPick.typeahead.options)
+                        );
+                    });
+                });
+
+                describe('when "newFile.typeahead.enabled" is "false"', () => {
+                    beforeEach(async () => {
+                        helper.createGetConfigurationStub({ "newFile.typeahead.enabled": false });
+                    });
+
+                    it("should not show the quick pick dialog", async () => {
+                        await subject.execute();
+                        expect(window.showQuickPick).to.have.not.been.called;
+                    });
+                });
             });
         });
     });

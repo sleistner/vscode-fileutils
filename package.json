@@ -346,7 +346,7 @@
         "husky": "^9.1.7",
         "mocha": "^11.7.1",
         "rimraf": "^6.0.1",
-        "semantic-release": "^24.2.7",
+        "semantic-release": "^25.0.0",
         "semantic-release-vsce": "^6.0.11",
         "sinon": "^21.0.0",
         "sinon-chai": "^3.7.0",

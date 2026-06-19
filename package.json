@@ -336,7 +336,7 @@
         "@types/mocha": "^10.0.10",
         "@types/node": "^24.2.1",
         "@types/sinon": "^17.0.4",
-        "@types/sinon-chai": "^3.2.12",
+        "@types/sinon-chai": "^4.0.0",
         "@types/vscode": "^1.102.0",
         "@vscode/test-electron": "^2.5.2",
         "bluebird": "3.7.2",
@@ -349,7 +349,7 @@
         "semantic-release": "^24.2.7",
         "semantic-release-vsce": "^6.0.11",
         "sinon": "^21.0.0",
-        "sinon-chai": "^3.7.0",
+        "sinon-chai": "^4.0.0",
         "typescript": "^5.9.2"
     },
     "dependencies": {

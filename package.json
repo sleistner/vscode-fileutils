@@ -338,7 +338,7 @@
         "@types/sinon": "^17.0.4",
         "@types/sinon-chai": "^3.2.12",
         "@types/vscode": "^1.102.0",
-        "@vscode/test-electron": "^2.5.2",
+        "@vscode/test-electron": "^3.0.0",
         "bluebird": "3.7.2",
         "bluebird-retry": "0.11.0",
         "chai": "^4.5.0",
